@@ -5,5 +5,8 @@
 </head>
 <body>
     <h3>index</h3>
+    <ul>
+        <li><a href="reservation/stays">숙소 예약하기</a></li>
+    </ul>
 </body>
 </html>
