@@ -1,0 +1,87 @@
+/* 헤더 스타일 */
+header {
+    background-color: ghostwhite;
+    color: black;
+    padding: 20px;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 250px;
+    right: 0;
+    z-index: 10;
+}
+
+/* 왼쪽 사이드바 스타일 */
+.sidebar {
+    width: 250px;
+    background-color: #e68181;
+    height: 100vh;
+    color: white;
+    padding-top: 100px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    padding: 15px;
+    text-align: left;
+    position: relative;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 10px 20px;
+}
+
+.sidebar ul li a:hover {
+    background-color: #d85656;
+    border-radius: 4px;
+}
+
+/* 서브메뉴 스타일 */
+.sidebar ul li ul {
+    display: none;
+    padding-left: 20px;
+    list-style: none;
+}
+
+.sidebar ul li:hover > ul {
+    display: block;
+}
+
+.sidebar ul li ul li a {
+    font-size: 14px;
+    padding: 8px 20px;
+}
+
+/* 메인 콘텐츠 */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #ffeeee;
+    margin-left: 250px;
+    margin-top: 150px;
+}
+
+/* 푸터 */
+footer {
+    color: black;
+    text-align: center;
+    padding: 10px 0;
+    width: calc(100% - 250px);
+    position: fixed;
+    bottom: 0;
+    left: 250px;
+}
