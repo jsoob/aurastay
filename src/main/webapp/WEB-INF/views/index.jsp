@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>index</title>
+    <title>aura 로그인화면</title>
 </head>
 <body>
-    <h3>index</h3>
+    <h3><a href="/main">로그인이 정상적으로 완료가 된다면 MAIN화면으로 이동합니다</a></h3>
 </body>
 </html>

@@ -1,4 +1,4 @@
-package kr.co.aura.aurastay.controller;
-
-public class MemberController {
-}
+//package kr.co.aura.aurastay.controller;
+//
+//public class MemberController {
+//}
