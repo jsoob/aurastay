@@ -1,0 +1,98 @@
+/* 공통 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 메인 컨텐츠 박스 */
+.main-content {
+    width: calc(100% - 700px); /* 사이드바 제외한 영역 */
+    margin-left: 260px; /* 사이드바 크기보다 약간 오른쪽으로 이동 */
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* 제목 스타일 */
+h2 {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* 입력 필드 스타일 */
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* 체크인-체크아웃 전체 그룹 */
+.check-group {
+    display: flex;        /* 가로 정렬 */
+    gap: 20px;           /* 두 개의 입력 필드 사이 간격 */
+    justify-content: space-between; /* 좌우 여백 조정 */
+}
+
+/* 개별 입력 필드 박스 */
+.check-item {
+    flex: 1;             /* 두 개 요소가 동일한 너비를 가지도록 설정 */
+    display: flex;
+    flex-direction: column; /* 라벨 위, 입력 필드 아래로 배치 */
+}
+
+/* 입력 필드 스타일 */
+.check-item input {
+    width: 100%;         /* 부모 요소에 맞게 꽉 차게 설정 */
+}
+
+input, textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* 버튼 컨테이너 */
+.btn-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* 버튼 스타일 */
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #ff4672;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #dc9797;
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+

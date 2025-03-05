@@ -81,7 +81,7 @@ footer {
     text-align: center;
     padding: 10px 0;
     width: calc(100% - 250px);
-    position: relative;
+    position: fixed;
     bottom: 0;
     left: 250px;
 
