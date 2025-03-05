@@ -14,13 +14,13 @@ public class ServiceCenterController {
     // 공지사항
     @GetMapping("/notice")
     public String notice() {
-        return "notice";
+        return "serviceCenter/notice";
     }
 
     // 문의게시판
     @GetMapping("/qnaBoard")
     public String qnaBoard() {
-        return "qnaBoard";
+        return "serviceCenter/qnaBoard";
     }
 
 }

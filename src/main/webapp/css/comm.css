@@ -69,10 +69,10 @@ header {
 /* 메인 콘텐츠 */
 .main-content {
     flex: 1;
-    padding: 20px;
+    padding: 30px;
     background-color: #ffeeee;
     margin-left: 250px;
-    margin-top: 150px;
+    margin-top: 130px;
 }
 
 /* 푸터 */
@@ -81,7 +81,8 @@ footer {
     text-align: center;
     padding: 10px 0;
     width: calc(100% - 250px);
-    position: fixed;
+    position: relative;
     bottom: 0;
     left: 250px;
+
 }

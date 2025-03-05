@@ -3,11 +3,10 @@
 
     <title>main.jsp</title>
 
-
 <body>
 
-<jsp:include page="header.jsp" />  <!-- 헤더 포함 -->
-<jsp:include page="sidebar.jsp" /> <!-- 사이드바 포함 -->
+<jsp:include page="comm/header.jsp" />  <!-- 헤더 포함 -->
+<jsp:include page="comm/sidebar.jsp" /> <!-- 사이드바 포함 -->
 
 <!-- 메인 콘텐츠 -->
 <div class="main-content">
@@ -18,7 +17,7 @@
     <h3>등록을 원한다면 <a href="/acmAdd">숙소등록</a>을 눌러주세요.</h3>
 </div>
 
-<jsp:include page="footer.jsp" /> <!-- 푸터 포함 -->
+<jsp:include page="comm/footer.jsp" /> <!-- 푸터 포함 -->
 
 </body>
 </html>
