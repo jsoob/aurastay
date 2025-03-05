@@ -8,8 +8,10 @@
 </head>
 <body>
     <h3>처음 로그인 화면</h3>
-    <img src="" alt="">
+    <img src="/img/AURAlogo.png" id="logo" alt="logo">
 
+    <h3>----여기는 소셜로그인 위치----</h3>
+    <h3>----여기는 소셜로그인 위치----</h3>
     <h3>----여기는 소셜로그인 위치----</h3>
 
     <div>
