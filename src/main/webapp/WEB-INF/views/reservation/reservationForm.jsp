@@ -1,12 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>예약 요청</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 	crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
-
         .rsrv-container .title-container {
             margin: 20px auto;
         }
@@ -14,15 +16,15 @@
         .rsrv-container .left-container {
             position: relative !important;
             width: 50% !important;
-            margin-left: 0% !important;
-            margin-right: 0% !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
         }
 
         .rsrv-container .right-container {
             position: relative !important;
             width: 41.6667% !important;
             margin-left: 8.33333% !important;
-            margin-right: 0% !important;
+            margin-right: 0 !important;
         }
 
         .rsrv-container .acm-img-thumbnail {
@@ -36,6 +38,8 @@
     </style>
 </head>
 <body>
+<h3><a href="/">목록가기</a></h3>
+
     <div class="container rsrv-container">
         <div class="container title-container">
             <h1><a class="text-decoration-none text-dark" href="/accomodation"><</a> 예약 요청</h1>
@@ -64,9 +68,14 @@
 
                     <li><hr class="dropdown-divider"></li>
                     <li>요금 세부정보</li>
-                    <li>₩544,500 x 5박 ₩2,722,500</li>
+<%--                    <li>₩544,500 x 5박 ₩2,722,500</li>--%>
+                    <li class="d-flex gap-2 py-2 px-3 lh-sm text-start">
+                        <div class="col-sm-8 text-left"><span>₩544,500</span> x </div>
+                        <div class="col-sm-4 text-right">₩2,722,500</div>
+                    </li>
+
                     <li>
-                        <a class="text-dark" href="#">에어비앤비 서비스 수수료</a> ₩422,789
+                        <a class="text-dark" href="#">AURASTAY 서비스 수수료</a> ₩422,789
                     </li>
                     <li><hr class="dropdown-divider"></li>
                     <li>총액 (KRW) ₩3,145,289</li>

@@ -5,4 +5,5 @@
 
 <mapper namespace="kr.co.aura.aurastay.repository.MemberRepository">
 
+
 </mapper>
