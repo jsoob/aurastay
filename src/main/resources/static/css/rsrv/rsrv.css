@@ -24,3 +24,8 @@
 .radius_12 {
     border-radius: 12px;
 }
+
+.btn-none {
+    background: none;
+    border: none;
+}

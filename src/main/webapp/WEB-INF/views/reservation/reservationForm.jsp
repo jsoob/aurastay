@@ -48,11 +48,16 @@
                     </li>
 
                     <li>
-                        <a class="text-dark" href="#">AURASTAY 서비스 수수료</a> ₩422,789
+                        <button class="btn-none text-dark">AURASTAY 서비스 수수료</button> ₩422,789
                     </li>
                     <li><hr class="dropdown-divider"></li>
                     <li>총액 (KRW) ₩3,145,289</li>
                 </ul>
+
+                <div class="">
+                    수수료는 에어비앤비 플랫폼을 운영하고 연중무휴 고객 지원과 같은 다양한 서비스를 제공하는데 사용됩니다.
+                </div>
+
             </div>
         </div>
     </div>
