@@ -9,36 +9,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <link rel="stylesheet" href="/css/rsrv/rsrv.css">
-    <%--
-    <style>
-        .rsrv-container .title-container {
-            margin: 20px auto;
-        }
-
-        .rsrv-container .left-container {
-            position: relative !important;
-            width: 50% !important;
-            margin-left: 0 !important;
-            margin-right: 0 !important;
-        }
-
-        .rsrv-container .right-container {
-            position: relative !important;
-            width: 41.6667% !important;
-            margin-left: 8.33333% !important;
-            margin-right: 0 !important;
-        }
-
-        .rsrv-container .acm-img-thumbnail {
-            width: 100px;
-            height: 100px;
-        }
-
-        .radius_12 {
-            border-radius: 12px;
-        }
-    </style>
-    --%>
 </head>
 <body>
 <h3><a href="/">목록가기</a></h3>
