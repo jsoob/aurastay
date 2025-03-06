@@ -13,6 +13,13 @@
             border-radius: 12px;
         }
 
+        .fs-10 {
+            font-size: 10pt;
+        }
+
+        .fs-14 {
+            font-size: 14pt;
+        }
 
         /* 슬라이드 이미지 */
         .slide-imgs {
@@ -23,6 +30,11 @@
         .carousel-control-btn {
             top: 40%;
             height: 50px;
+        }
+
+        /* 할인율 & 원가 css */
+        .review_rating, .acm-price {
+
         }
 
         /* 12345 버튼 css */
@@ -66,8 +78,17 @@
         .wish-btn-svg-active {
             fill: #ff385c;
         }
-
     </style>
+
+    <script>
+        $(function(){
+            $(".wish-btn").click(function() {
+                console.log("-.-");
+                alert("즐겨찾기 완료되었습니다.");
+            });
+        });
+
+    </script>
 </head>
 <body>
 <h3><a href="/">목록가기</a></h3>
@@ -99,28 +120,49 @@
                                 </c:choose>
                             </c:forEach>
                         </div>
+
+
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img class="w-100 slide-imgs" src="https://a0.muscache.com/im/pictures/miso/Hosting-49361434/original/2a7e8504-fa32-45b9-ae14-10ad5b9b5258.jpeg?im_w=720&im_format=avif">
+                            <!-- 이미지도 위처럼 c:foreach + choose/when-otherwise 를 사용해서 1번째 꺼랑 다른것들 구분 -->
+                            <div class="carousel-item active"> <!-- 첫번째 이미지는 active 가 붙는다 -->
+                                <a href="acm/list">
+                                    <img class="w-100 slide-imgs" src="https://a0.muscache.com/im/pictures/miso/Hosting-49361434/original/2a7e8504-fa32-45b9-ae14-10ad5b9b5258.jpeg?im_w=720&im_format=avif">
+                                </a>
                             </div>
                             <div class="carousel-item">
-                                <img class="w-100 slide-imgs" src="https://a0.muscache.com/im/pictures/miso/Hosting-49361434/original/962579ac-89d5-4cab-9b63-a740878795d0.jpeg?im_w=720&im_format=avif">
+                                <a href="acm/list">
+                                    <img class="w-100 slide-imgs" src="https://a0.muscache.com/im/pictures/miso/Hosting-49361434/original/962579ac-89d5-4cab-9b63-a740878795d0.jpeg?im_w=720&im_format=avif">
+                                </a>
                             </div>
                             <div class="carousel-item">
-                                <img class="w-100 slide-imgs" src="https://a0.muscache.com/im/pictures/miso/Hosting-49361434/original/6cae9480-5aa0-48d4-9c1e-930c3a94ee70.jpeg?im_w=720&im_format=avif">
+                                <a href="acm/list">
+                                    <img class="w-100 slide-imgs" src="https://a0.muscache.com/im/pictures/miso/Hosting-49361434/original/6cae9480-5aa0-48d4-9c1e-930c3a94ee70.jpeg?im_w=720&im_format=avif">
+                                </a>
                             </div>
                             <div class="carousel-item">
-                                <img class="w-100 slide-imgs" src="https://a0.muscache.com/im/pictures/miso/Hosting-49361434/original/09585a65-d840-45cd-b24e-f735ddfe962a.jpeg?im_w=720&im_format=avif">
+                                <a href="acm/list">
+                                    <img class="w-100 slide-imgs" src="https://a0.muscache.com/im/pictures/miso/Hosting-49361434/original/09585a65-d840-45cd-b24e-f735ddfe962a.jpeg?im_w=720&im_format=avif">
+                                </a>
                             </div>
                             <div class="carousel-item">
-                                <img class="w-100 slide-imgs" src="https://a0.muscache.com/im/pictures/miso/Hosting-49361434/original/8fcc3846-48e6-4443-aebc-df4ced29ee35.jpeg?im_w=720&im_format=avif">
+                                <a href="acm/list">
+                                    <img class="w-100 slide-imgs" src="https://a0.muscache.com/im/pictures/miso/Hosting-49361434/original/8fcc3846-48e6-4443-aebc-df4ced29ee35.jpeg?im_w=720&im_format=avif">
+                                </a>
                             </div>
                         </div>
 
                         <%-- 위시리스트 --%>
                         <div class="wish-btn-container">
                             <button type="button" class="wish-btn">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="wish-btn-svg">
+                                <c:choose>
+                                    <c:when test="${i % 2 == 0}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="wish-btn-svg wish-btn-svg-active">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="wish-btn-svg">
+                                    </c:otherwise>
+                                </c:choose>
+
                                     <path d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05a6.98 6.98 0 0 0-9.9 0A6.98 6.98 0 0 0 2 11c0 7 7 12.27 14 17z"></path>
                                 </svg>
                             </button>
@@ -142,7 +184,46 @@
                     <%-- 캐러셀 끝 --%>
 
                     <div class="card-body">
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        <div class="card-text">
+                            <a href="acm/list" class="text-decoration-none text-dark">
+                                <div class="fs-14 fw-bold">Mystagoge Retreat</div>
+                                <div class="ps-1 fs-10">Vothonas, Thera, 그리스</div>
+                            </a>
+
+                            <%--<hr class="my-2">--%>
+
+                            <div class="text-end">
+                                <div class="review_rating fs-10">
+                                    <span class="fw-bold">★ 4.7</span>
+                                    <span>(1653)</span>
+                                </div>
+
+                                <div class="acm-price fs-10">
+                                    <span class="acm-discount">10%</span>
+                                    <span class="acm-price-org text-decoration-line-through">400,000</span>
+                                </div>
+
+                                <div class="fw-bold">
+                                    360,000원 ~
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- 숙소 제공 사항 -->
+                        <%--
+                        <div class="">
+                            <hr class="my-2">
+                            <p class="fs-10">숙소 제공 사항</p>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                            </div>
+                            <small class="text-body-secondary">9 mins</small>
+                        </div>
+                        --%>
+
+                        <%--
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
@@ -150,6 +231,7 @@
                             </div>
                             <small class="text-body-secondary">9 mins</small>
                         </div>
+                        --%>
                     </div>
                 </div>
             </div>
