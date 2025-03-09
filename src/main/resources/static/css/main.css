@@ -1,8 +1,68 @@
-/* 헤더 높이만큼 padding-top 줌 */
+/* nav 높이만큼 padding-top 줌 */
 .main_body_container {
-    padding-top: 150px;
+    padding-top: 100px;
     padding-left: 30px;
     padding-right: 30px;
+}
+
+/* 네비게이션 바 (스크롤 시 고정) */
+.nav-list {
+    position: sticky;
+    top: 80px; /* 헤더 아래 고정 */
+    z-index: 1040;
+    background-color: white;
+    box-shadow: 0px 3px 5px -3px lightgray;
+    padding: 15px 0;
+    width: 100%;
+}
+.nav-list ul {
+    display: flex; /* 가로 정렬 */
+    justify-content: space-around;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    white-space: nowrap; /* 줄바꿈 방지 */
+}
+.nav-list li{
+    display: inline-block;
+    text-align: center;
+    width: 19%;
+    opacity: 0.7;
+}
+.nav-list li:hover {
+    opacity: 1;
+}
+.nav-list li > a{
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: space-around;
+    color: black;
+    font-size: 11px;
+}
+
+/* 숙소 아이콘 */
+.nav-list > ul > li > a > img {
+    width: 25px;
+}
+
+/* 필터 버튼 */
+.filter-btn {
+    border-radius: 10px;
+    background-color: white;
+    border: 1px solid lightgray;
+    padding: 10px 10px;
+    font-size: 11px;
+    color: black;
+}
+.filter-btn:hover {
+    box-shadow: 1px 2px 2px lightgray;
+}
+.filter-btn > img {
+    margin-right: 6px;
 }
 
 /* 숙소 리스트 css */
