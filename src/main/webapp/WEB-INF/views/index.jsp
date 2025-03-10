@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>index</title>
@@ -66,7 +67,7 @@
         </ul>
     </nav>
 
-    <div class="main_body_container">
+    <div class="main_body_container container">
         <%-- row-cols-md-n -> 1줄에 몇개씩 나올거냐 --%>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
             <%-- 숙소 목록 ex : dto : list / status -> index 값 구하기 위해 명시함. --%>
@@ -221,39 +222,10 @@
             </c:forEach>
         </div>
         <%-- 앨범 끝 --%>
-
-
     </div>
-
 </div>
 
-
 <jsp:include page="main/footer.jsp"/>
-
 </body>
 </html>
-
-<%--<!-- 네비게이션 바 -->--%>
-<%--<nav class="navbar navbar-expand-lg bg-light shadow-sm">--%>
-<%--    <div class="container">--%>
-<%--        <a class="navbar-brand fw-bold text-danger" href="#">Airbnb</a>--%>
-
-<%--        <!-- 검색창 -->--%>
-<%--        <form class="d-flex mx-auto">--%>
-<%--            <input class="form-control me-2" type="search" placeholder="어디로 여행가세요?" aria-label="Search">--%>
-<%--            <button class="btn btn-danger" type="submit">검색</button>--%>
-<%--        </form>--%>
-
-<%--        <!-- 프로필 메뉴 -->--%>
-<%--        <div class="dropdown">--%>
-<%--            <button class="btn btn-light border dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">--%>
-<%--                <img src="profile.png" alt="Profile" width="30" height="30" class="rounded-circle">--%>
-<%--            </button>--%>
-<%--            <ul class="dropdown-menu dropdown-menu-end">--%>
-<%--                <li><a class="dropdown-item" href="#">로그인</a></li>--%>
-<%--                <li><a class="dropdown-item" href="#">회원가입</a></li>--%>
-<%--            </ul>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--</nav>--%>
 

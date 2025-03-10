@@ -7,8 +7,8 @@ header {
     height:80px;
     padding-top: 20px;
     padding-bottom: 10px;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 70px;
+    padding-right: 70px;
     color: black;
     background-color:white;
     align-items: flex-start;
@@ -65,11 +65,12 @@ header .btn:hover {
 header .dropdown > ul > li {
     font-size: 13px;
 }
-/* 헤더 끝*/
 
+/* 메인 */
 /* nav 높이만큼 padding-top 줌 */
 .main {
     padding-top: 80px;
+    min-height: 700px;
 }
 .main_body_container {
     padding-top: 20px;
