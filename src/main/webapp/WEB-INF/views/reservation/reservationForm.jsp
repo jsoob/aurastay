@@ -50,7 +50,7 @@
                                 <span>마지막 객실</span> <i class="bi-alarm" style="font-size: 1.5rem; color: #ff3665;"></i>
                             </div>
                         </div>
-                        <div class="fs-6">선택하신 날짜에 이 요금으로 이용 가능한 마지막 AuraStay 객실 입니다.</div>
+                        <div class="fs-10">선택하신 날짜에 이 요금으로 이용 가능한 마지막 AuraStay 객실 입니다.</div>
                     </div>
                 </div>
 
@@ -94,9 +94,9 @@
             <%-- 숙소 예약 정보 끝 --%>
 
             <div class="box-border mb-3">
-                <div class="row px-2 mb-3">
+                <div class="row px-2 mb-3 fs-10">
                     <div class="fs-6 mb-3">특별 요청하기 (선택사항)</div>
-                    <div class="fs-10 mb-2">특별 요청의 반영 여부는 숙소의 개별적인 사정에 따라 결정되며 보장되지 않습니다.</div>
+                    <div class="mb-2">특별 요청의 반영 여부는 숙소의 개별적인 사정에 따라 결정되며 보장되지 않습니다.</div>
                      <div class="row mb-2">
                          <div class="col-sm-6 ">
                              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
@@ -167,14 +167,14 @@
                             <strong class="d-block">E°SO 이소하우스 60평 독채</strong>
                             <p class="mb-2">펜션</p>
                             <p class="fs-10 mb-2">강원도 강릉시 창해로 307</p>
-                            <div class="float-start me-2">
+                            <div class="fs-10 float-start me-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
                                      class="mb-1 bi bi-star-fill" viewBox="0 0 16 16">
                                     <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
                                 </svg>
                                 4.93(114)
                             </div>
-                            <div class="fw-bold">•<span class="ms-1">해변(키워드명)</span></div>
+                            <div class="fs-10 fw-bold">•<span class="ms-1">해변(키워드명)</span></div>
                         </div>
                     </li>
 
