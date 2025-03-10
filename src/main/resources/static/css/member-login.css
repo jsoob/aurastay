@@ -1,0 +1,70 @@
+.main {
+    text-align: center;
+}
+
+/* 로고 이미지 */
+.main .logo {
+    padding: 30px 30px;
+    text-align: center;
+}
+
+.main .logo > img {
+    width: 100px;
+}
+
+.main div > a > div {
+    width: 400px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    font-size: 13px;
+    font-weight: bold;
+    color: black;
+}
+.main div > a > div > img {
+    margin-right: 10px;
+}
+.main a {
+    text-decoration: none;
+}
+
+/* 버튼 별 css */
+#kakao {
+    background-color: #FEE500;
+}
+
+#naver {
+    background-color: #00C73C;
+    color: white;
+}
+
+#google, #email {
+    background-color: white;
+}
+
+.main .TextButton_container {
+    font-size: 11px;
+    box-sizing: border-box;
+    padding: 10px 0;
+}
+
+.main .TextButton_container > a {
+    text-decoration: none;
+    color: black;
+}
+
+
+.main .SocialLoginButtons_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main .SocialLoginButtons_container > div {
+    margin-bottom: 10px;
+}

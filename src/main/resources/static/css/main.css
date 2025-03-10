@@ -1,12 +1,84 @@
+/* 전체 헤더 css */
+header {
+    position: fixed;
+    z-index: 1050;
+    top: 0;
+    width: 100%;
+    height:80px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    color: black;
+    background-color:white;
+    align-items: flex-start;
+    box-shadow: 0px 3px 2px -3px lightgray;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 로고 크기 */
+header > a > img {
+    width: 90px;
+}
+
+/* 검색창 */
+header .search {
+    position: relative;
+    width: 400px;
+    flex-shrink: 1;
+}
+header .search > input {
+    width: 100%;
+    border: 1px solid lightgray;
+    border-radius: 30px;
+    padding: 10px 12px;
+    font-size: 13px;
+}
+header .search button {
+    position : absolute;
+    width: 30px;
+    height: 30px;
+    top: 6px;
+    right: 12px;
+    margin: 0;
+    padding: 3px;
+
+    border: none;
+    border-radius: 50%;
+    background-color: #ff385c;
+}
+header .search button img {
+    filter: invert(1); /* 색상 반전 */
+}
+
+/* 드롭다운 버튼 */
+header .dropdown > .btn {
+    border-radius: 30px;
+    background-color: white;
+    border: 1px solid lightgray;
+    padding: 5px 10px;
+}
+header .btn:hover {
+    box-shadow: 1px 2px 2px lightgray;
+}
+header .dropdown > ul > li {
+    font-size: 13px;
+}
+/* 헤더 끝*/
+
 /* nav 높이만큼 padding-top 줌 */
+.main {
+    padding-top: 80px;
+}
 .main_body_container {
-    padding-top: 100px;
+    padding-top: 20px;
     padding-left: 30px;
     padding-right: 30px;
 }
 
 /* 네비게이션 바 (스크롤 시 고정) */
-.nav-list {
+.main .nav-list {
     position: sticky;
     top: 80px; /* 헤더 아래 고정 */
     z-index: 1040;
@@ -15,7 +87,7 @@
     padding: 15px 0;
     width: 100%;
 }
-.nav-list ul {
+.main .nav-list ul {
     display: flex; /* 가로 정렬 */
     justify-content: space-around;
     list-style: none;
@@ -24,16 +96,16 @@
     width: 100%;
     white-space: nowrap; /* 줄바꿈 방지 */
 }
-.nav-list li{
+.main .nav-list li{
     display: inline-block;
     text-align: center;
     width: 19%;
     opacity: 0.7;
 }
-.nav-list li:hover {
+.main .nav-list li:hover {
     opacity: 1;
 }
-.nav-list li > a{
+.main .nav-list li > a{
     text-decoration: none;
     display: flex;
     flex-direction: column;
@@ -45,12 +117,12 @@
 }
 
 /* 숙소 아이콘 */
-.nav-list > ul > li > a > img {
+.main .nav-list > ul > li > a > img {
     width: 25px;
 }
 
 /* 필터 버튼 */
-.filter-btn {
+.main .filter-btn {
     border-radius: 10px;
     background-color: white;
     border: 1px solid lightgray;
@@ -58,10 +130,10 @@
     font-size: 11px;
     color: black;
 }
-.filter-btn:hover {
+.main .filter-btn:hover {
     box-shadow: 1px 2px 2px lightgray;
 }
-.filter-btn > img {
+.main .filter-btn > img {
     margin-right: 6px;
 }
 
@@ -134,4 +206,9 @@
 /* 위시 클릭 되어 있으면 색깔 핑크로 채우기 */
 .wish-btn-svg-active {
     fill: #ff385c;
+}
+
+/* 풋터 */
+footer {
+    font-size: 13px;
 }
