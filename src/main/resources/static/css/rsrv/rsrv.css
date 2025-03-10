@@ -69,3 +69,15 @@ textarea {
     resize: none;
     width: 100%;
 }
+
+.top-180 {
+    top: 180px;
+}
+
+.btn-pink {
+    background-color: #ff3665 !important;
+    border: none;
+}
+.btn-pink:hover, .btn-pink:active, .btn-pink:visited {
+    background-color: #ff4c76 !important;
+}
