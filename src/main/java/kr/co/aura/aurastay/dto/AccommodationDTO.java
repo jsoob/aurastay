@@ -22,9 +22,8 @@ public class AccommodationDTO {
     private LocalDateTime checkinTime;         // 체크인 시간
     private LocalDateTime checkoutTime;        // 체크아웃 시간
 
-    // 파일 업로드
-    private String filename;            // 파일이름
-    private String filepath;            // 파일경로
-
-    private List<MultipartFile> file;
+    // 파일 업로드 관련 필드
+    private List<String> filenames;            // 여러 파일 이름
+    private List<String> filepaths;            // 여러 파일 경로
+    private List<MultipartFile> files;         // 실제 MultipartFile 리스트
 }
