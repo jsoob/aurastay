@@ -63,7 +63,7 @@ header .btn:hover {
     box-shadow: 1px 2px 2px lightgray;
 }
 header .dropdown > ul > li {
-    font-size: 13px;
+    font-size: 14px;
 }
 
 /* 메인 */
@@ -114,7 +114,7 @@ header .dropdown > ul > li {
     align-items: center;
     align-content: space-around;
     color: black;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 /* 숙소 아이콘 */
@@ -128,7 +128,7 @@ header .dropdown > ul > li {
     background-color: white;
     border: 1px solid lightgray;
     padding: 10px 10px;
-    font-size: 11px;
+    font-size: 12px;
     color: black;
 }
 .main .filter-btn:hover {
@@ -211,5 +211,5 @@ header .dropdown > ul > li {
 
 /* 풋터 */
 footer {
-    font-size: 13px;
+    font-size: 14px;
 }

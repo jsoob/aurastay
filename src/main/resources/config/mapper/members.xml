@@ -6,6 +6,12 @@
 <mapper namespace="kr.co.aura.aurastay.repository.MemberRepository">
     <insert id="insertMember" parameterType="MemberDTO">
         insert into member
-        values(null,#{memberEmail},#{memberPassword},#{memberNickName},#{memberName},#{memberPhoneNumber},1,0)
+        values(null,#{memberEmail},#{providerId},#{memberPassword},#{memberName},#{memberNickname},#{memberPhoneNumber},0,current_timestamp(),null,#{authority})
     </insert>
+    <!--  -->
+    <select id="findByUsername" parameterType="String" resultType="MemberDTO">
+        select *
+        from member
+        where member_email = #{username}
+    </select>
 </mapper>

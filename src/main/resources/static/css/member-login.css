@@ -11,7 +11,8 @@
     width: 100px;
 }
 
-.main div > a > div {
+/* 각 버튼 별 */
+.main .loginBtn {
     width: 400px;
     height: 40px;
     border-radius: 5px;
@@ -21,11 +22,12 @@
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: bold;
     color: black;
+    text-align: center;
 }
-.main div > a > div > img {
+.main .loginBtn > img {
     margin-right: 10px;
 }
 .main a {
@@ -59,11 +61,14 @@
 
 /* 사업자로 시작하기 */
 .main .TextButton_container {
-    font-size: 11px;
+    font-size: 12px;
     box-sizing: border-box;
     padding: 10px 0;
 }
-.main .TextButton_container > a {
+.main .TextButton_container a {
     text-decoration: none;
     color: black;
+}
+.main .TextButton_container > span {
+    margin: 0 20px;
 }

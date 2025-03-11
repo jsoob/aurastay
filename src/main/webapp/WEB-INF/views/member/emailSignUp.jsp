@@ -9,7 +9,7 @@
 </head>
 <body class="container mt-5">
 <h3 class="text-center">회원가입</h3>
-<form action="emailSignUpOk" class="mx-auto w-50" method="post">
+<form action="emailSignUp" class="mx-auto w-50" method="post">
     <div class="mb-3">
         <label for="email" class="form-label">이메일</label>
         <input type="email" id="email" name="memberEmail" class="form-control" required>
@@ -28,7 +28,7 @@
 
     <div class="mb-3">
         <label for="nickname" class="form-label">닉네임</label>
-        <input type="text" id="nickname" name="memberNickName" class="form-control" required>
+        <input type="text" id="nickname" name="memberNickname" class="form-control">
     </div>
 
     <div class="mb-3">
@@ -39,11 +39,11 @@
     <div class="mb-3">
         <label class="form-label">전화번호</label>
         <div class="d-flex">
-            <input type="text" id="phone1" name="phone1" class="form-control me-2" maxlength="3" required>
+            <input type="text" id="phone1" name="phone1" class="form-control me-2" maxlength="3" >
             <span class="align-self-center">-</span>
-            <input type="text" id="phone2" name="phone2" class="form-control mx-2" maxlength="4" required>
+            <input type="text" id="phone2" name="phone2" class="form-control mx-2" maxlength="4" >
             <span class="align-self-center">-</span>
-            <input type="text" id="phone3" name="phone3" class="form-control ms-2" maxlength="4" required>
+            <input type="text" id="phone3" name="phone3" class="form-control ms-2" maxlength="4" >
         </div>
     </div>
     <button type="submit" class="btn btn-outline-secondary w-100">가입하기</button>

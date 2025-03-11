@@ -20,34 +20,34 @@
     </div>
     <div class="SocialLoginButtons_container">
         <div>
-            <a href="">
-                <div id="kakao"><img
+            <a href="/oauth2/authorization/kakao">
+                <div id="kakao" class="loginBtn"><img
                         src="//yaimg.yanolja.com/joy/sunny/static/images/login/ic-login-kakao.svg" alt="">카카오로 시작하기
                 </div>
             </a>
         </div>
         <div>
-            <a href="">
-                <div id="naver"><img
+            <a href="/oauth2/authorization/naver">
+                <div id="naver" class="loginBtn"><img
                         src="//yaimg.yanolja.com/joy/sunny/static/images/login/ic-login-naver.svg" alt="">네이버로 시작하기
                 </div>
             </a>
         </div>
         <div>
-            <a href="">
-                <div id="google"><img
+            <a href="/oauth2/authorization/google">
+                <div id="google" class="loginBtn"><img
                         src="//yaimg.yanolja.com/joy/sunny/static/images/login/ic-login-google.svg" alt="">Google로 시작하기
                 </div>
             </a>
         </div>
         <div>
-            <a href="/member/emailLogin">
-                <div id="email"><img src="/img/email2.png" alt="">이메일로 시작하기</div>
+            <a href="/member/emailLogin" >
+                <div id="email" class="loginBtn"><img src="/img/email2.png" alt="">이메일로 시작하기</div>
             </a>
         </div>
     </div>
     <div class="TextButton_container">
-        <a href="/admin">사업자로 시작하기></a>
+        <a href="/business/intro">사업자로 시작하기></a>
     </div>
 </div>
 <jsp:include page="../main/footer.jsp"/>
