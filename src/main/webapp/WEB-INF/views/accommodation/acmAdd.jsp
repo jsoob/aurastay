@@ -25,33 +25,33 @@
 <body>
 <div class="main-content">
     <h2>숙소 등록</h2>
-    <form action="/acmAdd" method="post" enctype="multipart/form-data">
+    <form action="/acmAdd" method="post" modelAttribute="dto" enctype="multipart/form-data">
         <div class="form-group">
             <label>숙소명</label>
-            <input type="text" name="acmname" placeholder="숙소명을 입력하세요" required>
+            <input type="text" name="acmName" placeholder="숙소명을 입력하세요" required>
         </div>
         <div class="form-group">
             <label>주소</label>
-            <input type="text" name="acmaddress" placeholder="주소를 입력하세요" required>
+            <input type="text" name="acmAddress" placeholder="주소를 입력하세요" required>
         </div>
         <div class="form-group">
             <label>연락처</label>
-            <input type="tel" name="acmtel" size=10 maxlength=11 placeholder="연락처를 입력하세요" required>
+            <input type="tel" name="acmTel" size=10 maxlength=11 placeholder="연락처를 입력하세요" required>
         </div>
         <div class="check-group">
             <div class="check-item">
                 <label class="form-label">체크인</label>
-                <input type="time" class="form-control" name="checkin" required>
+                <input type="time" class="form-control" name="checkinTime" required>
             </div>
             <div class="check-item">
                 <label class="form-label">체크아웃</label>
-                <input type="time" class="form-control" name="checkout" required>
+                <input type="time" class="form-control" name="checkoutTime" required>
             </div>
         </div>
         <br>
         <div class="form-group">
             <label>내용</label>
-            <textarea name="acmcontents" placeholder="숙소에 대한 정보를 입력하세요" rows="4" required></textarea>
+            <textarea name="contents" placeholder="숙소에 대한 정보를 입력하세요" rows="4" required></textarea>
         </div>
 
         <div>

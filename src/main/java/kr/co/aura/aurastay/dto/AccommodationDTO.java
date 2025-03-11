@@ -3,6 +3,7 @@ package kr.co.aura.aurastay.dto;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -18,8 +19,8 @@ public class AccommodationDTO {
     private String acmAddress;          // 숙소 주소
     private String acmTel;              // 숙소 전화번호
     private String contents;            // 숙소 상세설명
-    private String checkinTime;         // 체크인 시간
-    private String checkoutTime;        // 체크아웃 시간
+    private LocalDateTime checkinTime;         // 체크인 시간
+    private LocalDateTime checkoutTime;        // 체크아웃 시간
 
     // 파일 업로드
     private String filename;            // 파일이름
