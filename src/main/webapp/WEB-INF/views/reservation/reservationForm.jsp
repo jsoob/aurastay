@@ -5,7 +5,9 @@
     <title>예약 요청</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
+    <!-- icon -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           crossorigin="anonymous" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -13,10 +15,14 @@
             crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!-- select 라이브러리 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <link rel="stylesheet" href="/css/rsrv/rsrv.css">
     <script>
-
         $(() => {
+            // toast click
             const toastTrigger = document.getElementById('rsrvCommBtn');
             const toastLiveExample = document.getElementById('rsrvComm');
             if (toastTrigger) {
@@ -25,6 +31,39 @@
                     toast.show();
                 });
             }
+
+            // 국가 지역
+            $.ajax({
+                url: 'https://api.odcloud.kr/api/15051105/v1/uddi:f353af64-f303-475e-a6d9-dd8885dea981?page=1&perPage=500&serviceKey=teeNJl0EGacy%2FnNigpTLd2277dRs0ffcAkr%2F%2BYDU0ABnJH%2B1%2FmCedlG8qKfEUFMizJkM%2F49RvhGVdKuChjeNSQ%3D%3D',
+                type: 'GET',
+                success: function(data) {
+                    console.log(data);
+
+                    // 국가코드 data
+                    let datas = data.data;
+                    // 국가수
+                    let totalCount = data.totalCount;
+
+                    // 국가 ISO 2자리코드
+                    // console.log(datas[0]['ISO alpha2']);
+                    console.log(datas[0]['국가코드_국제표준(ISO)_알파벳2자리']);
+                    // 국가명
+                    console.log(datas[0]['국가명']);
+
+                    // 초기화
+                    $("#residence_country").empty();
+                    // $("#ctCount").children('option:not(:first)').remove();
+
+                    for (let i = 0; i <= totalCount-1; i++) {
+                        // $("#residence_country").append('<option value="'+ datas[i]['국가코드_국제표준(ISO)_알파벳2자리'] +'">'+ datas[i]['국가명'] +'</option>');
+                        $("#residence_country").append('<option value="'+ datas[i]['국가명'] +'">'+ datas[i]['국가명'] +'</option>');
+                    }
+
+                    // search 가능
+                    $('#residence_country').select2();
+                    $('#residence_country').val('대한민국').trigger('change');
+                }
+            });
         });
     </script>
 </head>
@@ -42,7 +81,7 @@
 
         <div class="left-container">
 
-            <div class="last-rsrv">
+            <div class="last-rsrv" style="display: none">
                 <div class="box-border mb-3">
                     <div class="row px-2">
                         <div class="row fs-5 pb-1">
@@ -55,7 +94,6 @@
                 </div>
 
             </div>
-
 
             <h3 class="mb-4">예약 정보</h3>
             <div class="box-border mb-3 ps-4">
@@ -94,8 +132,53 @@
             <%-- 숙소 예약 정보 끝 --%>
 
             <div class="box-border mb-3">
+                <div class="row px-2 fs-10">
+                    <div class="fs-6 fw-bold">
+                        <div class="row">
+                            <div class="col-sm-8">대표 투숙객 정보</div>
+                            <div class="col-sm-4 text-end"><button class="btn btn-outline-dark fs-10">회원 정보</button></div>
+                        </div>
+                    </div>
+                    <div class="mb-3 text-red">*필수 입력 항목입니다</div>
+
+                    <div class="row mb-2 pe-0">
+                        <div class="col-sm-6">
+                            <div class="form-item">
+                                <input type="text" id="member_name" name="member_name" autocomplete="off" required>
+                                <label for="member_name">이름 (Name) *</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-item">
+                                <input type="text" id="member_phone_number" name="member_phone_number" autocomplete="off" required>
+                                <label for="member_phone_number">전화번호 *</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-2 pe-0">
+                        <div class="col-sm-6">
+                            <div class="form-item">
+                                <input type="text" id="member_email" name="member_email" autocomplete="off" required>
+                                <label for="member_email">이메일 주소 *</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+<%--                            <input type="text" class="form-control">--%>
+                            <select id="residence_country" name="residence_country" class="form-control">
+                                <option value="">없음</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <%-- 대표 투숙객 정보 --%>
+
+            <div class="box-border mb-3">
                 <div class="row px-2 mb-3 fs-10">
-                    <div class="fs-6 mb-3">특별 요청하기 (선택사항)</div>
+                    <div class="fs-6 mb-2">특별 요청하기 (선택사항)</div>
                     <div class="mb-2">특별 요청의 반영 여부는 숙소의 개별적인 사정에 따라 결정되며 보장되지 않습니다.</div>
                      <div class="row mb-2">
                          <div class="col-sm-6 ">
@@ -137,16 +220,14 @@
 
             <div class="box-border mb-3">
                 <div class="row px-2 mb-3">
-                    <div class="fs-6 mb-3">기본 규칙</div>
-                    <div class="fs-10 mb-2">훌륭한 게스트가 되기 위한 몇 가지 간단한 규칙을 지켜주실 것을 모든 게스트에게 당부드리고 있습니다.</div>
+                    <div class="fs-6 mb-3">예약 취소 규정</div>
+                    <div class="fs-10 mb-2">사용 예정일(체크인 날짜) 7일 전 예약을 취소하면 무료 취소가 가능합니다.</div>
                     <div class="row mb-2 ps-4">
                         <ul class="fs-10 ps-4">
-                            <li>
-                                숙소 이용규칙을 준수하세요.
-                            </li>
-                            <li>
-                                호스트의 집도 자신의 집처럼 아껴주세요.
-                            </li>
+                            <li>사용 예정일(체크인 날짜) 6일 전의 예약 취소는 업체에게 취소 요청할 수 있습니다.</li>
+                            <li>체크인 이후의 예약 취소 및 예약금 환불은 불가능합니다.</li>
+                            <li>숙박 도중 예약 취소를 원하신다면, 업체에게 문제 해결을 요청할 수 있습니다.</li>
+                            <li>자세한 사항은 해당 업체 전화번호 또는 이메일에 문의할 수 있습니다.</li>
                         </ul>
                     </div>
                 </div>
@@ -157,7 +238,7 @@
 
         <div class="right-container">
             <div class="fs-4 mb-3">숙소</div>
-            <div style="height: 34%;">
+            <div style="height: 36%;">
                 <ul class="rsv dropdown-menu d-grid gap-1 p-4"><%-- data-bs-theme="light" --%> <%-- bottom: -150px; --%>
                     <li class="d-flex gap-2 pb-2 lh-sm text-start">
                         <img class="acm-img-thumbnail radius_12"
@@ -182,7 +263,7 @@
                         <hr class="dropdown-divider">
                     </li>
                     <li class="fs-5">요금 세부정보</li>
-                    <%--                    <li>₩544,500 x 5박 ₩2,722,500</li>--%>
+                    <%-- <li>₩544,500 x 5박 ₩2,722,500</li> --%>
                     <li class="d-flex gap-2 py-1 lh-sm fs-10 pe-2">
                         <div class="col-sm-8 text-start"><span name="">₩544,500</span> x <span>5</span>박</div>
                         <div class="col-sm-4 text-end">₩2,722,500</div>
@@ -190,9 +271,7 @@
 
                     <li class="d-flex gap-2 py-1 lh-sm fs-10 pe-2">
                         <div class="col-sm-8 text-start">
-                            <button id="rsrvCommBtn" class="btn-none text-decoration-underline text-dark px-0">AURASTAY 서비스
-                                수수료
-                            </button>
+                            <button id="rsrvCommBtn" class="btn-none text-decoration-underline text-dark px-0">AURASTAY 서비스 수수료</button>
                         </div>
                         <div class="col-sm-4 text-end">₩422,789</div>
                     </li>

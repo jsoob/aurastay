@@ -46,6 +46,11 @@
     max-width: 390px;
 }
 
+.rsrv-btn-div {
+    position: relative;
+    top: 20px;
+}
+
 /* 폰트 사이즈 */
 .fs-10 {
     font-size: 10pt;
@@ -80,4 +85,99 @@ textarea {
 }
 .btn-pink:hover, .btn-pink:active, .btn-pink:visited {
     background-color: #ff4c76 !important;
+}
+
+
+.btn-outline-dark:hover, .btn-outline-dark:active, .btn-outline-dark:visited {
+    background-color: #dddddd !important;
+}
+
+.text-red {
+    color : rgb(197, 56, 41);
+}
+
+/* form 입력창 label 위로 올라가는 기능 */
+
+
+.form-item{
+    position: relative;
+    margin-bottom: 15px
+}
+.form-item input{
+    display: block;
+    width: 100%;
+    height: 30pt;
+    background: transparent;
+    border: solid 1px #ccc;
+    border-radius: 5pt;
+    transition: all .3s ease;
+    padding: 0 15px
+}
+
+.form-item label{
+    position: absolute;
+    cursor: text;
+    z-index: 2;
+    top: 10px;
+    left: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    background: #fff;
+    padding: 0 10px;
+    color: #999;
+    transition: all .3s ease
+}
+
+/* 값이 입력되져서 label이 올라갔을때 */
+.form-item input:valid {
+    border-color : mediumseagreen;
+}
+.form-item input:valid + label {
+    font-size: 11px;
+    top: -5px;
+    color: mediumseagreen;
+}
+
+/* input 창 hover */
+/*
+.form-item input:hover {
+    border-color: mediumblue;
+    background-color: #e8f5ff;
+    color: mediumblue;
+}
+.form-item input:hover + label {
+    color: mediumblue;
+    background-color: transparent;
+}
+*/
+/*background-image: linear-gradient(to top, #e8f5ff 70%, white 30%);*/
+
+
+/* 선택해서 값 입력중일때 label 상태 */
+.form-item input:focus {
+    outline: none;
+    border: 1px solid mediumblue; /* outline 테두리 속성 수정 */
+    background-color: white;
+}
+/* 선택해서 label이 올라갔을때 */
+/* 선택해서 값 입력중일때 label 상태 */
+.form-item input:focus + label {
+    font-size: 11px;
+    top: -5px;
+    color: mediumblue;
+    background-color: white;
+}
+
+/* select2 */
+.select2-container {
+    width: 100%;
+}
+.select2-container--default .select2-selection--single {
+    height: 30pt;
+    padding-top: 4px;
+    border-radius: 5pt;
+    border: solid 1px #ccc;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    top: 5px;
 }
