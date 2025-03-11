@@ -8,7 +8,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Mapper
 public interface BusinessRepository {
-    public void insertBusiness(BusinessDTO dto);
+    void insertBusiness(BusinessDTO dto);
 
     BusinessDTO findByUsername(String username);
+
 }

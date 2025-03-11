@@ -55,5 +55,10 @@ public class MemberController {
         return "redirect:/";
     }
 
+    @GetMapping("/findPassword")
+    public String findPassword() {
+        return "member/findPassword";
+    }
+
 
 }

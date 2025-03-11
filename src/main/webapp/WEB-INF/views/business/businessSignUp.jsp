@@ -13,7 +13,7 @@
 <body>
 <body class="container mt-5">
 <h3 class="text-center">비즈니스 회원가입</h3>
-<form action="businessSignUpOk" class="mx-auto w-50" method="post">
+<form action="signUp" class="mx-auto w-50" method="post">
     <div class="mb-3">
         <label for="businessEmail" class="form-label">이메일</label>
         <input type="email" id="businessEmail" name="businessEmail" class="form-control" required>

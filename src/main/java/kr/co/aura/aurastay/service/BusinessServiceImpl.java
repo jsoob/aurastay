@@ -12,6 +12,6 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Override
     public void save(BusinessDTO dto) {
-
+        businessRepository.insertBusiness(dto);
     }
 }
