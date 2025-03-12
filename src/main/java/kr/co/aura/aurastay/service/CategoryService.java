@@ -18,15 +18,15 @@ public class CategoryService {
         // 카테고리 리스트 조회
         List<CategoryDTO> categoryList = categoryRepository.getAllCategories();
 
-        List<CategoryDTO> categoryDTOList = new ArrayList<>();
+        List<CategoryDTO> categories = new ArrayList<>();
         for (CategoryDTO category : categoryList) {
             CategoryDTO categoryDTO = new CategoryDTO();
             categoryDTO.setCategoryNo(category.getCategoryNo());
             categoryDTO.setCategoryName(category.getCategoryName());
 
-            categoryDTOList.add(categoryDTO);
+            categories.add(categoryDTO);
 
         }
-        return categoryDTOList;
+        return categories;
     }
 }

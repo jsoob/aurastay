@@ -7,8 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
-
 @Mapper
 @Repository
 public interface AccommodationRepository {
@@ -17,6 +15,5 @@ public interface AccommodationRepository {
     List<AccommodationDTO> selectAll();
     // 등록하기
     void add(AccommodationDTO dto);
-
     void fileadd(AccommodationDTO dto);
 }

@@ -13,7 +13,7 @@
 
 <div class="main-content">
     <h2 class="text-center">📌 ${dto.acmName} 상세 조회</h2>
-    <form action="acmAdd" method="post">
+    <form action="/acmAdd" method="get">
         <table class="table">
             <h3>숙소 정보에 대한 상세한 조회 및 변경하는 페이지입니다.</h3>
             <c:forEach var="dto" items="list">

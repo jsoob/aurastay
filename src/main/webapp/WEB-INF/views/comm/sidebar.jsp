@@ -5,8 +5,8 @@
         <li>
             <a>숙소관리</a>
             <ul>
-                <li><a href="acmAdd">숙소등록</a></li>
-                <li><a href="acmList">숙소 조회/변경</a></li>
+                <li><a href="accommodation/acmAdd">숙소등록</a></li>
+                <li><a href="/acmList">숙소 조회/변경</a></li>
             </ul>
         </li>
         <li>

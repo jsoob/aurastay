@@ -11,8 +11,8 @@ body {
 
 /* 메인 컨텐츠 박스 */
 .main-content {
-    width: calc(100% - 700px); /* 사이드바 제외한 영역 */
-    margin-left: 260px; /* 사이드바 크기보다 약간 오른쪽으로 이동 */
+    width: calc(100% - 700px);                      /* 사이드바 제외한 영역 */
+    margin-left: 260px;                             /* 사이드바 크기보다 약간 오른쪽으로 이동 */
     padding: 20px;
     background: #ffffff;
     border-radius: 10px;
@@ -31,6 +31,8 @@ h2 {
 /* 입력 필드 스타일 */
 .form-group {
     margin-bottom: 15px;
+    height : auto;
+    overflow: hidden;
 }
 
 label {
@@ -41,30 +43,41 @@ label {
 
 /* 체크인-체크아웃 전체 그룹 */
 .check-group {
-    display: flex;        /* 가로 정렬 */
-    gap: 20px;           /* 두 개의 입력 필드 사이 간격 */
-    justify-content: space-between; /* 좌우 여백 조정 */
+    display: flex;                      /* 가로 정렬 */
+    gap: 20px;                          /* 두 개의 입력 필드 사이 간격 */
+    justify-content: space-between;     /* 좌우 여백 조정 */
+    flex-wrap: wrap;                    /* 화면 크기 작아지면 자동으로 줄 바꿈 */
 }
 
 /* 개별 입력 필드 박스 */
 .check-item {
-    flex: 1;             /* 두 개 요소가 동일한 너비를 가지도록 설정 */
+    flex: 1;                    /* 두 개 요소가 동일한 너비를 가지도록 설정 */
+    min-width: 200px;            /* 최소 너비를 설정해서 크기 유지 */
     display: flex;
-    flex-direction: column; /* 라벨 위, 입력 필드 아래로 배치 */
+    flex-direction: column;     /* 라벨 위, 입력 필드 아래로 배치 */
 }
 
 /* 입력 필드 스타일 */
 .check-item input {
-    width: 100%;         /* 부모 요소에 맞게 꽉 차게 설정 */
+    width: 100%;                /* 부모 요소에 맞게 꽉 차게 설정 */
 }
 
+/* textarea 분홍색 화면 바깥으로 벗어나지 않게 설정 */
 input, textarea {
     width: 100%;
-    padding: 8px;
+    /*padding: 13px;*/
+    padding-top: 12px;               /* 위쪽 여백 */
+    padding-bottom: 12px;            /* 아래쪽 여백 */
+    padding-left: 8px;               /* 좌측 여백 */
+    padding-right: 8px;              /* 우측 여백 */
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 14px;
+    box-sizing: border-box;  /* padding과 border를 포함한 너비 계산 */
+    resize: none;            /* 사용자가 textarea 크기 조절 못 하도록 설정 */
+    overflow: auto;
 }
+
 
 /* 버튼 컨테이너 */
 .btn-container {
@@ -95,4 +108,32 @@ input, textarea {
     opacity: 0.8;
 }
 
+/* 기존 input과 textarea의 너비 유지 */
+input[type="text"], input[type="tel"], input[type="datetime-local"], textarea {
+    width: 100%;                /* 기존 설정 유지 */
+    padding: 8px;
+    box-sizing: border-box;
+}
 
+/* 체크박스는 너비 100% 적용 안되도록 별도로 스타일 지정 */
+.checkbox-group {
+    display: flex;              /* 가로 정렬 */
+    flex-wrap: wrap;            /* 너무 길어지면 자동 줄바꿈 */
+    gap: 15px;                  /* 체크박스 사이 여백 */
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;        /* 체크박스와 텍스트 수직 정렬 */
+    gap: 5px;                   /* 체크박스와 글자 사이 여백 */
+    white-space: nowrap;        /* 글자가 줄바꿈되지 않도록 */
+}
+
+/* 체크박스 크기 기본값 유지 */
+input[type="checkbox"] {
+    width: auto;
+    height: auto;
+    margin: 0;
+    display: block !important;
+    visibility: visible !important;
+}
