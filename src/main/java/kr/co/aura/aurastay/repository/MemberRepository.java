@@ -10,4 +10,6 @@ public interface MemberRepository {
     public void insertMember(MemberDTO dto);
 
     MemberDTO findByUsername(String username);
+
+    boolean existsByEmail(String memberEmail);
 }

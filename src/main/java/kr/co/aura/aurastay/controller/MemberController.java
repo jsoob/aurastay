@@ -26,7 +26,6 @@ public class MemberController {
                          @RequestParam("phone2") String phone2,
                          @RequestParam("phone3") String phone3) {
         dto.setMemberPhoneNumber(phone1+phone2+phone3);
-        dto.setAuthority("ROLE_MEMBER");
         memberService.save(dto);
 
         return "index";

@@ -23,3 +23,6 @@ public class BusinessDTO {
     private LocalDateTime withdrawalDate; // 탈퇴일자
     private String authority; // 권한(BUSINESS, ADMIN)
 }
+
+
+

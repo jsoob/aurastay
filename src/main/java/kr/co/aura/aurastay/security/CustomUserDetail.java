@@ -1,38 +1,45 @@
 package kr.co.aura.aurastay.security;
 
-import kr.co.aura.aurastay.dto.BusinessDTO;
-import kr.co.aura.aurastay.dto.MUser;
-import kr.co.aura.aurastay.dto.MemberDTO;
+import kr.co.aura.aurastay.dto.CommonUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 @RequiredArgsConstructor
 // 로그인 검증 로직
 public class CustomUserDetail implements UserDetails {
-//    private BusinessDTO businessDTO;
-//    private MemberDTO memberDTO;
-    private final MUser mUser;
-
+//    private final CommonUser commonUser;
+    private final User user;
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        Collection<GrantedAuthority> collection = new ArrayList<GrantedAuthority>();
+        collection.add(new GrantedAuthority() {
+            @Override
+            public String getAuthority() {
+                System.out.println("getAuthority : " + user.getAuthorities());
+                return user.getAuthorities().iterator().next().getAuthority();
+            }
+
+        });
+        return collection;
     }
 
     @Override
     public String getPassword() {
-        return mUser.getPassword();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return mUser.getEmail();
+        return user.getUsername();
     }
 
     @Override

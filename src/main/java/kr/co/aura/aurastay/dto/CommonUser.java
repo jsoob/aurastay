@@ -1,6 +1,5 @@
 package kr.co.aura.aurastay.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,10 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MUser {
+public class CommonUser {
     private String email;
     private String password;
     private String authority;
     private int type;
-
 }

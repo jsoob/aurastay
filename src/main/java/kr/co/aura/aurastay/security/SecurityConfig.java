@@ -1,5 +1,6 @@
 package kr.co.aura.aurastay.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -8,10 +9,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private final AuthenticationSuccessHandler authenticationSuccessHandler;
 
     /* 패스워드 암호화 */
     @Bean
@@ -35,6 +40,7 @@ public class SecurityConfig {
             .formLogin(auth ->
                     auth.loginPage("/member/emailLogin")
                             .loginProcessingUrl("/loginProcess")
+                            .successHandler(authenticationSuccessHandler)
                             .defaultSuccessUrl("/")
                             .permitAll()
             );

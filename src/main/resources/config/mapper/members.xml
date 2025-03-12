@@ -4,14 +4,19 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kr.co.aura.aurastay.repository.MemberRepository">
+    <!-- 회원가입 -->
     <insert id="insertMember" parameterType="MemberDTO">
         insert into member
         values(null,#{memberEmail},#{providerId},#{memberPassword},#{memberName},#{memberNickname},#{memberPhoneNumber},0,current_timestamp(),null,#{authority})
     </insert>
-    <!--  -->
+    <!-- 로그인시 일치하는 이메일이 있는지 확인 -->
     <select id="findByUsername" parameterType="String" resultType="MemberDTO">
-        select *
+        select member_no as memberNo, member_email as memberEmail, provider_id as providerId, member_password as memberPassword, member_name as memberName,member_nickname as memberNickname, member_phone_number as memberPhoneNumber, point, registration_date as registrationDate, withdrawal_date as withdrawalDate, authority
         from member
         where member_email = #{username}
+    </select>
+    <!-- 이미 존재하는 이메일인지 확인 -->
+    <select id="existsByEmail" parameterType="String" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM member WHERE member_email = #{username})
     </select>
 </mapper>

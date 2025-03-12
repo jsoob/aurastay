@@ -20,7 +20,8 @@
         <div>
             <div class="mb-3">
                 <label for="memberEmail" class="form-label">이메일</label>
-                <input type="email" class="form-control" id="memberEmail" name="memberEmail" placeholder="이메일을 입력하세요">
+                <%-- name = "username"으로 해야함 --%>
+                <input type="email" class="form-control" id="memberEmail" name="username" placeholder="이메일을 입력하세요">
             </div>
 
             <div class="mb-3">

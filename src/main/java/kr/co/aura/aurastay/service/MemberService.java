@@ -4,4 +4,5 @@ import kr.co.aura.aurastay.dto.MemberDTO;
 
 public interface MemberService {
     public void save(MemberDTO dto);
+
 }

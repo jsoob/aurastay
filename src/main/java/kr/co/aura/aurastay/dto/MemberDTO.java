@@ -22,3 +22,4 @@ public class MemberDTO {
     private LocalDateTime withdrawalDate; // 탈퇴일자
     private String authority; // 권한
 }
+
