@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.aura.aurastay.repository.ReservationRepository">
+    <select id="getSpecialRequests" resultType="SpecialRequestDTO">
+        SELECT
+            request_no as requestNo, request_name as requestName
+        FROM
+            special_request
+    </select>
+
+</mapper>

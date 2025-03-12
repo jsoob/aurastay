@@ -156,7 +156,7 @@ textarea {
 /* 선택해서 값 입력중일때 label 상태 */
 .form-item input:focus {
     outline: none;
-    border: 1px solid mediumblue; /* outline 테두리 속성 수정 */
+    border: 1px solid #4545f8; /* outline 테두리 속성 수정 */
     background-color: white;
 }
 /* 선택해서 label이 올라갔을때 */
@@ -164,13 +164,13 @@ textarea {
 .form-item input:focus + label {
     font-size: 11px;
     top: -5px;
-    color: mediumblue;
+    color: #4545f8;
     background-color: white;
 }
 
 /* select2 */
-.select2-container {
-    width: 100%;
+ .select2-container {
+    width: 100% !important;
 }
 .select2-container--default .select2-selection--single {
     height: 30pt;
