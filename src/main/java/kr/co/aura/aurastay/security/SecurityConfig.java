@@ -27,25 +27,25 @@ public class SecurityConfig {
     /* 필터체인 */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http
-            .authorizeHttpRequests(auth->auth
-                    /* 임시 테스트 나중에 권한별로 접근 경로 바꿔야함 */
-                    .requestMatchers("/business/business").hasRole("BUSINESS")
-                    /* 이외의 요청들은 인증 필요없음 */
-                    .anyRequest().permitAll());
+        http
+                .authorizeHttpRequests(auth -> auth
+                        /* 임시 테스트 나중에 권한별로 접근 경로 바꿔야함 */
+                        .requestMatchers("/business/business").hasRole("BUSINESS")
+                        /* 이외의 요청들은 인증 필요없음 */
+                        .anyRequest().permitAll());
 
 
-    /* 커스텀 로그인 화면으로 */
-    http
-            .formLogin(auth ->
-                    auth.loginPage("/member/emailLogin")
-                            .loginProcessingUrl("/loginProcess")
-                            .successHandler(authenticationSuccessHandler)
-                            .defaultSuccessUrl("/")
-                            .permitAll()
-            );
+        /* 커스텀 로그인 화면으로 */
+        http
+                .formLogin(auth ->
+                        auth.loginPage("/member/emailLogin")
+                                .loginProcessingUrl("/loginProcess")
+                                .successHandler(authenticationSuccessHandler)
+                                .defaultSuccessUrl("/")
+                                .permitAll()
+                );
 
-    /* csrf공격 방어 해제 */
+        /* csrf공격 방어 해제 */
         http
                 .csrf(auth -> auth.disable());
 

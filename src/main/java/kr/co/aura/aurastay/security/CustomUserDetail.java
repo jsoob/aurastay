@@ -1,6 +1,7 @@
 package kr.co.aura.aurastay.security;
 
 import kr.co.aura.aurastay.dto.CommonUser;
+import kr.co.aura.aurastay.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,12 +12,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 // 로그인 검증 로직
 public class CustomUserDetail implements UserDetails {
 //    private final CommonUser commonUser;
-    private final User user;
+//    private final User user;
+    private final MemberDTO member;
 
+    public CustomUserDetail(MemberDTO member) {
+        this.member = member;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -24,22 +29,21 @@ public class CustomUserDetail implements UserDetails {
         collection.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-                System.out.println("getAuthority : " + user.getAuthorities());
-                return user.getAuthorities().iterator().next().getAuthority();
+                System.out.println("getAuthority : " + member.getAuthority());
+                return member.getAuthority();
             }
-
         });
         return collection;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return member.getMemberPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return member.getMemberName();
     }
 
     @Override
