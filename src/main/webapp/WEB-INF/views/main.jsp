@@ -14,7 +14,7 @@
         <a href="login.jsp">로그인</a> | <a href="signup.jsp">회원가입</a>
     </div>
     <h3>등록된 숙소 정보가 없습니다.</h3>
-    <h3>등록을 원한다면 <a href="/acmAdd">숙소등록</a>을 눌러주세요.</h3>
+    <h3>등록을 원한다면 <a href="accommodation/acmAdd">숙소등록</a>을 눌러주세요.</h3>
 </div>
 
 <jsp:include page="comm/footer.jsp" /> <!-- 푸터 포함 -->

@@ -24,6 +24,9 @@ public class AccommodationDTO {
 
     // 파일 업로드 관련 필드
     private List<String> filenames;            // 여러 파일 이름
-    private List<String> filepaths;            // 여러 파일 경로
+    private List<String> filepath;            // 여러 파일 경로
     private List<MultipartFile> files;         // 실제 MultipartFile 리스트
+    
+    private List<CategoryDTO> categories;       // 카테고리 리스트
+    private List<KeywordDTO> keywords;          // 키워드 리스트
 }
