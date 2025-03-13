@@ -138,7 +138,7 @@
                                         <h6 class="fs-10 f-blue mb-0">리뷰 작성하면 최대 1,000P 적립</h6>
                                     </div>
                                     <div class="col-sm-4 text-end">
-                                        <a class="text-decoration-none fw-bold" href="reservation/mystays?reservationNo=1">예약 상세 <span class="fs-5">▶</span></a>
+                                        <a class="text-decoration-none fw-bold" href="mystay?reservationNo=1">예약 상세 <span class="fs-5">▶</span></a>
                                     </div>
                                 </div>
                                 <hr>
@@ -204,7 +204,7 @@
                                         <h6 class="fs-10 f-blue mb-0">리뷰 작성하면 최대 1,000P 적립</h6>
                                     </div>
                                     <div class="col-sm-4 text-end">
-                                        <a class="text-decoration-none fw-bold" href="reservation/mystays?reservationNo=1">예약 상세 <span class="fs-5">▶</span></a>
+                                        <a class="text-decoration-none fw-bold" href="mystay?reservationNo=1">예약 상세 <span class="fs-5">▶</span></a>
                                     </div>
                                 </div>
                                 <hr>
