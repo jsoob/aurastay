@@ -34,6 +34,10 @@
     border: none;
 }
 
+.w-90 {
+    width: 90%;
+}
+
 /* 예약 요청 뒤로 가기 버튼 */
 .rsrv-back-circleBtn:hover {
     border-radius: 50%;
@@ -70,13 +74,32 @@
     border-radius: 5pt;
 }
 
-textarea {
+.rsrv-container textarea {
     resize: none;
     width: 100%;
 }
 
+.margin-auto {
+    margin: 0px auto;
+}
+.h-50px {
+    height: 50px;
+}
+
 .top-180 {
     top: 180px;
+}
+
+.f-blue {
+    color: #0D6EFD;
+}
+
+.max-w-700 {
+    max-width: 700px;
+}
+
+.f-gray {
+    color: #a0a0a7;
 }
 
 .btn-pink {
@@ -85,6 +108,16 @@ textarea {
 }
 .btn-pink:hover, .btn-pink:active, .btn-pink:visited {
     background-color: #ff4c76 !important;
+}
+
+.btn-gray {
+    background-color: #dedede !important;
+    color: black;
+    border: none;
+}
+.btn-gray:hover, .btn-gray:active, .btn-gray:visited {
+    background-color: #cacaca !important;
+    color: black;
 }
 
 
@@ -180,4 +213,29 @@ textarea {
 }
 .select2-container--default .select2-selection--single .select2-selection__arrow {
     top: 5px;
+}
+
+/* 내 예약 페이지 */
+.myReservation-tabs .nav.nav-pills {
+    justify-content: center;
+}
+.myReservation-tabs .nav-link {
+    color: black;
+    border-radius: 0;
+}
+
+.myReservation-tabs .nav-pills {
+    --bs-nav-pills-link-active-color: #0d6efd;
+    --bs-nav-pills-link-active-bg: #fff;
+}
+
+.myReservation-tabs .nav-link.active {
+    border-bottom: 5px solid #0d6efd;
+}
+
+/* tab contents */
+.myReservation-tabs .tab-content {
+    border-top: 1px solid rgb(241, 241, 241);
+    border-radius: 5pt;
+    padding: 20pt;
 }
