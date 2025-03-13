@@ -4,6 +4,10 @@
 <head>
     <title>숙소 목록</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- accAdd.CSS 파일 연결 -->
+    <link rel="stylesheet" type="text/css" href="../css/acmList.css">
+
 </head>
 <body>
 
@@ -15,26 +19,28 @@
     <h2 class="text-center">📌 숙소 목록 조회</h2>
     <form action="acmList" method="get">
         <h3>숙소 목록을 조회하는 페이지입니다.</h3>
-
-        <table class="table">
-            <c:forEach var="dto" items="${list}">
-                <tr>
-                    <th>숙소번호</th>
+        <div class="form-group">
+            <table class="table">
+                <c:forEach var="dto" items="${list}">
+                    <tr>
+                        <th>숙소번호</th>
+                        <th>숙소이름</th>
+                        <th>주소</th>
+                        <th>연락처</th>
+                        <th>체크인</th>
+                        <th>체크아웃</th>
+                    </tr>
                     <td>${dto.acmNo}</td>
-                    <th>숙소이름</th>
-                        <%--숙소의 이름을 클릭했을 때 상세내용으로 이동할 것--%>
+                    <%--숙소의 이름을 클릭했을 때 상세내용으로 이동할 것--%>
                     <td><a href="acmInfo?acmNo=${dto.acmNo}">${dto.acmName}</a></td>
-                    <th>주소</th>
                     <td>${dto.acmAddress}</td>
-                    <th>연락처</th>
                     <td>${dto.acmTel}</td>
-                    <th>체크인</th>
                     <td>${dto.checkinTime}</td>
-                    <th>체크아웃</th>
                     <td>${dto.checkoutTime}</td>
-                </tr>
-            </c:forEach>
-        </table>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
     </form>
 
 

@@ -122,7 +122,7 @@ public class AccommodationController {
         accommodationService.add(dto);      // add 메서드 호출해서 추가하기
 
 
-        return "redirect:/acmList";
+        return "redirect:/accommodation/acmList";
     }
 
 //    @PostMapping("/upload")
