@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,36 +36,24 @@ public class AccommodationController {
     ////////////////////////// 숙소 정보 저장하기 //////////////////////////
     // 숙소 정보를 입력하는 페이지 (숙소 등록 폼으로 연결)
     @GetMapping("/acmAdd")
-    public String accommodation(Model model) {
-        AccommodationDTO dto = new AccommodationDTO();
-        model.addAttribute("dto", dto);
-        return "accommodation/acmAdd";
-    }
-
-    // 숙소 정보를 입력하고 난 뒤의 페이지를 연결 (숙소 등록 처리)
-        // 1. @RequestParam("체크인, 체크아웃") 메서드 추가
-    @PostMapping("/acmAdd")
-    public String accommodationForm(@ModelAttribute("dto") AccommodationDTO dto,
-                                    @RequestParam("checkinTime") String checkin,
-                                    @RequestParam("checkoutTime") String checkout,
-                                    @RequestParam("files") MultipartFile[] files, // 파일 업로드 추가
-                                    Model model) {
+    public String accommodation(@ModelAttribute("dto") AccommodationDTO dto,
+                                Model model) {
 
         // 카테고리와 키워드 목록을 서비스에서 조회하기
         List<CategoryDTO> categories = categoryService.getAllCategories();
         List<KeywordDTO> keywords = keywordService.getAllKeywords();  // KeywordDTO로 수정
-        System.out.println("조회된 카테고리 개수: " + categories.size());
-        System.out.println("조회된 키워드 개수: " + keywords.size());
-        for (CategoryDTO category : categories) {
-            System.out.println("카테고리 이름: " + category.getCategoryName());
-        }
-        for (KeywordDTO keyword : keywords) {
-            System.out.println("키워드 이름: " + keyword.getKeywordName());
-        }
+//        System.out.println("조회된 카테고리 개수: " + categories.size());
+//        System.out.println("조회된 키워드 개수: " + keywords.size());
+//        for (CategoryDTO category : categories) {
+//            System.out.println("카테고리 이름: " + category.getCategoryName());
+//        }
+//        for (KeywordDTO keyword : keywords) {
+//            System.out.println("키워드 이름: " + keyword.getKeywordName());
+//        }
 
         // 카테고리와 키워드 목록을 모델에 추가해서 jsp로 전달
         model.addAttribute("categories", categories);
-        System.out.println("카테고리 리스트 : " + dto.getAcmName());
+//        System.out.println("카테고리 리스트 : " + dto.getAcmName());
         model.addAttribute("keywords", keywords);
         model.addAttribute("dto", dto);
 
@@ -73,12 +61,24 @@ public class AccommodationController {
         dto.setCategories(categories);
         dto.setKeywords(keywords);
 
+        return "accommodation/acmAdd";
+    }
+
+    // 숙소 정보를 입력하고 난 뒤의 페이지를 연결 (숙소 등록 처리)
+        // 1. @RequestParam("체크인, 체크아웃") 메서드 추가
+    @PostMapping("/acmAdd")
+    public String accommodationForm(@ModelAttribute("dto") AccommodationDTO dto,
+                                     @RequestParam("checkinTime") String checkinTime,
+                                    @RequestParam("checkoutTime") String checkoutTime,
+                                    @RequestParam("files") MultipartFile[] files, // 파일 업로드 추가
+                                    Model model) {
+
         // 날짜와 시간을 합쳐서 LocalDateTime으로 변환
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
         // 날짜 문자열을 LocalTime 으로 변환
-        LocalDateTime checkinTime = LocalDateTime.parse(checkin, formatter);
-        LocalDateTime checkoutTime = LocalDateTime.parse(checkout, formatter);
+        LocalTime checkin = LocalTime.parse(checkinTime, formatter);
+        LocalTime checkout = LocalTime.parse(checkoutTime, formatter);
 
         // DTO에 변환된 값 저장
         dto.setCheckinTime(checkinTime);
@@ -122,8 +122,7 @@ public class AccommodationController {
         accommodationService.add(dto);      // add 메서드 호출해서 추가하기
 
 
-
-        return "redirect:/acmAdd";
+        return "redirect:/acmList";
     }
 
 //    @PostMapping("/upload")
@@ -170,13 +169,13 @@ public class AccommodationController {
     public String accommodationList(Model model) {
         List<AccommodationDTO> list = accommodationService.selectAll();
         model.addAttribute("list", list);
-        return "/acmList";
+        return "/accommodation/acmList";
     }
 
     // 상세 정보 조회
     @GetMapping("/acmInfo")
     public String accommodationInfo(){
-        return "/acmInfo";
+        return "/accommodation/acmInfo";
     }
 
 

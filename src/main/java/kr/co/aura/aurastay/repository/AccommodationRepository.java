@@ -15,5 +15,5 @@ public interface AccommodationRepository {
     List<AccommodationDTO> selectAll();
     // 등록하기
     void add(AccommodationDTO dto);
-    void fileadd(AccommodationDTO dto);
+//    void fileadd(AccommodationDTO dto);
 }

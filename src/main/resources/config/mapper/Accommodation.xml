@@ -3,34 +3,27 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- namespace 는 정확하게 dao 이름까지 똑같이 써야한다 -->
-<mapper namespace="AccommodationRepository">
-    <select id="getAllCategories" resultType="CategoryDTO">
-        SELECT * FROM category
-    </select>
-    <select id="getAllKeywords" resultType="KeywordDTO">
-        SELECT * FROM keyword
-    </select>
-
+<!-- namespace 는 정확하게 Repository 이름까지 똑같이 써야한다 -->
+<mapper namespace="kr.co.aura.aurastay.repository.AccommodationRepository">
     <select id="selectAll" resultType="AccommodationDTO">
-        SELECT a.accommodation_no,
-        a.accommodation_name,
-        a.accommodation_address,
-        a.accommodation_contents,
-        a.checkin AS checkinTime,
+        SELECT a.accommodation_no AS acmNo,
+        a.accommodation_name AS acmName,
+        a.accommodation_address AS acmAddress,
+        a.accommodation_contents AS contents,
         a.checkin AS checkinTime,
         a.checkout AS checkoutTime,
-        a.tel,
-        a.keyword_no,
-        a.business_no,
-        a.category_no
+        a.tel AS acmTel,
+        a.keyword_no AS keywordNo,
+        a.business_no AS businessNo,
+        a.category_no AS categoryNo
         FROM accommodation a
         LEFT JOIN category c ON a.category_no = c.category_no
         LEFT JOIN keyword k ON a.keyword_no = k.keyword_no
     </select>
     <!--useGenerateKeys, keyProperty 는 pk 값에 auto_increment 를 준 것이라면 설정해줘야지만 ID 값이 할당된다 -->
+    <!--keyProperty = "여기는 DTO의 변수명을 입력한다"-->
     <insert id="add" parameterType="AccommodationDTO" useGeneratedKeys="true"
-            keyProperty="accommodation_no">
+            keyProperty="acmNo">
         INSERT INTO accommodation
         (accommodation_name,
         accommodation_address,
@@ -39,7 +32,8 @@
         checkout,
         accommodation_contents,
         category_no,
-        keyword_no
+        keyword_no,
+        business_no
         )
         VALUES (#{acmName},
         #{acmAddress},
@@ -47,8 +41,9 @@
         #{checkinTime},
         #{checkoutTime},
         #{contents},
-        #{category_no},
-        #{keyword_no}
+        #{categoryNo},
+        #{keywordNo},
+        #{businessNo}
         )
     </insert>
 </mapper>

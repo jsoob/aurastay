@@ -46,12 +46,12 @@
             <div class="check-item">
                 <%--체크인--%>
                 <label class="form-label">체크인</label>
-                <input type="datetime-local" class="form-control" name="checkinTime" required>
+                <input type="time" class="form-control" name="checkinTime" value="${dto.checkinTime}" required>
             </div>
             <div class="check-item">
                 <%--체크아웃--%>
                 <label class="form-label">체크아웃</label>
-                <input type="datetime-local" class="form-control" name="checkoutTime" required>
+                <input type="time" class="form-control" name="checkoutTime" value="${dto.checkoutTime}"required>
             </div>
         </div>
         <br>
@@ -67,7 +67,7 @@
                 <div class="checkbox-group">
                     <c:forEach var="category" items="${categories}">
                         <label><input type="checkbox" name="categoryNo" value="${category.categoryNo}" >${category.categoryName}</label>
-                        <c:out value="${categories}" default="categories 없는데요"></c:out>
+<%--                        <c:out value="${categories}" default="categories 없는데요"></c:out>--%>
                     </c:forEach>
 <%--                    <label><input type="checkbox" name="category" value="호텔"> 호텔</label>--%>
 <%--                    <label><input type="checkbox" name="category" value="리조트"> 리조트</label>--%>
@@ -85,7 +85,7 @@
                 <div class="checkbox-group">
                     <c:forEach var="keyword" items="${keywords}">
                         <label><input type="checkbox" name="keywordNo" value="${keyword.keywordNo}">${keyword.keywordName}</label>
-                        <c:out value="${keywords}" default="keywords 없음!" />
+<%--                        <c:out value="${keywords}" default="keywords 없음!" />--%>
                     </c:forEach>
 <%--                    <label><input type="checkbox" name="keyword" value="명동"> 명동</label>--%>
 <%--                    <label><input type="checkbox" name="keyword" value="홍대"> 홍대</label>--%>
@@ -102,7 +102,7 @@
 <%--                    <label><input type="checkbox" name="keyword" value="목포"> 목포</label>--%>
 <%--                    <label><input type="checkbox" name="keyword" value="포항"> 포항</label>--%>
 <%--                    <label><input type="checkbox" name="keyword" value="전주"> 전주</label>--%>
-<%--                    <label><input type="checkbox" name="keyword" value="수원"> 수원</label>--%>
+<%--                    <label><input type="checkbox" name="keyword" value="수원">    9수원</label>--%>
 <%--                    <label><input type="checkbox" name="keyword" value="양양"> 양양</label>--%>
 <%--                    <label><input type="checkbox" name="keyword" value="광안리"> 광안리</label>--%>
 <%--                    <label><input type="checkbox" name="keyword" value="해운대"> 해운대</label>--%>

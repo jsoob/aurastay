@@ -79,7 +79,7 @@ header {
 footer {
     color: black;
     text-align: center;
-    padding: 10px 0;
+    padding: 3px 0;
     width: calc(100% - 250px);
     position: fixed;
     bottom: 0;

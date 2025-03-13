@@ -13,7 +13,7 @@
 
 <div class="main-content">
     <h2 class="text-center">📌 숙소 목록 조회</h2>
-    <form action="acmList" method="post">
+    <form action="acmList" method="get">
         <h3>숙소 목록을 조회하는 페이지입니다.</h3>
 
         <table class="table">
@@ -28,9 +28,9 @@
                     <td>${dto.acmAddress}</td>
                     <th>연락처</th>
                     <td>${dto.acmTel}</td>
-                    <th>CheckIn</th>
+                    <th>체크인</th>
                     <td>${dto.checkinTime}</td>
-                    <th>CheckOut</th>
+                    <th>체크아웃</th>
                     <td>${dto.checkoutTime}</td>
                 </tr>
             </c:forEach>
