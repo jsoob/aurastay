@@ -53,7 +53,7 @@
                 <%-- 예약 목록 --%>
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                        <c:forEach var="i" begin="1" end="5" varStatus="myRstart_status">
+                        <c:forEach var="i" begin="1" end="2" varStatus="myRstart_status">
                             <c:choose>
                                 <c:when test="${myRstart_status.index eq 1}">
                                 <div class="box-border shadow w-90 max-w-700 text-start margin-auto">
@@ -183,7 +183,7 @@
                     </div>
                     <%-- 완료된 예약 끝 --%>
                     <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                        <c:forEach var="i" begin="1" end="5" varStatus="myRstart_status">
+                        <c:forEach var="i" begin="1" end="3" varStatus="myRstart_status">
                             <c:choose>
                                 <c:when test="${myRstart_status.index eq 1}">
                                     <div class="box-border shadow w-90 max-w-700 text-start margin-auto">
