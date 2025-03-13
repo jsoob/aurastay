@@ -31,15 +31,9 @@
                 // 동작(이벤트)을 실행하지 못하게 막는 메서드입니다.
                 event.preventDefault();
 
-                if($("#guestName").val() == '') {
-                    $("#guestName").val("김땡씨");
-                }
-                if($("#guestPhoneNumber").val() == '') {
-                    $("#guestPhoneNumber").val("01088895597");
-                }
-                if($("#guestEmail").val() == '') {
-                    $("#guestEmail").val("js@naver.com");
-                }
+                $("#guestName").val("김땡씨");
+                $("#guestPhoneNumber").val("01088895597");
+                $("#guestEmail").val("js@naver.com");
             });
 
             // $("#addMemberBtn").click(function () {
@@ -279,58 +273,56 @@
 
                 <div class="right-container">
                     <div class="fs-4 mb-3">숙소</div>
-                    <div class="mb-3">
-                        <div class="rsv acm-menu box-border p-4">
-                            <div class="row mb-2">
-                                <div class="d-flex gap-2 pb-2 lh-sm text-start">
-                                    <img class="acm-img-thumbnail radius_12"
-                                         src="https://a0.muscache.com/im/pictures/0f52b46a-16fe-472f-a04b-eec52680f162.jpg?aki_policy=large"
-                                         alt="">
-                                    <div class="w-100 ms-1">
-                                        <strong class="d-block">E°SO 이소하우스 60평 독채</strong>
-                                        <p class="mb-2">펜션</p>
-                                        <p class="fs-10 mb-2">강원도 강릉시 창해로 307</p>
-                                        <div class="fs-10 float-start me-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
-                                                 class="mb-1 bi bi-star-fill" viewBox="0 0 16 16">
-                                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                            </svg>
-                                            4.93(114)
-                                        </div>
-                                        <div class="fs-10 fw-bold">•<span class="ms-1">해변(키워드명)</span></div>
+                    <div style="height: 36%;">
+                        <ul class="rsv dropdown-menu d-grid gap-1 p-4"><%-- data-bs-theme="light" --%> <%-- bottom: -150px; --%>
+                            <li class="d-flex gap-2 pb-2 lh-sm text-start">
+                                <img class="acm-img-thumbnail radius_12"
+                                     src="https://a0.muscache.com/im/pictures/0f52b46a-16fe-472f-a04b-eec52680f162.jpg?aki_policy=large"
+                                     alt="">
+                                <div class="w-100 ms-1">
+                                    <strong class="d-block">E°SO 이소하우스 60평 독채</strong>
+                                    <p class="mb-2">펜션</p>
+                                    <p class="fs-10 mb-2">강원도 강릉시 창해로 307</p>
+                                    <div class="fs-10 float-start me-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
+                                             class="mb-1 bi bi-star-fill" viewBox="0 0 16 16">
+                                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                        </svg>
+                                        4.93(114)
                                     </div>
+                                    <div class="fs-10 fw-bold">•<span class="ms-1">해변(키워드명)</span></div>
                                 </div>
-                            </div>
+                            </li>
 
-                            <hr>
-
-                            <div class="fs-5">요금 세부정보</div>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li class="fs-5">요금 세부정보</li>
                             <%-- <li>₩544,500 x 5박 ₩2,722,500</li> --%>
-                            <div class="row py-1 lh-sm fs-10 pe-2">
+                            <li class="d-flex gap-2 py-1 lh-sm fs-10 pe-2">
                                 <div class="col-sm-8 text-start"><span name="">₩544,500</span> x <span>5</span>박</div>
                                 <div class="col-sm-4 text-end">₩2,722,500</div>
-                            </div>
+                            </li>
 
-                            <div class="row py-1 lh-sm fs-10 pe-2">
+                            <li class="d-flex gap-2 py-1 lh-sm fs-10 pe-2">
                                 <div class="col-sm-8 text-start">
                                     <button id="rsrvCommBtn" class="btn-none text-decoration-underline text-dark px-0">AURASTAY 서비스 수수료</button>
                                 </div>
                                 <div class="col-sm-4 text-end">₩422,789</div>
-                            </div>
-                            <div>
-                                <%-- <hr class="dropdown-divider"> --%>
-                                <hr>
-                            </div>
-                            <div  class="row py-1 lh-sm pe-2">
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li  class="d-flex gap-2 py-1 lh-sm pe-2">
                                 <div class="col-sm-8 text-start">총액 <span class="fw-bold">(KRW)</span>
                                 </div>
                                 <div class="col-sm-4 text-end"><span class="fw-bold">₩3,145,289</span></div>
-                            </div>
-                        </div>
+                            </li>
+                        </ul>
 
                         <%--                <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center w-100">--%>
 
-                        <div class="toast-container p-3 top-150">
+                        <div class="toast-container p-3 top-180" style="top: 100px; position: relative;">
                             <div id="rsrvComm" class="toast shadow-lg" role="alert" aria-live="assertive" aria-atomic="true" style="border: 2px solid #e3e3e3;">
                                 <div class="toast-header p-3 ps-2">
                                     <div class="d-flex">
@@ -344,7 +336,6 @@
                     </div>
                     <%-- 드롭메뉴 --%>
 
-                    <%-- <div class="rsrv-btn-div"> --%>
                     <div class="rsrv-btn-div">
                         <button class="btn btn-primary btn-pink p-3">예약 신청 및 결제</button>
                     </div>

@@ -44,6 +44,11 @@ public class ReservationController {
 
         return "reservation/myReservation";
     }
+
+    @GetMapping("/mystay")
+    public String mystayDetail(Model model) {
+        return "reservation/myReservationDetail";
+    }
     
 
 //    @GetMapping("/album_ex")

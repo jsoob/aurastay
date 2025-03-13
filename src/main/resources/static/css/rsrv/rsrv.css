@@ -16,7 +16,7 @@
 .rsrv-container .right-container {
     position: relative !important;
     width: 41.6667% !important;
-    margin-left: 8.33333% !important;
+    margin-left: 8% !important;
     margin-right: 0 !important;
 }
 
@@ -45,15 +45,17 @@
     background-color: #ededed;
 }
 
-.rsrv-container .right-container .dropdown-menu {
+.rsrv-container .right-container .acm-menu {
     width: 100%;
     max-width: 390px;
 }
 
+/*
 .rsrv-btn-div {
     position: relative;
     top: 20px;
 }
+*/
 
 /* 폰트 사이즈 */
 .fs-10 {
@@ -86,8 +88,8 @@
     height: 50px;
 }
 
-.top-180 {
-    top: 180px;
+.top-150 {
+    top: 150px;
 }
 
 .f-blue {
