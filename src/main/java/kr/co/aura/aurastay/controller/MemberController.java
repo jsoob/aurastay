@@ -22,9 +22,9 @@ public class MemberController {
     }
     @PostMapping("/emailSignUp")
     public String emailSignUpOk(@ModelAttribute MemberDTO dto,
-                         @RequestParam("phone1") String phone1,
-                         @RequestParam("phone2") String phone2,
-                         @RequestParam("phone3") String phone3) {
+                                @RequestParam("phone1") String phone1,
+                                @RequestParam("phone2") String phone2,
+                                @RequestParam("phone3") String phone3) {
         dto.setMemberPhoneNumber(phone1+phone2+phone3);
         memberService.save(dto);
 
@@ -41,18 +41,6 @@ public class MemberController {
         return "redirect:/";
     }
 
-    // 이메일로 로그인
-    @GetMapping("/emailLogin")
-    public String emailLogin() {
-        return "member/emailLogin";
-    }
-
-
-    @PostMapping("/emailLogin")
-    public String emailLoginOk(@ModelAttribute MemberDTO dto){
-        log.info("  dto : >>>>>>>>>>>>>>>>> "+ dto);
-        return "redirect:/";
-    }
 
     @GetMapping("/findPassword")
     public String findPassword() {

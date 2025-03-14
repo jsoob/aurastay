@@ -66,6 +66,21 @@ header .dropdown > ul > li {
     font-size: 14px;
 }
 
+/* 기존 드롭다운 스타일 유지하면서 버튼을 a 태그처럼 변경 */
+.logout-btn {
+    background: none;
+    border: none;
+    color: inherit;
+    padding: 5px 5px;
+    font: inherit;
+    text-align: center;
+    display: block;
+}
+
+#logoutForm {
+    margin-bottom: 0px;
+}
+
 /* 메인 */
 /* nav 높이만큼 padding-top 줌 */
 .main {

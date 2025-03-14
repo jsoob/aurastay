@@ -30,7 +30,7 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
                 redirectUrl = "/";
                 break;
             } else if ("ROLE_BUSINESS".equals(role)) {
-                redirectUrl = "/business/intro";
+                redirectUrl = "/business/dashboard";
                 break;
             }
         }

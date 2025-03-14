@@ -21,7 +21,7 @@
             로그인하시면 AURA 제휴점 파트너에게 특화된 서비스를 이용하실 수 있습니다.
         </div>
         <div class="businessBtn">
-            <a href="/business/login" class="btn btn-light">로그인 하기</a>
+            <a href="/emailLogin" class="btn btn-light">로그인 하기</a>
             <a href="/business/signUp" class="btn btn-primary">비즈니스 회원가입</a>
 
         </div>

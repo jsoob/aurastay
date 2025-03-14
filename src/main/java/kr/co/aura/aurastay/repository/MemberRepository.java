@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Mapper
 public interface MemberRepository {
-    public void insertMember(MemberDTO dto);
+    void insertMember(MemberDTO dto);
 
     MemberDTO findByUsername(String username);
 

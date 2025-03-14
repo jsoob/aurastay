@@ -4,13 +4,19 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kr.co.aura.aurastay.repository.BusinessRepository">
+    <!--  회원가입  -->
     <insert id="insertBusiness" parameterType="BusinessDTO">
         insert into business
         values(#{businessNo},#{businessName},#{representativeName},#{businessEmail},#{businessPhoneNumber},#{businessPassword},#{businessAccount},current_timestamp,null,#{authority})
     </insert>
+    <!--  로그인시 일치하는 이메일이 있는지 확인  -->
     <select id="findByUsername" parameterType="String" resultType="BusinessDTO">
-        select *
+        select business_no as businessNo, business_name as businessName, representative_name as representativeName, business_email as businessEmail, business_phone_number as businessPhoneNumber, business_password as businessPassword, business_account as businessAccount, registration_date as registrationDate, withdrawal_date as withdrawalDate, authority
         from business
         where business_email = #{username}
+    </select>
+    <!--  이미 존재하는 이메일인지 확인  -->
+    <select id="existsByEmail" parameterType="String" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM business WHERE business_email = #{username})
     </select>
 </mapper>

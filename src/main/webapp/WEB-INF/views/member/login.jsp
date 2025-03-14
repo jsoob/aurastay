@@ -41,7 +41,7 @@
             </a>
         </div>
         <div>
-            <a href="/member/emailLogin" >
+            <a href="/emailLogin" >
                 <div id="email" class="loginBtn"><img src="/img/email2.png" alt="">이메일로 시작하기</div>
             </a>
         </div>

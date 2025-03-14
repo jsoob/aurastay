@@ -24,7 +24,6 @@
                 <input type="email" class="form-control" id="memberEmail" name="username" placeholder="이메일을 입력하세요">
             </div>
 
-
             <div class="mb-3">
                 <label for="memberPassword" class="form-label">비밀번호</label>
                 <input type="password" class="form-control" id="memberPassword" name="password"
@@ -33,8 +32,9 @@
             <input type="submit" class="btn btn-outline-danger" value="로그인">
             <div class="TextButton_container">
                 <span><a href="/member/login">소셜 로그인</a></span>
-                <span><a href="/member/findPassword">비밀번호 재설정></a></span> |
+                <span><a href="/member/findPassword">비밀번호 재설정></a></span><br>
                 <span><a href="/member/emailSignUp">이메일로 회원가입></a></span>
+                <span><a href="/business/intro">사업자로 시작하기</a></span>
             </div>
         </div>
     </form>

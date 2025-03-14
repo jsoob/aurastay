@@ -38,27 +38,44 @@ public class SecurityConfig {
         /* 커스텀 로그인 화면으로 */
         http
                 .formLogin(auth ->
-                        auth.loginPage("/member/emailLogin")
-                                .loginProcessingUrl("/loginProcess")
-                                .successHandler(authenticationSuccessHandler)
-                                .defaultSuccessUrl("/")
-                                .permitAll()
+                                auth.loginPage("/emailLogin")
+                                        .loginProcessingUrl("/loginProcess")
+                                        .successHandler(authenticationSuccessHandler)
+//                                .defaultSuccessUrl("/")
+                                        .permitAll()
                 );
 
         /* csrf공격 방어 해제 */
         http
                 .csrf(auth -> auth.disable());
 
-
         // 로그아웃 기능
         http
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout=true")
+                        .logoutSuccessUrl("/")
                         .invalidateHttpSession(true) // 세션무효화
                         .deleteCookies("JSESSIONID") // 쿠키가 남아있다면 제거
                         .permitAll()
                 );
+
+//                http
+//                .oauth2Client(Customizer.withDefaults());
+
+//        http
+//                .oauth2Login(oauth2 ->
+//                        oauth2.loginPage("/login")
+//                                .defaultSuccessUrl("/",true)
+//                                .permitAll());
+
+        // 소셜 로그인
+//        http
+//                .oauth2Login(oauth2 ->
+//                        oauth2.loginPage("/login")
+//                                .defaultSuccessUrl("/",true)
+//                                .userInfoEndpoint(userInfoEndpointConfig ->
+//                                        userInfoEndpointConfig.userService(customOAuth2UserService))
+//                );
 
         return http.build();
     }

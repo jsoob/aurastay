@@ -12,4 +12,5 @@ public interface BusinessRepository {
 
     BusinessDTO findByUsername(String username);
 
+    boolean existsByEmail(String businessEmail);
 }

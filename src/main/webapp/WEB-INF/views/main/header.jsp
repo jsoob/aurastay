@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <header>
     <a href="/"><img src="/img/AURAlogo.png" alt="logo"></a>
     <div>
@@ -16,8 +17,20 @@
             <img src="/img/profile.png" alt="profile">
         </button>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/member/login">로그인</a></li>
-            <li><a class="dropdown-item" href="/member/emailSignUp">회원가입</a></li>
+            <%-- 인증이 안된 사용자가 볼 수 있는 리스트 --%>
+            <sec:authorize access="isAnonymous()">
+                <li><a class="dropdown-item" href="/member/login">로그인</a></li>
+                <li><a class="dropdown-item" href="/member/emailSignUp">회원가입</a></li>
+            </sec:authorize>
+            <%-- 인증된 사용자가 볼 수 있는 리스트 --%>
+            <sec:authorize access="isAuthenticated()">
+                <li><a class="dropdown-item"><sec:authentication property="name"/></a></li>
+                <li>
+                    <form action="/logout" method="post" id="logoutForm">
+                        <button type="submit" class="dropdown-item logout-btn">로그아웃</button>
+                    </form>
+                </li>
+            </sec:authorize>
         </ul>
     </div>
 </header>
