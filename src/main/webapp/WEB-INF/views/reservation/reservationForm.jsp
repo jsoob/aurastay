@@ -335,7 +335,7 @@
                                 <div class="toast-header p-3 ps-2">
                                     <div class="d-flex">
                                         <button type="button" class="btn-close m-2 my-0" data-bs-dismiss="toast" aria-label="Close"></button>
-                                        수수료는 에어비앤비 플랫폼을 운영하고 연중무휴 고객 지원과 같은 다양한 서비스를 제공하는데 사용됩니다.
+                                        수수료는 AURASTAY 플랫폼을 운영하고 연중무휴 고객 지원과 같은 다양한 서비스를 제공하는데 사용됩니다.
                                         부가가치세(VAT)가 포함된 가격입니다.
                                     </div>
                                 </div>
