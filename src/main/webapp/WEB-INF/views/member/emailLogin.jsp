@@ -24,6 +24,7 @@
                 <input type="email" class="form-control" id="memberEmail" name="username" placeholder="이메일을 입력하세요">
             </div>
 
+
             <div class="mb-3">
                 <label for="memberPassword" class="form-label">비밀번호</label>
                 <input type="password" class="form-control" id="memberPassword" name="password"
