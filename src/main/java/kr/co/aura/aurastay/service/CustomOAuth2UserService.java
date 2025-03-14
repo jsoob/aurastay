@@ -23,10 +23,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
         // 어떤 정보가 넘어오는지 확인
-        log.info("loadUser >>>>>>>>>>>>>> {}" +oAuth2User);
+        log.info("loadUser >>>>>>>>>>>>>> {}",oAuth2User);
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
-        log.info("registrationId >>>>>>>>>>>>>> {}" +registrationId);
+        log.info("registrationId >>>>>>>>>>>>>> {}",registrationId);
 
         OAuth2Response oAuth2Response = null;
 
@@ -36,8 +36,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         } else if(registrationId.equals("google")){
             oAuth2Response = new GoogleResponse(oAuth2User.getAttributes());
         } else if(registrationId.equals("kakao")){
-//            oAuth2Response = new KakaoResponse(oAuth2User.getAttributes());
-            return null;
+            oAuth2Response = new KakaoResponse(oAuth2User.getAttributes());
         }
 
         String providerId = oAuth2Response.getProvider()+"_"+oAuth2Response.getProviderId();
@@ -52,15 +51,18 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             member1.setProviderId(providerId);
             member1.setMemberEmail(oAuth2Response.getEmail());
             member1.setMemberNickname(oAuth2Response.getName());
+            member1.setMemberName(oAuth2Response.getName());
 //            member1.setProvider(oAuth2Response.getProvider()); //이걸로 이메일사용자, 소셜로그인사용자 구분지어야함
             member1.setAuthority(authority);
             // 소셜 로그인은 패스워드 null
             member1.setMemberPassword(null);
             // 저장
             memberRepository.insertMember(member1);
+
         } else { // 원래 로그인했던 사람이라면
             member.setMemberEmail(oAuth2Response.getEmail());
             member.setMemberNickname(oAuth2Response.getName());
+            member.setMemberName(oAuth2Response.getName());
             // 갱신
             memberRepository.updateMember(member);
         }
