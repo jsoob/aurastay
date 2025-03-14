@@ -19,4 +19,16 @@
     <select id="existsByEmail" parameterType="String" resultType="boolean">
         SELECT EXISTS (SELECT 1 FROM member WHERE member_email = #{username})
     </select>
+    <!-- providerid로 사용자 조회 -->
+    <select id="findByProviderId" parameterType="String" resultType="MemberDTO">
+        select member_no as memberNo, member_email as memberEmail, provider_id as providerId, member_password as memberPassword, member_name as memberName,member_nickname as memberNickname, member_phone_number as memberPhoneNumber, point, registration_date as registrationDate, withdrawal_date as withdrawalDate, authority
+        from member
+        where provider_id = #{providerId}
+    </select>
+    <!-- 소셜로그인 기존 사용자는 업데이트 -->
+    <update id="updateMember" parameterType="MemberDTO">
+        update member
+        set member_email=#{memberEmail}, member_nickname=#{memberNickname}
+        where provider_id = #{providerId}
+    </update>
 </mapper>

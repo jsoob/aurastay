@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.List;
 
 @RequiredArgsConstructor
-// 로그인 검증 로직
 public class CustomUserDetail implements UserDetails {
     //    private final CommonUser commonUser;
     private final User user;
