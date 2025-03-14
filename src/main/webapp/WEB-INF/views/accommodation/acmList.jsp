@@ -8,8 +8,9 @@
     <!-- accAdd.CSS 파일 연결 -->
     <link rel="stylesheet" type="text/css" href="../css/acmList.css">
 
+
 </head>
-<body>
+<body id="addListPage" class="addList"> <!-- 'class="addList"' 추가 -->
 
 <jsp:include page="../comm/header.jsp"/>
 <jsp:include page="../comm/sidebar.jsp"/>
@@ -20,16 +21,16 @@
     <form action="acmList" method="get">
         <h3>숙소 목록을 조회하는 페이지입니다.</h3>
         <div class="form-group">
-            <table class="table">
+            <table class="table table-striped table-hover">
+                <tr>
+                    <th>숙소번호</th>
+                    <th>숙소이름</th>
+                    <th>주소</th>
+                    <th>연락처</th>
+                    <th>체크인</th>
+                    <th>체크아웃</th>
+                </tr>
                 <c:forEach var="dto" items="${list}">
-                    <tr>
-                        <th>숙소번호</th>
-                        <th>숙소이름</th>
-                        <th>주소</th>
-                        <th>연락처</th>
-                        <th>체크인</th>
-                        <th>체크아웃</th>
-                    </tr>
                     <td>${dto.acmNo}</td>
                     <%--숙소의 이름을 클릭했을 때 상세내용으로 이동할 것--%>
                     <td><a href="acmInfo?acmNo=${dto.acmNo}">${dto.acmName}</a></td>

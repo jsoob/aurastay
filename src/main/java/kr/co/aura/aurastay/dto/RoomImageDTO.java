@@ -2,7 +2,6 @@ package kr.co.aura.aurastay.dto;
 
 import lombok.*;
 
-@Data
 @Setter
 @Getter
 @NoArgsConstructor

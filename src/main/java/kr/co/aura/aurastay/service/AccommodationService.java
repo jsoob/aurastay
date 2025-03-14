@@ -27,4 +27,20 @@ public class AccommodationService {
         System.out.println("dto : " + dto);     //
     }
 
+    // 선택한 숙소의 정보를 보여주기 (1건 조회)
+    public AccommodationDTO selectOne(int acmNo) {
+        AccommodationDTO dto = accommodationRepository.selectOne(acmNo);
+        return dto;
+    }
+
+
+    // 숙소 정보 변경
+    public void acmUpdate(int acmNo) {
+        accommodationRepository.acmUpdate(acmNo);
+    }
+
+    // 숙소 정보 삭제
+    public void acmDelete(int acmNo) {
+        accommodationRepository.acmDelete(acmNo);
+    }
 }

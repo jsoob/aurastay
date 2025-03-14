@@ -75,6 +75,12 @@ header {
     margin-top: 130px;
 }
 
+body {
+    overflow-x: hidden;
+    overflow-y:auto;
+}
+
+
 /* 푸터 */
 footer {
     color: black;
@@ -83,6 +89,5 @@ footer {
     /*width: calc(100%);*/
     position: relative;
     bottom: 0;
-    left: 150px;
-
+    left: 130px;
 }

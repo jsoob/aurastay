@@ -42,6 +42,7 @@ public class AccommodationController {
         // 카테고리와 키워드 목록을 서비스에서 조회하기
         List<CategoryDTO> categories = categoryService.getAllCategories();
         List<KeywordDTO> keywords = keywordService.getAllKeywords();  // KeywordDTO로 수정
+
 //        System.out.println("조회된 카테고리 개수: " + categories.size());
 //        System.out.println("조회된 키워드 개수: " + keywords.size());
 //        for (CategoryDTO category : categories) {
@@ -174,9 +175,26 @@ public class AccommodationController {
 
     // 상세 정보 조회
     @GetMapping("/acmInfo")
-    public String accommodationInfo(){
+    public String accommodationInfo(@RequestParam("acmNo") int acmNo, Model model){
+        AccommodationDTO dto = accommodationService.selectOne(acmNo);
+        model.addAttribute("dto", dto);
+
         return "/accommodation/acmInfo";
     }
 
+
+    // 숙소 정보 변경
+    @PostMapping("/acmUpdate")
+    public String accommodationUpdate(@RequestParam("acmNo") int acmNo, Model model) {
+        accommodationService.acmUpdate(acmNo);
+        return "redirect:/accommodation/acmList";
+    }
+
+    // 숙소 정보 삭제
+    @PostMapping("/acmDelete")
+    public String accommodationDelete(@RequestParam("acmNo") int acmNo, Model model) {
+        accommodationService.acmDelete(acmNo);
+        return "redirect:/accommodation/acmList";
+    }
 
 }

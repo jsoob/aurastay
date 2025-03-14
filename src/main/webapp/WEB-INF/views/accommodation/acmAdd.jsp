@@ -16,6 +16,11 @@
                 $(this).before(newFileInput); // 버튼 앞에 추가
             });
         });
+
+        $("#showr").on("click", function (){
+
+
+        });
     </script>
 
 </head>
@@ -51,7 +56,7 @@
             <div class="check-item">
                 <%--체크아웃--%>
                 <label class="form-label">체크아웃</label>
-                <input type="time" class="form-control" name="checkoutTime" value="${dto.checkoutTime}"required>
+                <input type="time" class="form-control" name="checkoutTime" value="${dto.checkoutTime}" required>
             </div>
         </div>
         <br>
@@ -65,48 +70,75 @@
                 <%-- 카테고리 --%>
                 <label>Category</label>
                 <div class="checkbox-group">
-                    <c:forEach var="category" items="${categories}">
-                        <label><input type="checkbox" name="categoryNo" value="${category.categoryNo}" >${category.categoryName}</label>
-<%--                        <c:out value="${categories}" default="categories 없는데요"></c:out>--%>
+                    <c:forEach var="category" items="${categories}">e
+                        <label><input type="radio" name="categoryNo"
+                                      value="${category.categoryNo}">${category.categoryName}</label>
+                        <%--                        <c:out value="${categories}" default="categories 없는데요"></c:out>--%>
                     </c:forEach>
-<%--                    <label><input type="checkbox" name="category" value="호텔"> 호텔</label>--%>
-<%--                    <label><input type="checkbox" name="category" value="리조트"> 리조트</label>--%>
-<%--                    <label><input type="checkbox" name="category" value="풀빌라"> 풀빌라</label>--%>
-<%--                    <label><input type="checkbox" name="category" value="펜션"> 펜션</label>--%>
-<%--                    <label><input type="checkbox" name="category" value="한옥"> 한옥</label>--%>
-<%--                    <label><input type="checkbox" name="category" value="캠핑장"> 캠핑장</label>--%>
-<%--                    <label><input type="checkbox" name="category" value="게스트하우스"> 게스트하우스</label>--%>
+                    <%--                    <label><input type="checkbox" name="category" value="호텔"> 호텔</label>--%>
+                    <%--                    <label><input type="checkbox" name="category" value="리조트"> 리조트</label>--%>
+                    <%--                    <label><input type="checkbox" name="category" value="풀빌라"> 풀빌라</label>--%>
+                    <%--                    <label><input type="checkbox" name="category" value="펜션"> 펜션</label>--%>
+                    <%--                    <label><input type="checkbox" name="category" value="한옥"> 한옥</label>--%>
+                    <%--                    <label><input type="checkbox" name="category" value="캠핑장"> 캠핑장</label>--%>
+                    <%--                    <label><input type="checkbox" name="category" value="게스트하우스"> 게스트하우스</label>--%>
                 </div>
             </div>
+            <div>
+                <button id="showr"> <%--juery를 사용하여 modal창으로 보여주기--%>
+                <h3>객실 정보</h3>
+                <label>객실명</label>
+                <input type="text" name="roomName" placeholder="객실명을 입력하세요" required>
+                <label>객실 수량</label>
+
+                <label>가격</label>
+                <input type="text" name="roomPrice" placeholder="가격을 입력하세요" required>
+                <label>할인율</label>
+                <input type="text" name="roomDiscount" placeholder="할인율을 입력하세요" required>
+                <label>View Type</label>    <%--ViewType => 0: 오션뷰, 1: 마운틴뷰, 2: 시티뷰--%>
+                <select name="viewType" required>
+                    <option value="none">숙소의 대표적인 뷰 타입을 선택해주세요</option>
+                    <option value="cityView">City View (시티뷰)</option>
+                    <option value="mountainView">Mountain View (마운틴뷰)</option>
+                    <option value="oceanView">Ocean View (오션뷰)</option>
+                    <option value="poolView">Pool View (수영장뷰)</option>
+                    <option value="gardenView">Garden View (정원뷰)</option>
+                </select>
+                <label>편의시설</label>       <%--슬리퍼, 암막커튼, 에어컨, 방음.. 구분지어서 생각해볼 것--%>
+                </button>
+
+            </div>
+
 
             <div class="form-group">
                 <%-- 키워드 --%>
                 <label>Keyword</label>
                 <div class="checkbox-group">
                     <c:forEach var="keyword" items="${keywords}">
-                        <label><input type="checkbox" name="keywordNo" value="${keyword.keywordNo}">${keyword.keywordName}</label>
-<%--                        <c:out value="${keywords}" default="keywords 없음!" />--%>
+                        <label><input type="checkbox" name="keywordNo"
+                                      value="${keyword.keywordNo}">${keyword.keywordName}</label>
+                        <%--                        <c:out value="${keywords}" default="keywords 없음!" />--%>
                     </c:forEach>
-<%--                    <label><input type="checkbox" name="keyword" value="명동"> 명동</label>--%>
-<%--                    <label><input type="checkbox" name="keyword" value="홍대"> 홍대</label>--%>
-<%--                    <label><input type="checkbox" name="keyword" value="강남"> 강남</label>--%>
-<%--                    <label><input type="checkbox" name="keyword" value="종로"> 종로</label>--%>
-<%--                    <label><input type="checkbox" name="keyword" value="잠실"> 잠실</label>--%>
-<%--                    <label><input type="checkbox" name="keyword" value="인천"> 인천</label>--%>
-<%--                    <label><input type="checkbox" name="keyword" value="속초"> 속초</label>--%>
-<%--                    <label><input type="checkbox" name="keyword" value="강릉"> 강릉</label>--%>
-<%--                    <label><input type="checkbox" name="keyword" value="보성"> 보성</label>--%>
-<%--                    <label><input type="checkbox" name="keyword" value="부산"> 부산</label>--%>
-<%--                    <label><input type="checkbox" name="keyword" value="대구"> 대구</label>--%>
-<%--                    <label><input type="checkbox" name="keyword" value="대전"> 대전</label>--%>
-<%--                    <label><input type="checkbox" name="keyword" value="목포"> 목포</label>--%>
-<%--                    <label><input type="checkbox" name="keyword" value="포항"> 포항</label>--%>
-<%--                    <label><input type="checkbox" name="keyword" value="전주"> 전주</label>--%>
-<%--                    <label><input type="checkbox" name="keyword" value="수원">    9수원</label>--%>
-<%--                    <label><input type="checkbox" name="keyword" value="양양"> 양양</label>--%>
-<%--                    <label><input type="checkbox" name="keyword" value="광안리"> 광안리</label>--%>
-<%--                    <label><input type="checkbox" name="keyword" value="해운대"> 해운대</label>--%>
-<%--                    <label><input type="checkbox" name="keyword" value="제주도"> 제주도</label>--%>
+                    <%--                    <label><input type="checkbox" name="keyword" value="명동"> 명동</label>--%>
+                    <%--                    <label><input type="checkbox" name="keyword" value="홍대"> 홍대</label>--%>
+                    <%--                    <label><input type="checkbox" name="keyword" value="강남"> 강남</label>--%>
+                    <%--                    <label><input type="checkbox" name="keyword" value="종로"> 종로</label>--%>
+                    <%--                    <label><input type="checkbox" name="keyword" value="잠실"> 잠실</label>--%>
+                    <%--                    <label><input type="checkbox" name="keyword" value="인천"> 인천</label>--%>
+                    <%--                    <label><input type="checkbox" name="keyword" value="속초"> 속초</label>--%>
+                    <%--                    <label><input type="checkbox" name="keyword" value="강릉"> 강릉</label>--%>
+                    <%--                    <label><input type="checkbox" name="keyword" value="보성"> 보성</label>--%>
+                    <%--                    <label><input type="checkbox" name="keyword" value="부산"> 부산</label>--%>
+                    <%--                    <label><input type="checkbox" name="keyword" value="대구"> 대구</label>--%>
+                    <%--                    <label><input type="checkbox" name="keyword" value="대전"> 대전</label>--%>
+                    <%--                    <label><input type="checkbox" name="keyword" value="목포"> 목포</label>--%>
+                    <%--                    <label><input type="checkbox" name="keyword" value="포항"> 포항</label>--%>
+                    <%--                    <label><input type="checkbox" name="keyword" value="전주"> 전주</label>--%>
+                    <%--                    <label><input type="checkbox" name="keyword" value="수원"> 수원</label>--%>
+                    <%--                    <label><input type="checkbox" name="keyword" value="양양"> 양양</label>--%>
+                    <%--                    <label><input type="checkbox" name="keyword" value="광안리"> 광안리</label>--%>
+                    <%--                    <label><input type="checkbox" name="keyword" value="해운대"> 해운대</label>--%>
+                    <%--                    <label><input type="checkbox" name="keyword" value="제주도"> 제주도</label>--%>
 
                 </div>
             </div>
