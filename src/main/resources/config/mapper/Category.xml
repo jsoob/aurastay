@@ -8,5 +8,11 @@
         SELECT category_no, category_name
         FROM category
     </select>
+
+    <select id="getCategoryById" parameterType="int" resultType="CategoryDTO">
+        SELECT category_no, category_name
+        FROM category
+        WHERE category_no = #{categoryNo}
+    </select>
 </mapper>
 

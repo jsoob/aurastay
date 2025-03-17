@@ -22,6 +22,12 @@ public class KeywordService {
         return keywordList;
     }
 
+    // 숙소목록 조회 > 상세내역 페이지에서 숙소등록 당시에 선택했던 키워드 목록 확인하기
+    public KeywordDTO getKeywordById(Integer keywordNo) {
+        return keywordRepository.getKeywordById(keywordNo);
+
+    }
+
 //    // Keyword를 KeywordDTO로 변환하는 메서드
 //    private KeywordDTO convertToDTO(Keyword keyword) {
 //        return new KeywordDTO(keyword.getKeywordNo(), keyword.getKeywordName()); // Keyword 필드에 맞게 수정

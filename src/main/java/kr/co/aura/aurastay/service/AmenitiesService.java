@@ -17,4 +17,8 @@ public class AmenitiesService {
     public List<AmenitiesDTO> getAllAmenities() {
         return amenitiesRepository.getAllAmenities();
     }
+
+//    public List<AmenitiesDTO> getAmenitiesById(Integer amenitiesNo) {
+//        return amenitiesRepository.getAmenitiesById();
+//    }
 }

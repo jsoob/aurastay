@@ -9,5 +9,8 @@ import java.util.List;
 @Mapper
 @Repository
 public interface CategoryRepository {
+
     List<CategoryDTO> getCategories();
+
+    CategoryDTO getCategoryById(Integer categoryNo);
 }

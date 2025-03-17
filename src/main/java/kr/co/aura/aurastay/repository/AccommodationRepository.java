@@ -27,6 +27,8 @@ public interface AccommodationRepository {
     AccommodationDTO findByRoomId(int roomNo);      // 객실 번호로 해당 객실이 속한 숙소를 찾는 메서드
     void update(AccommodationDTO accommodation);    // 수정된 숙소 정보를 DB에 업데이트하는 메서드
 
+    void saveAmenities(AccommodationDTO dto);
+
 
 //    void fileadd(AccommodationDTO dto);
 }

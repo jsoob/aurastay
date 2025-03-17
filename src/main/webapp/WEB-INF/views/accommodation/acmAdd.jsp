@@ -114,15 +114,16 @@
             <br>
 
             <div class="form-group">
-                <%--편의시설--%>
-                <label>편의시설</label> <%--슬리퍼, 암막커튼, 에어컨, 방음.. 구분지어서 생각해볼 것--%>
-                <%-- 여기 편의시설 정보 추가해야한다 --%>
+                <label>편의시설</label>
                 <div class="checkbox-group">
-                    <c:forEach var="amenities" items="${amenities}">
-                        <label><input type="checkbox" name="amenities[]" value="${amenities.amenitiesNo}">${amenities.amenitiesName}</label>
+                    <c:forEach var="amenity" items="${amenities}">
+                        <label>
+                            <input type="checkbox" name="amenities" value="${amenity.amenitiesNo}" /> ${amenity.amenitiesName}
+                        </label>
                     </c:forEach>
                 </div>
             </div>
+
         </div>
 
         <jsp:include page="roomModal.jsp"/>
@@ -167,8 +168,6 @@
 
             </div>
         </div>
-
-
 
 
         <%-- 카테고리 : 드롭다운으로 했을 때 --%>

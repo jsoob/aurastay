@@ -8,4 +8,10 @@
         SELECT keyword_no, keyword_name
         FROM keyword
     </select>
+
+    <select id="getKeywordById" parameterType="int" resultType="KeywordDTO">
+        SELECT keyword_no, keyword_name
+        FROM keyword
+        WHERE keyword_no = #{keywordNo}
+    </select>
 </mapper>

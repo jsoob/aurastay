@@ -5,7 +5,6 @@ import kr.co.aura.aurastay.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -16,6 +15,11 @@ public class CategoryService {
 
     public List<CategoryDTO> getCategories() {
         return categoryRepository.getCategories();
+    }
+
+    // 카테고리 번호로 카테고리 조회
+    public CategoryDTO getCategoryById(Integer categoryNo) {
+        return categoryRepository.getCategoryById(categoryNo); // 단일 카테고리 반환
     }
 
 

@@ -42,6 +42,9 @@ public class AccommodationService {
                 roomService.roomAdd(room);  // RoomService를 통해서 객실 추가
             }
         }
+
+        // 편의시설 등록이 1개가 아니라 2개 이상..
+
     }
 
 
@@ -75,5 +78,10 @@ public class AccommodationService {
     // roomNo로 숙소 정보 찾기
     public AccommodationDTO findByRoomId(int roomNo) {
         return accommodationRepository.findByRoomId(roomNo);    // 객실 번호로 숙소 정보 조회
+    }
+
+    // 편의시설 정보 저장하기
+    public void saveAccommodation(AccommodationDTO dto) {
+        accommodationRepository.saveAmenities(dto);
     }
 }

@@ -58,7 +58,7 @@
 
 /* acmList.css에서만 적용되는 footer 스타일 */
 body.addList footer {
-    position: absolute !important;  /* 페이지 내에서 위치 */
+    position: static;  /* 페이지 내에서 위치 */
     left: 300px ;         /* 왼쪽 위치를 100px로 설정 */
     /*background-color: white;*/
     padding: 5px;

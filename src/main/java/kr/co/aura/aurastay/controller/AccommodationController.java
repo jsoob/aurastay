@@ -63,7 +63,7 @@ public class AccommodationController {
         // DTO에 변환된 값 저장
         dto.setCategories(categories);
         dto.setKeywords(keywords);
-        dto.setAmenities(amenities);
+//        dto.setAmenities(amenities);
 
         return "accommodation/acmAdd";
     }
@@ -72,11 +72,12 @@ public class AccommodationController {
         // 1. @RequestParam("체크인, 체크아웃") 메서드 추가
     @PostMapping("/acmAdd")
     public String accommodationForm(@ModelAttribute("dto") AccommodationDTO dto,
-                                     @ModelAttribute("roomDto") RoomDTO roomDTO,
-                                     @RequestParam("checkinTime") String checkinTime,
+                                    @ModelAttribute("roomDto") RoomDTO roomDTO,
+                                    @RequestParam("checkinTime") String checkinTime,
                                     @RequestParam("checkoutTime") String checkoutTime,
-                                    @RequestParam(value ="keywordNo", required = false ) Integer[] keywordNo,    // 키워드 선택
-                                    @RequestParam(value = "files", required = false) MultipartFile[] files, // 파일 업로드 추가
+                                    @RequestParam(value = "keywordNo", required = false) Integer[] keywordNo,
+                                    @RequestParam(value = "amenities", required = false) List<Integer> amenities, // 편의시설 선택
+                                    @RequestParam(value = "files", required = false) MultipartFile[] files,
                                     Model model) {
     log.info("accommodation >>>>>>>>>>>>>>>>>  :{} {}", roomDTO, roomDTO.getRoomName());
 
@@ -130,23 +131,14 @@ public class AccommodationController {
             dto.setFilepath(filepath);              // 파일 경로 리스트 저장
         }
 
-//        // 키워드가 선택된 경우 DTO에 저장
-//        if (keywordNo != null && keywordNo.length > 0) {
-//            // Integer[] 배열을 List<Integer>로 변환
-//            List<Integer> keywordList = new ArrayList<>();
-//            for (Integer key : keywordNo) {
-//                keywordList.add(key);   // Integer[] 를 List<Integer>로 변환
-//            }
-//
-//            // 변환된 List를 DTO에 저장
-//            dto.setKeywordNo(keywordList);      // List<Integer>로 설정
-//
-//        }
+        // 편의시설 정보 설정하기
+        dto.setAmenities(amenities);
 
+        // 서비스 로직 처리
+        accommodationService.saveAccommodation(dto);
 
-        // keyword_no 가 올바르게 설정되었으면, 숙소 정보 추가 처리
-        // 숙소 정보를 저장하는 서비스 호출
-        accommodationService.add(dto);      // add 메서드 호출해서 추가하기
+        // add 메서드 호출해서 추가하기
+        accommodationService.add(dto);
         roomService.roomAdd(roomDTO);
         return "redirect:/accommodation/acmList";
     }
@@ -201,8 +193,22 @@ public class AccommodationController {
     // 상세 정보 조회
     @GetMapping("/acmInfo")
     public String accommodationInfo(@RequestParam("acmNo") int acmNo, Model model){
+        // 숙소 정보 조회
         AccommodationDTO dto = accommodationService.selectOne(acmNo);
+        // 카테고리 정보 조회
+        CategoryDTO category = categoryService.getCategoryById(dto.getCategoryNo());                // 카테고리 목록을 가져오는 서비스 호출
+        KeywordDTO keyword = keywordService.getKeywordById(dto.getKeywordNo());               // 키워드 목록을 가져오는 서비스 호출
+//        List<AmenitiesDTO> amenities = amenitiesService.getAmenitiesById(dto.getAmenitiesNo());     // 편의시설 목록을 가져오는 서비스 호출
+
         model.addAttribute("dto", dto);
+        model.addAttribute("category", category);   // 카테고리 목록 추가
+        model.addAttribute("keyword", keyword);     // 키워드 목록 추가
+//        model.addAttribute("amenities", amenities);
+
+        log.info("Accommodation DTO >>>>>>>>>>>>>>>>>> : {}", dto);
+        log.info("Retrieved Category >>>>>>>>>>>>>>>>>>> : {}", category);
+        log.info("Retrieved Keyword >>>>>>>>>>>>>>>>>>> : {}", keyword);
+
 
         return "/accommodation/acmInfo";
     }

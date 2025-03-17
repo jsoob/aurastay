@@ -61,10 +61,23 @@
             a.tel                       AS acmTel,
             a.keyword_no                AS keywordNo,
             a.business_no               AS businessNo,
-            a.category_no               AS categoryNo
+            a.category_no               AS categoryNo,
+            c.category_name
         FROM accommodation a
             LEFT JOIN category c ON a.category_no = c.category_no
             LEFT JOIN keyword k ON a.keyword_no = k.keyword_no
         WHERE a.accommodation_no = #{acmNo}
     </select>
+
+<!--    <insert id="saveAmenities">-->
+<!--        INSERT INTO room_amenities (room_no, amenities_no)-->
+<!--        VALUES-->
+<!--        <foreach collection="amenities" item="amenity" separator=",">-->
+<!--            (#{amenity.roomNo}, #{amenity.amenitiesNo})-->
+<!--        </foreach>-->
+<!--    </insert>-->
+
+
+
+
 </mapper>

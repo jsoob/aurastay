@@ -26,8 +26,7 @@
 
 <body>
 <div class="main-content">
-    <h2>${accommodation.acmName}의 상세정보</h2>
-    <h3>객실 리스트</h3>
+    <h2>${dto.acmName}의 상세정보</h2>
     <ul>
         <c:forEach var="room" items="${roomList}">
             <li>${room.roomName}</li>
@@ -39,64 +38,62 @@
         <div class="form-group">
             <%--숙소명--%>
             <label>숙소명</label>
-            <td>acmNo={dto.acmName}</td>
+            <td>${dto.acmName}</td>
         </div>
         <div class="form-group">
             <%--주소--%>
             <label>주소</label>
-            <td>{dto.acmAddress}</td>
+            <td>${dto.acmAddress}</td>
         </div>
         <div class="form-group">
             <%--연락처--%>
             <label>연락처</label>
-            <input type="tel" name="acmTel" size=10 maxlength=11 placeholder="연락처를 입력하세요" required>
+            <td>${dto.acmTel}</td>
         </div>
         <div class="check-group">
             <div class="check-item">
                 <%--체크인--%>
                 <label class="form-label">체크인</label>
-                <input type="time" class="form-control" name="checkinTime" value="${dto.checkinTime}" required>
+                <td>${dto.checkinTime}</td>
             </div>
             <div class="check-item">
                 <%--체크아웃--%>
                 <label class="form-label">체크아웃</label>
-                <input type="time" class="form-control" name="checkoutTime" value="${dto.checkoutTime}" required>
+                <td>${dto.checkoutTime}</td>
             </div>
         </div>
         <br>
         <div class="form-group">
             <%--내용--%>
             <label>내용</label>
-            <textarea name="contents" placeholder="숙소에 대한 정보를 입력하세요" rows="4" required></textarea>
+            <td>${dto.contents}</td>
         </div>
+
         <div>
             <div class="form-group">
-                <%-- 카테고리 --%>
                 <label>Category</label>
-                <div class="checkbox-group">
-                    <c:forEach var="category" items="${categories}">
-                        <label><input type="checkbox" name="categoryNo"
-                                      value="${category.categoryNo}">${category.categoryName}</label>
-                        <%--                        <c:out value="${categories}" default="categories 없는데요"></c:out>--%>
-                    </c:forEach>
-                </div>
+                <%--카테고리 목록 중에 선택한 카테고리의 정보를 불러와야 한다--%>
+                <span>${category.categoryName}</span> <!-- 카테고리 이름을 출력 -->
             </div>
+
 
             <div class="form-group">
                 <%-- 키워드 --%>
                 <label>Keyword</label>
-                <div class="checkbox-group">
-                    <c:forEach var="keyword" items="${keywords}">
-                        <label><input type="checkbox" name="keywordNo"
-                                      value="${keyword.keywordNo}">${keyword.keywordName}</label>
-                        <%--                        <c:out value="${keywords}" default="keywords 없음!" />--%>
-                    </c:forEach>
-
-                </div>
+                <span>${keyword.keywordName}</span>
             </div>
 
+        </div>
+        <h3>객실 리스트</h3>
+
+        <div>
+            <label>편의시설</label>
+            <span>${amenities.amenitiesName}</span>
 
         </div>
+
+
+
         <div>
             <label class="form-label">첨부파일</label>
             <input type="file" name="files" multiple> <%--여러 개의 파일을 선택할 수 있도록 multiple 추가--%>
