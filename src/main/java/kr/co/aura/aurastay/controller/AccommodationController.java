@@ -5,10 +5,13 @@ package kr.co.aura.aurastay.controller;
 import kr.co.aura.aurastay.dto.AccommodationDTO;
 import kr.co.aura.aurastay.dto.CategoryDTO;
 import kr.co.aura.aurastay.dto.KeywordDTO;
+import kr.co.aura.aurastay.dto.RoomDTO;
 import kr.co.aura.aurastay.service.AccommodationService;
 import kr.co.aura.aurastay.service.CategoryService;
 import kr.co.aura.aurastay.service.KeywordService;
+import kr.co.aura.aurastay.service.RoomService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +26,7 @@ import java.util.List;
 
 // controller -> service -> repository
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/accommodation")
 @Controller
@@ -32,6 +36,7 @@ public class AccommodationController {
     private final AccommodationService accommodationService;
     private final CategoryService categoryService;
     private final KeywordService keywordService;
+    private final RoomService roomService;
 
     ////////////////////////// 숙소 정보 저장하기 //////////////////////////
     // 숙소 정보를 입력하는 페이지 (숙소 등록 폼으로 연결)
@@ -39,8 +44,8 @@ public class AccommodationController {
     public String accommodation(@ModelAttribute("dto") AccommodationDTO dto,
                                 Model model) {
 
-        // 카테고리와 키워드 목록을 서비스에서 조회하기
-        List<CategoryDTO> categories = categoryService.getAllCategories();
+        // 카테고리와 키워드 정보 (서비스에서) 가져오기
+        List<CategoryDTO> categories = categoryService.getCategories();
         List<KeywordDTO> keywords = keywordService.getAllKeywords();  // KeywordDTO로 수정
 
 //        System.out.println("조회된 카테고리 개수: " + categories.size());
@@ -69,10 +74,19 @@ public class AccommodationController {
         // 1. @RequestParam("체크인, 체크아웃") 메서드 추가
     @PostMapping("/acmAdd")
     public String accommodationForm(@ModelAttribute("dto") AccommodationDTO dto,
+                                     @ModelAttribute("roomDto") RoomDTO roomDTO,
                                      @RequestParam("checkinTime") String checkinTime,
                                     @RequestParam("checkoutTime") String checkoutTime,
-                                    @RequestParam("files") MultipartFile[] files, // 파일 업로드 추가
+                                    @RequestParam(value ="keywordNo", required = false ) Integer[] keywordNo,    // 키워드 선택
+                                    @RequestParam(value = "files", required = false) MultipartFile[] files, // 파일 업로드 추가
                                     Model model) {
+    log.info("accommodation >>>>>>>>>>>>>>>>>  :{} {}", roomDTO, roomDTO.getRoomName());
+
+        // 파일이 null 이거나 빈 배열일 경우 처리
+        if (files == null || files.length == 0) {
+            System.out.println("파일이 존재하지 않습니다.");
+            // 파일이 없을 경우 별도의 처리를 추가 or 바로 진행
+        }
 
         // 날짜와 시간을 합쳐서 LocalDateTime으로 변환
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -86,7 +100,7 @@ public class AccommodationController {
         dto.setCheckoutTime(checkoutTime);
 
         // // 숙소 이미지를 저장하는 파일 업로드 기능 추가 // //
-        String uploadDirectory = "D:/upload/";  // 업로드 경로 설정
+        String uploadDirectory = "D:/upload/";  // 업로드 경로 설정 : 나중에 프로퍼티 파일로 변경 (확인해볼 것)
         File uploadDirectoryFile = new File(uploadDirectory);
         if (!uploadDirectoryFile.exists()) {
             uploadDirectoryFile.mkdirs();  // 폴더가 없다면 생성
@@ -98,15 +112,15 @@ public class AccommodationController {
 
         for (MultipartFile file : files) {
             if (!file.isEmpty()) {
-                String saveFileName = file.getOriginalFilename();  // 파일 이름
+                String saveFileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();  // 중복 방지
                 File saveFile = new File(uploadDirectory, saveFileName);  // 저장할 파일 경로
 
                 try {
-                    file.transferTo(saveFile);  // 파일을 실제 경로에 저장
-                    filenames.add(saveFileName);  // 파일 이름 저장
-                    filepath.add(saveFile.getAbsolutePath());  // 파일 경로 저장
+                    file.transferTo(saveFile);                  // 파일을 실제 경로에 저장
+                    filenames.add(saveFileName);                // 파일 이름 저장
+                    filepath.add(saveFile.getAbsolutePath());   // 파일 경로 저장
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    throw new RuntimeException("파일 업로드 중 오류가 발생하였습니다.", e);
                 }
             }
         }
@@ -114,15 +128,28 @@ public class AccommodationController {
         // 여러 파일의 경로와 이름을 DTO에 저장
             // 만약 파일의 이름이 비어있는 공백이 아니라면?
         if (!filenames.isEmpty()) {
-            dto.setFilenames(filenames);  // 파일명 리스트 저장
-            dto.setFilepath(filepath);  // 파일 경로 리스트 저장
+            dto.setFilenames(filenames);            // 파일명 리스트 저장
+            dto.setFilepath(filepath);              // 파일 경로 리스트 저장
         }
 
+//        // 키워드가 선택된 경우 DTO에 저장
+//        if (keywordNo != null && keywordNo.length > 0) {
+//            // Integer[] 배열을 List<Integer>로 변환
+//            List<Integer> keywordList = new ArrayList<>();
+//            for (Integer key : keywordNo) {
+//                keywordList.add(key);   // Integer[] 를 List<Integer>로 변환
+//            }
+//
+//            // 변환된 List를 DTO에 저장
+//            dto.setKeywordNo(keywordList);      // List<Integer>로 설정
+//
+//        }
 
+
+        // keyword_no 가 올바르게 설정되었으면, 숙소 정보 추가 처리
         // 숙소 정보를 저장하는 서비스 호출
         accommodationService.add(dto);      // add 메서드 호출해서 추가하기
-
-
+        roomService.roomAdd(roomDTO);
         return "redirect:/accommodation/acmList";
     }
 

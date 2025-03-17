@@ -26,7 +26,15 @@
 
 <body>
 <div class="main-content">
-    <h2>숙소 변경</h2>
+    <h2>${accommodation.acmName}의 상세정보</h2>
+    <h3>객실 리스트</h3>
+    <ul>
+        <c:forEach var="room" items="${roomList}">
+            <li>${room.roomName}</li>
+            <%--객실 정보 아래에 출력하기--%>
+
+        </c:forEach>
+    </ul>
     <form action="/accommodation/acmAdd" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <%--숙소명--%>

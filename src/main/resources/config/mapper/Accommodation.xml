@@ -5,63 +5,66 @@
 
 <!-- namespace 는 정확하게 Repository 이름까지 똑같이 써야한다 -->
 <mapper namespace="kr.co.aura.aurastay.repository.AccommodationRepository">
-    <select id="selectAll" resultType="AccommodationDTO">
-        SELECT a.accommodation_no AS acmNo,
-        a.accommodation_name AS acmName,
-        a.accommodation_address AS acmAddress,
-        a.accommodation_contents AS contents,
-        a.checkin AS checkinTime,
-        a.checkout AS checkoutTime,
-        a.tel AS acmTel,
-        a.keyword_no AS keywordNo,
-        a.business_no AS businessNo,
-        a.category_no AS categoryNo
+    <select id="selectAll" resultType="kr.co.aura.aurastay.dto.AccommodationDTO">
+        SELECT
+            a.accommodation_no          AS acmNo,
+            a.accommodation_name        AS acmName,
+            a.accommodation_address     AS acmAddress,
+            a.accommodation_contents    AS contents,
+            a.checkin                   AS checkinTime,
+            a.checkout                  AS checkoutTime,
+            a.tel                       AS acmTel,
+            a.keyword_no                AS keywordNo,
+            a.business_no               AS businessNo,
+            a.category_no               AS categoryNo
         FROM accommodation a
-        LEFT JOIN category c ON a.category_no = c.category_no
-        LEFT JOIN keyword k ON a.keyword_no = k.keyword_no
+            LEFT JOIN category c ON a.category_no = c.category_no
+            LEFT JOIN keyword k ON a.keyword_no = k.keyword_no
     </select>
     <!--useGenerateKeys, keyProperty 는 pk 값에 auto_increment 를 준 것이라면 설정해줘야지만 ID 값이 할당된다 -->
     <!--keyProperty = "여기는 DTO의 변수명을 입력한다"-->
     <insert id="add" parameterType="AccommodationDTO" useGeneratedKeys="true"
             keyProperty="acmNo">
-        INSERT INTO accommodation
-        (accommodation_name,
-        accommodation_address,
-        tel,
-        checkin,
-        checkout,
-        accommodation_contents,
-        category_no,
-        keyword_no,
-        business_no
-        )
-        VALUES (#{acmName},
-        #{acmAddress},
-        #{acmTel},
-        #{checkinTime},
-        #{checkoutTime},
-        #{contents},
-        #{categoryNo},
-        #{keywordNo},
-        #{businessNo}
-        )
+        INSERT INTO accommodation (
+            accommodation_name,
+            accommodation_address,
+            tel,
+            checkin,
+            checkout,
+            accommodation_contents,
+            category_no,
+            keyword_no,
+            business_no
+            )
+        VALUES (
+            #{acmName},
+            #{acmAddress},
+            #{acmTel},
+            #{checkinTime},
+            #{checkoutTime},
+            #{contents},
+            #{categoryNo},
+            #{keywordNo},
+            #{businessNo}
+            )
     </insert>
 
     <!--숙소 정보 1건씩 조회하는 sql 쿼리문 작성하기 (1건 조회이기 때문에, 하나의 데이터 값을 불러올 where 조건절을 줘야한다) -->
     <select id="selectOne" resultType="AccommodationDTO">
-        SELECT a.accommodation_no AS acmNo,
-        a.accommodation_name AS acmName,
-        a.accommodation_address AS acmAddress,
-        a.accommodation_contents AS contents,
-        a.checkin AS checkinTime,
-        a.checkout AS checkoutTime,
-        a.tel AS acmTel,
-        a.keyword_no AS keywordNo,
-        a.business_no AS businessNo,
-        a.category_no AS categoryNo
+        SELECT
+            a.accommodation_no          AS acmNo,
+            a.accommodation_name        AS acmName,
+            a.accommodation_address     AS acmAddress,
+            a.accommodation_contents    AS contents,
+            a.checkin                   AS checkinTime,
+            a.checkout                  AS checkoutTime,
+            a.tel                       AS acmTel,
+            a.keyword_no                AS keywordNo,
+            a.business_no               AS businessNo,
+            a.category_no               AS categoryNo
         FROM accommodation a
-        LEFT JOIN category c ON a.category_no = c.category_no
-        LEFT JOIN keyword k ON a.keyword_no = k.keyword_no
+            LEFT JOIN category c ON a.category_no = c.category_no
+            LEFT JOIN keyword k ON a.keyword_no = k.keyword_no
         WHERE a.accommodation_no = #{acmNo}
     </select>
 </mapper>

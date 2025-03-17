@@ -3,7 +3,6 @@ package kr.co.aura.aurastay.dto;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalTime;
 import java.util.List;
 
 
@@ -35,4 +34,41 @@ public class AccommodationDTO {
 
     private List<KeywordDTO> keywords;          // 키워드 리스트 (조회용)
     private Integer keywordNo;                  // insert 용 단일 카테고리
+
+
+    // 객실 정보를 위한 추가 필드
+    private List<RoomDTO> rooms;                // 객실 리스트 추가
+
+    // 객실 추가
+    public void addRoom(RoomDTO roomDTO) {
+
+        this.rooms.add(roomDTO);
+
+//        if (rooms == null) {
+//            rooms = new ArrayList<>();
+//        }
+//        rooms.add(roomDTO);
+    }
+
+    // 특정 객실을 번호(roomNo)로 삭제하는 메서드
+    public void removeRoom(int roomNo) {
+        if (rooms != null) {
+            rooms.removeIf(room -> room.getRoomNo() == roomNo);
+        }
+    }
+
+    // 특정 객실 정보 업데이트
+    public void updateRoom(RoomDTO roomDTO) {
+        if (rooms != null) {
+            for (int i = 0; i < rooms.size(); i++) {
+                if (rooms.get(i).getRoomNo() == roomDTO.getRoomNo()) {
+                    rooms.set(i, roomDTO);  // 기존 데이터를 새로운 값으로 교체
+                    return;  // 업데이트 후 바로 종료
+                }
+            }
+        }
+    }
+
+
+
 }

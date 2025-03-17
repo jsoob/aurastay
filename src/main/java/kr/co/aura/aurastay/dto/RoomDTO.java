@@ -17,5 +17,7 @@ public class RoomDTO {
     private String roomContents;        // 객실 상세 설명
     private String roomViewType;        // 객실 뷰타입
     private int roomCapacity;           // 객실 인원수
-    
+
+
+    private int acmNo;                  // 숙소번호 (외래키로 추가)
 }

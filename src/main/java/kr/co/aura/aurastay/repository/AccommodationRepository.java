@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
 @Mapper
 @Repository
 public interface AccommodationRepository {
@@ -20,6 +21,11 @@ public interface AccommodationRepository {
     void acmUpdate(int acmNo);
     // 숙소 삭제
     void acmDelete(int acmNo);
+
+    //
+    AccommodationDTO findById(int acmNo);           // 숙소 ID로 숙소정보를 조회하는 메서드
+    AccommodationDTO findByRoomId(int roomNo);      // 객실 번호로 해당 객실이 속한 숙소를 찾는 메서드
+    void update(AccommodationDTO accommodation);    // 수정된 숙소 정보를 DB에 업데이트하는 메서드
 
 
 //    void fileadd(AccommodationDTO dto);

@@ -9,5 +9,5 @@ import java.util.List;
 @Mapper
 @Repository
 public interface CategoryRepository {
-    List<CategoryDTO> getAllCategories();
+    List<CategoryDTO> getCategories();
 }

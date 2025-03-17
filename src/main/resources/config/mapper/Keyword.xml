@@ -5,6 +5,7 @@
 
 <mapper namespace="kr.co.aura.aurastay.repository.KeywordRepository">
     <select id="getAllKeywords" resultType="KeywordDTO">
-        SELECT * FROM keyword
+        SELECT keyword_no, keyword_name
+        FROM keyword
     </select>
 </mapper>
