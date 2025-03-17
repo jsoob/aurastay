@@ -5,7 +5,7 @@
 
 <!-- namespace 는 정확하게 Repository 이름까지 똑같이 써야한다 -->
 <mapper namespace="kr.co.aura.aurastay.repository.AccommodationRepository">
-    <select id="selectAll" resultType="kr.co.aura.aurastay.dto.AccommodationDTO">
+    <select id="selectAll" resultType="AccommodationDTO">
         SELECT
             a.accommodation_no          AS acmNo,
             a.accommodation_name        AS acmName,

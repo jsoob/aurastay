@@ -2,14 +2,8 @@ package kr.co.aura.aurastay.controller;
 
 // 숙소 정보와 관련되어 있는 컨트롤러
 
-import kr.co.aura.aurastay.dto.AccommodationDTO;
-import kr.co.aura.aurastay.dto.CategoryDTO;
-import kr.co.aura.aurastay.dto.KeywordDTO;
-import kr.co.aura.aurastay.dto.RoomDTO;
-import kr.co.aura.aurastay.service.AccommodationService;
-import kr.co.aura.aurastay.service.CategoryService;
-import kr.co.aura.aurastay.service.KeywordService;
-import kr.co.aura.aurastay.service.RoomService;
+import kr.co.aura.aurastay.dto.*;
+import kr.co.aura.aurastay.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -37,6 +31,7 @@ public class AccommodationController {
     private final CategoryService categoryService;
     private final KeywordService keywordService;
     private final RoomService roomService;
+    private final AmenitiesService amenitiesService;
 
     ////////////////////////// 숙소 정보 저장하기 //////////////////////////
     // 숙소 정보를 입력하는 페이지 (숙소 등록 폼으로 연결)
@@ -44,9 +39,10 @@ public class AccommodationController {
     public String accommodation(@ModelAttribute("dto") AccommodationDTO dto,
                                 Model model) {
 
-        // 카테고리와 키워드 정보 (서비스에서) 가져오기
+        // 카테고리, 키워드, 편의시설 정보 (서비스에서) 가져오기
         List<CategoryDTO> categories = categoryService.getCategories();
-        List<KeywordDTO> keywords = keywordService.getAllKeywords();  // KeywordDTO로 수정
+        List<KeywordDTO> keywords = keywordService.getAllKeywords();    // KeywordDTO로 수정
+        List<AmenitiesDTO> amenities = amenitiesService.getAllAmenities();
 
 //        System.out.println("조회된 카테고리 개수: " + categories.size());
 //        System.out.println("조회된 키워드 개수: " + keywords.size());
@@ -57,15 +53,17 @@ public class AccommodationController {
 //            System.out.println("키워드 이름: " + keyword.getKeywordName());
 //        }
 
-        // 카테고리와 키워드 목록을 모델에 추가해서 jsp로 전달
+        // 카테고리, 키워드, 편의시설 목록을 모델에 추가해서 jsp로 전달
         model.addAttribute("categories", categories);
 //        System.out.println("카테고리 리스트 : " + dto.getAcmName());
         model.addAttribute("keywords", keywords);
+        model.addAttribute("amenities", amenities);
         model.addAttribute("dto", dto);
 
         // DTO에 변환된 값 저장
         dto.setCategories(categories);
         dto.setKeywords(keywords);
+        dto.setAmenities(amenities);
 
         return "accommodation/acmAdd";
     }

@@ -35,6 +35,9 @@ public class AccommodationDTO {
     private List<KeywordDTO> keywords;          // 키워드 리스트 (조회용)
     private Integer keywordNo;                  // insert 용 단일 카테고리
 
+    private List<AmenitiesDTO> amenities;       // 편의시설 리스트 (조회용)
+    private Integer amenitiesNo;                // insert 용 단일 카테고리
+    
 
     // 객실 정보를 위한 추가 필드
     private List<RoomDTO> rooms;                // 객실 리스트 추가

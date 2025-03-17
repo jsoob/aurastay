@@ -111,16 +111,24 @@
                     <%--                    <label><input type="checkbox" name="category" value="게스트하우스"> 게스트하우스</label>--%>
                 </div>
             </div>
+            <br>
 
-
-            <label>편의시설</label> <%--슬리퍼, 암막커튼, 에어컨, 방음.. 구분지어서 생각해볼 것--%>
-            <%-- 여기 편의시설 정보 추가해야한다 --%>
-
+            <div class="form-group">
+                <%--편의시설--%>
+                <label>편의시설</label> <%--슬리퍼, 암막커튼, 에어컨, 방음.. 구분지어서 생각해볼 것--%>
+                <%-- 여기 편의시설 정보 추가해야한다 --%>
+                <div class="checkbox-group">
+                    <c:forEach var="amenities" items="${amenities}">
+                        <label><input type="checkbox" name="amenities[]" value="${amenities.amenitiesNo}">${amenities.amenitiesName}</label>
+                    </c:forEach>
+                </div>
+            </div>
         </div>
 
         <jsp:include page="roomModal.jsp"/>
 
         <br>
+        <label>객실 정보 ('객실정보 추가' 버튼을 클릭해주세요!)</label>
         <button id="showModal" type="button" class="btn btn-add-room"> <%--juery를 사용하여 modal창으로 보여주기--%>
             객실 정보 추가
         </button>
@@ -159,6 +167,8 @@
 
             </div>
         </div>
+
+
 
 
         <%-- 카테고리 : 드롭다운으로 했을 때 --%>
