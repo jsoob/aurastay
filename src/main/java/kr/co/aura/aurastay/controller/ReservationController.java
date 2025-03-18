@@ -7,11 +7,12 @@ import kr.co.aura.aurastay.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,15 +28,10 @@ public class ReservationController {
     //checkin
     //checkout
     // 예약하기 버튼 클릭시 가게
-    public String stays(@RequestParam("roomNo") String roomNo, @RequestParam("checkin") String checkin, @RequestParam("checkout") String checkout, Model model) {
-        String url = "reservation/reservationForm";
-        // "redirect:reservation/album_ex";
-
-        int roomCountMin = 1;
-
+    public String stays(@RequestParam("accommodationNo") int accommodationNo, @RequestParam("roomNo") int roomNo, @RequestParam("checkin") String checkin, @RequestParam("checkout") String checkout, Model model) throws ParseException {
+        // 에어비앤비 getParameter
         // checkin=2025-04-15&
         // checkout=2025-04-16&
-
         // numberOfGuests=1&
         // numberOfAdults=1&
         // guestCurrency=KRW&
@@ -47,40 +43,83 @@ public class ReservationController {
         // code=HM2QXJHCAJ&
         // orderId=1376602254524241888
 
-        // 객실 수량 확인
-//        for () {
-//        int acmCount = reservationService.getCount(1); // 숙소 번호
-//            select rm.room_qty - IFNULL(sum(rs.room_no), 0)
-//            from
-//            room rm
-//            left outer join
-//            reservation rs
-//            on rm.room_no = rs.room_no
-//            and '2025-03-15' between STR_TO_DATE(rs.checkin_date, '%Y-%m-%d') and STR_TO_DATE(rs.checkout_date, '%Y-%m-%d')
-//            where
-//            rm.room_no = 1
-//            group by rm.room_no;
+        String url = "/reservation/reservationForm";
 
-//            # '2025-03-10', 2, from -> 0
-//            # '2025-03-11', 2, from ->
-//            # '2025-03-12', 2, from
-//            # '2025-03-13', 2, from
-//            # '2025-03-14', 1 from
-//            # -> 기간내에 마감된 객실이 있습니다.
+        System.out.println("accommodationNo: " + accommodationNo);
+        System.out.println("roomNo: " + roomNo);
+        System.out.println("checkin: " + checkin);
+        System.out.println("checkout: " + checkout);
 
-//            roomCountMin = Math.min(roomCountMin, 2);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date intDate = null;
+        Date outDate = null;
+
+//        try {
+            intDate = new Date(dateFormat.parse(checkin).getTime());
+            outDate = new Date(dateFormat.parse(checkout).getTime());
+//        } catch (ParseException e) {
+//            throw new RuntimeException(e);
 //        }
 
-        // 객실 수량 확인..
-        // 0개이면 애초에 예약하기 버튼 활성화 안함. -> 근데 고민하다가 누를 수 있으니 누르면 다시 리다이렉트 -> 해당 숙소 정보로 가기
+        long calculate = outDate.getTime() - intDate.getTime(); // out - int
+        int countDay = (int) (calculate / ( 24*60*60*1000));
+
+        System.out.println("countDay: " + countDay);
+
+        model.addAttribute("checkinDate", checkin);
+        model.addAttribute("checkoutDate", checkout);
+        model.addAttribute("countDay", countDay);
+
+        int roomCountMin = 1;
+
+        // 객실 수량 확인
+        for (int i=0; i<countDay; i++) {
+            Date rsrvDate = dateFormat.parse(checkin);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(rsrvDate);
+
+            cal.add(Calendar.DAY_OF_MONTH, i);
+            // 결과 날짜를 포맷 형식에 맞게 변환합니다.
+            String getDate = dateFormat.format(cal.getTime());
+
+            //
+            HashMap<String, Object> rsrvMap = new HashMap<>();
+            rsrvMap.put("accommodationNo", accommodationNo);
+            rsrvMap.put("roomNo", roomNo);
+            rsrvMap.put("getDate", getDate);
+
+            int acmCount = reservationService.getRemainingRooms(rsrvMap); // 숙소 번호, 룸 번호, 해당 일자
+            // (int accommodationNo, int roomNo, String getDate)
+
+//            # '2025-03-10', 2, from -> 0
+//            # '2025-03-11', 2, from -> 1
+//            # '2025-03-12', 2, from -> 5
+//            # '2025-03-13', 2, from -> 2
+//            # '2025-03-14', 1, from -> 3
+//            # -> 기간내에 마감된 객실이 있습니다.
+
+            System.out.println("acmCount: " + acmCount);
+
+            roomCountMin = Math.min(roomCountMin, acmCount); // 제일 작은 수량
+        }
+        System.out.println("roomCountMin: " + roomCountMin);
+
+        // 객실 수량이 없으면 다시 숙소 상세보기로 이동함.
+        // 0개이면 애초에 숙소 상세보기에서 예약하기 버튼 활성화 안함. -> 근데 고민하다가 누를 수 있으니 누르면 다시 리다이렉트 -> 해당 숙소 정보로 가기
+        if(roomCountMin == 0){
+            url = "redirect:/reservation/album_ex";
+        }
         // 숙소 수량 count
-        model.addAttribute("acmCount", 2); // 객실 수량이 1이면..마지막 객실 알림 / 2~ 이상이면 알림 없음.
+        model.addAttribute("acmCount", roomCountMin); // 객실 수량이 1이면..마지막 객실 알림 / 2~ 이상이면 알림 없음.
 
         // 숙소 정보 조회
         // 숙소 DTO 값 받아오기.
-        HashMap<String, Object> map = acmRoomService.selectRoomDetail();
-        System.out.println("map : ");
-        System.out.println(map);
+        HashMap<String, Object> roomDetail = acmRoomService.selectRoomDetail(accommodationNo, roomNo);
+        System.out.println("roomDetail : ");
+        System.out.println(roomDetail);
+
+        model.addAttribute("roomDetail", roomDetail);
 
         // 숙소 조회
 
@@ -90,6 +129,15 @@ public class ReservationController {
 
         return url;
     }
+
+    @PostMapping("/payment")
+    public String payment(@RequestBody HashMap<String, Object> map) {
+        System.out.println("payment >>>>>>>>>>>>>>>>>>>>>>>>>>");
+        System.out.println(map);
+
+        return "/reservation/myReservation";
+    }
+
     
     @GetMapping("/mystays")
     public String myStays(Model model) {
@@ -97,18 +145,18 @@ public class ReservationController {
         List<SpecialRequestDTO> specialRequests = reservationService.getSpecialRequests();
         model.addAttribute("specialRequests", specialRequests);
 
-        return "reservation/myReservation";
+        return "/reservation/myReservation";
     }
 
     @GetMapping("/mystay")
     public String mystayDetail(Model model) {
-        return "reservation/myReservationDetail";
+        return "/reservation/myReservationDetail";
     }
     
 
     @GetMapping("/album_ex")
     public String album_ex(Model model) {
-        return "reservation/album_ex";
+        return "/reservation/album_ex";
     }
 
 }

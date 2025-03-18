@@ -8,5 +8,5 @@ import java.util.HashMap;
 @Mapper
 @Repository
 public interface AcmRoomRepository {
-    HashMap<String, Object> selectRoomDetail();
+    HashMap<String, Object> selectRoomDetail(int accommodationNo, int roomNo);
 }

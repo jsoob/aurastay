@@ -11,23 +11,15 @@
             special_request
     </select>
 
-    <select id="selectRoomDetail" parameterType="HashMap" resultType="HashMap">
-        select
-            (select keyword.keyword_name from keyword where keyword_no = acm.keyword_no) as keywordName,
-            (select category.category_name from category where category_no = acm.category_no) as categoryName,
-            acm.accommodation_no as accommodationNo, acm.accommodation_name as accommodationName,
-            acm.accommodation_address as accommodationAddress, acm.accommodation_contents as accommodationContents,
-            acm.checkin, acm.checkout, acm.tel,
-
-            rm.room_name as roomName, rm.room_qty as roomQty, rm.room_price as roomPrice,
-            rm.room_discount as roomDiscount, rm.room_contents as roomContents,
-            rm.room_viewtype as roomViewtype, rm.room_capacity as roomCapacity
-        from accommodation acm
-        inner join room rm
-        on acm.accommodation_no = rm.accommodation_no
-        where rm.room_no = #{room_no};
+    <select id="getRemainingRooms" parameterType="HashMap" resultType="int">
+        select rm.room_qty - IFNULL(sum(rs.room_no), 0)
+        from room rm
+        left outer join reservation rs
+        on rm.room_no = rs.room_no
+        and #{getDate} between STR_TO_DATE(rs.checkin_date, '%Y-%m-%d') and STR_TO_DATE(rs.checkout_date, '%Y-%m-%d')
+        where rm.accommodation_no = #{accommodationNo}
+        and rm.room_no = #{roomNo}
+        group by rm.room_no
     </select>
-
-
 
 </mapper>

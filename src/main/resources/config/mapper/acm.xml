@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.aura.aurastay.repository.AcmRoomRepository">
+
+    <select id="selectRoomDetail" parameterType="HashMap" resultType="HashMap">
+        select
+            (select keyword.keyword_name from keyword where keyword_no = acm.keyword_no) as keywordName,
+            (select category.category_name from category where category_no = acm.category_no) as categoryName,
+            acm.accommodation_no as accommodationNo, acm.accommodation_name as accommodationName,
+            acm.accommodation_address as accommodationAddress, acm.accommodation_contents as accommodationContents,
+            acm.checkin, acm.checkout, acm.tel,
+
+            rm.room_name as roomName, rm.room_qty as roomQty, rm.room_price as roomPrice,
+            rm.room_discount as roomDiscount, rm.room_contents as roomContents,
+            rm.room_viewtype as roomViewtype, rm.room_capacity as roomCapacity
+        from accommodation acm
+        inner join room rm
+        on acm.accommodation_no = rm.accommodation_no
+        where
+            rm.accommodation_no = #{accommodationNo}
+        and
+            rm.room_no = #{roomNo}
+    </select>
+
+</mapper>

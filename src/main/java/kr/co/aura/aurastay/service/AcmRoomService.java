@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class AcmRoomService {
     private final AcmRoomRepository acmRoomRepository;
 
-    public HashMap<String, Object> selectRoomDetail() {
-        return acmRoomRepository.selectRoomDetail();
+    public HashMap<String, Object> selectRoomDetail(int accommodationNo, int roomNo) {
+        return acmRoomRepository.selectRoomDetail(accommodationNo, roomNo);
     }
 }
