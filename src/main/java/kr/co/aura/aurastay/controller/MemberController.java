@@ -1,11 +1,11 @@
 package kr.co.aura.aurastay.controller;
 
-import ch.qos.logback.core.model.Model;
 import kr.co.aura.aurastay.dto.MemberDTO;
 import kr.co.aura.aurastay.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -41,11 +41,6 @@ public class MemberController {
         return "redirect:/";
     }
 
-
-    @GetMapping("/findPassword")
-    public String findPassword() {
-        return "member/findPassword";
-    }
 
 
 }

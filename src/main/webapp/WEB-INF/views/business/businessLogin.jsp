@@ -23,7 +23,6 @@
             <input type="submit" class="btn btn-outline-primary" value="로그인">
             <div class="TextButton_container">
                 <span><a href="/business/signUp">회원가입</a></span>
-                <span><a href="">아이디 찾기</a></span>
                 <span><a href="">비밀번호 찾기</a></span>
             </div>
         </div>

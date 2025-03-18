@@ -72,3 +72,21 @@
 .main .TextButton_container > span {
     margin: 0 20px;
 }
+
+.emailLoginDiv {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: stretch;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#memberEmail, #memberPassword {
+    width: 400px;
+}
+#loginBtn {
+    width: 400px;
+}

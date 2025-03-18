@@ -29,4 +29,16 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.insertMember(dto);
     }
 
+    @Override
+    public MemberDTO findByEmail(String email) {
+        MemberDTO member = memberRepository.findByUsername(email);
+        return member;
+    }
+
+    @Override
+    public void resetPassword(MemberDTO dto) {
+        dto.setMemberPassword(passwordEncoder.encode(dto.getMemberPassword()));
+        memberRepository.resetPassword(dto);
+    }
+
 }

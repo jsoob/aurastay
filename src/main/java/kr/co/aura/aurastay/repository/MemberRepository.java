@@ -16,4 +16,7 @@ public interface MemberRepository {
     MemberDTO findByProviderId(String providerId);
 
     void updateMember(MemberDTO member);
+
+    // 비밀번호 재설정
+    void resetPassword(MemberDTO member);
 }

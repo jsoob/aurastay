@@ -9,15 +9,15 @@
         insert into member
         values(null,#{memberEmail},#{providerId},#{memberPassword},#{memberName},#{memberNickname},#{memberPhoneNumber},0,current_timestamp(),null,#{authority})
     </insert>
-    <!-- 로그인시 일치하는 이메일이 있는지 확인 -->
+    <!-- 일치하는 이메일이 있는지 확인 -->
     <select id="findByUsername" parameterType="String" resultType="MemberDTO">
         select member_no as memberNo, member_email as memberEmail, provider_id as providerId, member_password as memberPassword, member_name as memberName,member_nickname as memberNickname, member_phone_number as memberPhoneNumber, point, registration_date as registrationDate, withdrawal_date as withdrawalDate, authority
         from member
-        where member_email = #{username}
+        where member_email = #{username} and provider_id is null
     </select>
     <!-- 이미 존재하는 이메일인지 확인 -->
     <select id="existsByEmail" parameterType="String" resultType="boolean">
-        SELECT EXISTS (SELECT 1 FROM member WHERE member_email = #{username})
+        SELECT EXISTS (SELECT 1 FROM member WHERE member_email = #{username} and provider_id is null)
     </select>
     <!-- providerid로 사용자 조회 -->
     <select id="findByProviderId" parameterType="String" resultType="MemberDTO">
@@ -30,5 +30,11 @@
         update member
         set member_email=#{memberEmail}, member_nickname=#{memberNickname}
         where provider_id = #{providerId}
+    </update>
+    <!-- 비밀번호 재설정 -->
+    <update id="resetPassword" parameterType="MemberDTO">
+        update member
+        set member_password = #{memberPassword}
+        where member_email = #{memberEmail} and provider_id is null
     </update>
 </mapper>

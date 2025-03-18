@@ -32,7 +32,7 @@
             <input type="submit" class="btn btn-outline-danger" value="로그인">
             <div class="TextButton_container">
                 <span><a href="/member/login">소셜 로그인</a></span>
-                <span><a href="/member/findPassword">비밀번호 재설정></a></span><br>
+                <span><a href="/findPassword">비밀번호 재설정></a></span><br>
                 <span><a href="/member/emailSignUp">이메일로 회원가입></a></span>
                 <span><a href="/business/intro">사업자로 시작하기</a></span>
             </div>
