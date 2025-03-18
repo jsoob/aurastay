@@ -28,7 +28,7 @@ public class MemberController {
         dto.setMemberPhoneNumber(phone1+phone2+phone3);
         memberService.save(dto);
 
-        return "index";
+        return "redirect:/emailLogin";
     }
 
     // 로그인

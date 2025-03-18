@@ -19,4 +19,10 @@
     <select id="existsByEmail" parameterType="String" resultType="boolean">
         SELECT EXISTS (SELECT 1 FROM business WHERE business_email = #{username})
     </select>
+    <!-- 비밀번호 재설정 -->
+    <update id="resetPassword" parameterType="BusinessDTO">
+        update business
+        set business_password = #{businessPassword}
+        where business_email = #{businessEmail}
+    </update>
 </mapper>

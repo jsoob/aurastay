@@ -1,6 +1,8 @@
 package kr.co.aura.aurastay.controller;
 
+import kr.co.aura.aurastay.dto.BusinessDTO;
 import kr.co.aura.aurastay.dto.MemberDTO;
+import kr.co.aura.aurastay.service.BusinessService;
 import kr.co.aura.aurastay.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,9 +24,10 @@ import java.util.Iterator;
 @Controller
 public class MainController {
     private final MemberService memberService;
+    private final BusinessService businessService;
 
     // 사용자 메인 페이지
-    @GetMapping({"/","/index","/main"})
+    @GetMapping({"/", "/index", "/main"})
     public String index(Model model) {
         return "index";
     }
@@ -36,7 +39,7 @@ public class MainController {
     }
 
     @PostMapping("/emailLogin")
-    public String emailLoginOk(@ModelAttribute MemberDTO dto){
+    public String emailLoginOk(@ModelAttribute MemberDTO dto) {
         return "redirect:/";
     }
 
@@ -49,26 +52,40 @@ public class MainController {
     // 비밀번호 재설정 페이지
     @GetMapping("/resetPassword")
     public String resetPassword(@RequestParam String email, Model model) {
-        log.info(">>>>>>>>>>>>>>> email: {}", email);
 
         MemberDTO member = memberService.findByEmail(email);
+        if (member != null) {
+            model.addAttribute("member", member);
+            model.addAttribute("user",0);
+        }
+        BusinessDTO business = businessService.findByEmail(email);
 
-        log.info(">>>>>>>>>>>>>>> member: {}", member);
+        if (business != null) {
+            model.addAttribute("business", business);
+            model.addAttribute("user",1);
+        }
 
-        model.addAttribute("member", member);
         return "resetPassword";
     }
 
     // 비밀번호 재설정
     @PostMapping("/resetPassword")
-    public String resetPasswordOk(@RequestParam("memberPassword") String password,
-                                  @RequestParam("memberEmail") String memberEmail,
-                                  @RequestParam("memberNo") int memberNo) {
-        MemberDTO memberDTO = MemberDTO.builder()
-                .memberPassword(password)
-                .memberEmail(memberEmail)
-                .build();
-        memberService.resetPassword(memberDTO);
+    public String resetPasswordOk(@RequestParam("password") String password,
+                                  @RequestParam("email") String email,
+                                  @RequestParam("user") int user) {
+        if(user == 0) { // member
+            MemberDTO memberDTO = MemberDTO.builder()
+                    .memberPassword(password)
+                    .memberEmail(email)
+                    .build();
+            memberService.resetPassword(memberDTO);
+        } else if(user == 1){ // business
+            BusinessDTO businessDTO = BusinessDTO.builder()
+                    .businessPassword(password)
+                    .businessEmail(email)
+                    .build();
+            businessService.resetPassword(businessDTO);
+        }
         return "redirect:/emailLogin";
     }
 }
