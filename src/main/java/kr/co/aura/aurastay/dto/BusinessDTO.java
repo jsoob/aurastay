@@ -1,5 +1,7 @@
 package kr.co.aura.aurastay.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -12,7 +14,9 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Builder
 public class BusinessDTO {
+    @NotBlank(message = "사업자번호는 필수 입력 항목입니다.")
     private String businessNo; // 사업자번호 (PK)
+
     private String businessName; // 상호명
     private String representativeName; // 대표자명
     private String businessEmail; // 이메일
