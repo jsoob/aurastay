@@ -2,19 +2,25 @@ package kr.co.aura.aurastay.service;
 
 import kr.co.aura.aurastay.dto.AccommodationDTO;
 
+import kr.co.aura.aurastay.dto.AmenitiesDTO;
 import kr.co.aura.aurastay.dto.RoomDTO;
+import kr.co.aura.aurastay.dto.RoomImageDTO;
 import kr.co.aura.aurastay.repository.AccommodationRepository;
+import kr.co.aura.aurastay.repository.RoomImageRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class AccommodationService {
 
     private final AccommodationRepository accommodationRepository;
     private final RoomService roomService;          // roomService와 연동
+    private final RoomImageRepository roomImageRepository;
 
     // 전체 조회하기
     public List<AccommodationDTO> selectAll() {
@@ -23,6 +29,7 @@ public class AccommodationService {
 
     // 숙소 정보 등록(추가)하기
     public void add(AccommodationDTO dto) {
+        log.info("숙소 추가가 되고 있나용? >>>>>>>>>>> {}", dto);
         System.out.println("에러인가용?");
 
         // 만약 dto의 키워드가 null이라면? (입력이 되지 않았다면?)
@@ -33,8 +40,24 @@ public class AccommodationService {
         }
 
         dto.setBusinessNo(1211565655);     // 수정해야하는 데이터, 사업자번호 (추후에 변경해야한다)
-        accommodationRepository.add(dto);
+        accommodationRepository.add(dto);   // 숙소정보를 DB에 저장
+        log.info("정상적으로 add가 작동되고 등록이 된다면 보여준다 >>>>>>>>>>> " + dto);
         System.out.println("숙소 등록이 완료된다면 보여주는 dto : " + dto);
+
+
+        // 이미지 정보를 저장하는 로직 추가
+        if (dto.getFilenames() != null && dto.getFilenames().isEmpty()) {
+            for (int i = 0; i < dto.getFilenames().size(); i++) {
+                RoomImageDTO roomImage = new RoomImageDTO();
+                roomImage.setFilename(dto.getFilenames().get(i));
+                roomImage.setFilepath(dto.getFilepath().get(i));
+                roomImage.setImageNo(dto.getAcmNo());   // 숙소 번호와 연결
+
+                // 로그 추가
+                log.info("Saving image: {}", roomImage);
+                roomImageRepository.add(roomImage);
+            }
+        }
 
         // 객실 정보가 있으면 추가 (객실 등록)
         if (dto.getRooms() != null && !dto.getRooms().isEmpty()) {
@@ -44,15 +67,19 @@ public class AccommodationService {
         }
 
         // 편의시설 등록이 1개가 아니라 2개 이상..
-
+        // 선택된 편의시설 등록
+        if (dto.getAmenities() != null && !dto.getAmenities().isEmpty()) {
+            for (Integer amenitiesNo : dto.getAmenities()) {
+                accommodationRepository.saveAmenities(dto.getAcmNo(), amenitiesNo);
+            }
+        }
     }
-
 
     // 선택한 숙소의 정보를 보여주기 (1건 조회)
     public AccommodationDTO selectOne(int acmNo) {
-        AccommodationDTO dto = accommodationRepository.selectOne(acmNo);
-        return dto;
+        return accommodationRepository.selectOne(acmNo);
     }
+
 
 
     // 숙소 정보 변경
@@ -80,8 +107,4 @@ public class AccommodationService {
         return accommodationRepository.findByRoomId(roomNo);    // 객실 번호로 숙소 정보 조회
     }
 
-    // 편의시설 정보 저장하기
-    public void saveAccommodation(AccommodationDTO dto) {
-        accommodationRepository.saveAmenities(dto);
-    }
 }

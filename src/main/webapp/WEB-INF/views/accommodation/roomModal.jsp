@@ -41,16 +41,6 @@
                 </label>
             </div>
 
-            <div class="form-group">
-                <label>편의시설</label>
-                <div class="checkbox-group">
-                    <c:forEach var="amenity" items="${amenities}">
-                        <label>
-                            <input type="checkbox" name="amenities" value="${amenity.amenitiesNo}" /> ${amenity.amenitiesName}
-                        </label>
-                    </c:forEach>
-                </div>
-            </div>
 
             <div class="modal-footer">
                 <input type="button" id="closeModal" class="btn btn-modalclose" value="닫기">

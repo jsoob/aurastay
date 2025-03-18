@@ -50,32 +50,61 @@
     </insert>
 
     <!--숙소 정보 1건씩 조회하는 sql 쿼리문 작성하기 (1건 조회이기 때문에, 하나의 데이터 값을 불러올 where 조건절을 줘야한다) -->
+<!--    <select id="selectOne" resultType="AccommodationDTO">-->
+<!--        SELECT-->
+<!--            a.accommodation_no          AS acmNo,-->
+<!--            a.accommodation_name        AS acmName,-->
+<!--            a.accommodation_address     AS acmAddress,-->
+<!--            a.accommodation_contents    AS contents,-->
+<!--            a.checkin                   AS checkinTime,-->
+<!--            a.checkout                  AS checkoutTime,-->
+<!--            a.tel                       AS acmTel,-->
+<!--            a.keyword_no                AS keywordNo,-->
+<!--            a.business_no               AS businessNo,-->
+<!--            a.category_no               AS categoryNo,-->
+<!--            c.category_name             AS categoryName-->
+<!--            GROUP_CONCAT (m.amenities_name) AS amenitiesName-->
+<!--        FROM accommodation a-->
+<!--            LEFT JOIN category c ON a.category_no = c.category_no-->
+<!--            LEFT JOIN keyword k ON a.keyword_no = k.keyword_no-->
+<!--            LEFT JOIN accommodation_amenities_no am ON a.accommodation_no = am.accommodation_no-->
+<!--            LEFT JOIN amenities m ON am.amenities_no = m.amenities_no-->
+<!--        WHERE a.accommodation_no = #{acmNo}-->
+<!--        GROUP BY a.accommodation_no-->
+<!--    </select>-->
     <select id="selectOne" resultType="AccommodationDTO">
         SELECT
-            a.accommodation_no          AS acmNo,
-            a.accommodation_name        AS acmName,
-            a.accommodation_address     AS acmAddress,
-            a.accommodation_contents    AS contents,
-            a.checkin                   AS checkinTime,
-            a.checkout                  AS checkoutTime,
-            a.tel                       AS acmTel,
-            a.keyword_no                AS keywordNo,
-            a.business_no               AS businessNo,
-            a.category_no               AS categoryNo,
-            c.category_name
+        a.accommodation_no          AS acmNo,
+        a.accommodation_name        AS acmName,
+        a.accommodation_address     AS acmAddress,
+        a.accommodation_contents    AS contents,
+        a.checkin                   AS checkinTime,
+        a.checkout                  AS checkoutTime,
+        a.tel                       AS acmTel,
+        a.keyword_no                AS keywordNo,
+        a.business_no               AS businessNo,
+        a.category_no               AS categoryNo,
+        c.category_name             AS categoryName,
+        GROUP_CONCAT(m.amenities_name SEPARATOR ', ') AS amenitiesName  <!-- 편의시설 이름 결합 -->
         FROM accommodation a
-            LEFT JOIN category c ON a.category_no = c.category_no
-            LEFT JOIN keyword k ON a.keyword_no = k.keyword_no
+        LEFT JOIN category c ON a.category_no = c.category_no
+        LEFT JOIN keyword k ON a.keyword_no = k.keyword_no
+        LEFT JOIN accommodation_amenities am ON a.accommodation_no = am.accommodation_no
+        LEFT JOIN amenities m ON am.amenities_no = m.amenities_no
         WHERE a.accommodation_no = #{acmNo}
+        GROUP BY a.accommodation_no, c.category_name
     </select>
 
-<!--    <insert id="saveAmenities">-->
-<!--        INSERT INTO room_amenities (room_no, amenities_no)-->
-<!--        VALUES-->
-<!--        <foreach collection="amenities" item="amenity" separator=",">-->
-<!--            (#{amenity.roomNo}, #{amenity.amenitiesNo})-->
-<!--        </foreach>-->
-<!--    </insert>-->
+    <!-- 편의시설 저장 쿼리 추가 -->
+    <insert id="saveAmenities" parameterType="map">
+        INSERT INTO accommodation_amenities (
+            accommodation_no,
+            amenities_no
+        ) VALUES (
+            #{accommodationNo},
+            #{amenitiesNo}
+        )
+    </insert>
 
 
 

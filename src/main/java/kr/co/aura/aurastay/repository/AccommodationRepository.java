@@ -2,6 +2,7 @@ package kr.co.aura.aurastay.repository;
 
 import kr.co.aura.aurastay.dto.AccommodationDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,8 +28,7 @@ public interface AccommodationRepository {
     AccommodationDTO findByRoomId(int roomNo);      // 객실 번호로 해당 객실이 속한 숙소를 찾는 메서드
     void update(AccommodationDTO accommodation);    // 수정된 숙소 정보를 DB에 업데이트하는 메서드
 
-    void saveAmenities(AccommodationDTO dto);
+    // 편의시설 정보 가져오기
+    void saveAmenities(@Param("accommodationNo") int accommodationNo, @Param("amenitiesNo") Integer amenitiesNo);
 
-
-//    void fileadd(AccommodationDTO dto);
 }

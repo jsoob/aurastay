@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <%-- ★ {dto.acmName} 씹히는 거 고치기 --%>
     <title> ${dto.acmName} 숙소 정보 조회/변경</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
@@ -84,21 +83,29 @@
             </div>
 
         </div>
-        <h3>객실 리스트</h3>
+        <h3>객실 리스트(정보)</h3>
+        <label>객실명</label>
+        <span>${room.roomName}</span>
+        <label>객실수량</label>
+        <label>최대인원 수</label>
+        <label>가격</label>
+        <label>할인율</label>
+        <label>View Type(뷰타입)</label>
+
+<br>
+        <div>
+            <label class="form-label">편의시설</label>
+            <span>${dto.amenitiesName}</span> <!-- 편의시설 이름 출력 -->
+        </div>
+<br>
 
         <div>
-            <label>편의시설</label>
-            <span>${amenities.amenitiesName}</span>
 
         </div>
-
-
-
-        <div>
             <label class="form-label">첨부파일</label>
-            <input type="file" name="files" multiple> <%--여러 개의 파일을 선택할 수 있도록 multiple 추가--%>
-            <input type="button" value="추가" id="btn">
-        </div>
+            <span><img src=${dto.fileName}></span>
+
+
 
         <div class="btn-container">
             <a href="acmList" class="btn btn-primary">목록</a>

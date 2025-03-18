@@ -12,5 +12,4 @@ public interface AmenitiesRepository {
 
     List<AmenitiesDTO> getAllAmenities();
 
-//    List<AmenitiesDTO> getAmenitiesById();
 }

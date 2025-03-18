@@ -113,12 +113,13 @@
             </div>
             <br>
 
-            <div class="form-group">
+            <div class="form-g roup">
                 <label>편의시설</label>
                 <div class="checkbox-group">
                     <c:forEach var="amenity" items="${amenities}">
                         <label>
-                            <input type="checkbox" name="amenities" value="${amenity.amenitiesNo}" /> ${amenity.amenitiesName}
+                            <input type="checkbox" name="amenities"
+                                   value="${amenity.amenitiesNo}"/> ${amenity.amenitiesName}
                         </label>
                     </c:forEach>
                 </div>
@@ -189,11 +190,10 @@
             <div class="pink-box">
                 <%--키워드 아래에 첨부파일과 버튼을 배치하기--%>
                 <div clas="form-group">
-                    <label class="form-label">첨부파일</label>
+                    <label class="form-label">숙소 이미지 업로드</label>
                     <input type="file" name="files" multiple> <%--여러 개의 파일을 선택할 수 있도록 multiple 추가--%>
                     <input type="button" value="추가" id="btn">
                 </div>
-
             </div>
 
             <div class="btn-container">
