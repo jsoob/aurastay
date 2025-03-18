@@ -6,6 +6,7 @@ import kr.co.aura.aurastay.dto.*;
 import kr.co.aura.aurastay.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,9 @@ import java.util.List;
 @Controller
 public class AccommodationController {
 
+    @Value("${upload.directory}")
+    private String uploadDirectory;     // 상대 경로 주입받기
+
     // 서비스 추가
     private final AccommodationService accommodationService;
     private final CategoryService categoryService;
@@ -45,6 +49,7 @@ public class AccommodationController {
         // 카테고리, 키워드, 편의시설 정보 (서비스에서) 가져오기
         List<CategoryDTO> categories = categoryService.getCategories();
         List<KeywordDTO> keywords = keywordService.getAllKeywords();    // KeywordDTO로 수정
+        List<AmenitiesDTO> amenities = amenitiesService.getAmenities();    // 편의시설 목록 추가
 
 //        System.out.println("조회된 카테고리 개수: " + categories.size());
 //        System.out.println("조회된 키워드 개수: " + keywords.size());
@@ -60,6 +65,7 @@ public class AccommodationController {
 //        System.out.println("카테고리 리스트 : " + dto.getAcmName());
         model.addAttribute("keywords", keywords);
         model.addAttribute("dto", dto);
+        model.addAttribute("amenities", amenities);
 
         // DTO에 변환된 값 저장
         dto.setCategories(categories);
@@ -85,6 +91,8 @@ public class AccommodationController {
         // RedirectAttributes : 리다이렉트 할 때 데이터를 담아서 보내고자 할 때 사용한다
         //                      리다이렉트는 새롭게 Get요청을 보내는 것이기 때문에 요청객체와 응답객체가 새로 생겨 model에 값을 담아도 소멸!
 
+        // 현재 작업 디렉토리를 로그로 출력
+        log.info("현재 작업 디렉토리를 로그로 출력 >>>>>>>>>>>>> : {}", System.getProperty("user.dir"));
         log.info("accommodation >>>>>>>>>>>>>>>>>  :{} {}", roomDTO, roomDTO.getRoomName());
 
         // 날짜와 시간을 합쳐서 LocalDateTime으로 변환
@@ -107,10 +115,16 @@ public class AccommodationController {
         // 파일이 null 이거나 빈 배열일 경우 처리
         if (files != null && files.length > 0) {
             // 파일 업로드 경로 설정
-            String uploadDirectory = "D:/upload/";
+            String uploadDirectory = "D:/upload/";  // 경로를 이곳이 아닌 아래 경로로 변경했을 때 fileNotfoundException 에러 발생
+//            String uploadDirectory = "src/main/webapp/upload/";     // 상대경로(webapp 아래 수동으로 폴더 생성)
+//            String uploadDirectory = "D:/study/academy/aurastay/src/main/webapp/upload/";     // 이렇게 해도 안돼..?ㅠ
+
             File uploadDirectoryFile = new File(uploadDirectory);
             if (!uploadDirectoryFile.exists()) {
                 uploadDirectoryFile.mkdirs();  // 폴더가 없다면 생성
+                log.info("uploadDirectory 가 생성이 된다면 >>>>>>>>>>>> : {}", uploadDirectory);
+            } else {
+                log.info("uploadDirectory가 이미 존재한다면 >>>>>>>>>>>>>> : {}", uploadDirectory);
             }
 
             // 파일 정보를 저장할 리스트
@@ -128,6 +142,7 @@ public class AccommodationController {
                         filenames.add(saveFileName);                // 파일 이름 저장
                         filepath.add(saveFile.getAbsolutePath());   // 파일 경로 저장
                     } catch (IOException e) {
+                        log.error("파일 업로드 중 오류 발생 >>>>>>>>> : {}", e.getMessage());
                         throw new RuntimeException("파일 업로드 중 오류가 발생하였습니다.", e);
                     }
                 }
@@ -154,9 +169,11 @@ public class AccommodationController {
             System.out.println("파일이 존재하지 않습니다.");
         }
 
+        log.info("방의 상세정보 >>>>>>>>>>> {} ", roomDTO);
         // 객실 정보가 있으면 추가 (객실 등록)
         roomService.roomAdd(roomDTO);   // url의 파라미터로 값이 저장된다
-        redirectAttributes.addAttribute("dto", dto);
+        // 파일 업로드가 성공한 경우
+        redirectAttributes.addAttribute("message", "파일 업로드 성공");
 
 
         return "redirect:/accommodation/acmList";
@@ -213,22 +230,27 @@ public class AccommodationController {
     // 상세 정보 조회
     @GetMapping("/acmInfo")
     public String accommodationInfo(@RequestParam("acmNo") int acmNo, Model model) {
+        
         // 숙소 정보 조회
         AccommodationDTO dto = accommodationService.selectOne(acmNo);
         // 카테고리 정보 조회
         CategoryDTO category = categoryService.getCategoryById(dto.getCategoryNo());                // 카테고리 목록을 가져오는 서비스 호출
         // 키워드 정보 조회
         KeywordDTO keyword = keywordService.getKeywordById(dto.getKeywordNo());               // 키워드 목록을 가져오는 서비스 호출
+        // 객실 정보 조회
+        List<RoomDTO> roomList = roomService.findRoomByAccommodation(acmNo);         // 숙소 id를 통해 객실 정보 조회
 
         model.addAttribute("dto", dto);
         model.addAttribute("category", category);   // 카테고리 목록 추가
         model.addAttribute("keyword", keyword);     // 키워드 목록 추가
 //        model.addAttribute("amenities", amenities);
+         model.addAttribute("roomList", roomList);  // 객실 정보를 모델에 추가
 
         log.info("Accommodation DTO >>>>>>>>>>>>>>>>>> : {}", dto);
         log.info("Retrieved Category >>>>>>>>>>>>>>>>>>> : {}", category);
         log.info("Retrieved Keyword >>>>>>>>>>>>>>>>>>> : {}", keyword);
 //        log.info("편의시설 상세 정보 조회 불러와지고 있는가 >>>>>>>>>>>> : {}", amenities);
+        log.info("Retrieved Room >>>>>>>>>>>>>>>>>>> : {}", roomList);
 
 
         return "/accommodation/acmInfo";

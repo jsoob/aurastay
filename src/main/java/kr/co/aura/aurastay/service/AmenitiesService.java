@@ -13,4 +13,8 @@ public class AmenitiesService {
 
     private final AmenitiesRepository amenitiesRepository;
 
+    public List<AmenitiesDTO> getAmenities(){
+        return amenitiesRepository.getAllAmenities();
+    }
+
 }

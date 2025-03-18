@@ -4,10 +4,12 @@ import kr.co.aura.aurastay.dto.AccommodationDTO;
 import kr.co.aura.aurastay.dto.RoomDTO;
 import kr.co.aura.aurastay.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class RoomService {
@@ -16,7 +18,10 @@ public class RoomService {
 
     // 숙소에 대한 객실 리스트 조회
     public List<RoomDTO> findRoomByAccommodation(int acmNo){
-        return roomRepository.findRoomByAccommodation(acmNo);       // acmNo를 통해 객실 리스트 조회
+        List<RoomDTO> rooms = roomRepository.findRoomByAccommodation(acmNo);
+        log.info("방이 조회가 되고 있나요? >>>>>>>>>>> {} : {} ", acmNo, rooms);
+//        return roomRepository.findRoomByAccommodation(acmNo);       // acmNo를 통해 객실 리스트 조회
+        return rooms;
     }
 
     // 객실 등록하기
@@ -33,6 +38,5 @@ public class RoomService {
     public void roomDelete(int roomNo) {
         roomRepository.roomDelete(roomNo);
     }
-
 
 }

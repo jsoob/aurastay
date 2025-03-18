@@ -10,7 +10,7 @@
         FROM amenities
     </select>
 
-    <!-- 1건 조회 : findByAmenities -->
+<!--     1건 조회 : findByAmenities-->
 <!--    <select id="findByAmenities" parameterType="AmenitiesDTO" resultType="String">-->
 <!--        SELECT m.amenities_name-->
 <!--        FROM accommodation a-->

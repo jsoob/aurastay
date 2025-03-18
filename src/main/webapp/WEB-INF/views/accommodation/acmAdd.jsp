@@ -111,7 +111,6 @@
                     <%--                    <label><input type="checkbox" name="category" value="게스트하우스"> 게스트하우스</label>--%>
                 </div>
             </div>
-            <br>
 
             <div class="form-g roup">
                 <label>편의시설</label>

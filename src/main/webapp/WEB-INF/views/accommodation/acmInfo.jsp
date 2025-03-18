@@ -83,34 +83,50 @@
             </div>
 
         </div>
-        <h3>객실 리스트(정보)</h3>
-        <label>객실명</label>
-        <span>${room.roomName}</span>
-        <label>객실수량</label>
-        <label>최대인원 수</label>
-        <label>가격</label>
-        <label>할인율</label>
-        <label>View Type(뷰타입)</label>
 
-<br>
+
+        <h3>객실 리스트(정보)</h3>
+        <ul>
+            <c:forEach var="room" items="${roomList}">
+                <li>
+                    <strong>객실명:</strong> ${room.roomName}<br>
+                    <strong>객실 수량:</strong> ${room.roomQty}<br>
+                    <strong>최대 인원 수:</strong> ${room.roomCapacity}<br>
+                    <strong>가격:</strong> ${room.roomPrice}<br>
+                    <strong>할인율:</strong> ${room.roomDiscount}%<br>
+                    <strong>뷰타입:</strong> ${room.roomViewType}<br>
+                    <strong>상세 설명:</strong> ${room.roomContents}<br>
+                    <hr>
+                </li>
+            </c:forEach>
+        </ul>
+
+
+
+
+        <br>
         <div>
             <label class="form-label">편의시설</label>
             <span>${dto.amenitiesName}</span> <!-- 편의시설 이름 출력 -->
         </div>
 <br>
 
+
         <div>
-
+            <label class="form-label">숙소 이미지</label>
+            <c:if test="${not empty dto.filepath}">
+                <c:forEach items="${dto.filepath}" var="filepath">
+                    <img src="${pageContext.request.contextPath}/upload/${filepath}" alt="Accommodation Image" style="width:100%; height:auto;" />
+                    <div class="alert alert-success">${message}</div>
+                </c:forEach>
+            </c:if>
         </div>
-            <label class="form-label">첨부파일</label>
-            <span><img src=${dto.fileName}></span>
-
 
 
         <div class="btn-container">
-            <a href="acmList" class="btn btn-primary">목록</a>
-            <a href="modify?acmNo=${dto.acmNo}" class="btn btn-primary">수정(등록)</a>
-            <a href="delete?acmNo=${dto.acmNo}" class="btn btn-secondary">삭제</a>
+            <a href="acmList" class="btn btn-list">목록</a>
+            <a href="modify?acmNo=${dto.acmNo}" class="btn btn-submit">수정(등록)</a>
+            <a href="delete?acmNo=${dto.acmNo}" class="btn btn-cancel">삭제</a>
 
         </div>
     </form>

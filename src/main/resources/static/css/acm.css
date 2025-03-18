@@ -211,16 +211,25 @@ input[type="checkbox"] {
     color: white;
 }
 
+/* 상세조회 안에 있는 목록 버튼 */
+.btn-list {
+    background: #f87171;
+    color: white;
+    text-decoration-line: none;
+}
+
 /* 등록 버튼 */
 .btn-submit {
     background-color: #ff4672;
     color: white;
+    text-decoration-line: none;
 }
 
 /* 취소 버튼 */
 .btn-cancel {
-    background-color: #dc9797;
+    background-color: #fbabab;
     color: white;
+    text-decoration-line: none;
 }
 
 /* 모달 닫기 버튼 */

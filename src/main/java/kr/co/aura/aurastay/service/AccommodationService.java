@@ -44,7 +44,6 @@ public class AccommodationService {
         log.info("정상적으로 add가 작동되고 등록이 된다면 보여준다 >>>>>>>>>>> " + dto);
         System.out.println("숙소 등록이 완료된다면 보여주는 dto : " + dto);
 
-
         // 이미지 정보를 저장하는 로직 추가
         if (dto.getFilenames() != null && dto.getFilenames().isEmpty()) {
             for (int i = 0; i < dto.getFilenames().size(); i++) {
