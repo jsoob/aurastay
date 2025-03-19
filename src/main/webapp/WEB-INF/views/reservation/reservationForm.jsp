@@ -306,7 +306,7 @@
                     method : "post",
                     // data : { 결제와 관련된 정보(페이먼트 id, 상품명, 가격) JSON }
                     data : {
-                        "response" : JSON.stringify(response)
+                        "response" : JSON.stringify(response),
                         // paymentId : response.paymentId,
                         // // 결제가 완료되면 트랜잭션 id 생성된다.
                         // // 결제가 어떻게 된건지 찾아줄 수 있다.
