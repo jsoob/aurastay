@@ -20,4 +20,13 @@
         #{acmNo}  <!-- 숙소 번호 -->
         )
     </insert>
+    <select id="getImages" parameterType="int" resultType="RoomImageDTO">
+        SELECT
+        r.image_no AS imageNo,
+        r.filename AS filename,
+        r.filepath AS filepath
+        FROM room_image r
+        WHERE r.accommodation_no = #{acmNo}
+    </select>
+
 </mapper>

@@ -115,9 +115,7 @@ public class AccommodationController {
         // 파일이 null 이거나 빈 배열일 경우 처리
         if (files != null && files.length > 0) {
             // 파일 업로드 경로 설정
-            String uploadDirectory = "D:/upload/";  // 경로를 이곳이 아닌 아래 경로로 변경했을 때 fileNotfoundException 에러 발생
-//            String uploadDirectory = "src/main/webapp/upload/";     // 상대경로(webapp 아래 수동으로 폴더 생성)
-//            String uploadDirectory = "D:/study/academy/aurastay/src/main/webapp/upload/";     // 이렇게 해도 안돼..?ㅠ
+            String uploadDirectory = "D:/upload/";  // 실제 경로
 
             File uploadDirectoryFile = new File(uploadDirectory);
             if (!uploadDirectoryFile.exists()) {
@@ -151,8 +149,18 @@ public class AccommodationController {
             // 여러 파일의 경로와 이름을 DTO에 저장
             if (!filenames.isEmpty()) {
                 dto.setFilenames(filenames);            // 파일명 리스트 저장
-                dto.setFilepath(filepath);              // 파일 경로 리스트 저장
+                dto.setFilepath(filepath);              // 실제 파일 경로 리스트 저장 (선택 사항)
+
+                // 클라이언트 접근 URL 생성
+                List<String> clientFilePaths = new ArrayList<>();
+                for (String filename : filenames) {
+                    clientFilePaths.add("/upload/" + filename); // 클라이언트가 접근할 수 있는 URL 추가
+                }
+                dto.setClientFilepath(clientFilePaths); // DTO에 클라이언트 접근 경로 설정
             }
+
+
+
 
             // 이미지 정보를 저장하는 로직 추가
             for (int i = 0; i < filenames.size(); i++) {

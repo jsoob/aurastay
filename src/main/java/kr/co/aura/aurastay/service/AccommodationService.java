@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -76,13 +77,31 @@ public class AccommodationService {
 
     // 선택한 숙소의 정보를 보여주기 (1건 조회)
     public AccommodationDTO selectOne(int acmNo) {
-        return accommodationRepository.selectOne(acmNo);
+
+        // roomImageRepository에서 숙소번호를 가지고 있는 이미지를 불러와서 배열로 하나씩 담고,
+        // 숙소번호(acmNo)를 기준으로 filename, filepath 하나씩 불러와서 담아놓고,
+        List<RoomImageDTO> roomList = roomImageRepository.getImages(acmNo);
+        AccommodationDTO accommodationDTO = accommodationRepository.selectOne(acmNo);
+        List<String> filename = new ArrayList<>();
+        List<String> filepath = new ArrayList<>();
+
+        // 그 뒤, 향상된 for문을 사용해서 roomList 안에 담긴 값들을 가져와서 추가해준다
+        for (RoomImageDTO roomImage : roomList) {
+           filename.add(roomImage.getFilename());
+           filepath.add(roomImage.getFilepath());
+        }
+
+        // 그리고 DTO
+        accommodationDTO.setFilenames(filename);
+        accommodationDTO.setFilepath(filepath);
+        return accommodationDTO;
     }
 
 
 
     // 숙소 정보 변경
     public void acmUpdate(int acmNo) {
+
         accommodationRepository.acmUpdate(acmNo);
     }
 

@@ -116,7 +116,8 @@
             <label class="form-label">숙소 이미지</label>
             <c:if test="${not empty dto.filepath}">
                 <c:forEach items="${dto.filepath}" var="filepath">
-                    <img src="${pageContext.request.contextPath}/upload/${filepath}" alt="Accommodation Image" style="width:100%; height:auto;" />
+<%--                    <img src="${pageContext.request.contextPath}${filepath}" alt="${dto.acmName} 이미지" style="width:200px; height:auto;" />--%>
+                    <img src="${filepath}" alt="${dto.acmName} 이미지" style="width:200px; height:auto;" />
                     <div class="alert alert-success">${message}</div>
                 </c:forEach>
             </c:if>
