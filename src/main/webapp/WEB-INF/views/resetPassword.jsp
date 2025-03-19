@@ -19,7 +19,7 @@
     <c:if test="${user}==1">
         <input type="hidden" name="email" value="${business.businessEmail}">
     </c:if>
-        <input type="hidden" name="user" value="${user}">
+    <input type="hidden" name="user" value="${user}">
     <button type="submit">재설정</button>
 </form>
 </body>

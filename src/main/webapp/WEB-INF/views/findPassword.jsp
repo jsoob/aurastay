@@ -130,40 +130,40 @@
 </head>
 <body>
 <div class="container">
-<div class="error-pagewrap">
-    <div class="error-page-int">
-        <div class="text-center ps-recovered">
-            <h2><i class="fa fa-lock fa-pwLock" aria-hidden="true"></i></h2>
-            <h3>비밀번호 찾기</h3>
-            <p>비밀번호를 복구하려면 양식을 작성해 주세요.</p>
-        </div>
-        <div class="content-error">
-            <div class="hpanel">
-                <div class="panel-body poss-recover">
-                    <p>
-                        이메일 주소를 입력하시면 해당 이메일로 인증번호가 전송됩니다.
-                    </p>
-                    <div id="sendForm" class="row">
-                        <div class="col-sm-12 form-group"> <!-- wd-50 -->
-                            <label class="control-label" for="email">Email</label>
-                            <input type="text" placeholder="example@gmail.com" title="Please enter your email address"
-                                   id="email" name="email" class="form-control">
+    <div class="error-pagewrap">
+        <div class="error-page-int">
+            <div class="text-center ps-recovered">
+                <h2><i class="fa fa-lock fa-pwLock" aria-hidden="true"></i></h2>
+                <h3>비밀번호 찾기</h3>
+                <p>비밀번호를 복구하려면 양식을 작성해 주세요.</p>
+            </div>
+            <div class="content-error">
+                <div class="hpanel">
+                    <div class="panel-body poss-recover">
+                        <p>
+                            이메일 주소를 입력하시면 해당 이메일로 인증번호가 전송됩니다.
+                        </p>
+                        <div id="sendForm" class="row">
+                            <div class="col-sm-12 form-group"> <!-- wd-50 -->
+                                <label class="control-label" for="email">Email</label>
+                                <input type="text" placeholder="example@gmail.com" title="Please enter your email address"
+                                       id="email" name="email" class="form-control">
+                            </div>
+
+                            <div class="codeDiv">
+
+                            </div>
+
+                            <button id="btnSend" class="btn btn-primary btn-block">인증메일 발송</button>
                         </div>
-
-                        <div class="codeDiv">
-
-                        </div>
-
-                        <button id="btnSend" class="btn btn-primary btn-block">인증메일 발송</button>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="text-center login-footer">
-            <p>Copyright © 2025. All rights reserved. Template by AURA</p>
+            <div class="text-center login-footer">
+                <p>Copyright © 2025. All rights reserved. Template by AURA</p>
+            </div>
         </div>
     </div>
-</div>
 </div>
 </body>
 </html>

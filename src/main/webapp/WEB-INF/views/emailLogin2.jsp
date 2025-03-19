@@ -16,29 +16,29 @@
 
 
 
-    <div class="main container">
-        <div class="logo">
-            <img src="/img/AURAlogo.png" alt="logo">
-        </div>
+<div class="main container">
+    <div class="logo">
+        <img src="/img/AURAlogo.png" alt="logo">
+    </div>
 
-        <form action="/loginProcess" class="mx-auto w-50" method="post">
-            <div class="emailLoginDiv">
-                <div class="mb-3">
-                    <%-- name = "username"으로 해야함 --%>
-                    <input type="email" class="form-control" id="memberEmail" name="username" placeholder="이메일을 입력하세요">
-                </div>
-
-                <div class="mb-3">
-                    <input type="password" class="form-control" id="memberPassword" name="password"
-                           placeholder="비밀번호를 입력하세요">
-                </div>
-                <input type="submit" class="btn btn-outline-danger" id="loginBtn" value="로그인">
-                <div class="TextButton_container">
-                    <span><a href="/findPassword">비밀번호 재설정></a></span><br>
-
-                </div>
+    <form action="/loginProcess" class="mx-auto w-50" method="post">
+        <div class="emailLoginDiv">
+            <div class="mb-3">
+                <%-- name = "username"으로 해야함 --%>
+                <input type="email" class="form-control" id="memberEmail" name="username" placeholder="이메일을 입력하세요">
             </div>
-        </form>
+
+            <div class="mb-3">
+                <input type="password" class="form-control" id="memberPassword" name="password"
+                       placeholder="비밀번호를 입력하세요">
+            </div>
+            <input type="submit" class="btn btn-outline-danger" id="loginBtn" value="로그인">
+            <div class="TextButton_container">
+                <span><a href="/findPassword">비밀번호 재설정></a></span><br>
+
+            </div>
+        </div>
+    </form>
 
     <div class="SocialLoginButtons_container">
         <div>
@@ -62,18 +62,18 @@
                 </div>
             </a>
         </div>
-<%--        <div>--%>
-<%--            <a href="/emailLogin" >--%>
-<%--                <div id="email" class="loginBtn"><img src="/img/email2.png" alt="">이메일로 시작하기</div>--%>
-<%--            </a>--%>
-<%--        </div>--%>
+        <%--        <div>--%>
+        <%--            <a href="/emailLogin" >--%>
+        <%--                <div id="email" class="loginBtn"><img src="/img/email2.png" alt="">이메일로 시작하기</div>--%>
+        <%--            </a>--%>
+        <%--        </div>--%>
     </div>
     <div class="TextButton_container">
         <a href="/business/intro">사업자로 시작하기></a>
         <a href="/member/emailSignUp">이메일로 회원가입></a>
     </div>
 
-    </div>
+</div>
 
 
 <jsp:include page="main/footer.jsp"/>
