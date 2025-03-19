@@ -45,10 +45,10 @@ public class ReservationController {
 
         String url = "/reservation/reservationForm";
 
-        System.out.println("accommodationNo: " + accommodationNo);
-        System.out.println("roomNo: " + roomNo);
-        System.out.println("checkin: " + checkin);
-        System.out.println("checkout: " + checkout);
+//        System.out.println("accommodationNo: " + accommodationNo);
+//        System.out.println("roomNo: " + roomNo);
+//        System.out.println("checkin: " + checkin);
+//        System.out.println("checkout: " + checkout);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -65,13 +65,13 @@ public class ReservationController {
         long calculate = outDate.getTime() - intDate.getTime(); // out - int
         int countDay = (int) (calculate / ( 24*60*60*1000));
 
-        System.out.println("countDay: " + countDay);
+//        System.out.println("countDay: " + countDay);
 
         model.addAttribute("checkinDate", checkin);
         model.addAttribute("checkoutDate", checkout);
         model.addAttribute("countDay", countDay);
 
-        int roomCountMin = 1;
+        int roomCountMin = 0;
 
         // 객실 수량 확인
         for (int i=0; i<countDay; i++) {
@@ -91,6 +91,7 @@ public class ReservationController {
 
             int acmCount = reservationService.getRemainingRooms(rsrvMap); // 숙소 번호, 룸 번호, 해당 일자
             // (int accommodationNo, int roomNo, String getDate)
+            if(i==0) roomCountMin = acmCount;
 
 //            # '2025-03-10', 2, from -> 0
 //            # '2025-03-11', 2, from -> 1
@@ -99,11 +100,8 @@ public class ReservationController {
 //            # '2025-03-14', 1, from -> 3
 //            # -> 기간내에 마감된 객실이 있습니다.
 
-            System.out.println("acmCount: " + acmCount);
-
             roomCountMin = Math.min(roomCountMin, acmCount); // 제일 작은 수량
         }
-        System.out.println("roomCountMin: " + roomCountMin);
 
         // 객실 수량이 없으면 다시 숙소 상세보기로 이동함.
         // 0개이면 애초에 숙소 상세보기에서 예약하기 버튼 활성화 안함. -> 근데 고민하다가 누를 수 있으니 누르면 다시 리다이렉트 -> 해당 숙소 정보로 가기
@@ -116,8 +114,8 @@ public class ReservationController {
         // 숙소 정보 조회
         // 숙소 DTO 값 받아오기.
         HashMap<String, Object> roomDetail = acmRoomService.selectRoomDetail(accommodationNo, roomNo);
-        System.out.println("roomDetail : ");
-        System.out.println(roomDetail);
+//        System.out.println("roomDetail : ");
+//        System.out.println(roomDetail);
 
         model.addAttribute("roomDetail", roomDetail);
 
@@ -130,6 +128,7 @@ public class ReservationController {
         return url;
     }
 
+    // Content-Type 'application/x-www-form-urlencoded;charset=UTF-8' is not supported
     @PostMapping("/payment")
     public String payment(@RequestBody HashMap<String, Object> map) {
         System.out.println("payment >>>>>>>>>>>>>>>>>>>>>>>>>>");

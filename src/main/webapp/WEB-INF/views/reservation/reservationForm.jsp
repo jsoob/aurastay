@@ -74,13 +74,13 @@
                 // event.preventDefault();
 
                 if($("#guestName").val() == '') {
-                    $("#guestName").val("김땡씨");
+                    $("#guestName").val("김우씨");
                 }
                 if($("#guestPhoneNumber").val() == '') {
-                    $("#guestPhoneNumber").val("01088895597");
+                    $("#guestPhoneNumber").val("01072431753");
                 }
                 if($("#guestEmail").val() == '') {
-                    $("#guestEmail").val("js@naver.com");
+                    $("#guestEmail").val("kmhe0128@naver.com");
                 }
             });
 
@@ -237,7 +237,9 @@
                     // 일회용임. 중복되지 않는 유니크한 값 넣어줘야한다. "payment-"는 default / ex : "payment-시간"
                     // "payment-2024-12-18-10-28_002", <= 해당 paymentId로 이미 결제를 했을 때, 다시 동일한 paymentId로 결제 시도 한다면
                     // "결제 창 호출에 실패하였습니다. 요청하신 payment id는 이미 결제된 id입니다." 라고 콘솔에 오류가 출력된다.
-                    paymentId : "payment-num"+rnd,
+
+                    // 0123456789(member_no)-111111(랜덤번호)
+                    paymentId : "1"+"-"+rnd,
 
                     // 상품명
                     orderName : "${roomDetail['accommodationName']}",
@@ -249,6 +251,7 @@
                         // address : { country : $("#residenceCountry").val(), addressLine1 : "" }
                         // country : $("#residenceCountry").val()
                     },
+                    ceoFullName : "AuraStay",
                     storeDetails : {
                         ceoFullName : "AuraStay",
                         phoneNumber : "010-0000-0000",
@@ -265,23 +268,25 @@
                     payMethod : "CARD"
                 });
 
+                if (response.code !== undefined) {
+                    // 오류 발생
+                    return alert("결제 실패 :< ! ", response.message); // 결제 실패..
+                }
 
                 console.log("결제 완료!!");
 
                 // 결제 승인이 떨어진 다음에는 관리자도구에서 response를 출력해준다.
-                console.log("response");
-                console.log(response);
-                console.log("response.status = ", response.status);
-                console.log("response.pgTxId = " , response.pgTxId);
+                console.log("response", response);
 
                 console.log("response.paymentId = " , response.paymentId); // 결제 요청에 전달된 결제 ID입니다.
                 console.log("response.txId = " , response.txId); // 결제 시도 고유 번호 / 포트원에서 채번하는 결제 시도 고유 번호입니다.
+                console.log("response.transactionType = " , response.transactionType); // 일반결제의 경우 무조건 PAYMENT로 전달됩니다.
 
-                console.log("response.code = " , response.code); // 실패한 경우 오류 코드입니다.
-                console.log("response.message = " , response.message); // 실패한 경우 오류 메시지입니다.
-
-                console.log("response.pgCode = " , response.pgCode); // PG에서 오류 코드를 내려 주는 경우 이 오류 코드를 그대로 반환합니다.
-                console.log("response.pgMessage = " , response.pgMessage); // PG에서 오류 메시지를 내려 주는 경우 이 오류 메시지를 그대로 반환합니다.
+                // console.log("response.code = " , response.code); // 실패한 경우 오류 코드입니다.
+                // console.log("response.message = " , response.message); // 실패한 경우 오류 메시지입니다.
+                //
+                // console.log("response.pgCode = " , response.pgCode); // PG에서 오류 코드를 내려 주는 경우 이 오류 코드를 그대로 반환합니다.
+                // console.log("response.pgMessage = " , response.pgMessage); // PG에서 오류 메시지를 내려 주는 경우 이 오류 메시지를 그대로 반환합니다.
 
                 /*
                     paymentId : response.paymentId,
@@ -294,22 +299,31 @@
                     // totalAmount : $(중괄호)price(중괄호),
                     totalAmount : 100
                 */
-                // 결제 승인이 떨어진 다음에는 관리자도구에서 response를 출력해준다.
+
+                // /payment/complete 엔드포인트를 구현해야 합니다. 다음 목차에서 설명합니다.
                 $.ajax({
                     url : "/reservation/payment",
                     method : "post",
                     // data : { 결제와 관련된 정보(페이먼트 id, 상품명, 가격) JSON }
                     data : {
-                        "response" : response
+                        "response" : JSON.stringify(response)
                         // paymentId : response.paymentId,
                         // // 결제가 완료되면 트랜잭션 id 생성된다.
                         // // 결제가 어떻게 된건지 찾아줄 수 있다.
                         // txId : response.txId,
                         // // 이후에 사용할때 EL로 가능하다.
                         // // orderName : $(중괄호)productName(중괄호),
-                        // orderName : "곰인형",
-                        // // totalAmount : $(중괄호)price(중괄호),
-                        // totalAmount : 100
+                        guestName : guestName,
+                        guestPhoneNumber : guestPhoneNumber,
+                        guestEmail : guestEmail,
+                        residenceCountry : $('#residenceCountry').find(':selected')[0].innerText,
+                        memberNo : 1, // 사용자번호
+                        roomNo :${roomDetail['roomNo']},
+                        reservationDetailsRequest : $("#reservationDetailsRequest").val(),
+                        accommodationNo : ${roomDetail['accommodationNo']},
+
+                        orderName : "${roomDetail.accommodationName}",
+                        totalAmount : ${roomDetail.roomPrice}
                     },
                     success : function (response) {
                         console.log("성공");
@@ -456,7 +470,7 @@
                             <div class="row">
                                 <div class="mb-2">그 외, 추가 요청을 입력하시기 바랍니다.</div>
                                 <div>
-                                    <textarea name="reservationDetailsRequest" class="py-2 box-border" rows="3"></textarea>
+                                    <textarea id="reservationDetailsRequest" name="reservationDetailsRequest" class="py-2 box-border" rows="3"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -500,7 +514,7 @@
                                     </li>
                                     <li class="list-group-item">
                                         <input type="checkbox" class="form-check-input tosCheck_none" id="tosChk_2" name="tosChk">
-                                        <label class="form-check-label" for="tosChk_2"> [필수]
+                                        <label class="form-check-label" for="tosChk_2" style="width: 95%;"> [필수]
                                             <button class="btn-none text-decoration-underline text-dark px-0 rsrvPop2Btn">개인정보 처리방침</button>에
                                             따라
                                             <button class="btn-none text-decoration-underline text-dark px-0 rsrvPop2Btn">개인정보의 수집 및 이용</button>에 동의합니다.
@@ -515,8 +529,8 @@
                                                         <div class="row px-2">
                                                             <div class="fs-6 mb-3">개인정보 처리방침</div>
                                                             <div class="fs-10 mb-2">개인정보 수집 및 이용</div>
-                                                            <div class="row mb-2 ps-4">
-                                                                <div class="fs-10 ps-4 mb-0">
+                                                            <div class="row mb-2">
+                                                                <div class="fs-10 mb-0">
                                                                     <table class="table fs-10 w-100">
                                                                         <tr>
                                                                             <th>수집하는 개인정보</th>
