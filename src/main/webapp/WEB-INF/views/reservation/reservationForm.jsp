@@ -300,6 +300,15 @@
                     totalAmount : 100
                 */
 
+                let specialRequestsLength = $("input[name='specialRequests']:checked").length;
+                let specialRequests = [];
+                if(specialRequestsLength > 1){
+                    $("input[name='specialRequests']:checked").each(function(e){
+                        specialRequests.push($(this).val());
+                    })
+                }
+                console.log("specialRequests : " + specialRequests);
+
                 // /payment/complete 엔드포인트를 구현해야 합니다. 다음 목차에서 설명합니다.
                 $.ajax({
                     url : "/reservation/payment",
@@ -321,6 +330,8 @@
                         roomNo :${roomDetail['roomNo']},
                         reservationDetailsRequest : $("#reservationDetailsRequest").val(),
                         accommodationNo : ${roomDetail['accommodationNo']},
+
+                        specialRequests : specialRequests,
 
                         orderName : "${roomDetail.accommodationName}",
                         totalAmount : ${roomDetail.roomPrice}
@@ -461,7 +472,7 @@
                             <div class="row mb-2">
                                 <c:forEach varStatus="specialRequestsStatus" var="specialRequest" items="${specialRequests}">
                                     <div class="col-sm-6 mb-2">
-                                        <input class="form-check-input" type="checkbox" name="specialRequests" id="specialRequest_${specialRequestsStatus.index}" value="${specialRequest.requestNo}">
+                                        <input class="form-check-input" type="checkbox" name="specialRequests[]" id="specialRequest_${specialRequestsStatus.index}" value="${specialRequest.requestNo}">
                                         <label class="form-check-label" for="specialRequest_${specialRequestsStatus.index}">${specialRequest.requestName}</label>
                                     </div>
                                 </c:forEach>

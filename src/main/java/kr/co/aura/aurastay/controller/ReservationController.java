@@ -1,6 +1,7 @@
 package kr.co.aura.aurastay.controller;
 
 import kr.co.aura.aurastay.dto.AcmDTO;
+import kr.co.aura.aurastay.dto.ReservationDTO;
 import kr.co.aura.aurastay.dto.SpecialRequestDTO;
 import kr.co.aura.aurastay.service.AcmRoomService;
 import kr.co.aura.aurastay.service.ReservationService;
@@ -130,7 +131,7 @@ public class ReservationController {
 
     // Content-Type 'application/x-www-form-urlencoded;charset=UTF-8' is not supported
     @PostMapping("/payment")
-    public String payment(@RequestBody HashMap<String, Object> map) {
+    public String payment(@RequestBody HashMap<String, Object> map, @RequestParam(value = "specialRequests", required = false) Integer[] specialRequests, @ModelAttribute ReservationDTO reservationDTO ) {
         System.out.println("payment >>>>>>>>>>>>>>>>>>>>>>>>>>");
         System.out.println(map);
 

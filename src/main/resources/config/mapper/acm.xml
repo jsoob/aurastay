@@ -13,6 +13,7 @@
             acm.accommodation_address as accommodationAddress, acm.accommodation_contents as accommodationContents,
             acm.checkin, acm.checkout, acm.tel,
 
+            rm.room_no as roomNo,
             rm.room_name as roomName, rm.room_qty as roomQty, rm.room_price as roomPrice,
             rm.room_discount as roomDiscount, rm.room_contents as roomContents,
             rm.room_viewtype as roomViewtype, rm.room_capacity as roomCapacity
