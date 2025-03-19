@@ -77,10 +77,10 @@
                     $("#guestName").val("김우씨");
                 }
                 if($("#guestPhoneNumber").val() == '') {
-                    $("#guestPhoneNumber").val("01072431753");
+                    $("#guestPhoneNumber").val("01011111111");
                 }
                 if($("#guestEmail").val() == '') {
-                    $("#guestEmail").val("kmhe0128@naver.com");
+                    $("#guestEmail").val("js@naver.com");
                 }
             });
 
@@ -105,15 +105,6 @@
                 });
             }
 
-            /*const rsrvPop_toastTrigger2 = document.getElementsByClassName("rsrvPop2Btn");
-            const rsrvPop_toastLiveExample2 = document.getElementById('rsrvPop2');
-            rsrvPop_toastTrigger2.forEach((element) =>{
-                element.addEventListener('click', () =>{
-                    $(".rsrvPop").removeClass("show").addClass("hide");
-                    const toast = new bootstrap.Toast(rsrvPop_toastLiveExample2);
-                    toast.show();
-                });
-            });*/
             const rsrvPop_toastTrigger2 = document.querySelectorAll('.rsrvPop2Btn');
             const rsrvPop_toastLiveExample2 = document.getElementById('rsrvPop2');
             rsrvPop_toastTrigger2.forEach((target) => target.addEventListener("click", function(){
@@ -216,28 +207,18 @@
                 }
 
                 console.log("결제하기");
-                // window.PortOne <- 프로퍼티와 메서드들이 들어가 있다.
-                console.log(window.PortOne);
-                // console.log("guestName : " + guestName);
+                // console.log(window.PortOne);
+
                 const rnd = Math.floor(Math.random()*1000000);
 
                 // 결제 요청 팝업
                 const response = await PortOne.requestPayment({
-                    // 속성에 length는 1이고 등등..되어있다.
-
-                    // JSON 타입으로 값 줘야 한다.
-                    // { key : value, key : value, key : value, ... }
-
                     // 상점 아이디
                     storeId : "store-4b8d38b9-6775-4065-9eb0-6d3d89d63815",
                     // 채널 키
                     channelKey : "channel-key-6509c147-0348-470a-a3b5-5cb7138919dc",
 
                     // 결제승인 ID
-                    // 일회용임. 중복되지 않는 유니크한 값 넣어줘야한다. "payment-"는 default / ex : "payment-시간"
-                    // "payment-2024-12-18-10-28_002", <= 해당 paymentId로 이미 결제를 했을 때, 다시 동일한 paymentId로 결제 시도 한다면
-                    // "결제 창 호출에 실패하였습니다. 요청하신 payment id는 이미 결제된 id입니다." 라고 콘솔에 오류가 출력된다.
-
                     // 0123456789(member_no)-111111(랜덤번호)
                     paymentId : "1"+"-"+rnd,
 
@@ -260,7 +241,7 @@
                     },
 
                     // 가격
-                    totalAmount : 1, // 100원짜리 <- 나중에 EL로 가격 가져와도 됨.
+                    totalAmount : ${roomDetail.roomPrice}, // 100원짜리 <- 나중에 EL로 가격 가져와도 됨.
                     <%-- ${roomDetail.roomPrice} --%>
                     // 통화 단위
                     currency : "CURRENCY_KRW",
@@ -270,7 +251,8 @@
 
                 if (response.code !== undefined) {
                     // 오류 발생
-                    return alert("결제 실패 :< ! ", response.message); // 결제 실패..
+                    alert("결제 실패 :< ! ", response.message); // 결제 실패..
+                    return location.reload(true);
                 }
 
                 console.log("결제 완료!!");
