@@ -156,7 +156,7 @@ public class AccommodationController {
                 for (String filename : filenames) {
                     clientFilePaths.add("/upload/" + filename); // 클라이언트가 접근할 수 있는 URL 추가
                 }
-                dto.setClientFilepath(clientFilePaths); // DTO에 클라이언트 접근 경로 설정
+//                dto.setClientFilepath(clientFilePaths); // DTO에 클라이언트 접근 경로 설정
             }
 
 
