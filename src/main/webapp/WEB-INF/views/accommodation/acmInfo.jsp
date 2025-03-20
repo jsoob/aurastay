@@ -26,13 +26,12 @@
 <body>
 <div class="main-content">
     <h2>${dto.acmName}의 상세정보</h2>
-    <ul>
-        <c:forEach var="room" items="${roomList}">
-            <li>${room.roomName}</li>
-            <%--객실 정보 아래에 출력하기--%>
-
-        </c:forEach>
-    </ul>
+<%--    <ul>--%>
+<%--        <c:forEach var="room" items="${roomList}">--%>
+<%--            <li>${room.roomName}</li>--%>
+<%--            &lt;%&ndash;객실 정보 아래에 출력하기&ndash;%&gt;--%>
+<%--        </c:forEach>--%>
+<%--    </ul>--%>
     <form action="/accommodation/acmAdd" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <%--숙소명--%>
@@ -104,6 +103,7 @@
 
 
 
+
         <br>
         <div>
             <label class="form-label">편의시설</label>
@@ -114,13 +114,21 @@
 
         <div>
             <label class="form-label">숙소 이미지</label>
-            <c:if test="${not empty dto.filepath}">
-                <c:forEach items="${dto.filepath}" var="filepath">
+            <c:if test="${not empty dto.filenames}">
+                <c:forEach items="${dto.filenames}" var="filenames">
 <%--                    <img src="${pageContext.request.contextPath}${filepath}" alt="${dto.acmName} 이미지" style="width:200px; height:auto;" />--%>
-                    <img src="${filepath}" alt="${dto.acmName} 이미지" style="width:200px; height:auto;" />
+                    <img src="/accommodation/views/${filenames}" alt="${dto.acmName} 이미지" style="width:200px; height:auto;" />
                     <div class="alert alert-success">${message}</div>
                 </c:forEach>
             </c:if>
+
+<%--            <c:if test="${not empty dto.clientFilepath}">--%>
+<%--                <c:forEach items="${dto.clientFilepath}" var="filepath">--%>
+<%--                    <img src="${filepath}" alt="${dto.acmName} 이미지" style="width:200px; height:auto;" />--%>
+<%--                </c:forEach>--%>
+<%--            </c:if>--%>
+
+
         </div>
 
 

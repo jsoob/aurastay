@@ -18,4 +18,5 @@ public interface RoomRepository {
     void roomUpdate(RoomDTO roomDTO);
     // 객실 정보 삭제
     void roomDelete(int roomNo);
+
 }

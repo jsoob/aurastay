@@ -20,4 +20,8 @@ public class RoomDTO {
 
 
     private int acmNo;                  // 숙소번호 (외래키로 추가)
+
+    public void setAccommodationNo(int acmNo) {
+        this.acmNo = acmNo;  // 전달받은 숙소 번호를 필드에 설정
+    }
 }

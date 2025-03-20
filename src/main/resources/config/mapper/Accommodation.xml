@@ -72,7 +72,7 @@
 <!--        WHERE a.accommodation_no = #{acmNo}-->
 <!--        GROUP BY a.accommodation_no-->
 <!--    </select>-->
-    <select id="selectOne" resultType="AccommodationDTO">
+    <select id="selectOne" parameterType="int" resultType="AccommodationDTO">
         SELECT
         a.accommodation_no          AS acmNo,
         a.accommodation_name        AS acmName,

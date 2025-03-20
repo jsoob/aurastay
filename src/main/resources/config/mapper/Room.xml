@@ -22,6 +22,13 @@
         WHERE r.accommodation_no = #{acmNo}
     </select>
 
+    <select id="selectOne" parameterType="int" resultType="RoomDTO">
+        SELECT *
+        FROM room
+        WHERE accommodation_no = #{acmNo}
+    </select>
+
+
     <!-- 객실 추가 -->
     <insert id="roomAdd" parameterType="RoomDTO"  useGeneratedKeys="true" keyProperty="roomNo">
         INSERT INTO room (

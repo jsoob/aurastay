@@ -11,6 +11,7 @@ import java.util.List;
 public interface RoomImageRepository {
 
     void add(RoomImageDTO image);
+
     List<RoomImageDTO> getImages(int acmNo);
 
 }

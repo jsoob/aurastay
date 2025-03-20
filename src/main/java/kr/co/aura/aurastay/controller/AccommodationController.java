@@ -15,6 +15,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -75,6 +78,17 @@ public class AccommodationController {
         return "accommodation/acmAdd";
     }
 
+    @GetMapping("/views/{filename}")
+    @ResponseBody       // 사용자의 요청을 다이렉트로 보낸다
+    public byte[] viewImage(@PathVariable String filename, Model model) throws IOException {
+        Path filePath = Paths.get(uploadDirectory, filename);
+        System.out.println("이미지가 여기로 오고있니?>>>>>>>>>>>>>>>>>>>>>>>");
+        // 모든 경로를 읽어서 반환한다
+        // 예외처리는 throws 로 던진다
+        return Files.readAllBytes(filePath);
+    }
+
+
     // 숙소 정보를 입력하고 난 뒤의 페이지를 연결 (숙소 등록 처리)
     // 1. @RequestParam("체크인, 체크아웃") 메서드 추가
     @PostMapping("/acmAdd")
@@ -115,7 +129,9 @@ public class AccommodationController {
         // 파일이 null 이거나 빈 배열일 경우 처리
         if (files != null && files.length > 0) {
             // 파일 업로드 경로 설정
-            String uploadDirectory = "D:/upload/";  // 실제 경로
+//            String uploadDirectory = "C:/upload/";  // 실제 경로 (절대경로)
+//            String uploadDirectory = "/upload/"; // 상대 경로
+
 
             File uploadDirectoryFile = new File(uploadDirectory);
             if (!uploadDirectoryFile.exists()) {
@@ -129,12 +145,13 @@ public class AccommodationController {
             List<String> filenames = new ArrayList<>();
             List<String> filepath = new ArrayList<>();
 
-            // 이미지 파일 처리
+            // 이미지 파일 처리 (파일 업로드 처리)
             for (MultipartFile file : files) {
                 if (!file.isEmpty()) {
+                    // 파일 이름 중복 방지를 위한 처리
                     String saveFileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();  // 중복 방지
                     File saveFile = new File(uploadDirectory, saveFileName);  // 저장할 파일 경로
-
+                    System.out.println("save 파일 값 있냐? " + saveFile.getAbsolutePath());
                     try {
                         file.transferTo(saveFile);                  // 파일을 실제 경로에 저장
                         filenames.add(saveFileName);                // 파일 이름 저장
@@ -156,10 +173,8 @@ public class AccommodationController {
                 for (String filename : filenames) {
                     clientFilePaths.add("/upload/" + filename); // 클라이언트가 접근할 수 있는 URL 추가
                 }
-//                dto.setClientFilepath(clientFilePaths); // DTO에 클라이언트 접근 경로 설정
+                dto.setClientFilepath(clientFilePaths); // DTO에 클라이언트 접근 경로 설정
             }
-
-
 
 
             // 이미지 정보를 저장하는 로직 추가
@@ -176,6 +191,10 @@ public class AccommodationController {
         } else {
             System.out.println("파일이 존재하지 않습니다.");
         }
+
+
+        // 숙소 번호를 roomDTO에 설정
+        roomDTO.setAccommodationNo(dto.getAcmNo()); // 이 코드가 필요합니다.
 
         log.info("방의 상세정보 >>>>>>>>>>> {} ", roomDTO);
         // 객실 정보가 있으면 추가 (객실 등록)
@@ -238,28 +257,27 @@ public class AccommodationController {
     // 상세 정보 조회
     @GetMapping("/acmInfo")
     public String accommodationInfo(@RequestParam("acmNo") int acmNo, Model model) {
-        
+
         // 숙소 정보 조회
-        AccommodationDTO dto = accommodationService.selectOne(acmNo);
+        AccommodationDTO dto = accommodationService.selectOne(acmNo);   // 서비스 호출
+        // 객실 정보 조회
+        List<RoomDTO> roomList = roomService.findRoomByAccommodation(acmNo); // 객실 정보 조회 추가
         // 카테고리 정보 조회
         CategoryDTO category = categoryService.getCategoryById(dto.getCategoryNo());                // 카테고리 목록을 가져오는 서비스 호출
         // 키워드 정보 조회
         KeywordDTO keyword = keywordService.getKeywordById(dto.getKeywordNo());               // 키워드 목록을 가져오는 서비스 호출
-        // 객실 정보 조회
-        List<RoomDTO> roomList = roomService.findRoomByAccommodation(acmNo);         // 숙소 id를 통해 객실 정보 조회
 
-        model.addAttribute("dto", dto);
+        model.addAttribute("dto", dto); // 모델에 추가
         model.addAttribute("category", category);   // 카테고리 목록 추가
         model.addAttribute("keyword", keyword);     // 키워드 목록 추가
-//        model.addAttribute("amenities", amenities);
          model.addAttribute("roomList", roomList);  // 객실 정보를 모델에 추가
+//        model.addAttribute("amenities", amenities);
 
         log.info("Accommodation DTO >>>>>>>>>>>>>>>>>> : {}", dto);
         log.info("Retrieved Category >>>>>>>>>>>>>>>>>>> : {}", category);
         log.info("Retrieved Keyword >>>>>>>>>>>>>>>>>>> : {}", keyword);
-//        log.info("편의시설 상세 정보 조회 불러와지고 있는가 >>>>>>>>>>>> : {}", amenities);
         log.info("Retrieved Room >>>>>>>>>>>>>>>>>>> : {}", roomList);
-
+//        log.info("편의시설 상세 정보 조회 불러와지고 있는가 >>>>>>>>>>>> : {}", amenities);
 
         return "/accommodation/acmInfo";
     }

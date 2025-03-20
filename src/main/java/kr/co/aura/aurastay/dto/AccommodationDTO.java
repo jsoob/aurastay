@@ -28,6 +28,8 @@ public class AccommodationDTO {
     private List<String> filenames;             // 여러 파일 이름
     private List<String> filepath;              // 여러 파일 경로
     private List<MultipartFile> files;          // 실제 MultipartFile 리스트
+    // 클라이언트 접근 경로 추가
+    private List<String> clientFilepath;        // 클라이언트 접근 경로 리스트 추가
 
     private List<CategoryDTO> categories;       // 카테고리 리스트 (조회용)
     private Integer categoryNo;                 // insert 용 단일 카테고리

@@ -20,22 +20,23 @@ public class RoomController {
     private final AccommodationService accommodationService;
 
     // 숙소 상세 페이지에서 해당 숙소에 속한 객실 리스트를 가져와서 뷰로 전달하기
-    @GetMapping("/acmInfo/{acmNo}")
-    public String getAccommodationInfo(@PathVariable("acmNo") int acmNo, Model model) {
-
-        // 숙소 정보 조회
-        AccommodationDTO accommodation = accommodationService.findById(acmNo);
-
-        // 해당 숙소에 속한 객실 리스트 조회
-        List<RoomDTO> roomList = roomService.findRoomByAccommodation(acmNo);
-
-        model.addAttribute("acmNo", acmNo);
-        model.addAttribute("accommodation", accommodation);
-        model.addAttribute("roomList", roomList);
-
-        // 숙소 상세 페이지로 이동
-        return "accommodation/acmInfo";
-    }
+    // 숙소안에 있는 객실의 정보도 함께 불러오고 싶다면 숙소 컨트롤러에서 작성한다
+//    @GetMapping("/acmInfo/{acmNo}")
+//    public String getAccommodationInfo(@PathVariable("acmNo") int acmNo, Model model) {
+//
+//        // 숙소 정보 조회
+//        AccommodationDTO accommodation = accommodationService.findById(acmNo);
+//
+//        // 해당 숙소에 속한 객실 리스트 조회
+//        List<RoomDTO> roomList = roomService.findRoomByAccommodation(acmNo);
+//
+//        model.addAttribute("acmNo", acmNo);
+//        model.addAttribute("accommodation", accommodation);
+//        model.addAttribute("roomList", roomList);
+//
+//        // 숙소 상세 페이지로 이동
+//        return "accommodation/acmInfo";
+//    }
 
 
 
