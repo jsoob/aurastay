@@ -9,21 +9,14 @@
     <link rel="stylesheet" type="text/css" href="../css/acm.css">
 
     <script>
-
         $(document).ready(function () {
-            // 파일 입력 필드 추가
-            $("#btn").click(function () {
-                let newFileInput = '<input type="file" name="file[]"><br>';
-                $(this).before(newFileInput);
-            });
-
             // 모달 열기
             $("#showModal").click(function () {
                 $("#roomModal").fadeIn();
             });
 
             // 모달 닫기
-            $("#closeModal, .close ,#saveButton").click(function () {
+            $("#closeModal, .close").click(function () {
                 $("#roomModal").fadeOut();
             });
 
@@ -33,18 +26,30 @@
                     $("#roomModal").fadeOut();
                 }
             });
+
+            // 추가 버튼 클릭 이벤트
+            $("#btn").click(function () {
+                let newFileInput = '<input type="file" name="files" multiple>'; // 새로운 파일 입력 필드
+                $(this).before(newFileInput); // 버튼 앞에 추가
+            });
         });
 
-        // 숫자 입력을 제한하는 함수 (객실 수량, 최대 인원수 : 수량을 체크할 때 -(마이너스) 값이 올 수 없도록 설정)
-        function preventNegativeInput(event) {
-            if (event.target.value < 0) {
-                event.target.value = 0;     // 음수가 입력되면 0으로 설정
-            }
-        }
+        // 객실 정보를 추가하는 함수
+        function addRoomInfo() {
+            let roomName = $("input[name='roomName[]']").val();
+            let roomQty = $("input[name='roomQty[]']").val();
+            let roomCapacity = $("input[name='roomCapacity[]']").val();
+            let roomPrice = $("input[name='roomPrice']").val();
+            let roomDiscount = $("input[name='roomDiscount']").val();
+            let roomContents = $("textarea[name='roomContents']").val();
+            let roomViewType = $("select[name='roomViewType']").val();
 
-        // 각 입력 필드에 음수 입력 방지 기능 추가 (객실 수량, 최대 인원수 input 발생시 해당 함수 실행)
-        document.getElementById("roomQty").addEventListener("input", preventNegativeInput);
-        document.getElementById("roomCapacity").addEventListener("input", preventNegativeInput);
+            // 객실 정보를 추가하는 로직 (서버에 전송하거나 배열에 추가하는 방식 구현 필요)
+            console.log("객실 정보 추가:", { roomName, roomQty, roomCapacity, roomPrice, roomDiscount, roomContents, roomViewType });
+
+            // 모달 닫기
+            $("#roomModal").fadeOut();
+        }
     </script>
 
 </head>

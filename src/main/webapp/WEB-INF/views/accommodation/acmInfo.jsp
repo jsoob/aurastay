@@ -16,7 +16,10 @@
                 $(this).before(newFileInput); // 버튼 앞에 추가
             });
         });
+
+
     </script>
+
 
 </head>
 
@@ -84,6 +87,7 @@
         </div>
 
 
+
         <h3>객실 리스트(정보)</h3>
         <ul>
             <c:forEach var="room" items="${roomList}">
@@ -99,10 +103,6 @@
                 </li>
             </c:forEach>
         </ul>
-
-
-
-
 
         <br>
         <div>

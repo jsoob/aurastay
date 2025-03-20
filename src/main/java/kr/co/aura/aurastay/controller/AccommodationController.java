@@ -260,7 +260,7 @@ public class AccommodationController {
 
         // 숙소 정보 조회
         AccommodationDTO dto = accommodationService.selectOne(acmNo);   // 서비스 호출
-        // 객실 정보 조회
+        // 해당 숙소의 객실 정보 조회
         List<RoomDTO> roomList = roomService.findRoomByAccommodation(acmNo); // 객실 정보 조회 추가
         // 카테고리 정보 조회
         CategoryDTO category = categoryService.getCategoryById(dto.getCategoryNo());                // 카테고리 목록을 가져오는 서비스 호출

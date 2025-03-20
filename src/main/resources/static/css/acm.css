@@ -241,4 +241,49 @@ input[type="checkbox"] {
 .btn-modalsave {
     background-color: #ffe1e6;
 
+
+    /* acmInfo.jsp (선택한 숙소의 상세정보에 따른 객실정보 화면단) */
+    .room-list {
+        display: flex;
+        flex-wrap: wrap; /* 카드가 화면에 맞게 줄 바꿈 */
+        gap: 20px; /* 카드 사이의 간격 */
+        margin-top: 20px; /* 상단 여백 */
+    }
+
+    .room-card {
+        background-color: #ffffff; /* 카드 배경색 */
+        border: 1px solid #ccc; /* 테두리 */
+        border-radius: 10px; /* 모서리 둥글게 */
+        padding: 15px; /* 내부 여백 */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+        flex: 1 1 calc(30% - 20px); /* 카드의 너비 조정 (3개 열) */
+        min-width: 250px; /* 최소 너비 설정 */
+    }
+
+    .room-header {
+        border-bottom: 2px solid #e0e0e0; /* 카드 하단 구분선 */
+        padding-bottom: 10px; /* 하단 여백 */
+    }
+
+    .room-title {
+        font-size: 20px; /* 제목 크기 */
+        color: #ca2f54; /* 강조 색상 */
+        margin: 0; /* 여백 제거 */
+    }
+
+    .room-details {
+        padding-top: 10px; /* 세부 정보 상단 여백 */
+    }
+
+    .room-detail-item {
+        margin: 5px 0; /* 각 세부 항목 간격 */
+        padding: 5px 0; /* 세부 항목 상하 여백 */
+        border-bottom: 1px solid #f0f0f0; /* 항목 간 구분선 */
+    }
+
+
+
+
+
+
 }
