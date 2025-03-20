@@ -5,17 +5,16 @@ import kr.co.aura.aurastay.dto.ReservationDTO;
 import kr.co.aura.aurastay.dto.SpecialRequestDTO;
 import kr.co.aura.aurastay.service.AcmRoomService;
 import kr.co.aura.aurastay.service.ReservationService;
+import kr.co.aura.aurastay.util.ReservationUtil;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/reservation")
@@ -29,7 +28,7 @@ public class ReservationController {
     //checkin
     //checkout
     // 예약하기 버튼 클릭시 가게
-    public String stays(@RequestParam("accommodationNo") int accommodationNo, @RequestParam("roomNo") int roomNo, @RequestParam("checkin") String checkin, @RequestParam("checkout") String checkout, Model model) throws ParseException {
+    public String stays(@RequestParam("accommodationNo") int accommodationNo, @RequestParam("roomNo") int roomNo, @RequestParam("checkin") String checkin, @RequestParam("checkout") String checkout, Model model) {
         // 에어비앤비 getParameter
         // checkin=2025-04-15&
         // checkout=2025-04-16&
@@ -51,22 +50,7 @@ public class ReservationController {
 //        System.out.println("checkin: " + checkin);
 //        System.out.println("checkout: " + checkout);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        Date intDate = null;
-        Date outDate = null;
-
-//        try {
-            intDate = new Date(dateFormat.parse(checkin).getTime());
-            outDate = new Date(dateFormat.parse(checkout).getTime());
-//        } catch (ParseException e) {
-//            throw new RuntimeException(e);
-//        }
-
-        long calculate = outDate.getTime() - intDate.getTime(); // out - int
-        int countDay = (int) (calculate / ( 24*60*60*1000));
-
-//        System.out.println("countDay: " + countDay);
+        int countDay = ReservationUtil.getCheckDay(checkin, checkout);
 
         model.addAttribute("checkinDate", checkin);
         model.addAttribute("checkoutDate", checkout);
@@ -76,29 +60,14 @@ public class ReservationController {
 
         // 객실 수량 확인
         for (int i=0; i<countDay; i++) {
-            Date rsrvDate = dateFormat.parse(checkin);
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(rsrvDate);
-
-            cal.add(Calendar.DAY_OF_MONTH, i);
-            // 결과 날짜를 포맷 형식에 맞게 변환합니다.
-            String getDate = dateFormat.format(cal.getTime());
-
-            //
-            HashMap<String, Object> rsrvMap = new HashMap<>();
-            rsrvMap.put("accommodationNo", accommodationNo);
-            rsrvMap.put("roomNo", roomNo);
-            rsrvMap.put("getDate", getDate);
+            HashMap<String, Object> rsrvMap = ReservationUtil.getRoomCheck(checkin, accommodationNo, roomNo, i);
 
             int acmCount = reservationService.getRemainingRooms(rsrvMap); // 숙소 번호, 룸 번호, 해당 일자
-            // (int accommodationNo, int roomNo, String getDate)
             if(i==0) roomCountMin = acmCount;
 
 //            # '2025-03-10', 2, from -> 0
 //            # '2025-03-11', 2, from -> 1
 //            # '2025-03-12', 2, from -> 5
-//            # '2025-03-13', 2, from -> 2
-//            # '2025-03-14', 1, from -> 3
 //            # -> 기간내에 마감된 객실이 있습니다.
 
             roomCountMin = Math.min(roomCountMin, acmCount); // 제일 작은 수량
@@ -129,13 +98,31 @@ public class ReservationController {
         return url;
     }
 
+    // 1번 에러
     // Content-Type 'application/x-www-form-urlencoded;charset=UTF-8' is not supported
+    
+    // 2번 에러
+    // Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error:
+    // Unrecognized token 'payment': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')]
     @PostMapping("/payment")
-    public String payment(@RequestBody HashMap<String, Object> map, @RequestParam(value = "specialRequests", required = false) Integer[] specialRequests, @ModelAttribute ReservationDTO reservationDTO ) {
-        System.out.println("payment >>>>>>>>>>>>>>>>>>>>>>>>>>");
-        System.out.println(map);
+    @ResponseBody
+    // @RequestParam(value = "payment")
+    public String payment(@RequestBody Map<String, Object> jsonData ) {
+        // , @RequestParam(value = "specialRequests", required = false) Integer[] specialRequests, @ModelAttribute ReservationDTO reservationDTO
+        System.out.println("jsonData >>>>>>>>>>>>>>>>>>>>>>>>>>");
+        System.out.println(jsonData);
 
-        return "/reservation/myReservation";
+        int status = reservationService.addReservation(jsonData);
+
+//      jsonData >>>>>>>>>>>>>>>>>>>>>>>>>>
+//      {payment={status=PAID, id=1-385219, transactionId=0195b214-2f8a-2da1-7d45-b2a5d94b79e7, merchantId=merchant-bf82b603-be66-4474-9cc1-03d3199fa24c, storeId=store-4b8d38b9-6775-4065-9eb0-6d3d89d63815, method={type=PaymentMethodEasyPay, provider=KAKAOPAY, easyPayMethod={type=PaymentMethodEasyPayMethodCharge}}, channel={type=TEST, id=channel-id-abe78f42-5b5b-4a97-9bb8-c582e7792623, key=channel-key-6509c147-0348-470a-a3b5-5cb7138919dc, name=토스페이먼츠 결제창 일반결제, pgProvider=TOSSPAYMENTS, pgMerchantId=iamporttest_3}, version=V2, requestedAt=2025-03-20T05:43:42.24716878Z, updatedAt=2025-03-20T05:44:07.094514771Z, statusChangedAt=2025-03-20T05:44:07.065193154Z, orderName=스카이베이 호텔 경포, amount={total=1500000, taxFree=0, vat=136364, supply=1363636, discount=0, paid=1500000, cancelled=0, cancelledTaxFree=0}, currency=KRW, customer={id=port-customer-id-0195b214-2f93-ad54-dc47-5e081a5a4c44, name=김우씨, email=kmhe0128@naver.com, phoneNumber=01011111111}, promotionId=, isCulturalExpense=false, country=MT, paidAt=2025-03-20T05:44:07.065193154Z, pgTxId=tiamp20250320144343qG2I6, pgResponse={"mId":"tiamporttest_3","lastTransactionKey":"txrd_a01jps193xfn59tj0e3gbsf8jfh","paymentKey":"tiamp20250320144343qG2I6","orderId":"1-385219","orderName":"스카이베이 호텔 경포","taxExemptionAmount":0,"status":"DONE","requestedAt":"2025-03-20T14:43:43+09:00","approvedAt":"2025-03-20T14:44:06+09:00","useEscrow":false,"cultureExpense":false,"card":null,"virtualAccount":null,"transfer":null,"mobilePhone":null,"giftCertificate":null,"cashReceipt":null,"cashReceipts":null,"discount":null,"cancels":null,"secret":"ps_0RnYX2w5327zNGQpdpaKVNeyqApQ","type":"NORMAL","easyPay":{"provider":"카카오페이","amount":1500000,"discountAmount":0},"country":"KR","failure":null,"isPartialCancelable":true,"receipt":{"url":"https://dashboard.tosspayments.com/receipt/redirection?transactionId=tiamp20250320144343qG2I6&ref=PX"},"checkout":{"url":"https://api.tosspayments.com/v1/payments/tiamp20250320144343qG2I6/checkout"},"transactionKey":"txrd_a01jps193xfn59tj0e3gbsf8jfh","currency":"KRW","totalAmount":1500000,"balanceAmount":1500000,"suppliedAmount":1363636,"vat":136364,"taxFreeAmount":0,"method":"간편결제","version":"2022-07-27","metadata":null}, receiptUrl=https://dashboard.tosspayments.com/receipt/redirection?transactionId=tiamp20250320144343qG2I6&ref=PX, disputes=[]}, guestName=김우씨, guestPhoneNumber=01011111111, guestEmail=kmhe0128@naver.com, residenceCountry=몰타, memberNo=1, roomNo=1, reservationDetailsRequest=gggggg, accommodationNo=2, specialRequests=[1, 3, 5], orderName=스카이베이 호텔 경포, totalAmount=500000}
+
+//        System.out.println("specialRequests : "+ Arrays.toString(specialRequests));
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("status", status);
+
+         return jsonObject.toJSONString();
+         // "redirect:/reservation/myReservation";
     }
 
     

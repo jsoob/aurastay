@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
     <title>예약 요청</title>
@@ -45,10 +46,12 @@
 
                     // 국가코드 data
                     let datas = data.data;
+                    console.log("datas : ", datas);
                     // 국가수
                     let totalCount = data.totalCount;
 
                     // 국가 ISO 2자리코드
+
                     // console.log(datas[0]['ISO alpha2']);
                     // console.log(datas[0]['국가코드_국제표준(ISO)_알파벳2자리']);
                     // 국가명
@@ -232,16 +235,17 @@
                         // address : { country : $("#residenceCountry").val(), addressLine1 : "" }
                         // country : $("#residenceCountry").val()
                     },
+                    country : $("#residenceCountry").val(), // 결제 국가 ISO 3166-1 alpha-2에 의해 표준화된 2글자 국가 코드
                     ceoFullName : "AuraStay",
+                    businessName : "난사자",
                     storeDetails : {
                         ceoFullName : "AuraStay",
                         phoneNumber : "010-0000-0000",
-                        address : "구로궁",
-                        businessName : "난사자"
+                        address : "구로궁"
                     },
 
                     // 가격
-                    totalAmount : ${roomDetail.roomPrice}, // 100원짜리 <- 나중에 EL로 가격 가져와도 됨.
+                    totalAmount : ${roomDetail.roomPrice*countDay}, // 100원짜리 <- 나중에 EL로 가격 가져와도 됨.
                     <%-- ${roomDetail.roomPrice} --%>
                     // 통화 단위
                     currency : "CURRENCY_KRW",
@@ -253,57 +257,58 @@
                     // 오류 발생
                     alert("결제 실패 :< ! ", response.message); // 결제 실패..
                     return location.reload(true);
-                }
+                } else {
+                    console.log("결제 완료!!");
 
-                console.log("결제 완료!!");
+                    // 결제 승인이 떨어진 다음에는 관리자도구에서 response를 출력해준다.
+                    console.log("response", response);
 
-                // 결제 승인이 떨어진 다음에는 관리자도구에서 response를 출력해준다.
-                console.log("response", response);
+                    console.log("response.paymentId = " , response.paymentId); // 결제 요청에 전달된 결제 ID입니다.
+                    console.log("response.txId = " , response.txId); // 결제 시도 고유 번호 / 포트원에서 채번하는 결제 시도 고유 번호입니다.
+                    console.log("response.transactionType = " , response.transactionType); // 일반결제의 경우 무조건 PAYMENT로 전달됩니다.
 
-                console.log("response.paymentId = " , response.paymentId); // 결제 요청에 전달된 결제 ID입니다.
-                console.log("response.txId = " , response.txId); // 결제 시도 고유 번호 / 포트원에서 채번하는 결제 시도 고유 번호입니다.
-                console.log("response.transactionType = " , response.transactionType); // 일반결제의 경우 무조건 PAYMENT로 전달됩니다.
+                    // console.log("response.code = " , response.code); // 실패한 경우 오류 코드입니다.
+                    // console.log("response.message = " , response.message); // 실패한 경우 오류 메시지입니다.
+                    //
+                    // console.log("response.pgCode = " , response.pgCode); // PG에서 오류 코드를 내려 주는 경우 이 오류 코드를 그대로 반환합니다.
+                    // console.log("response.pgMessage = " , response.pgMessage); // PG에서 오류 메시지를 내려 주는 경우 이 오류 메시지를 그대로 반환합니다.
 
-                // console.log("response.code = " , response.code); // 실패한 경우 오류 코드입니다.
-                // console.log("response.message = " , response.message); // 실패한 경우 오류 메시지입니다.
-                //
-                // console.log("response.pgCode = " , response.pgCode); // PG에서 오류 코드를 내려 주는 경우 이 오류 코드를 그대로 반환합니다.
-                // console.log("response.pgMessage = " , response.pgMessage); // PG에서 오류 메시지를 내려 주는 경우 이 오류 메시지를 그대로 반환합니다.
 
-                /*
-                    paymentId : response.paymentId,
-                    // 결제가 완료되면 트랜잭션 id 생성된다.
-                    // 결제가 어떻게 된건지 찾아줄 수 있다.
-                    txId : response.txId,
-                    // 이후에 사용할때 EL로 가능하다.
-                    // orderName : $(중괄호)productName(중괄호),
-                    orderName : "곰인형",
-                    // totalAmount : $(중괄호)price(중괄호),
-                    totalAmount : 100
-                */
+                    let specialRequestsLength = $("input[name='specialRequests[]']:checked").length;
+                    let specialRequests = [];
+                    if(specialRequestsLength > 1){
+                        $("input[name='specialRequests[]']:checked").each(function(e){
+                            specialRequests.push($(this).val());
+                        })
+                    }
 
-                let specialRequestsLength = $("input[name='specialRequests']:checked").length;
-                let specialRequests = [];
-                if(specialRequestsLength > 1){
-                    $("input[name='specialRequests']:checked").each(function(e){
-                        specialRequests.push($(this).val());
-                    })
-                }
-                console.log("specialRequests : " + specialRequests);
+                    <spring:eval expression="@environment.getProperty('payment.PORTONE_API_SECRET')" var="PORTONE_API_SECRET"/>
+                    // console.log("specialRequests : " , specialRequests);
+                    <%--console.log("PORTONE_API_SECRET : " , `${PORTONE_API_SECRET}`);--%>
 
-                // /payment/complete 엔드포인트를 구현해야 합니다. 다음 목차에서 설명합니다.
-                $.ajax({
-                    url : "/reservation/payment",
-                    method : "post",
-                    // data : { 결제와 관련된 정보(페이먼트 id, 상품명, 가격) JSON }
-                    data : {
-                        "response" : JSON.stringify(response),
-                        // paymentId : response.paymentId,
-                        // // 결제가 완료되면 트랜잭션 id 생성된다.
-                        // // 결제가 어떻게 된건지 찾아줄 수 있다.
-                        // txId : response.txId,
-                        // // 이후에 사용할때 EL로 가능하다.
-                        // // orderName : $(중괄호)productName(중괄호),
+                    // /payment/complete 엔드포인트를 구현해야 합니다. 다음 목차에서 설명합니다.
+                    <%--const notified = await fetch(`${SERVER_BASE_URL}/payment/complete`, {--%>
+
+                    // 1. 포트원 결제내역 단건조회 API 호출
+                    const paymentResponse = await fetch(
+                        `https://api.portone.io/payments/`+response.paymentId, <%--${encodeURIComponent(response.paymentId)}--%>
+                        {
+                            headers: { Authorization: `PortOne ${PORTONE_API_SECRET}` },
+                        },
+                    );
+
+                    if (!paymentResponse.ok)
+                        console.log("에러에러!!");
+                    const payment = await paymentResponse.json();
+
+                    console.log("payment!!!!!!");
+                    console.log("payment : ", payment );
+
+                    const jsonData = {
+                        "payment" : payment,
+                        // txId : payment.transactionId
+                        // paymentId : payment.id
+
                         guestName : guestName,
                         guestPhoneNumber : guestPhoneNumber,
                         guestEmail : guestEmail,
@@ -315,14 +320,53 @@
 
                         specialRequests : specialRequests,
 
+                        checkinDate : `${checkinDate}`,
+                        checkin : `${roomDetail['checkin']}`,
+
+                        checkoutDate : `${checkoutDate}`,
+                        checkout : `${roomDetail['checkout']}`,
+
                         orderName : "${roomDetail.accommodationName}",
                         totalAmount : ${roomDetail.roomPrice}
-                    },
-                    success : function (response) {
-                        console.log("성공");
-                    }
-                });
+                    };
+                    console.log("jsonData = ", jsonData);
+                    $.ajax({
+                        url : "/reservation/payment",
+                        type: "POST",
+                        dataType: "JSON",
+                        contentType: "application/json; charset=utf-8", // "application/json",
+                        data: JSON.stringify(jsonData),
+                        // "payment" : JSON.stringify(payment),
+                        <%--guestName : guestName,--%>
+                        <%--guestPhoneNumber : guestPhoneNumber,--%>
+                        <%--guestEmail : guestEmail,--%>
+                        <%--residenceCountry : $('#residenceCountry').find(':selected')[0].innerText,--%>
+                        <%--memberNo : 1, // 사용자번호--%>
+                        <%--roomNo :${roomDetail['roomNo']},--%>
+                        <%--reservationDetailsRequest : $("#reservationDetailsRequest").val(),--%>
+                        <%--accommodationNo : ${roomDetail['accommodationNo']},--%>
 
+                        <%--specialRequests : specialRequests,--%>
+
+                        <%--orderName : "${roomDetail.accommodationName}",--%>
+                        <%--totalAmount : ${roomDetail.roomPrice}--%>
+                        // data : {
+                        //     "jsonData" : JSON.stringify(jsonData)
+                        // },
+                        success : function (response) {
+                            console.log("성공");
+                        }, error: function(jqXHR, textStatus, errorThrown) {
+                            console.log('AJAX 요청 실패');
+                            console.log('상태 코드:', jqXHR); // HTTP 상태 코드
+                            console.log('상태 코드:', jqXHR.status); // HTTP 상태 코드
+                            console.log('응답 텍스트:', jqXHR.responseText); // 서버에서 반환한 응답
+                            console.log('오류 상태:', textStatus); // 요청 상태
+                            console.log('오류 메시지:', errorThrown); // 에러 메시지
+
+                            alert('서버와의 통신에 실패했습니다.');
+                        }
+                    });
+                }
             });
         });
     </script>
@@ -333,7 +377,7 @@
 <%-- 실제 html --%>
 <div class="container rsrv-container">
     <div class="rsrv-title-container">
-        <h1><a class="text-decoration-none text-dark" href="/accomodation"><span
+        <h1><a class="text-decoration-none text-dark" href="/reservation/album_ex"><span
                 class="px-2 rsrv-back-circleBtn fs-3 fw-bold"><</span></a> 예약 요청</h1>
     </div>
     <div class="rsrv-body-container">
@@ -685,6 +729,7 @@
                 <%-- right 끝 --%>
             </div>
 <%--        </form>--%>
+        </div>
     </div>
 </div>
 </body>
