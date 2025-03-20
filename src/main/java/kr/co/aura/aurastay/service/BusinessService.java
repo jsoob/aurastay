@@ -7,5 +7,5 @@ public interface BusinessService {
     public void save(BusinessDTO dto);
     BusinessDTO findByEmail(String email);
     void resetPassword(BusinessDTO dto);
-
+    boolean isBusinessExist(String email);
 }

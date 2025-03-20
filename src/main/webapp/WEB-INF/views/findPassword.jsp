@@ -9,6 +9,7 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="/css/main.css">
     <style>
         /*.middle_container {*/
         /*    display: flex;*/
@@ -17,6 +18,12 @@
         /*    align-items: center;*/
         /*}*/
 
+        .main {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+        }
+
         .error-page-int {
             max-width: 500px;
             padding: 20px 0;
@@ -24,9 +31,11 @@
             position: relative;
             margin: 0 auto;
         }
+
         #btnSend {
             margin: 20px 0;
         }
+
         .codeDiv {
             margin-top: 20px;
             display: flex;
@@ -36,6 +45,7 @@
             justify-content: flex-start;
             align-items: flex-end;
         }
+
         #codeInput {
             display: block;
             width: 50%;
@@ -52,7 +62,9 @@
             transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
         }
 
-
+        .test {
+            margin: auto;
+        }
     </style>
 
     <script>
@@ -69,34 +81,33 @@
                 if (!email) {
                     alert("이메일을 입력해주세요.");
                     return;
+                } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+                    alert("올바른 이메일 형식을 입력하세요.")
+                } else {
+
+                    // 인증코드 input박스, 인증 button 생기게 함
+                    // 인증번호 input
+                    let codeInput = '<input type="text" id="codeInput" name="code"/>';
+                    // 인증번호
+                    let codeBtn = '<button id="codeBtn" class="btn btn-outline-danger btn-block">인증</button>';
+                    $(".codeDiv").html(codeInput + codeBtn);
+
+                    $.ajax({
+                        type: "post",
+                        url: "/sendEmail/findPassword",
+                        dataType: "json",
+                        contentType: "application/json",  // JSON 요청임을 명시
+                        data: JSON.stringify({email: email}), // JSON 문자열로 변환하여 전송
+
+                        success: function (data) {
+                            console.log(data);
+                            authCode = data.code; // 인증번호 저장
+                        },
+                        error: function (xhr) {
+                            alert("이메일 전송 실패하였습니다. 다시 시도해주세요.");
+                        }
+                    });
                 }
-
-                // input박스 밑에 공간 만들어서
-                // 인증코드 input박스, 인증 button 생기게 함
-
-                // 인증번호 input
-                let codeInput = '<input type="text" id="codeInput" name="code"/>';
-                // 인증번호
-                let codeBtn = '<button id="codeBtn" class="btn btn-primary btn-block">인증</button>';
-                $(".codeDiv").html(codeInput + codeBtn);
-
-
-                $.ajax({
-                    type: "post",
-                    url: "/sendEmail/findPassword",
-                    dataType: "json",
-                    contentType: "application/json",  // JSON 요청임을 명시
-                    data: JSON.stringify({email: email}), // JSON 문자열로 변환하여 전송
-
-                    success: function (data) {
-                        console.log(data);
-                        authCode = data.code; // 인증번호 저장
-                    },
-                    error: function (xhr) {
-                        console.error("오류 발생:", xhr);
-                        alert("이메일 전송 실패!");
-                    }
-                });
             })
 
             // 인증버튼 누르면
@@ -129,8 +140,9 @@
 
 </head>
 <body>
-<div class="container">
-    <div class="error-pagewrap">
+<jsp:include page="main/header.jsp"/>
+<div class="container main">
+    <div class="error-pagewrap test">
         <div class="error-page-int">
             <div class="text-center ps-recovered">
                 <h2><i class="fa fa-lock fa-pwLock" aria-hidden="true"></i></h2>
@@ -145,25 +157,21 @@
                         </p>
                         <div id="sendForm" class="row">
                             <div class="col-sm-12 form-group"> <!-- wd-50 -->
-                                <label class="control-label" for="email">Email</label>
-                                <input type="text" placeholder="example@gmail.com" title="Please enter your email address"
+                                <input type="text" placeholder="이메일을 입력해주세요" title="Please enter your email address"
                                        id="email" name="email" class="form-control">
                             </div>
 
                             <div class="codeDiv">
-
                             </div>
 
-                            <button id="btnSend" class="btn btn-primary btn-block">인증메일 발송</button>
+                            <button id="btnSend" class="btn btn-outline-danger btn-block">인증메일 발송</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="text-center login-footer">
-                <p>Copyright © 2025. All rights reserved. Template by AURA</p>
-            </div>
         </div>
     </div>
 </div>
+<jsp:include page="main/footer.jsp"/>
 </body>
 </html>

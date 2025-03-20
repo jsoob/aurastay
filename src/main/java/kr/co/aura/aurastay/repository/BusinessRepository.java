@@ -16,4 +16,5 @@ public interface BusinessRepository {
 
     // 비밀번호 재설정
     void resetPassword(BusinessDTO dto);
+
 }

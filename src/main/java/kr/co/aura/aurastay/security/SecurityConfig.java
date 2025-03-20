@@ -52,7 +52,7 @@ public class SecurityConfig {
         /* 커스텀 로그인 화면으로 */
         http
                 .formLogin(auth ->
-                                auth.loginPage("/emailLogin")
+                                auth.loginPage("/login")
                                         .loginProcessingUrl("/loginProcess")
                                         .successHandler(authenticationSuccessHandler)
 //                                .defaultSuccessUrl("/")

@@ -40,13 +40,13 @@ public class MemberController {
         memberDTO.setMemberPhoneNumber(phone1+phone2+phone3);
         memberService.save(memberDTO);
 
-        return "redirect:/emailLogin";
+        return "redirect:/login";
     }
 
     // 로그인
     @GetMapping("/login")
     public String login() {
-        return "member/login";
+        return "emailLogin";
     }
     @PostMapping("/login")
     public String loginOk(@ModelAttribute MemberDTO dto){

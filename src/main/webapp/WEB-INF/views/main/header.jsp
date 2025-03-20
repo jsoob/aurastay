@@ -19,7 +19,7 @@
         <ul class="dropdown-menu">
             <%-- 인증이 안된 사용자가 볼 수 있는 리스트 --%>
             <sec:authorize access="isAnonymous()">
-                <li><a class="dropdown-item" href="/member/login">로그인</a></li>
+                <li><a class="dropdown-item" href="/login">로그인</a></li>
                 <li><a class="dropdown-item" href="/member/emailSignUp">회원가입</a></li>
             </sec:authorize>
             <%-- 인증된 사용자가 볼 수 있는 리스트 --%>

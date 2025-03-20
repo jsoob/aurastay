@@ -44,4 +44,9 @@ public class BusinessServiceImpl implements BusinessService {
         dto.setBusinessPassword(passwordEncoder.encode(dto.getBusinessPassword()));
         businessRepository.resetPassword(dto);
     }
+
+    @Override
+    public boolean isBusinessExist(String email) {
+        return businessRepository.existsByEmail(email);
+    }
 }

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title></title>
@@ -9,12 +10,18 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/member-login.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <script>
+        $(document).ready(() => {
+            // 입력값이 변경될 때 오류 메시지 자동 제거
+            $("input").on("input", function () {
+                $(".text-danger").text("");
+            });
+        })
+    </script>
 </head>
 <body>
 <jsp:include page="main/header.jsp"/>
-
-
 
 <div class="main container">
     <div class="logo">
@@ -25,13 +32,17 @@
         <div class="emailLoginDiv">
             <div class="mb-3">
                 <%-- name = "username"으로 해야함 --%>
-                <input type="email" class="form-control" id="memberEmail" name="username" placeholder="이메일을 입력하세요">
+                <input type="text" class="form-control" id="memberEmail" name="username" placeholder="이메일을 입력하세요">
             </div>
 
             <div class="mb-3">
                 <input type="password" class="form-control" id="memberPassword" name="password"
                        placeholder="비밀번호를 입력하세요">
             </div>
+            <%-- 로그인 실패 메시지 표시 --%>
+            <c:if test="${param.error != null}">
+                <div class="text-danger small">이메일 또는 비밀번호가 틀렸습니다.</div>
+            </c:if>
             <input type="submit" class="btn btn-outline-danger" id="loginBtn" value="로그인">
             <div class="TextButton_container">
                 <span><a href="/findPassword">비밀번호 재설정></a></span><br>

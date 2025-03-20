@@ -90,3 +90,7 @@
 #loginBtn {
     width: 400px;
 }
+
+.text-danger {
+    margin-bottom: 10px;
+}

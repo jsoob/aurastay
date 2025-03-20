@@ -30,7 +30,7 @@ public class EmailController {
     }
 
     // 회원가입 이메일 인증
-    @PostMapping("/email")
+    @PostMapping("/emailCode")
     public ResponseEntity sendEmail(@RequestBody EmailPostDTO emailPostDTO) {
         EmailMessage emailMessage = EmailMessage.builder()
                 .to(emailPostDTO.getEmail())

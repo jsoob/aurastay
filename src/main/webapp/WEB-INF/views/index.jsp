@@ -69,9 +69,9 @@
 
     <div class="main_body_container container">
         <%-- row-cols-md-n -> 1줄에 몇개씩 나올거냐 --%>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-6 g-3">
             <%-- 숙소 목록 ex : dto : list / status -> index 값 구하기 위해 명시함. --%>
-            <c:forEach var="i" begin="1" end="5" varStatus="status">
+            <c:forEach var="i" begin="1" end="30" varStatus="status">
                 <div class="col">
                     <div class="card shadow-sm">
                             <%-- 캐러셀 --%>

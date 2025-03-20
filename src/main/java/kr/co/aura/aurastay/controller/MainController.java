@@ -6,6 +6,7 @@ import kr.co.aura.aurastay.service.BusinessService;
 import kr.co.aura.aurastay.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -32,14 +35,14 @@ public class MainController {
         return "index";
     }
 
-    // 이메일로 로그인
-    @GetMapping("/emailLogin")
-    public String emailLogin() {
-        return "emailLogin2";
+    // 로그인
+    @GetMapping("/login")
+    public String login() {
+        return "login";
     }
 
-    @PostMapping("/emailLogin")
-    public String emailLoginOk(@ModelAttribute MemberDTO dto) {
+    @PostMapping("/login")
+    public String loginOk(@ModelAttribute MemberDTO dto) {
         return "redirect:/";
     }
 
@@ -86,6 +89,15 @@ public class MainController {
                     .build();
             businessService.resetPassword(businessDTO);
         }
-        return "redirect:/emailLogin";
+        return "redirect:/login";
+    }
+
+    // 이메일 중복 확인
+    @PostMapping("/checkEmail")
+    public ResponseEntity<Map<String, Boolean>> checkEmail(@RequestParam String email){
+        boolean exists = memberService.isMemberExist(email) || businessService.isBusinessExist(email); // member 또는 business에 존재하는 이메일
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("exists", exists);
+        return ResponseEntity.ok(response);
     }
 }

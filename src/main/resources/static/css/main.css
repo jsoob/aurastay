@@ -91,6 +91,7 @@ header .dropdown > ul > li {
     padding-top: 20px;
     padding-left: 30px;
     padding-right: 30px;
+    max-width: 1800px;
 }
 
 /* 네비게이션 바 (스크롤 시 고정) */

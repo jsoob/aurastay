@@ -43,4 +43,9 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.resetPassword(dto);
     }
 
+    @Override
+    public boolean isMemberExist(String email) {
+        return memberRepository.existsByEmail(email);
+    }
+
 }
