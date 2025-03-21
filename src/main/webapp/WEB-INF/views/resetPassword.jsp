@@ -27,10 +27,10 @@
             <input type="password" name="password" id="password" placeholder="최소 8자리 / 영문 대소문자, 숫자, 특수문자 조합">
             <input type="password" id="confirmPassword" placeholder="비밀번호 확인">
 
-            <c:if test="${user}==0">
+            <c:if test="${user==0}">
                 <input type="hidden" name="email" value="${member.memberEmail}">
             </c:if>
-            <c:if test="${user}==1">
+            <c:if test="${user==1}">
                 <input type="hidden" name="email" value="${business.businessEmail}">
             </c:if>
             <input type="hidden" name="user" value="${user}">
