@@ -1,5 +1,6 @@
 package kr.co.aura.aurastay.controller;
 
+import jakarta.servlet.http.HttpSession;
 import kr.co.aura.aurastay.dto.BusinessDTO;
 import kr.co.aura.aurastay.dto.MemberDTO;
 import kr.co.aura.aurastay.service.BusinessService;
@@ -12,10 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -52,30 +50,48 @@ public class MainController {
         return "findPassword";
     }
 
-    // 비밀번호 재설정 페이지
+    // 비밀번호 재설정할 이메일 정보를 세션에 저장
+    @PostMapping("/storeEmailSession")
+    public ResponseEntity<?> storeEmailInSession(@RequestBody Map<String, String> request, HttpSession session) {
+        String email = request.get("email");
+        // 세션에 담기
+        session.setAttribute("resetEmail", email);
+        return ResponseEntity.ok().build();
+    }
+
+    // 비밀번호 재설정 폼으로 이동
     @GetMapping("/resetPassword")
-    public String resetPassword(@RequestParam String email, Model model) {
+    public String resetPasswordPage(HttpSession session, Model model) {
+        // 접근 제한을 위해 세션값 확인
+        String email = (String) session.getAttribute("resetEmail");
 
-        MemberDTO member = memberService.findByEmail(email);
-        if (member != null) {
-            model.addAttribute("member", member);
-            model.addAttribute("user",0);
-        }
-        BusinessDTO business = businessService.findByEmail(email);
+        if (email == null) {
+            return "redirect:/findPassword";  // 세션이 없으면 접근 불가
+        } else {
+            // member에 있는지
+            MemberDTO member = memberService.findByEmail(email);
+            if (member != null) {
+                model.addAttribute("member", member);
+                model.addAttribute("user", 0);
+            }
 
-        if (business != null) {
-            model.addAttribute("business", business);
-            model.addAttribute("user",1);
+            // business에 있는지
+            BusinessDTO business = businessService.findByEmail(email);
+            if (business != null) {
+                model.addAttribute("business", business);
+                model.addAttribute("user", 1);
+            }
         }
 
         return "resetPassword";
     }
 
-    // 비밀번호 재설정
+    // 비밀번호 재설정 처리
     @PostMapping("/resetPassword")
     public String resetPasswordOk(@RequestParam("password") String password,
                                   @RequestParam("email") String email,
                                   @RequestParam("user") int user) {
+        // 이부분 if(isExistMember){memberDTO에 담아 memberService.resetPassword(dto)} 이렇게 수정할지..
         if(user == 0) { // member
             MemberDTO memberDTO = MemberDTO.builder()
                     .memberPassword(password)
@@ -100,4 +116,6 @@ public class MainController {
         response.put("exists", exists);
         return ResponseEntity.ok(response);
     }
+
+
 }

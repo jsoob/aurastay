@@ -26,7 +26,7 @@
 
                 if (email === "") {
                     $("#emailError").text("이메일을 입력해주세요.")
-                } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+                } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
                     $("#emailError").text("올바른 이메일 형식을 입력하세요.")
                 } else {
                     // 중복확인
@@ -176,38 +176,7 @@
 
         })
     </script>
-    <style>
-        .signUpWidth {
-            max-width: 400px;
-        }
-        .emailDiv {
-            display: flex;
-            justify-content: space-between;
-        }
-        .emailDiv > input {
-            max-width: 290px;
-        }
-        #checkEmailBtn {
-            min-width: 100px;
-        }
 
-        #verifyEmailCodeBtn {
-            min-width:70px;
-        }
-
-        /* 이메일인증 모달 */
-        #modalMessage {
-            display: flex;
-            flex-wrap: nowrap;
-            flex-direction: row;
-            justify-content: space-between;
-            align-content: center;
-            align-items: center;
-            margin-bottom: 10px;
-            margin-left: 5px;
-        }
-
-    </style>
 </head>
 <body>
 <jsp:include page="../main/header.jsp"/>
@@ -292,5 +261,6 @@
 </div>
 
 <jsp:include page="../main/footer.jsp"/>
+<script src ="/js/signUp.js"></script>
 </body>
 </html>

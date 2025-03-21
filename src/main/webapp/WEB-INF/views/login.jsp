@@ -11,14 +11,6 @@
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/login.css">
-    <script>
-        $(document).ready(() => {
-            // 입력값이 변경될 때 오류 메시지 자동 제거
-            $("input").on("input", function () {
-                $(".text-danger").text("");
-            });
-        })
-    </script>
 </head>
 <body>
 <jsp:include page="main/header.jsp"/>
@@ -83,10 +75,9 @@
         <a href="/business/intro">사업자로 시작하기></a>
         <a href="/member/emailSignUp">이메일로 회원가입></a>
     </div>
-
 </div>
 
-
 <jsp:include page="main/footer.jsp"/>
+<script src="/js/login.js"></script>
 </body>
 </html>
