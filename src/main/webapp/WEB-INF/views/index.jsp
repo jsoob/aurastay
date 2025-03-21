@@ -225,35 +225,18 @@
         <%-- 앨범 끝 --%>
     </div>
 </div>
-<div>
-    <sec:authorize access="isAnonymous()">
-        로그인하지 않은 상태
-    </sec:authorize>
 
-    <sec:authorize access="isAuthenticated()">
-        현재로그인을 했다면
-        <sec:authentication var="customUserDetails" property="principal"/>
-        <c:choose>
-            <c:when test="${not empty customUserDetails.member}">
-                <p>회원 번호: ${customUserDetails.member.memberNo}</p>
-                <p>회원 이메일: ${customUserDetails.member.memberEmail}</p>
-                <p>회원 소셜로그인: ${customUserDetails.member.providerId}</p>
-                <p>회원 비밀번호: ${customUserDetails.member.memberPassword}</p>
-                <p>회원 이름: ${customUserDetails.member.memberName}</p>
-                <p>회원 닉네임: ${customUserDetails.member.memberNickname}</p>
-                <p>회원 전화번호: ${customUserDetails.member.memberPhoneNumber}</p>
-                <p>회원 포인트: ${customUserDetails.member.point}</p>
-                <p>회원 가입일: ${customUserDetails.member.registrationDate}</p>
-                <p>회원 탈퇴일: ${customUserDetails.member.withdrawalDate}</p>
-                <p>회원 권한: ${customUserDetails.member.authority}</p>
-            </c:when>
-            <c:when test="${not empty customUserDetails.business}">
-                <p>사업자 이름: ${customUserDetails.business.businessName}</p>
-                <p>사업자 이메일: ${customUserDetails.business.businessEmail}</p>
-            </c:when>
-        </c:choose>
-    </sec:authorize>
-</div>
+<%-- 어떤 방식으로 쓸지는 생각해봐야함 --%>
+<c:if test="${id!=null}">
+<h3>${id}</h3>
+</c:if>
+
+<c:if test="${not empty sessionScope.id}">
+    <p>회원 id: ${sessionScope.id}</p>
+</c:if>
+<ul>
+<li><sec:authentication property="principal" /></li>
+</ul>
 <jsp:include page="main/footer.jsp"/>
 </body>
 </html>

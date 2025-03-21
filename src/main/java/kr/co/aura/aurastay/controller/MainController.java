@@ -10,7 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +32,22 @@ public class MainController {
 
     // 사용자 메인 페이지
     @GetMapping({"/", "/index", "/main"})
-    public String index(Model model) {
+    public String index(@AuthenticationPrincipal Object principal, HttpSession session) {
+
+        String id = null;
+
+        System.out.println(principal);
+        if(  principal instanceof  OAuth2User ) {
+            id = ((OAuth2User) principal).getName();
+          //  String name = (String) ((OAuth2User) principle).getAttributes().get("name");
+
+        }else if ( principal instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) principal;
+            id = userDetails.getUsername();
+        }
+
+        System.out.println(id);
+        session.setAttribute("id", id);
         return "index";
     }
 

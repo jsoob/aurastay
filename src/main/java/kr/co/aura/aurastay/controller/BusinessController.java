@@ -7,7 +7,9 @@ import kr.co.aura.aurastay.dto.MemberDTO;
 import kr.co.aura.aurastay.service.BusinessService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,14 +30,18 @@ public class BusinessController {
 
     // 사업자관리페이지
     @GetMapping("/dashboard")
-    public String businessDashboardPage() { //HttpSession session
-        // 로그인해서 들어가기 전에 security context?를 통해
-        // businessDTO 객체로 가져와 session에 담기?
-        // BusinessService쪽에서 로직 짜야할듯
+    public String businessDashboardPage(@AuthenticationPrincipal Object principal, HttpSession session) {
 
-//        String email = SecurityContextHolder.getContext().getAuthentication().getName();
         // businessService.findByUsername(email) 로 BusinessDTO 받기
-        // session.setAttribute("businessDTO",businessDTO); 이렇게 해도되는지 확인필
+        // session.setAttribute("businessDTO",businessDTO); 이렇게 해도되는지 확인필요
+
+        String id = null;
+        if(principal instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) principal;
+            id = userDetails.getUsername();
+        }
+        // email만 담을지.. 아예 DTO로 담을지 생각해볼것
+        session.setAttribute("id", id);
 
         return "business/dashboard";
     }

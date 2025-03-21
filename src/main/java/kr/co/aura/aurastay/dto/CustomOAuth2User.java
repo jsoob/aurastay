@@ -27,11 +27,19 @@ public class CustomOAuth2User implements OAuth2User {
         return authorities;
     }
 
-    // 이름
+//    // 이름
+//    @Override
+//    public String getName() {
+//        return oAuth2Response.getName();
+//    }
+
+    // 이렇게 수정하는게 맞는지 더 생각해봐야함
+    // provider_id
     @Override
     public String getName() {
-        return oAuth2Response.getName();
+        return oAuth2Response.getProvider()+"_"+oAuth2Response.getProviderId();
     }
+
     // provider_id
     public  String getUsername() {return oAuth2Response.getProvider()+"_"+oAuth2Response.getProviderId();
     }
