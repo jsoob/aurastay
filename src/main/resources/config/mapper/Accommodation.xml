@@ -5,7 +5,7 @@
 
 <!-- namespace 는 정확하게 Repository 이름까지 똑같이 써야한다 -->
 <mapper namespace="kr.co.aura.aurastay.repository.AccommodationRepository">
-    <select id="selectAll" resultType="AccommodationDTO">
+    <select id="selectAll" parameterType="map" resultType="AccommodationDTO">
         SELECT
             a.accommodation_no          AS acmNo,
             a.accommodation_name        AS acmName,
@@ -20,6 +20,7 @@
         FROM accommodation a
             LEFT JOIN category c ON a.category_no = c.category_no
             LEFT JOIN keyword k ON a.keyword_no = k.keyword_no
+        LIMIT #{limit} OFFSET #{offset}
     </select>
     <!--useGenerateKeys, keyProperty 는 pk 값에 auto_increment 를 준 것이라면 설정해줘야지만 ID 값이 할당된다 -->
     <!--keyProperty = "여기는 DTO의 변수명을 입력한다"-->
@@ -105,5 +106,15 @@
             #{amenitiesNo}
         )
     </insert>
+    <delete id="acmDelete" parameterType="int">
+        DELETE FROM accommodation
+        WHERE accommodation_no = #{acmNo}
+    </delete>
+
+    <!-- 전체 숙소 개수 조회 -->
+    <select id="countAll" resultType="int">
+        SELECT count(*)
+        FROM accommodation
+    </select>
 
 </mapper>

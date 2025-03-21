@@ -24,8 +24,9 @@ public class AccommodationService {
     private final RoomImageRepository roomImageRepository;
 
     // 전체 조회하기
-    public List<AccommodationDTO> selectAll() {
-        return accommodationRepository.selectAll();
+    public List<AccommodationDTO> selectAll(int currentPage, int pageSize) {
+        int offset = (currentPage - 1) * pageSize;      // offset 계산
+        return accommodationRepository.selectAll(offset, pageSize);     // repository 메서드 호출 (해당 부분에서 offset과 pageSize 전달) : 데이터베이스에서 목록 가져오기
     }
 
     // 숙소 정보 등록(추가)하기
@@ -128,4 +129,8 @@ public class AccommodationService {
         return accommodationRepository.findByRoomId(roomNo);    // 객실 번호로 숙소 정보 조회
     }
 
+    // 페이지네이션을 위해 전체 숙소 개수를 가져오는 conutAll() 메서드가 필요
+    public int countAll() {
+        return accommodationRepository.countAll();
+    }
 }

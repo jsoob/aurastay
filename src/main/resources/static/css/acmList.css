@@ -66,3 +66,33 @@ body.addList footer {
     position-area: bottom;
 }
 
+/* 페이지네이션 스타일 */
+.pagination {
+    display: flex; /* 플렉스박스를 사용하여 정렬 */
+    justify-content: center; /* 가운데 정렬 */
+    margin: 20px 0; /* 위아래 여백 */
+}
+
+.pagination a, .pagination strong {
+    display: inline-block; /* 블록으로 표시 */
+    padding: 10px 15px; /* 패딩 */
+    margin: 0; /* 여백 제거 */
+    background-color: transparent; /* 배경색 투명 */
+    color: #972843; /* 글씨색 */
+    text-decoration: none; /* 밑줄 제거 */
+    transition: background-color 0.3s, transform 0.3s; /* 배경색 및 크기 변화 전환 효과 */
+}
+
+.pagination a:hover {
+    background-color: #d1e7fd; /* 호버 시 배경색 */
+    transform: scale(1.1); /* 호버 시 크기 증가 */
+}
+
+.pagination strong {
+    background-color: transparent; /* 현재 페이지 배경색 투명 */
+    color: #d85656; /* 현재 페이지 글씨색 */
+    font-weight: bold; /* 현재 페이지 강조 */
+}
+
+
+

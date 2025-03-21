@@ -44,6 +44,27 @@
         </div>
     </form>
 
+    <div class="pagination">
+        <c:if test="${currentPage > 1}">
+            <a href="acmList?currentPage=${currentPage - 1}">이전</a>
+        </c:if>
+
+
+        <c:forEach var="i" begin="${startPage}" end="${endPage}">
+            <c:choose>
+                <c:when test="${i == currentPage}">
+                    <strong>${i}</strong> <%-- 현재 페이지 강조하는 부분 --%>
+                </c:when>
+                <c:otherwise>
+                    <a href="acmList?currentPage=${i}">${i}</a>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+
+        <c:if test="${hasNext}">
+            <a href="acmList?currentPage=${endPage + 1}">다음</a> <%-- 다음버튼 --%>
+        </c:if>
+    </div>
 
     <jsp:include page="../comm/footer.jsp"/>
 

@@ -78,6 +78,7 @@ public class AccommodationController {
         return "accommodation/acmAdd";
     }
 
+    // 이미지 파일 관련 메서드
     @GetMapping("/views/{filename}")
     @ResponseBody       // 사용자의 요청을 다이렉트로 보낸다
     public byte[] viewImage(@PathVariable String filename, Model model) throws IOException {
@@ -248,9 +249,42 @@ public class AccommodationController {
 
     // 숙소 정보 : 목록 전체 조회
     @GetMapping("/acmList")
-    public String accommodationList(Model model) {
-        List<AccommodationDTO> list = accommodationService.selectAll();
+    public String accommodationList(@RequestParam(name = "currentPage", defaultValue = "1") int currentPage, Model model) {
+
+        int pageSize = 10;      // 페이지당 항목 수
+        List<AccommodationDTO> list = accommodationService.selectAll(currentPage, pageSize);
+
+        // 총 숙소 개수를 가져오는 서비스 메서드 호출
+        int totalItems = accommodationService.countAll();       // 총 숙소 개수
+        // 총 페이지 수 계산
+        int totalPages = (int) Math.ceil((double) totalItems / pageSize);
+
+        // 페이지 블록 계산
+        int blockSize = 10;             // 블록당 페이지 수
+        int currentBlock = (currentPage - 1) / blockSize;       // 현재 블록
+        int startPage = currentBlock * blockSize + 1;           // 블록의 시작 페이지
+        int endPage = Math.min(startPage + blockSize - 1, totalPages);  // 블록의 끝 페이지
+        
+//        // 페이지네이션 범위 계산
+//        int startPage = Math.max(1, currentPage - 4);           // 현재 페이지 기준으로 5개 페이지 앞부터
+//        int endPage = Math.min(currentPage, startPage + 9);     // 시작 페이지에서 10개까지
+        
+        // 만약 10개가 안된다면?
+//        if (endPage - startPage < 9){
+//            startPage = Math.max (1, endPage - 9);          // 뒤쪽으로 조정
+//        }
+
+        // 모델에 데이터 추가
         model.addAttribute("list", list);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("startPage", startPage);     // 시작 페이지
+        model.addAttribute("endPage", endPage);         // 마지막 페이지
+
+        // 다음 버튼 표시 여부 설정
+        model.addAttribute("hasNext", endPage < totalPages);        // 다음 버튼이 보여질지 여부를 결정
+
+        // jsp 페이지로 이동
         return "/accommodation/acmList";
     }
 
@@ -291,11 +325,15 @@ public class AccommodationController {
     }
 
     // 숙소 정보 삭제
-    @PostMapping("/acmDelete")
+    @GetMapping("/acmDelete")
     public String accommodationDelete(@RequestParam("acmNo") int acmNo, Model model) {
         accommodationService.acmDelete(acmNo);
         return "redirect:/accommodation/acmList";
     }
+
+//    // 숙소 전체 목록에서 검색 기능을 처리 : 사용자가 입력한 키워드를 기반으로 숙소 검색
+//    @GetMapping("/search")
+//    public String search(@RequestParam("keyword"))
 
 
 }
