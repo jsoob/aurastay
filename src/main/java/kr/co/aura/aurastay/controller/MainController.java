@@ -90,7 +90,8 @@ public class MainController {
     @PostMapping("/resetPassword")
     public String resetPasswordOk(@RequestParam("password") String password,
                                   @RequestParam("email") String email,
-                                  @RequestParam("user") int user) {
+                                  @RequestParam("user") int user,
+                                  HttpSession session) {
         // 이부분 if(isExistMember){memberDTO에 담아 memberService.resetPassword(dto)} 이렇게 수정할지..
         if(user == 0) { // member
             MemberDTO memberDTO = MemberDTO.builder()
@@ -105,6 +106,9 @@ public class MainController {
                     .build();
             businessService.resetPassword(businessDTO);
         }
+
+        // 모든 세션 정보 삭제 (로그아웃 상태로 만듦)
+        session.invalidate();
         return "redirect:/login";
     }
 

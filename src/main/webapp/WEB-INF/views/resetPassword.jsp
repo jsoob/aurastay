@@ -17,8 +17,6 @@
 <jsp:include page="main/header.jsp"/>
 <div class="main container">
     <div class="reset-container">
-        <h3>${user} : ${member.memberEmail} : ${business.businessEmail}</h3>
-
         <h3>비밀번호 재설정</h3>
         <%-- user가 0이면 member--%>
         <%-- user가 1이면 business--%>

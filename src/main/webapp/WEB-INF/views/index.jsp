@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <title>index</title>
@@ -71,7 +72,7 @@
         <%-- row-cols-md-n -> 1줄에 몇개씩 나올거냐 --%>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-6 g-3">
             <%-- 숙소 목록 ex : dto : list / status -> index 값 구하기 위해 명시함. --%>
-            <c:forEach var="i" begin="1" end="30" varStatus="status">
+            <c:forEach var="i" begin="1" end="10" varStatus="status">
                 <div class="col">
                     <div class="card shadow-sm">
                             <%-- 캐러셀 --%>
@@ -224,7 +225,35 @@
         <%-- 앨범 끝 --%>
     </div>
 </div>
+<div>
+    <sec:authorize access="isAnonymous()">
+        로그인하지 않은 상태
+    </sec:authorize>
 
+    <sec:authorize access="isAuthenticated()">
+        현재로그인을 했다면
+        <sec:authentication var="customUserDetails" property="principal"/>
+        <c:choose>
+            <c:when test="${not empty customUserDetails.member}">
+                <p>회원 번호: ${customUserDetails.member.memberNo}</p>
+                <p>회원 이메일: ${customUserDetails.member.memberEmail}</p>
+                <p>회원 소셜로그인: ${customUserDetails.member.providerId}</p>
+                <p>회원 비밀번호: ${customUserDetails.member.memberPassword}</p>
+                <p>회원 이름: ${customUserDetails.member.memberName}</p>
+                <p>회원 닉네임: ${customUserDetails.member.memberNickname}</p>
+                <p>회원 전화번호: ${customUserDetails.member.memberPhoneNumber}</p>
+                <p>회원 포인트: ${customUserDetails.member.point}</p>
+                <p>회원 가입일: ${customUserDetails.member.registrationDate}</p>
+                <p>회원 탈퇴일: ${customUserDetails.member.withdrawalDate}</p>
+                <p>회원 권한: ${customUserDetails.member.authority}</p>
+            </c:when>
+            <c:when test="${not empty customUserDetails.business}">
+                <p>사업자 이름: ${customUserDetails.business.businessName}</p>
+                <p>사업자 이메일: ${customUserDetails.business.businessEmail}</p>
+            </c:when>
+        </c:choose>
+    </sec:authorize>
+</div>
 <jsp:include page="main/footer.jsp"/>
 </body>
 </html>

@@ -1,7 +1,9 @@
 package kr.co.aura.aurastay.security;
 
+import kr.co.aura.aurastay.dto.BusinessDTO;
 import kr.co.aura.aurastay.dto.CommonUser;
 import kr.co.aura.aurastay.dto.MemberDTO;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,37 +14,36 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@RequiredArgsConstructor
+@Getter
 public class CustomUserDetail implements UserDetails {
-    //    private final CommonUser commonUser;
-    private final User user;
-//    private final MemberDTO member;
+    private final MemberDTO member;
+    private final BusinessDTO business;
+    private final Collection<? extends GrantedAuthority> authorities;
 
-//    public CustomUserDetail(MemberDTO member) {
-//        this.member = member;
-//    }
+    public CustomUserDetail(MemberDTO member, Collection<? extends GrantedAuthority> authorities) {
+        this.member = member;
+        this.business = null;
+        this.authorities = authorities;
+    }
+    public CustomUserDetail(BusinessDTO business, Collection<? extends GrantedAuthority> authorities) {
+        this.member = null;
+        this.business = business;
+        this.authorities = authorities;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        Collection<GrantedAuthority> collection = new ArrayList<GrantedAuthority>();
-//        collection.add(new GrantedAuthority() {
-//            @Override
-//            public String getAuthority() {
-//                System.out.println("getAuthority : " + user.getAuthorities());
-//                return user.getAuthorities();
-//            }
-//        });
-        return user.getAuthorities();
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return (member!=null)? member.getMemberPassword() : business.getBusinessPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return (member!=null)? member.getMemberEmail() : business.getBusinessEmail();
     }
 
     @Override

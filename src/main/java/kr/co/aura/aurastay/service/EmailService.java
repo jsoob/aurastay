@@ -10,6 +10,10 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.SpringTemplateLoader;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Random;
 
 @Slf4j
@@ -27,12 +31,33 @@ public class EmailService {
                 MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
                 mimeMessageHelper.setTo(emailMessage.getTo());
                 mimeMessageHelper.setSubject(emailMessage.getSubject());
-                mimeMessageHelper.setText(authNum);
+
+                // JSP 파일을 읽어서 HTML로 변환
+
+                String htmlContent = null;
+                if(type.equals("email")){
+                htmlContent = new String(Files.readAllBytes(
+                        Paths.get("src/main/webapp/WEB-INF/views/email/email-template.jsp")),
+                        StandardCharsets.UTF_8
+                );
+                } else if(type.equals("password")){
+                    htmlContent = new String(Files.readAllBytes(
+                            Paths.get("src/main/webapp/WEB-INF/views/email/email-template2.jsp")),
+                            StandardCharsets.UTF_8);
+                }
+
+                // ${name} 값을 실제 데이터로 치환
+                htmlContent = htmlContent.replace("${authNum}", authNum);
+
+//                mimeMessageHelper.setText(authNum);
+                mimeMessageHelper.setText(htmlContent, true); // HTML로 전송
 
                 mailSender.send(mimeMessage);
                 return authNum;
 
             } catch (MessagingException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
