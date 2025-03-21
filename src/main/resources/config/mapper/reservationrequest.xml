@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.aura.aurastay.repository.ReservationRequestRepository">
+    <select id="getReservationRequest" resultType="ReservationRequestDTO">
+        SELECT
+            reservation_no as reservationNo,
+            request_no as requestNo
+        FROM
+            reservation_request
+        WHERE
+            reservation_no = #{reservationNo}
+    </select>
+
+    <insert id="insertReservationRequest" parameterType="HashMap">
+        INSERT INTO reservation_request (reservation_no, request_no)
+        VALUES
+        <foreach collection="specialRequests" item="item" separator=" , ">
+            (#{reservationNo}, #{item})
+        </foreach>
+    </insert>
+
+</mapper>

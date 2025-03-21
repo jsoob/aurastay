@@ -4,22 +4,32 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kr.co.aura.aurastay.repository.ReservationRepository">
-    <select id="getSpecialRequests" resultType="SpecialRequestDTO">
-        SELECT
-            request_no as requestNo, request_name as requestName
-        FROM
-            special_request
-    </select>
 
     <select id="getRemainingRooms" parameterType="HashMap" resultType="int">
         select rm.room_qty - IFNULL(sum(rs.room_no), 0)
         from room rm
         left outer join reservation rs
         on rm.room_no = rs.room_no
-        and #{getDate} between STR_TO_DATE(rs.checkin_date, '%Y-%m-%d') and STR_TO_DATE(rs.checkout_date, '%Y-%m-%d')
+<!--        and #{getDate} between STR_TO_DATE(rs.checkin_date, '%Y-%m-%d') and STR_TO_DATE(rs.checkout_date, '%Y-%m-%d')-->
+        and #{getDate} between STR_TO_DATE(rs.checkin_date, '%Y-%m-%d') and STR_TO_DATE(date_add(rs.checkout_date, INTERVAL -1 DAY), '%Y-%m-%d')
         where rm.accommodation_no = #{accommodationNo}
         and rm.room_no = #{roomNo}
         group by rm.room_no
     </select>
+
+    <insert id="insertReservation" parameterType="ReservationDTO" ><!-- keyColumn="reservation_no" keyProperty="reservationNo" -->
+        <selectKey keyProperty="reservationNo" resultType="Integer" order="BEFORE">
+            SELECT fn_seq_no('410', DATE_FORMAT(NOW(), '%y%m%d'))
+        </selectKey>
+        INSERT INTO reservation ( reservation_no, checkin_date, checkout_date,
+            reservation_status, reservation_details_request,
+            residence_country, guest_name, guest_phone_number, guest_email,
+            member_no, room_no, accommodation_no )
+        VALUES ( #{reservationNo},
+            #{checkinDate}, #{checkoutDate}, #{reservationStatus}, #{reservationDetailsRequest},
+            #{residenceCountry}, #{guestName}, #{guestPhoneNumber}, #{guestEmail},
+            #{memberNo}, #{roomNo}, #{accommodationNo}
+        )
+    </insert>
 
 </mapper>

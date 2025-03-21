@@ -1,24 +1,31 @@
 package kr.co.aura.aurastay.service;
 
+import kr.co.aura.aurastay.dto.PaymentDTO;
 import kr.co.aura.aurastay.dto.ReservationDTO;
 import kr.co.aura.aurastay.dto.SpecialRequestDTO;
+import kr.co.aura.aurastay.repository.PaymentRepository;
 import kr.co.aura.aurastay.repository.ReservationRepository;
+import kr.co.aura.aurastay.repository.ReservationRequestRepository;
+import kr.co.aura.aurastay.repository.SpecialRequestRepository;
 import kr.co.aura.aurastay.util.ReservationUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.SQLOutput;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
     private final ReservationRepository reservationRepository;
+    private final SpecialRequestRepository specialRequestRepository;
+    private final ReservationRequestRepository reservationRequestRepository;
+    private final PaymentRepository paymentRepository;
+
     @Override
     public List<SpecialRequestDTO> getSpecialRequests() {
-        return reservationRepository.getSpecialRequests();
+        return specialRequestRepository.getSpecialRequests();
     }
 
     @Override
@@ -31,20 +38,40 @@ public class ReservationServiceImpl implements ReservationService {
     public int addReservation(Map<String, Object> jsonData) {
         int result = 0;
 
+        System.out.println("payment = ");
+        System.out.println(jsonData.get("payment"));
+//        System.out.println(jsonData.get("payment") instanceof Map);
+        Map<String, Object> payment = (Map<String, Object>) jsonData.get("payment");
+        Map<String, Integer> amount = (Map<String, Integer>) payment.get("amount");
+        Map<String, String> method = (Map<String, String>) payment.get("method");
+
+//        for (Object key : amount.keySet()) {
+//            System.out.println(key + " = " + amount.get(key));
+//            System.out.println(amount.get(key) instanceof Integer);
+//        }
+
+        System.out.println("specialRequests = ");
+        System.out.println(jsonData.get("specialRequests") instanceof List);
+        ArrayList<String> specialRequests = (ArrayList<String>) jsonData.get("specialRequests");
+//        ArrayList<Integer> specialRequests = null;
+//        for (String specialRequest : (ArrayList<String>) jsonData.get("specialRequests")) {
+//            specialRequests.add(Integer.parseInt(specialRequest));
+//        }
+
         // 결제 진행중에 이미 숙소가 나가서 현재 결제 상태에서 숙소가 나갈 수 있음. -> 다시 결제 취소 해주기
-        String checkin = (String) jsonData.get("checkin");
-        String checkout = (String) jsonData.get("checkout");
+        String checkinDate = (String) jsonData.get("checkinDate");
+        String checkoutDate = (String) jsonData.get("checkoutDate");
 
         int accommodationNo = (Integer) jsonData.get("accommodationNo");
         int roomNo = (Integer) jsonData.get("roomNo");
 
-        int countDay = ReservationUtil.getCheckDay(checkin, checkout);
+        int countDay = ReservationUtil.getCheckDay(checkinDate, checkoutDate);
 
         int roomCountMin = 0;
 
         // 객실 수량 확인
         for (int i=0; i<countDay; i++) {
-            HashMap<String, Object> rsrvMap = ReservationUtil.getRoomCheck(checkin, accommodationNo, roomNo, i);
+            HashMap<String, Object> rsrvMap = ReservationUtil.getRoomCheck(checkinDate, accommodationNo, roomNo, i);
 
             int acmCount = getRemainingRooms(rsrvMap); // 숙소 번호, 룸 번호, 해당 일자
             if(i==0) roomCountMin = acmCount;
@@ -55,12 +82,44 @@ public class ReservationServiceImpl implements ReservationService {
         // 0개이면 애초에 숙소 상세보기에서 예약하기 버튼 활성화 안함. -> 근데 고민하다가 누를 수 있으니 누르면 다시 리다이렉트 -> 해당 숙소 정보로 가기
         if(roomCountMin > 0){
             result = 1; // 숙소 결제 가능
-        } else {
-            ReservationDTO dto = ReservationDTO.builder()
-//                    .accommodation_no()
-                    .build();
-        }
 
+            ReservationDTO rsrvDTO = ReservationDTO.builder()
+                    .memberNo(1)
+                    .accommodationNo((int)jsonData.get("accommodationNo"))
+                    .roomNo((int)jsonData.get("roomNo"))
+                    .checkinDate(checkinDate)
+                    .checkoutDate(checkoutDate)
+                    .reservationStatus(1) // 예약 확정
+                    .reservationDetailsRequest(jsonData.get("reservationDetailsRequest").toString())
+                    .residenceCountry(jsonData.get("residenceCountry").toString())
+                    .guestName(jsonData.get("guestName").toString())
+                    .guestPhoneNumber(jsonData.get("guestPhoneNumber").toString())
+                    .guestEmail(jsonData.get("guestEmail").toString())
+                    .build();
+
+            int reservationNo = reservationRepository.insertReservation(rsrvDTO);
+            System.out.println("reservationNo : " + reservationNo);
+            System.out.println("Generated Reservation No: " + rsrvDTO.getReservationNo());
+            reservationNo = rsrvDTO.getReservationNo();
+
+            HashMap<String, Object> rsrvRequestMap = new HashMap<String, Object>();
+            rsrvRequestMap.put("reservationNo", reservationNo);
+            rsrvRequestMap.put("specialRequests", specialRequests);
+            reservationRequestRepository.insertReservationRequest(rsrvRequestMap);
+
+
+            PaymentDTO paymentDTO = PaymentDTO.builder()
+                    .roomPrice(amount.get("total"))
+                    .pointPrice(0)
+                    .paymentPrice(amount.get("total"))
+                    .paymentStatus(1)
+                    .paymentId(payment.get("id").toString())
+                    .provider(method.get("provider"))
+                    .reservationNo(reservationNo)
+                    .build();
+            paymentRepository.insertPayment(paymentDTO);
+
+        }
 
         return result;
     }

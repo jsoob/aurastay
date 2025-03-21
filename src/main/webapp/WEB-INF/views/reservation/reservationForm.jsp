@@ -46,7 +46,7 @@
 
                     // 국가코드 data
                     let datas = data.data;
-                    console.log("datas : ", datas);
+
                     // 국가수
                     let totalCount = data.totalCount;
 
@@ -83,7 +83,7 @@
                     $("#guestPhoneNumber").val("01011111111");
                 }
                 if($("#guestEmail").val() == '') {
-                    $("#guestEmail").val("js@naver.com");
+                    $("#guestEmail").val("kmhe0128@naver.com");
                 }
             });
 
@@ -193,7 +193,6 @@
                     }
                 }
 
-
                 let guestEmail = $("#guestEmail").val().trim();
                 if(guestEmail.length < 0) {
                     check = true;
@@ -230,7 +229,7 @@
                     customer : {
                         id : "idid",
                         fullName : guestName,
-                        phoneNumber : guestPhoneNumber,
+                        // phoneNumber : guestPhoneNumber,
                         email : guestEmail,
                         // address : { country : $("#residenceCountry").val(), addressLine1 : "" }
                         // country : $("#residenceCountry").val()
@@ -255,12 +254,9 @@
 
                 if (response.code !== undefined) {
                     // 오류 발생
-                    alert("결제 실패 :< ! ", response.message); // 결제 실패..
+                    alert("결제 실패", response.message); // 결제 실패..
                     return location.reload(true);
                 } else {
-                    console.log("결제 완료!!");
-
-                    // 결제 승인이 떨어진 다음에는 관리자도구에서 response를 출력해준다.
                     console.log("response", response);
 
                     console.log("response.paymentId = " , response.paymentId); // 결제 요청에 전달된 결제 ID입니다.
@@ -272,7 +268,6 @@
                     //
                     // console.log("response.pgCode = " , response.pgCode); // PG에서 오류 코드를 내려 주는 경우 이 오류 코드를 그대로 반환합니다.
                     // console.log("response.pgMessage = " , response.pgMessage); // PG에서 오류 메시지를 내려 주는 경우 이 오류 메시지를 그대로 반환합니다.
-
 
                     let specialRequestsLength = $("input[name='specialRequests[]']:checked").length;
                     let specialRequests = [];
@@ -286,12 +281,9 @@
                     // console.log("specialRequests : " , specialRequests);
                     <%--console.log("PORTONE_API_SECRET : " , `${PORTONE_API_SECRET}`);--%>
 
-                    // /payment/complete 엔드포인트를 구현해야 합니다. 다음 목차에서 설명합니다.
-                    <%--const notified = await fetch(`${SERVER_BASE_URL}/payment/complete`, {--%>
-
-                    // 1. 포트원 결제내역 단건조회 API 호출
+                    // 포트원 결제내역 단건조회 API 호출
                     const paymentResponse = await fetch(
-                        `https://api.portone.io/payments/`+response.paymentId, <%--${encodeURIComponent(response.paymentId)}--%>
+                        `https://api.portone.io/payments/`+response.paymentId,
                         {
                             headers: { Authorization: `PortOne ${PORTONE_API_SECRET}` },
                         },
@@ -337,24 +329,13 @@
                         contentType: "application/json; charset=utf-8", // "application/json",
                         data: JSON.stringify(jsonData),
                         // "payment" : JSON.stringify(payment),
-                        <%--guestName : guestName,--%>
-                        <%--guestPhoneNumber : guestPhoneNumber,--%>
-                        <%--guestEmail : guestEmail,--%>
-                        <%--residenceCountry : $('#residenceCountry').find(':selected')[0].innerText,--%>
-                        <%--memberNo : 1, // 사용자번호--%>
-                        <%--roomNo :${roomDetail['roomNo']},--%>
-                        <%--reservationDetailsRequest : $("#reservationDetailsRequest").val(),--%>
-                        <%--accommodationNo : ${roomDetail['accommodationNo']},--%>
-
-                        <%--specialRequests : specialRequests,--%>
-
-                        <%--orderName : "${roomDetail.accommodationName}",--%>
-                        <%--totalAmount : ${roomDetail.roomPrice}--%>
                         // data : {
                         //     "jsonData" : JSON.stringify(jsonData)
                         // },
                         success : function (response) {
                             console.log("성공");
+                            window.location.replace('/reservation/mystays');
+
                         }, error: function(jqXHR, textStatus, errorThrown) {
                             console.log('AJAX 요청 실패');
                             console.log('상태 코드:', jqXHR); // HTTP 상태 코드
@@ -363,7 +344,7 @@
                             console.log('오류 상태:', textStatus); // 요청 상태
                             console.log('오류 메시지:', errorThrown); // 에러 메시지
 
-                            alert('서버와의 통신에 실패했습니다.');
+                            alert('서버와의 통신에 실패했습니다. 에러코드 :' + jqXHR.status);
                         }
                     });
                 }

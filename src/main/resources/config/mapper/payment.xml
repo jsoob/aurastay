@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.aura.aurastay.repository.PaymentRepository">
+    <insert id="insertPayment" parameterType="PaymentDTO">
+        INSERT INTO payment (
+            room_price, point_price, payment_price,
+            payment_status, payment_id, provider, payment_completion_date,
+            <!--payment_cancel_id, payment_cancel_date,-->
+            reservation_no
+        )
+        VALUES
+        (
+            #{roomPrice}, #{pointPrice}, #{paymentPrice},
+            #{paymentStatus}, #{paymentId}, #{provider}, SYSDATE(),
+            #{reservationNo}
+        )
+    </insert>
+
+</mapper>

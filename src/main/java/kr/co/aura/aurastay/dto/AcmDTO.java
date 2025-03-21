@@ -22,13 +22,13 @@ public class AcmDTO {
     private String categoryName;
 
     // 방
-    private int room_no;
-    private int accommodation_no;
-    private String room_name;
-    private int room_qty;
-    private int room_price;
-    private int room_discount;
-    private String room_contents;
-    private String room_viewtype;
-    private int room_capacity;
+    private int roomNo;
+//    private int accommodationNo;
+    private String roomName;
+    private int roomQty;
+    private int roomPrice;
+    private int roomDiscount;
+    private String roomContents;
+    private String roomViewtype;
+    private int roomCapacity;
 }
