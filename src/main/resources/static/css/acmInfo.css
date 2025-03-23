@@ -1,0 +1,131 @@
+/* acmInfo.css */
+
+/* 전체적인 스타일 */
+body {
+    font-family: Arial, sans-serif; /* 기본 폰트 설정 */
+    background-color: #f8f9fa; /* 배경색 */
+}
+
+/* 제목 스타일 */
+h2 {
+    text-align: center; /* 중앙 정렬 */
+    color: #ca2f54; /* 강조 색상 */
+}
+
+/* 정보 카드 스타일 */
+.info-card {
+    background-color: #ffffff; /* 카드 배경색 */
+    border: 1px solid #ccc; /* 테두리 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    padding: 20px; /* 내부 여백 */
+    margin: 15px 0; /* 카드 간격 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+}
+
+/* 구분선 스타일 */
+hr {
+    border: 0; /* 기본 테두리 제거 */
+    border-top: 1px solid #e0e0e0; /* 상단 테두리 설정 */
+    margin: 10px 0; /* 위아래 여백 */
+}
+
+/* 폼 그룹 스타일 */
+.form-group {
+    margin-bottom: 15px; /* 그룹 간 간격 */
+}
+
+label {
+    font-weight: bold; /* 라벨 굵게 */
+}
+
+/* 객실 리스트 스타일 */
+.room-list {
+    display: flex;
+    flex-wrap: wrap; /* 카드가 화면에 맞게 줄 바꿈 */
+    justify-content: center; /* 가운데 정렬 */
+    gap: 20px; /* 카드 사이의 간격 */
+    margin-top: 20px; /* 상단 여백 */
+}
+
+.room-card {
+    background-color: #ffffff; /* 카드 배경색 */
+    border: 1px solid #ccc; /* 테두리 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    padding: 15px; /* 내부 여백 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    flex: 1 1 calc(30% - 20px); /* 카드의 너비 조정 (3개 열) */
+    min-width: 250px; /* 최소 너비 설정 */
+}
+
+.room-header {
+    border-bottom: 2px solid #e0e0e0; /* 카드 하단 구분선 */
+    padding-bottom: 10px; /* 하단 여백 */
+}
+
+.room-title {
+    font-size: 20px; /* 제목 크기 */
+    color: #ca2f54; /* 강조 색상 */
+    margin: 0; /* 여백 제거 */
+}
+
+.room-details {
+    padding-top: 10px; /* 세부 정보 상단 여백 */
+}
+
+.room-detail-item {
+    margin: 5px 0; /* 각 세부 항목 간격 */
+    padding: 5px 0; /* 세부 항목 상하 여백 */
+    border-bottom: 1px solid #f0f0f0; /* 항목 간 구분선 */
+}
+
+/* 버튼 스타일 */
+.btn-container {
+    text-align: center; /* 중앙 정렬 */
+    margin-top: 20px; /* 위쪽 여백 */
+}
+
+.btn {
+    padding: 10px 15px; /* 버튼 여백 */
+    /*margin: 0 3px; !* 버튼 간격 조정 (왼쪽, 오른쪽 3px) *!*/
+    border-radius: 5px; /* 둥근 모서리 */
+    text-decoration: none; /* 밑줄 제거 */
+    color: white; /* 글자색 */
+}
+
+.btn-list {
+    background-color: #d3355e; /* 목록 버튼 색상 (부드러운 분홍색) */
+}
+
+.btn-submit {
+    background-color: #ff5a83; /* 수정 버튼 색상 (부드러운 분홍색) */
+}
+
+.btn-cancel {
+    background-color: #ff9999; /* 삭제 버튼 색상 (부드러운 분홍색) */
+}
+
+.btn:hover {
+    opacity: 0.8; /* 호버 시 투명도 감소 */
+}
+
+/* 모달 스타일 */
+#imageModal {
+    display: none; /* 기본적으로 숨김 */
+    position: fixed; /* 고정 위치 */
+    z-index: 1000; /* 최상위 */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* 반투명 배경 */
+    /*display: flex;              !* FlexBox 사용 => 이거 사용하면 화면 깨짐 *!*/
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+}
+
+#modal-img {
+    max-width: 90%; /* 모달 이미지 최대 너비 */
+    max-height: 90%; /* 모달 이미지 최대 높이 */
+}
+
+
