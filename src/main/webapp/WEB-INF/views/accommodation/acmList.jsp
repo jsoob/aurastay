@@ -5,21 +5,41 @@
     <title>숙소 목록</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-    <!-- accAdd.CSS 파일 연결 -->
+    <!-- acmList.CSS 파일 연결 -->
     <link rel="stylesheet" type="text/css" href="../css/acmList.css">
 
+    <script>
+        // 하이픈 포함 여부를 체크하는 함수
+        function validateSearchInput() {
+            var searchInput = document.getElementById("searchInput").value;
+            var errorMessage = document.getElementById("errorMessage");
 
+            // 하이픈이 포함된 경우
+            if (searchInput.includes("-")) {
+                errorMessage.style.display = "block"; // 메시지 표시
+                errorMessage.innerText = "하이픈 없이 숫자만 입력하세요.";
+                return false; // 폼 제출 방지
+            } else {
+                errorMessage.style.display = "none"; // 메시지 숨김
+            }
+            return true; // 폼 제출 허용
+        }
+    </script>
 </head>
-<body id="addListPage" class="addList"> <!-- 'class="addList"' 추가 -->
+<body id="addListPage" class="addList">
 
 <jsp:include page="../comm/header.jsp"/>
 <jsp:include page="../comm/sidebar.jsp"/>
 
-
 <div class="main-content">
-    <h2 class="text-center">📌 숙소 목록 조회</h2>
-    <form action="acmList" method="get">
-        <h3>숙소 목록을 조회하는 페이지입니다.</h3>
+    <h2 class="text-center">📌 숙소 목록 📌 </h2>
+    <form action="acmList" method="get" onsubmit="return validateSearchInput();">
+        <div class="search-container">
+            <input type="text" id="searchInput" name="search" placeholder="숙소명 또는 전화번호 입력" oninput="validateSearchInput()">
+            <button type="submit">검색</button>
+        </div>
+        <small id="errorMessage"></small> <!-- 에러 메시지 -->
+
         <div class="form-group">
             <table class="table table-striped table-hover">
                 <tr>
@@ -31,13 +51,13 @@
                     <th>체크아웃</th>
                 </tr>
                 <c:forEach var="dto" items="${list}">
-                    <td>${dto.acmNo}</td>
-                    <%--숙소의 이름을 클릭했을 때 상세내용으로 이동할 것--%>
-                    <td><a href="acmInfo?acmNo=${dto.acmNo}">${dto.acmName}</a></td>
-                    <td>${dto.acmAddress}</td>
-                    <td>${dto.acmTel}</td>
-                    <td>${dto.checkinTime}</td>
-                    <td>${dto.checkoutTime}</td>
+                    <tr>
+                        <td>${dto.acmNo}</td>
+                        <td><a href="acmInfo?acmNo=${dto.acmNo}">${dto.acmName}</a></td>
+                        <td>${dto.acmAddress}</td>
+                        <td>${dto.acmTel.substring(0, 3)}-${dto.acmTel.substring(3, 7)}-${dto.acmTel.substring(7)}</td>
+                        <td>${dto.checkinTime}</td>
+                        <td>${dto.checkoutTime}</td>
                     </tr>
                 </c:forEach>
             </table>
@@ -49,11 +69,10 @@
             <a href="acmList?currentPage=${currentPage - 1}">이전</a>
         </c:if>
 
-
         <c:forEach var="i" begin="${startPage}" end="${endPage}">
             <c:choose>
                 <c:when test="${i == currentPage}">
-                    <strong>${i}</strong> <%-- 현재 페이지 강조하는 부분 --%>
+                    <strong>${i}</strong>
                 </c:when>
                 <c:otherwise>
                     <a href="acmList?currentPage=${i}">${i}</a>
@@ -62,12 +81,12 @@
         </c:forEach>
 
         <c:if test="${hasNext}">
-            <a href="acmList?currentPage=${endPage + 1}">다음</a> <%-- 다음버튼 --%>
+            <a href="acmList?currentPage=${endPage + 1}">다음</a>
         </c:if>
     </div>
 
     <jsp:include page="../comm/footer.jsp"/>
-
+</div>
 
 </body>
 </html>

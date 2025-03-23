@@ -20,8 +20,21 @@
         FROM accommodation a
             LEFT JOIN category c ON a.category_no = c.category_no
             LEFT JOIN keyword k ON a.keyword_no = k.keyword_no
+        <if test="search != null and search != ''">
+        WHERE (a.accommodation_name LIKE CONCAT ('%', #{search}, '%') OR a.tel LIKE CONCAT ('%', #{search}, '%'))
+        </if>
         LIMIT #{limit} OFFSET #{offset}
     </select>
+
+    <!-- 전체 숙소 개수 조회 -->
+    <select id="countAll" resultType="int">
+        SELECT count(*)
+        FROM accommodation
+        <if test="search != null and search != ''">
+        WHERE (accommodation_name LIKE CONCAT ('%', #{search}, '%') OR tel LIKE CONCAT ('%', #{search}, '%'))
+        </if>
+    </select>
+
     <!--useGenerateKeys, keyProperty 는 pk 값에 auto_increment 를 준 것이라면 설정해줘야지만 ID 값이 할당된다 -->
     <!--keyProperty = "여기는 DTO의 변수명을 입력한다"-->
     <insert id="add" parameterType="AccommodationDTO" useGeneratedKeys="true"
@@ -111,10 +124,6 @@
         WHERE accommodation_no = #{acmNo}
     </delete>
 
-    <!-- 전체 숙소 개수 조회 -->
-    <select id="countAll" resultType="int">
-        SELECT count(*)
-        FROM accommodation
-    </select>
+
 
 </mapper>

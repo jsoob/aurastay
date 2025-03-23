@@ -13,10 +13,10 @@ import java.util.List;
 public interface AccommodationRepository {
 
     // 전체조회
-    List<AccommodationDTO> selectAll(@Param("offset") int offset, int limit);
+    List<AccommodationDTO> selectAll(@Param("offset") int offset, int limit, @Param("search") String search);
 
     // 전체 숙소 개수를 가져오는 메서드 추가
-    int countAll(); // 추가
+    int countAll(String search); // 추가
 
     // 등록하기
     void add(AccommodationDTO dto);

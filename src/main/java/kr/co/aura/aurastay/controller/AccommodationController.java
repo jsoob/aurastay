@@ -249,13 +249,15 @@ public class AccommodationController {
 
     // 숙소 정보 : 목록 전체 조회
     @GetMapping("/acmList")
-    public String accommodationList(@RequestParam(name = "currentPage", defaultValue = "1") int currentPage, Model model) {
+    public String accommodationList(@RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
+                                    @RequestParam(name = "search", required = false) String search,
+                                    Model model) {
 
         int pageSize = 10;      // 페이지당 항목 수
-        List<AccommodationDTO> list = accommodationService.selectAll(currentPage, pageSize);
+        List<AccommodationDTO> list = accommodationService.selectAll(currentPage, pageSize, search);
 
         // 총 숙소 개수를 가져오는 서비스 메서드 호출
-        int totalItems = accommodationService.countAll();       // 총 숙소 개수
+        int totalItems = accommodationService.countAll(search);       // 총 숙소 개수
         // 총 페이지 수 계산
         int totalPages = (int) Math.ceil((double) totalItems / pageSize);
 
@@ -275,11 +277,13 @@ public class AccommodationController {
 //        }
 
         // 모델에 데이터 추가
+        // 모델에 데이터 추가
         model.addAttribute("list", list);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("startPage", startPage);     // 시작 페이지
         model.addAttribute("endPage", endPage);         // 마지막 페이지
+        model.addAttribute("search", search);           // 검색어
 
         // 다음 버튼 표시 여부 설정
         model.addAttribute("hasNext", endPage < totalPages);        // 다음 버튼이 보여질지 여부를 결정

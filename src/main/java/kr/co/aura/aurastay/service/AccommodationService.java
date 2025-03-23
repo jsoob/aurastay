@@ -24,9 +24,16 @@ public class AccommodationService {
     private final RoomImageRepository roomImageRepository;
 
     // 전체 조회하기
-    public List<AccommodationDTO> selectAll(int currentPage, int pageSize) {
+    public List<AccommodationDTO> selectAll(int currentPage, int pageSize, String search) {
         int offset = (currentPage - 1) * pageSize;      // offset 계산
-        return accommodationRepository.selectAll(offset, pageSize);     // repository 메서드 호출 (해당 부분에서 offset과 pageSize 전달) : 데이터베이스에서 목록 가져오기
+        // 만약, 검색어가 없거나 공백인 경우에는 ?
+        if (search == null || search.isEmpty()) {
+            // 전체 숙소 목록을 보여준다
+            return accommodationRepository.selectAll(offset, pageSize, null);   // null 로 검색어를 전달
+        } else {
+            // 그게 아니라면? 작성자가 입력한 검색 결과를 보여준다
+        return accommodationRepository.selectAll(offset, pageSize, search);     // repository 메서드 호출 (해당 부분에서 offset과 pageSize 전달) : 데이터베이스에서 목록 가져오기
+        }
     }
 
     // 숙소 정보 등록(추가)하기
@@ -130,7 +137,8 @@ public class AccommodationService {
     }
 
     // 페이지네이션을 위해 전체 숙소 개수를 가져오는 conutAll() 메서드가 필요
-    public int countAll() {
-        return accommodationRepository.countAll();
+    // 전체 숙소 조회 (검색어 포함)
+    public int countAll(String search) {
+        return accommodationRepository.countAll(search);
     }
 }
