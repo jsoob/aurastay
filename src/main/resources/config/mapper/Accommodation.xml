@@ -161,6 +161,18 @@
         INSERT INTO accommodation_amenities (accommodation_no, amenities_no)
         VALUES (#{acmNo}, #{amenitiesNo})
     </insert>
+    <!-- 이미지 정보 (변경을 위한) 삭제 -->
+    <delete id="deleteExistingImages" parameterType="int">
+        DELETE FROM room_image
+        WHERE image_no = #{acmNo}
+    </delete>
+
+    <!-- 얘를 고쳐라 ~ ! : 어떤식으로 추가할지.. -->
+    <!-- 숙소 정보 수정을 위해 등록된 이미지를 변경하고자 할 때 실행되는 쿼리문 -->
+    <insert id="addImages" parameterType="java.lang.Object">
+        INSERT INTO room_image (image_no, filename, filepath)
+        VALUES (#{accommodationNo}, #{filename}, #{filepath})
+    </insert>
 
 
 

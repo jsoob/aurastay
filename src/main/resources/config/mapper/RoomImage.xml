@@ -29,4 +29,7 @@
         WHERE r.accommodation_no = #{acmNo}
     </select>
 
+
+
+
 </mapper>

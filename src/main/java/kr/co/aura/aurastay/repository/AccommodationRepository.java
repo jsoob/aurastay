@@ -48,4 +48,13 @@ public interface AccommodationRepository {
     void deleteAmenities(int acmNo);
     // 이후, 바로 추가
     void addAmenities(int acmNo, int amenitiesNo);
+
+    // 이미지 정보 (변경을 위한) 삭제
+    void deleteExistingImages(int acmNo);
+
+    // 리스트로 다 받아오는거라 한건데.. 이게 아닌가..?
+    void addImages(@Param("accommodationNo") int accommodationNo,
+                   @Param("filename") String filenames,
+                   @Param("filepath") String filepath);
+
 }

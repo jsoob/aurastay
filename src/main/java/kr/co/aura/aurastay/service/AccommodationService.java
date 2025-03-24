@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -32,7 +35,7 @@ public class AccommodationService {
             return accommodationRepository.selectAll(offset, pageSize, null);   // null 로 검색어를 전달
         } else {
             // 그게 아니라면? 작성자가 입력한 검색 결과를 보여준다
-        return accommodationRepository.selectAll(offset, pageSize, search);     // repository 메서드 호출 (해당 부분에서 offset과 pageSize 전달) : 데이터베이스에서 목록 가져오기
+            return accommodationRepository.selectAll(offset, pageSize, search);     // repository 메서드 호출 (해당 부분에서 offset과 pageSize 전달) : 데이터베이스에서 목록 가져오기
         }
     }
 
@@ -97,8 +100,8 @@ public class AccommodationService {
 
         // 그 뒤, 향상된 for문을 사용해서 roomList 안에 담긴 값들을 가져와서 추가해준다
         for (RoomImageDTO roomImage : roomImageList) {
-           filename.add(roomImage.getFilename());
-           filepath.add(roomImage.getFilepath());
+            filename.add(roomImage.getFilename());
+            filepath.add(roomImage.getFilepath());
         }
 
         // 그리고 DTO
@@ -130,7 +133,7 @@ public class AccommodationService {
         return accommodationRepository.countAll(search);
     }
 
-    
+
     // 숙소 정보 변경/수정
     public void updateAccommodation(AccommodationDTO dto) {
         accommodationRepository.updateAccommodation(dto);
@@ -156,7 +159,31 @@ public class AccommodationService {
         accommodationRepository.deleteAmenities(acmNo);
     }
 
+    // 편의시설 정보 (추가)
     public void addAmenities(int acmNo, int amenitiesNo) {
         accommodationRepository.addAmenities(acmNo, amenitiesNo);
     }
+
+    // 정보 변경할 때 필요한 이미지 첨부파일 정보 (추가)
+    public void deleteExistingImages(int acmNo) {
+        accommodationRepository.deleteExistingImages(acmNo);
+    }
+
+    // 이미지 정보 (추가)
+// 이미지 정보 추가
+    public void addImages(int acmNo, List<String> filenames, List<String> filepath) {
+        // 현재 파일 경로를 출력 (디버깅용)
+        System.out.println("파일 경로 >>>>>>>>>>>>>> : " + filepath);
+
+        // filenames와 filepath를 각각 반복하면서 처리
+        for (int i = 0; i < filenames.size(); i++) {
+            // 각 파일 이름과 경로를 하나씩 꺼내서 처리
+            String filename = filenames.get(i);  // 현재 파일 이름
+            String path = filepath.get(i);  // 현재 파일 경로
+
+            // 파일명과 경로를 repository에 전달
+            accommodationRepository.addImages(acmNo, filename, path);
+        }
+    }
+
 }

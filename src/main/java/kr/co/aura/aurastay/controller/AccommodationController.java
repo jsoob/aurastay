@@ -354,7 +354,7 @@ public class AccommodationController {
 
         return "/accommodation/acmModify"; // 수정 페이지로 포워딩
     }
-    
+
     // 숙소 정보 변경을 위한 객실 정보 불러오기 (모달에서 호출할 수 있는 API 작성 : AJAX를 통해 REST API 작성해야하기 때문)
     @GetMapping("/rooms/{acmNo}")
     @ResponseBody
@@ -376,7 +376,7 @@ public class AccommodationController {
             @RequestParam(value = "amenities", required = false) List<Integer> amenities, // 편의시설 목록
             @RequestParam(value = "files", required = false) MultipartFile[] files, // 업로드된 이미지 파일
             // 객실 정보 관련 파라미터
-            @RequestParam(value = "roomNo[]") int[] roomNo, // 객실 번호 배열 추가
+//            @RequestParam(value = "roomNo[]") int[] roomNo, // 객실 번호 배열 추가
             @RequestParam(value = "roomName[]") String[] roomNames, // 객실명 배열
             @RequestParam(value = "roomQty[]") int[] roomQtys, // 객실 수량 배열
             @RequestParam(value = "roomCapacity[]") int[] roomCapacities, // 최대 인원 수 배열
@@ -389,6 +389,8 @@ public class AccommodationController {
 
         // 1. 기존 편의시설 삭제 (배열로 여러 개의 값을 받기 때문에 편의시설을 삭제 후 다시 update하는 방식으로 진행한다)
         accommodationService.deleteAmenities(acmNo);
+        // 편의시설 삭제하는 것처럼 기존 이미지 삭제 로직 똑같이 진행하기
+        accommodationService.deleteExistingImages(acmNo);
 
         // AccommodationDTO 객체 생성
         AccommodationDTO dto = AccommodationDTO.builder()
@@ -411,7 +413,7 @@ public class AccommodationController {
             }
         }
 
-        // 파일 처리 로직
+        // 새로운 이미지 처리 : 파일 처리 로직
         if (files != null && files.length > 0) {
             List<String> filenames = new ArrayList<>();
             List<String> filepath = new ArrayList<>();
@@ -439,6 +441,9 @@ public class AccommodationController {
                 clientFilePaths.add("/upload/" + filename); // 클라이언트가 접근할 수 있는 URL 추가
             }
             dto.setClientFilepath(clientFilePaths); // DTO에 클라이언트 접근 경로 설정
+
+            // 새로운 이미지 정보를 데이터 베이스에 추가
+            accommodationService.addImages(acmNo, filenames, filepath);
         }
 
         log.info("acmNo : {}, amenities : {} 제대로 담기는가? >>>>>>>>>>>> ", acmNo, amenities);
@@ -448,7 +453,8 @@ public class AccommodationController {
         // 객실 정보 업데이트
         for (int i = 0; i < roomNames.length; i++) {
             RoomDTO roomDTO = new RoomDTO();
-            roomDTO.setRoomNo(roomNo[i]); // 객실 번호 설정 확인
+            roomDTO.setAcmNo(acmNo);
+//            roomDTO.setRoomNo(roomNo[i]); // 객실 번호 설정 확인
             roomDTO.setRoomName(roomNames[i]);
             roomDTO.setRoomQty(roomQtys[i]);
             roomDTO.setRoomCapacity(roomCapacities[i]);

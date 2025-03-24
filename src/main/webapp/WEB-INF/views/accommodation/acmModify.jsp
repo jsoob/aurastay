@@ -175,6 +175,8 @@
                     <input type="button" value="추가" id="btn"> <!-- 추가 버튼 -->
                 </div>
             </div>
+
+
             <div class="btn-container">
                 <button type="submit" class="btn btn-submit">수정</button>
                 <button type="reset" class="btn btn-cancel">취소</button>
