@@ -149,6 +149,10 @@
         <button id="showModal" type="button" class="btn btn-add-room">객실 정보 추가</button>
         <br><br>
 
+
+
+
+
         <div class="form-group">
             <label>Keyword</label>
             <div class="checkbox-group">

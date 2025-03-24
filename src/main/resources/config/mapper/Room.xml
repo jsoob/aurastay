@@ -6,7 +6,7 @@
 <mapper namespace="kr.co.aura.aurastay.repository.RoomRepository">
 
     <!-- 숙소에 속한 객실 리스트 조회 -->
-    <select id="findRoomByAccommodation" resultType="kr.co.aura.aurastay.dto.RoomDTO">
+    <select id="findRoomByAccommodation" resultType="RoomDTO">
         SELECT
             r.room_no                 as roomNo,
             r.accommodation_no        as acmNo,
@@ -59,12 +59,12 @@
         SET
             room_name = #{roomName},
             room_qty = #{roomQty},
+            room_capacity = #{roomCapacity},
             room_price = #{roomPrice},
             room_discount = #{roomDiscount},
             room_contents = #{roomContents},
-            room_viewtype = #{roomViewType},
-            room_capacity = #{roomCapacity}
-        WHERE room_no = #{roomNo}
+            room_viewtype = #{roomViewType}
+        WHERE room_no = #{roomNo} <!-- room_no를 기준으로 업데이트 -->
     </update>
 
     <!-- 객실 삭제 -->

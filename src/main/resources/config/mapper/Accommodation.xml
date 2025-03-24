@@ -140,14 +140,14 @@
     <update id="updateAccommodation" parameterType="AccommodationDTO">
         UPDATE accommodation
         SET
-        accommodation_name = #{acmName},
-        accommodation_address = #{acmAddress},
-        tel = #{acmTel},
-        checkin = #{checkinTime},
-        checkout = #{checkoutTime},
-        accommodation_contents = #{contents},
-        category_no = #{categoryNo},
-        keyword_no = #{keywordNo}
+            accommodation_name = #{acmName},
+            accommodation_address = #{acmAddress},
+            tel = #{acmTel},
+            checkin = #{checkinTime},
+            checkout = #{checkoutTime},
+            accommodation_contents = #{contents},
+            category_no = #{categoryNo},
+            keyword_no = #{keywordNo}
         WHERE accommodation_no = #{acmNo}
     </update>
 

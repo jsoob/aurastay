@@ -4,6 +4,8 @@
 <div id="roomModal" class="modal" style="display:none;">
     <div class="modal-content">
         <span class="close" id="modalClose">&times;</span>
+
+
         <h2>객실 정보 추가</h2>
 
         <div class="form-group">

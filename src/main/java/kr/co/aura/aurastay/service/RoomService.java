@@ -6,12 +6,14 @@ import kr.co.aura.aurastay.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class RoomService {
 
     private final RoomRepository roomRepository;
@@ -31,6 +33,7 @@ public class RoomService {
 
     // 객실 정보 변경
     public void roomUpdate(RoomDTO roomDTO) {
+        log.info("Updating room in repository(여기서는 정상적으로 되고 있는가?>>>>>>>>> ) : {}", roomDTO); // 로그 추가
         roomRepository.roomUpdate(roomDTO);
     }
 
