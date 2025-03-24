@@ -10,6 +10,5 @@ import java.util.HashMap;
 @Repository
 public interface ReservationRepository {
     int getRemainingRooms(HashMap<String, Object> rsrvMap);
-
     int insertReservation(ReservationDTO dto);
 }

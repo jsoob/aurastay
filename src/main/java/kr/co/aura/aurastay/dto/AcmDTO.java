@@ -23,7 +23,6 @@ public class AcmDTO {
 
     // 방
     private int roomNo;
-//    private int accommodationNo;
     private String roomName;
     private int roomQty;
     private int roomPrice;

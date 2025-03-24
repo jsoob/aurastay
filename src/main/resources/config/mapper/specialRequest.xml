@@ -10,5 +10,4 @@
         FROM
         special_request
     </select>
-
 </mapper>

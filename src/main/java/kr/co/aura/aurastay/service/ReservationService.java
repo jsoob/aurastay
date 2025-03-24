@@ -10,6 +10,5 @@ public interface ReservationService {
     public List<SpecialRequestDTO> getSpecialRequests();
 
     int getRemainingRooms(HashMap<String, Object> rsrvMap);
-
     int addReservation(Map<String, Object> jsonData);
 }

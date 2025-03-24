@@ -10,6 +10,5 @@ import java.util.List;
 @Mapper
 @Repository
 public interface PaymentRepository {
-
     void insertPayment(PaymentDTO paymentDTO);
 }

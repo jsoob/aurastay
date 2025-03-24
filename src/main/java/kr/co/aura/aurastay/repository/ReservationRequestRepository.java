@@ -11,6 +11,5 @@ import java.util.List;
 @Repository
 public interface ReservationRequestRepository {
     List<SpecialRequestDTO> getReservationRequest();
-
     void insertReservationRequest(HashMap<String, Object> rsrvRequestMap);
 }

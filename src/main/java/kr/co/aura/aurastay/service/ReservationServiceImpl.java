@@ -107,7 +107,6 @@ public class ReservationServiceImpl implements ReservationService {
             rsrvRequestMap.put("specialRequests", specialRequests);
             reservationRequestRepository.insertReservationRequest(rsrvRequestMap);
 
-
             PaymentDTO paymentDTO = PaymentDTO.builder()
                     .roomPrice(amount.get("total"))
                     .pointPrice(0)

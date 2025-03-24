@@ -18,5 +18,4 @@
             #{reservationNo}
         )
     </insert>
-
 </mapper>
