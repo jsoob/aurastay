@@ -1,7 +1,11 @@
 package kr.co.aura.aurastay.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import kr.co.aura.aurastay.dto.AcmDTO;
 import kr.co.aura.aurastay.dto.ReservationDTO;
+import kr.co.aura.aurastay.dto.ReservationRequestDTO;
 import kr.co.aura.aurastay.dto.SpecialRequestDTO;
+import kr.co.aura.aurastay.repository.AcmRoomRepository;
 import kr.co.aura.aurastay.repository.ReservationRepository;
 import kr.co.aura.aurastay.util.ReservationUtil;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +20,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
     private final ReservationRepository reservationRepository;
+    private final AcmRoomRepository acmRoomRepository;
+
     @Override
     public List<SpecialRequestDTO> getSpecialRequests() {
         return reservationRepository.getSpecialRequests();
@@ -63,5 +69,49 @@ public class ReservationServiceImpl implements ReservationService {
 
 
         return result;
+    }
+
+    @Override
+    public List<ReservationDTO> getReservations(ReservationDTO reservationDTO) {
+        List<ReservationDTO> reservationList = reservationRepository.getReservations(reservationDTO);
+
+        reservationList.stream().forEach(forRsrv -> {
+//            int accommodationNo, int roomNo
+            AcmDTO getDTO = AcmDTO.builder()
+                    .acmNo(forRsrv.getAccommodationNo())
+                    .roomNo(forRsrv.getRoomNo())
+                    .build();
+            getDTO = acmRoomRepository.selectRoomDetail(getDTO);
+            forRsrv.setAcmDTO(getDTO);
+        });
+//        Payment p = xxxRepository.getPayment(reservationDTO.getReservationNo());
+
+        return reservationList;
+    }
+
+    @Override
+    public ReservationDTO getReservationDetail(ReservationDTO reservationDTO) {
+        ReservationDTO rsDTO = reservationRepository.getReservation(reservationDTO);
+
+        // 숙소 정보
+        AcmDTO getAcmDTO = AcmDTO.builder()
+                .acmNo(rsDTO.getAccommodationNo())
+                .roomNo(rsDTO.getRoomNo())
+                .build();
+
+        getAcmDTO = acmRoomRepository.selectRoomDetail(getAcmDTO);
+        rsDTO.setAcmDTO(getAcmDTO);
+
+        // 예약 요청 정보
+        ReservationRequestDTO  getRRDTO = ReservationRequestDTO.builder().reservationNo(rsDTO.getReservationNo()).build();
+        List<ReservationRequestDTO> rrdList = reservationRepository.getReservationRequests(getRRDTO);
+        rsDTO.setReservationRequests(rrdList);
+
+        return rsDTO;
+    }
+
+    @Override
+    public List<ReservationRequestDTO> getReservationRequests(ReservationRequestDTO reservationRequestDTO) {
+        return reservationRepository.getReservationRequests(reservationRequestDTO);
     }
 }

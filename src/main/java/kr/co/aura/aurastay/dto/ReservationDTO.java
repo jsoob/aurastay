@@ -5,22 +5,30 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReservationDTO {
-    private int reservation_no;
-    private int member_no;
-    private int room_no;
-    private int accommodation_no;
+    private int reservationNo;
+    private int memberNo;
+    private int roomNo;
+    private int accommodationNo;
 
-    private String checkin_date;
-    private String checkout_date;
-    private String reservation_status;
-    private String reservation_details_request;
-    private String residence_country;
-    private String guest_name;
-    private String guest_phone_number;
-    private String guest_email;
+    private String checkinDate;
+    private String checkoutDate;
+    private int reservationStatus;
+    private String reservationDetailsRequest;
+    private String residenceCountry;
+    private String guestName;
+    private String guestPhoneNumber;
+    private String guestEmail;
+    private int dayCount;
+
+    private List<SpecialRequestDTO> specialRequests;
+    private List<ReservationRequestDTO> reservationRequests;
+    private PaymentDTO payment;
+    private AcmDTO acmDTO;
 }

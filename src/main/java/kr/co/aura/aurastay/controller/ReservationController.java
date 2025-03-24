@@ -1,5 +1,6 @@
 package kr.co.aura.aurastay.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.aura.aurastay.dto.AcmDTO;
 import kr.co.aura.aurastay.dto.ReservationDTO;
 import kr.co.aura.aurastay.dto.SpecialRequestDTO;
@@ -7,6 +8,7 @@ import kr.co.aura.aurastay.service.AcmRoomService;
 import kr.co.aura.aurastay.service.ReservationService;
 import kr.co.aura.aurastay.util.ReservationUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@Slf4j
 @Controller
 @RequestMapping("/reservation")
 @RequiredArgsConstructor
@@ -28,7 +31,7 @@ public class ReservationController {
     //checkin
     //checkout
     // 예약하기 버튼 클릭시 가게
-    public String stays(@RequestParam("accommodationNo") int accommodationNo, @RequestParam("roomNo") int roomNo, @RequestParam("checkin") String checkin, @RequestParam("checkout") String checkout, Model model) {
+    public String stays(@RequestParam("accommodationNo") int acmNo, @RequestParam("roomNo") int roomNo, @RequestParam("checkin") String checkinDate, @RequestParam("checkout") String checkoutDate, Model model) {
         // 에어비앤비 getParameter
         // checkin=2025-04-15&
         // checkout=2025-04-16&
@@ -45,22 +48,22 @@ public class ReservationController {
 
         String url = "/reservation/reservationForm";
 
-//        System.out.println("accommodationNo: " + accommodationNo);
+//        System.out.println("acmNo: " + acmNo);
 //        System.out.println("roomNo: " + roomNo);
 //        System.out.println("checkin: " + checkin);
 //        System.out.println("checkout: " + checkout);
 
-        int countDay = ReservationUtil.getCheckDay(checkin, checkout);
+        int countDay = ReservationUtil.getCheckDay(checkinDate, checkoutDate);
 
-        model.addAttribute("checkinDate", checkin);
-        model.addAttribute("checkoutDate", checkout);
+        model.addAttribute("checkinDate", checkinDate);
+        model.addAttribute("checkoutDate", checkoutDate);
         model.addAttribute("countDay", countDay);
 
         int roomCountMin = 0;
 
         // 객실 수량 확인
         for (int i=0; i<countDay; i++) {
-            HashMap<String, Object> rsrvMap = ReservationUtil.getRoomCheck(checkin, accommodationNo, roomNo, i);
+            HashMap<String, Object> rsrvMap = ReservationUtil.getRoomCheck(checkinDate, acmNo, roomNo, i);
 
             int acmCount = reservationService.getRemainingRooms(rsrvMap); // 숙소 번호, 룸 번호, 해당 일자
             if(i==0) roomCountMin = acmCount;
@@ -83,11 +86,28 @@ public class ReservationController {
 
         // 숙소 정보 조회
         // 숙소 DTO 값 받아오기.
-        HashMap<String, Object> roomDetail = acmRoomService.selectRoomDetail(accommodationNo, roomNo);
-//        System.out.println("roomDetail : ");
-//        System.out.println(roomDetail);
+        AcmDTO acmDTO = AcmDTO.builder()
+                .acmNo(acmNo)
+                .roomNo(roomNo)
+                .build();
 
-        model.addAttribute("roomDetail", roomDetail);
+        AcmDTO roomMap = acmRoomService.selectRoomDetail(acmDTO);
+//        model.addAttribute("roomDetail", roomMap);
+
+        // 이후에 변경될 부분
+        // 숙소 정보 조회
+//        AccommodationDTO acmDetail = accommodationService.selectOne(acmNo);   // 서비스 호출
+        // 해당 숙소의 객실 정보 조회
+//        RoomDTO roomDetail = roomService.findByRoomId(acmNo); // 객실 정보 조회 추가
+        // 카테고리 정보 조회
+//        CategoryDTO category = categoryService.getCategoryById(dto.getCategoryNo());                // 카테고리 목록을 가져오는 서비스 호출
+        // 키워드 정보 조회
+//        KeywordDTO keyword = keywordService.getKeywordById(dto.getKeywordNo());               // 키워드 목록을 가져오는 서비스 호출
+
+        model.addAttribute("acmDetail", roomMap); // 모델에 추가
+        model.addAttribute("category", roomMap);   // 카테고리 목록 추가
+        model.addAttribute("keyword", roomMap);     // 키워드 목록 추가
+        model.addAttribute("roomDetail", roomMap);  // 객실 정보를 모델에 추가
 
         // 숙소 조회
 
@@ -127,19 +147,42 @@ public class ReservationController {
 
     
     @GetMapping("/mystays")
-    public String myStays(Model model) {
+    public String myStays(@RequestParam(value = "rsStatus", defaultValue = "1") int reservationStatus, Model model) {
+        log.info("mystays");
+//        log.info("reservationStatus >>>>>>>>>>>>>>> {}", reservationStatus);
+        // 가져온 회원 번호
+        int member_no = 1;
+
+        ReservationDTO reservationDTO = ReservationDTO.builder().memberNo(member_no).reservationStatus(reservationStatus).build();
+
         // 예약 조회
-        List<SpecialRequestDTO> specialRequests = reservationService.getSpecialRequests();
-        model.addAttribute("specialRequests", specialRequests);
+        List<ReservationDTO> reservationList = reservationService.getReservations(reservationDTO);
+
+        model.addAttribute("rsStatus", reservationStatus);
+        model.addAttribute("rsList", reservationList);
 
         return "/reservation/myReservation";
     }
 
     @GetMapping("/mystay")
-    public String mystayDetail(Model model) {
+    public String mystayDetail(@RequestParam(value = "rsNo", required = true) int rsNo,  Model model) {
+        // 가져온 회원 번호
+        int member_no = 1;
+
+        ReservationDTO reservationDTO = ReservationDTO.builder().memberNo(member_no).reservationNo(rsNo).build();
+
+        // 예약 조회
+        ReservationDTO rsDTO = reservationService.getReservationDetail(reservationDTO);
+        model.addAttribute("rsrv", rsDTO);
+
         return "/reservation/myReservationDetail";
     }
-    
+
+    @GetMapping("/oldmystays")
+    public String oldmystays(Model model) {
+        return "/reservation/old_myReservation_noData";
+    }
+
 
     @GetMapping("/album_ex")
     public String album_ex(Model model) {

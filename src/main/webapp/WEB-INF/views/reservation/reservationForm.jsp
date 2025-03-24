@@ -226,7 +226,7 @@
                     paymentId : "1"+"-"+rnd,
 
                     // 상품명
-                    orderName : "${roomDetail['accommodationName']}",
+                    orderName : "${acmDetail['acmName']}",
                     customer : {
                         id : "idid",
                         fullName : guestName,
@@ -316,17 +316,17 @@
                         memberNo : 1, // 사용자번호
                         roomNo :${roomDetail['roomNo']},
                         reservationDetailsRequest : $("#reservationDetailsRequest").val(),
-                        accommodationNo : ${roomDetail['accommodationNo']},
+                        accommodationNo : ${acmDetail['acmNo']},
 
                         specialRequests : specialRequests,
 
                         checkinDate : `${checkinDate}`,
-                        checkin : `${roomDetail['checkin']}`,
+                        checkin : `${acmDetail['checkinTime']}`,
 
                         checkoutDate : `${checkoutDate}`,
-                        checkout : `${roomDetail['checkout']}`,
+                        checkout : `${acmDetail['checkoutTime']}`,
 
-                        orderName : "${roomDetail.accommodationName}",
+                        orderName : "${acmDetail.acmName}",
                         totalAmount : ${roomDetail.roomPrice}
                     };
                     console.log("jsonData = ", jsonData);
@@ -385,31 +385,27 @@
             <div class="d-flex p-4 gap-4 py-md-5 justify-content-center"> <%-- align-items-center --%>
                 <div class="left-container">
 
-                <c:choose>
-                    <c:when test="${acmCount eq 1}">
+                    <c:if test="${acmCount eq 1}">
                         <div class="last-rsrv">
-                    </c:when>
-                    <c:otherwise>
-                        <div class="last-rsrv" style="display: none;">
-                    </c:otherwise>
-                </c:choose>
-                        <div class="box-border mb-3">
-                            <div class="row px-2">
-                                <div class="row fs-5 pb-1">
-                                    <div class="col-sm-12">
-                                        <span>마지막 객실</span> <i class="bi-alarm" style="font-size: 1.5rem; color: #ff3665;"></i>
+                            <div class="box-border mb-3">
+                                <div class="row px-2">
+                                    <div class="row fs-5 pb-1">
+                                        <div class="col-sm-12">
+                                            <span>마지막 객실</span> <i class="bi-alarm" style="font-size: 1.5rem; color: #ff3665;"></i>
+                                        </div>
                                     </div>
+                                    <div class="fs-10">선택하신 날짜에 이 요금으로 이용 가능한 마지막 AuraStay 객실 입니다.</div>
                                 </div>
-                                <div class="fs-10">선택하신 날짜에 이 요금으로 이용 가능한 마지막 AuraStay 객실 입니다.</div>
                             </div>
                         </div>
-                    </div>
+                    </c:if>
+
 
                     <h3 class="mb-4">예약 정보</h3>
                     <div class="box-border mb-3 ps-4">
                         <div class="row mb-3">
                             <div class="fs-5 mb-3">룸 타입</div>
-                            <div class="fs-5 fw-bold">${roomDetail['accommodationName']}</div>
+                            <div class="fs-5 fw-bold">${acmDetail['acmName']}</div>
                             <div class="fs-6 fw-bold">${roomDetail['roomName']}</div>
                         </div>
                         <div class="row mb-3">
@@ -419,7 +415,7 @@
                                     <fmt:parseDate value="${checkinDate}" var="dateFmt2" pattern="yyyy-MM-dd"/>
                                     <fmt:formatDate value="${dateFmt2}" pattern="E" var="intDay"/>
                                     <div class="fw-bold">${checkinDate} (${intDay})</div>
-                                    <div class="">${roomDetail['checkin']}</div>
+                                    <div class="">${acmDetail['checkinTime']}</div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -429,7 +425,7 @@
                                     <fmt:formatDate value="${dateFmt1}" pattern="E" var="outDay"/>
 
                                     <div class="fw-bold">${checkoutDate} (${outDay})</div>
-                                    <div class="">${roomDetail['checkout']}</div>
+                                    <div class="">${acmDetail['checkoutTime']}</div>
                                 </div>
                             </div>
 
@@ -652,9 +648,9 @@
                                          src="https://a0.muscache.com/im/pictures/0f52b46a-16fe-472f-a04b-eec52680f162.jpg?aki_policy=large"
                                          alt="">
                                     <div class="w-100 ms-1">
-                                        <strong class="d-block">${roomDetail['accommodationName']}</strong><%--E°SO 이소하우스 60평 독채--%>
-                                        <p class="mb-2">${roomDetail.categoryName}</p><%--펜션--%>
-                                        <p class="fs-10 mb-2">${roomDetail.accommodationAddress}</p><%--강원도 강릉시 창해로 307--%>
+                                        <strong class="d-block">${acmDetail['acmName']}</strong><%--E°SO 이소하우스 60평 독채--%>
+                                        <p class="mb-2">${category.categoryName}</p><%--펜션--%>
+                                        <p class="fs-10 mb-2">${acmDetail.acmAddress}</p><%--강원도 강릉시 창해로 307--%>
                                         <div class="fs-10 float-start me-2">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
                                                  class="mb-1 bi bi-star-fill" viewBox="0 0 16 16">
@@ -662,7 +658,7 @@
                                             </svg>
                                             4.93(114)
                                         </div>
-                                        <div class="fs-10 fw-bold">•<span class="ms-1">${roomDetail.keywordName}</span></div><%--해변(키워드명)--%>
+                                        <div class="fs-10 fw-bold">•<span class="ms-1">${keyword.keywordName}</span></div><%--해변(키워드명)--%>
                                     </div>
                                 </div>
                             </div>
