@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import kr.co.aura.aurastay.dto.BusinessDTO;
 import kr.co.aura.aurastay.dto.MemberDTO;
+import kr.co.aura.aurastay.security.CustomUserDetail;
 import kr.co.aura.aurastay.service.BusinessService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,16 +33,10 @@ public class BusinessController {
     @GetMapping("/dashboard")
     public String businessDashboardPage(@AuthenticationPrincipal Object principal, HttpSession session) {
 
-        // businessService.findByUsername(email) 로 BusinessDTO 받기
-        // session.setAttribute("businessDTO",businessDTO); 이렇게 해도되는지 확인필요
-
-        String id = null;
-        if(principal instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) principal;
-            id = userDetails.getUsername();
+        if (principal instanceof UserDetails) {
+            // 로그인한 사용자 dto 세션에 담기
+            session.setAttribute("dto", ((CustomUserDetail) principal).getBusiness());
         }
-        // email만 담을지.. 아예 DTO로 담을지 생각해볼것
-        session.setAttribute("id", id);
 
         return "business/dashboard";
     }
@@ -76,7 +71,7 @@ public class BusinessController {
             return "business/businessSignUp";
         }
 
-        businessDTO.setBusinessPhoneNumber(phone1+phone2+phone3);
+        businessDTO.setBusinessPhoneNumber(phone1 + phone2 + phone3);
         businessService.save(businessDTO);
         return "redirect:/business/intro";
     }

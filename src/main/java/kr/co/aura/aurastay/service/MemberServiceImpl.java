@@ -38,6 +38,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public MemberDTO findByProviderId(String providerId) {
+        return memberRepository.findByProviderId(providerId);
+    }
+
+    @Override
     public void resetPassword(MemberDTO dto) {
         dto.setMemberPassword(passwordEncoder.encode(dto.getMemberPassword()));
         memberRepository.resetPassword(dto);
@@ -46,6 +51,21 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public boolean isMemberExist(String email) {
         return memberRepository.existsByEmail(email);
+    }
+
+    @Override
+    public void modifyMemberInfo(MemberDTO dto) {
+        memberRepository.modifyMember(dto);
+    }
+
+    @Override
+    public MemberDTO findByMemberNo(int memberNo) {
+        return memberRepository.findById(memberNo);
+    }
+
+    @Override
+    public void withdrawalMember(int memberNo) {
+        memberRepository.deleteMember(memberNo);
     }
 
 }

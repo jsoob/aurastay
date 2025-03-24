@@ -23,6 +23,7 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
         // 기본 url
         String redirectUrl = "/";
 
+        // 권한에 따라 시작페이지 다르게 설정
         for (GrantedAuthority authority : authorities) {
             String role = authority.getAuthority();
 

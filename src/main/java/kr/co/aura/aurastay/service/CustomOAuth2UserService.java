@@ -60,10 +60,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             memberRepository.insertMember(member1);
 
         } else { // 원래 로그인했던 사람이라면
-            member.setMemberEmail(oAuth2Response.getEmail());
-            member.setMemberNickname(oAuth2Response.getName());
-            member.setMemberName(oAuth2Response.getName());
-            // 갱신
             memberRepository.updateMember(member);
         }
 

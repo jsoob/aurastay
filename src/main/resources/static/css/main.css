@@ -64,6 +64,7 @@ header .btn:hover {
 }
 header .dropdown > ul > li {
     font-size: 14px;
+    text-align: center;
 }
 
 /* 기존 드롭다운 스타일 유지하면서 버튼을 a 태그처럼 변경 */

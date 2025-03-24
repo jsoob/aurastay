@@ -89,6 +89,14 @@
 }
 #loginBtn {
     width: 400px;
+    background-color: white;
+    color: #ff385c;
+    border-color: #ff385c;
+}
+
+#loginBtn:hover {
+    background-color: #ff385c;
+    color: white;
 }
 
 .text-danger {

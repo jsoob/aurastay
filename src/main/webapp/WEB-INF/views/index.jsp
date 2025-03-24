@@ -225,18 +225,6 @@
         <%-- 앨범 끝 --%>
     </div>
 </div>
-
-<%-- 어떤 방식으로 쓸지는 생각해봐야함 --%>
-<c:if test="${id!=null}">
-<h3>${id}</h3>
-</c:if>
-
-<c:if test="${not empty sessionScope.id}">
-    <p>회원 id: ${sessionScope.id}</p>
-</c:if>
-<ul>
-<li><sec:authentication property="principal" /></li>
-</ul>
 <jsp:include page="main/footer.jsp"/>
 </body>
 </html>

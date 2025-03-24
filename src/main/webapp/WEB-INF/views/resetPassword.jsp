@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/css/password.css">
 </head>
 <body>
-<jsp:include page="main/header.jsp"/>
+<jsp:include page="main/basic-header.jsp"/>
 <div class="main container">
     <div class="reset-container">
         <h3>비밀번호 재설정</h3>

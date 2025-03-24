@@ -13,16 +13,16 @@
     <select id="findByUsername" parameterType="String" resultType="BusinessDTO">
         select business_no as businessNo, business_name as businessName, representative_name as representativeName, business_email as businessEmail, business_phone_number as businessPhoneNumber, business_password as businessPassword, business_account as businessAccount, registration_date as registrationDate, withdrawal_date as withdrawalDate, authority
         from business
-        where business_email = #{username}
+        where business_email = #{username} and withdrawal_date is null
     </select>
     <!--  이미 존재하는 이메일인지 확인  -->
     <select id="existsByEmail" parameterType="String" resultType="boolean">
-        SELECT EXISTS (SELECT 1 FROM business WHERE business_email = #{username})
+        SELECT EXISTS (SELECT 1 FROM business WHERE business_email = #{username} and withdrawal_date is null)
     </select>
     <!-- 비밀번호 재설정 -->
     <update id="resetPassword" parameterType="BusinessDTO">
         update business
         set business_password = #{businessPassword}
-        where business_email = #{businessEmail}
+        where business_email = #{businessEmail} and withdrawal_date is null
     </update>
 </mapper>

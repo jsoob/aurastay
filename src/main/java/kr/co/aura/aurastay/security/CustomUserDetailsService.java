@@ -26,13 +26,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         // 일반 사용자 조회
         MemberDTO member = memberRepository.findByUsername(username);
-        if (member != null) { // 가입된 사용자라면
+        if (member != null && member.getWithdrawalDate() == null) { // 가입된 사용자라면
             return new CustomUserDetail(member, List.of(new SimpleGrantedAuthority(member.getAuthority())));
         }
 
         // 사업자 조회
         BusinessDTO business = businessRepository.findByUsername(username);
-        if (business != null) { // 가입된 사업자라면
+        if (business != null && business.getWithdrawalDate() == null) { // 가입된 사업자라면
             return new CustomUserDetail(business, List.of(new SimpleGrantedAuthority(business.getAuthority())));
         }
 

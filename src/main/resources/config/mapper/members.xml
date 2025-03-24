@@ -13,28 +13,46 @@
     <select id="findByUsername" parameterType="String" resultType="MemberDTO">
         select member_no as memberNo, member_email as memberEmail, provider_id as providerId, member_password as memberPassword, member_name as memberName,member_nickname as memberNickname, member_phone_number as memberPhoneNumber, point, registration_date as registrationDate, withdrawal_date as withdrawalDate, authority
         from member
-        where member_email = #{username} and provider_id is null
+        where member_email = #{username} and provider_id is null and withdrawal_date is null
     </select>
     <!-- 이미 존재하는 이메일인지 확인 -->
     <select id="existsByEmail" parameterType="String" resultType="boolean">
-        SELECT EXISTS (SELECT 1 FROM member WHERE member_email = #{username} and provider_id is null)
+        SELECT EXISTS (SELECT 1 FROM member WHERE member_email = #{username} and provider_id is null and withdrawal_date is null)
     </select>
     <!-- providerid로 사용자 조회 -->
     <select id="findByProviderId" parameterType="String" resultType="MemberDTO">
         select member_no as memberNo, member_email as memberEmail, provider_id as providerId, member_password as memberPassword, member_name as memberName,member_nickname as memberNickname, member_phone_number as memberPhoneNumber, point, registration_date as registrationDate, withdrawal_date as withdrawalDate, authority
         from member
-        where provider_id = #{providerId}
+        where provider_id = #{providerId} and withdrawal_date is null
     </select>
     <!-- 소셜로그인 기존 사용자는 업데이트 -->
     <update id="updateMember" parameterType="MemberDTO">
         update member
-        set member_email=#{memberEmail}, member_nickname=#{memberNickname}
+        set withdrawal_date=#{withdrawalDate}
         where provider_id = #{providerId}
     </update>
     <!-- 비밀번호 재설정 -->
     <update id="resetPassword" parameterType="MemberDTO">
         update member
         set member_password = #{memberPassword}
-        where member_email = #{memberEmail} and provider_id is null
+        where member_email = #{memberEmail} and provider_id is null and withdrawal_date is null
+    </update>
+    <!-- 마이페이지 정보 수정 -->
+    <update id="modifyMember" parameterType="MemberDTO">
+        update member
+        set member_email = #{memberEmail}, member_name = #{memberName}, member_nickname = #{memberNickname}, member_phone_number = #{memberPhoneNumber}
+        where member_no = #{memberNo}
+    </update>
+    <!-- memberNo로 정보 조회 -->
+    <select id="findById" parameterType="int" resultType="MemberDTO">
+        select member_no as memberNo, member_email as memberEmail, provider_id as providerId, member_password as memberPassword, member_name as memberName,member_nickname as memberNickname, member_phone_number as memberPhoneNumber, point, registration_date as registrationDate, withdrawal_date as withdrawalDate, authority
+        from member
+        where member_no = #{memberNo}
+    </select>
+    <!-- 탈퇴 (실제 삭제는 x)-->
+    <update id="deleteMember" parameterType="int">
+        update member
+        set withdrawal_date = current_timestamp()
+        where member_no = #{memberNo}
     </update>
 </mapper>

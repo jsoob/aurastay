@@ -3,6 +3,7 @@ package kr.co.aura.aurastay.controller;
 import jakarta.servlet.http.HttpSession;
 import kr.co.aura.aurastay.dto.BusinessDTO;
 import kr.co.aura.aurastay.dto.MemberDTO;
+import kr.co.aura.aurastay.security.CustomUserDetail;
 import kr.co.aura.aurastay.service.BusinessService;
 import kr.co.aura.aurastay.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -34,20 +35,16 @@ public class MainController {
     @GetMapping({"/", "/index", "/main"})
     public String index(@AuthenticationPrincipal Object principal, HttpSession session) {
 
-        String id = null;
+        MemberDTO member = null;
 
-        System.out.println(principal);
-        if(  principal instanceof  OAuth2User ) {
-            id = ((OAuth2User) principal).getName();
-          //  String name = (String) ((OAuth2User) principle).getAttributes().get("name");
-
-        }else if ( principal instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) principal;
-            id = userDetails.getUsername();
+        if (principal instanceof OAuth2User) { // 소셜로그인 사용자
+            member = memberService.findByProviderId(((OAuth2User) principal).getName());
+        } else if (principal instanceof UserDetails) { // 일반 사용자
+            member = ((CustomUserDetail) principal).getMember();
         }
 
-        System.out.println(id);
-        session.setAttribute("id", id);
+        System.out.println(member);
+        session.setAttribute("dto", member);
         return "index";
     }
 
@@ -111,13 +108,13 @@ public class MainController {
                                   @RequestParam("user") int user,
                                   HttpSession session) {
         // 이부분 if(isExistMember){memberDTO에 담아 memberService.resetPassword(dto)} 이렇게 수정할지..
-        if(user == 0) { // member
+        if (user == 0) { // member
             MemberDTO memberDTO = MemberDTO.builder()
                     .memberPassword(password)
                     .memberEmail(email)
                     .build();
             memberService.resetPassword(memberDTO);
-        } else if(user == 1){ // business
+        } else if (user == 1) { // business
             BusinessDTO businessDTO = BusinessDTO.builder()
                     .businessPassword(password)
                     .businessEmail(email)
@@ -132,7 +129,7 @@ public class MainController {
 
     // 이메일 중복 확인
     @PostMapping("/checkEmail")
-    public ResponseEntity<Map<String, Boolean>> checkEmail(@RequestParam String email){
+    public ResponseEntity<Map<String, Boolean>> checkEmail(@RequestParam String email) {
         boolean exists = memberService.isMemberExist(email) || businessService.isBusinessExist(email); // member 또는 business에 존재하는 이메일
         Map<String, Boolean> response = new HashMap<>();
         response.put("exists", exists);

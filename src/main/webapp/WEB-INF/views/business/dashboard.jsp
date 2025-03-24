@@ -22,5 +22,21 @@
         <p>회원 id: ${sessionScope.id}</p>
     </c:if>
 </h3>
+
+<h3>요기가 dto자리
+    <ul>
+        <li>${dto.businessNo}</li>
+        <li>${dto.businessName}</li>
+        <li>${dto.representativeName}</li>
+        <li> ${dto.businessEmail}</li>
+        <li>${dto.businessPhoneNumber}</li>
+        <li>${dto.businessPassword}</li>
+        <li>${dto.businessAccount}</li>
+        <li>${dto.registrationDate}</li>
+        <li>${dto.withdrawalDate}</li>
+        <li>${dto.authority}</li>
+    </ul>
+
+</h3>
 </body>
 </html>

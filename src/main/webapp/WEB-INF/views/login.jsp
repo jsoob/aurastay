@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
-<jsp:include page="main/header.jsp"/>
+<jsp:include page="main/basic-header.jsp"/>
 
 <div class="main container">
     <div class="logo">
@@ -35,9 +35,10 @@
             <c:if test="${param.error != null}">
                 <div class="text-danger small">이메일 또는 비밀번호가 틀렸습니다.</div>
             </c:if>
-            <input type="submit" class="btn btn-outline-danger" id="loginBtn" value="로그인">
+            <input type="submit" class="btn loginBtn" id="loginBtn" value="로그인">
             <div class="TextButton_container">
-                <span><a href="/findPassword">비밀번호 재설정></a></span><br>
+                <span><a href="/findPassword">비밀번호 찾기 > |</a>
+                <a href="/member/emailSignUp">이메일 회원가입 ></a></span>
 
             </div>
         </div>
@@ -73,7 +74,6 @@
     </div>
     <div class="TextButton_container">
         <a href="/business/intro">사업자로 시작하기></a>
-        <a href="/member/emailSignUp">이메일로 회원가입></a>
     </div>
 </div>
 
