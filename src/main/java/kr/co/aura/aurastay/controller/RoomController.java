@@ -5,6 +5,7 @@ import kr.co.aura.aurastay.dto.RoomDTO;
 import kr.co.aura.aurastay.service.AccommodationService;
 import kr.co.aura.aurastay.service.RoomService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,8 +39,6 @@ public class RoomController {
 //        return "accommodation/acmInfo";
 //    }
 
-
-
     // 객실 등록 폼 페이지로 이동
     @GetMapping("/roomAdd")
     public String roomAdd(Model model) {
@@ -51,9 +50,9 @@ public class RoomController {
 
     // 객실 정보 입력 후 등록하는 메서드
     @PostMapping("/roomAdd")
-    public String roomForm(@ModelAttribute("dto") RoomDTO roomDTO,
-                           @RequestParam("acmNo") int acmNo) {
-
+    @ResponseBody // AJAX 요청에 대한 응답을 JSON으로 반환하기 위해 추가
+    public ResponseEntity<String> roomForm(@RequestBody RoomDTO roomDTO){
+//                           @RequestParam("acmNo") int acmNo) {
         // roomDTO에 담긴 정보를 통해 객실 등록 처리
         roomService.roomAdd(roomDTO);   // 객실만 등록하기
 
@@ -64,7 +63,8 @@ public class RoomController {
 //        // 숙소 정보 업데이트
 //        accommodationService.save(accommodation);
 
-        return "redirect:/accommodation/acmList";       // 등록 후 숙소 목록으로 리다이렉트
+//        return "redirect:/accommodation/acmList";       // 등록 후 숙소 목록으로 리다이렉트
+        return ResponseEntity.ok("객실 정보가 저장되었습니다."); // 성공 메시지 반환
     }
 
     // 객실 정보 수정하기

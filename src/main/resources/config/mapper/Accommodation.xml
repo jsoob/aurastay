@@ -23,6 +23,7 @@
         <if test="search != null and search != ''">
         WHERE (a.accommodation_name LIKE CONCAT ('%', #{search}, '%') OR a.tel LIKE CONCAT ('%', #{search}, '%'))
         </if>
+        ORDER BY a.accommodation_no DESC  <!-- 숙소 번호 기준으로 내림차순 정렬 -->
         LIMIT #{limit} OFFSET #{offset}
     </select>
 
@@ -149,6 +150,18 @@
         keyword_no = #{keywordNo}
         WHERE accommodation_no = #{acmNo}
     </update>
+
+    <!-- 편의시설 정보 (변경을 위한) 삭제 -->
+    <delete id="deleteAmenities" parameterType="int">
+        DELETE FROM accommodation_amenities
+        WHERE accommodation_no = #{acmNo}
+    </delete>
+    <!-- 이후, 바로 수정이 완료되면 추가되는 편의시설 정보 (추가) -->
+    <insert id="addAmenities" parameterType="map">
+        INSERT INTO accommodation_amenities (accommodation_no, amenities_no)
+        VALUES (#{acmNo}, #{amenitiesNo})
+    </insert>
+
 
 
 

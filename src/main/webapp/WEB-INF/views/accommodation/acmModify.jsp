@@ -47,37 +47,37 @@
                     closeModal();
                 }
             });
+
+            // 추가 버튼 클릭 이벤트
+            $("#btn").click(function () {
+                let newFileInput = '<input type="file" name="files" multiple>'; // 새로운 파일 입력 필드
+                $(this).before(newFileInput); // 버튼 앞에 추가
+            });
         });
 
-        // 객실 정보 저장 함수
+        // 객실 정보를 추가하는 함수
         function addRoomInfo() {
-            const roomData = {
-                roomName: $('input[name="roomName[]"]').val(),
-                roomQty: $('input[name="roomQty[]"]').val(),
-                roomCapacity: $('input[name="roomCapacity[]"]').val(),
-                roomPrice: $('input[name="roomPrice[]"]').val(),
-                roomDiscount: $('input[name="roomDiscount[]"]').val(),
-                roomContents: $('textarea[name="roomContents[]"]').val(),
-                roomViewType: $('select[name="roomViewType[]"]').val()
-            };
+            let roomName = $("input[name='roomName[]']").val();
+            let roomQty = $("input[name='roomQty[]']").val();
+            let roomCapacity = $("input[name='roomCapacity[]']").val();
+            let roomPrice = $("input[name='roomPrice']").val();
+            let roomDiscount = $("input[name='roomDiscount']").val();
+            let roomContents = $("textarea[name='roomContents']").val();
+            let roomViewType = $("select[name='roomViewType']").val();
 
-            // 서버에 저장 요청 (URL은 실제 서버 API에 맞게 수정 필요)
-            $.ajax({
-                url: '/accommodation/addRoom', // 예시 URL, 실제로 사용되는 URL로 수정
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(roomData),
-                success: function(response) {
-                    alert('객실 정보가 저장되었습니다.');
-                    closeModal(); // 모달 닫기
-                },
-                error: function(error) {
-                    console.error('객실 정보를 저장하는 데 실패했습니다.', error);
-                    alert('저장 실패. 다시 시도해 주세요.');
-                }
-            });
+            // 객실 정보를 추가하는 로직 (서버에 전송하거나 배열에 추가하는 방식 구현 필요)
+            console.log("객실 정보 추가:", { roomName, roomQty, roomCapacity, roomPrice, roomDiscount, roomContents, roomViewType });
+
+            // 모달 닫기
+            $("#roomModal").fadeOut();
         }
     </script>
+
+    <style>
+        #btn {
+            cursor: pointer; /* 마우스 커서를 포인터로 변경 */
+        }
+    </style>
 </head>
 
 <jsp:include page="../comm/header.jsp"/>
@@ -86,7 +86,7 @@
 <body>
 <div class="main-content">
     <h2>${dto.acmName} 숙소 수정</h2>
-    <form action="/accommodation/acmUpdate" method="post" enctype="multipart/form-data">
+    <form action="/accommodation/acmModify" method="post" enctype="multipart/form-data">
         <input type="hidden" name="acmNo" value="${dto.acmNo}"/>
 
         <div class="form-group">
@@ -154,8 +154,8 @@
             <div class="checkbox-group">
                 <c:forEach var="keyword" items="${keywords}">
                     <label>
-                        <input type="checkbox" name="keywordNo[]" value="${keyword.keywordNo}"
-                               <c:if test="${selectedKeywords.contains(keyword.keywordNo)}">checked</c:if>
+                        <input type="radio" name="keywordNo" value="${keyword.keywordNo}"
+                               <c:if test="${keyword.keywordNo == dto.keywordNo}">checked</c:if>
                         >${keyword.keywordName}
                     </label>
                 </c:forEach>
@@ -164,15 +164,15 @@
 
         <div class="container">
             <div class="pink-box">
-                <div class="form-group">
+                <%--키워드 아래에 첨부파일과 버튼을 배치하기--%>
+                <div class="form-group" id="fileInputContainer">
                     <label class="form-label">숙소 이미지 업로드</label>
-                    <input type="file" name="files" multiple>
-                    <input type="button" value="추가" id="btn">
+                    <input type="file" name="files" multiple> <%--여러 개의 파일을 선택할 수 있도록 multiple 추가--%>
+                    <input type="button" value="추가" id="btn"> <!-- 추가 버튼 -->
                 </div>
             </div>
-
             <div class="btn-container">
-                <button type="submit" class="btn btn-submit">수정 완료</button>
+                <button type="submit" class="btn btn-submit">수정</button>
                 <button type="reset" class="btn btn-cancel">취소</button>
             </div>
         </div>

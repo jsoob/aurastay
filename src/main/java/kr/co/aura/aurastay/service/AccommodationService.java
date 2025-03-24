@@ -133,7 +133,7 @@ public class AccommodationService {
     
     // 숙소 정보 변경/수정
     public void updateAccommodation(AccommodationDTO dto) {
-        accommodationRepository.acmUpdate(dto);
+        accommodationRepository.updateAccommodation(dto);
     }
 
     // 숙소 정보와 함께 선택된 키워드와 편의시설을 불러오는 메서드
@@ -146,12 +146,17 @@ public class AccommodationService {
     }
 
 
-
-
     // 숙소 정보 삭제
     public void acmDelete(int acmNo) {
         accommodationRepository.acmDelete(acmNo);
     }
 
+    // 정보 변경할 때 필요한 편의시설 정보 삭제 후 다시 저장하기 위한 메서드
+    public void deleteAmenities(int acmNo) {
+        accommodationRepository.deleteAmenities(acmNo);
+    }
 
+    public void addAmenities(int acmNo, int amenitiesNo) {
+        accommodationRepository.addAmenities(acmNo, amenitiesNo);
+    }
 }

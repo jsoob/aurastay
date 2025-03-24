@@ -45,7 +45,15 @@
             let roomViewType = $("select[name='roomViewType']").val();
 
             // 객실 정보를 추가하는 로직 (서버에 전송하거나 배열에 추가하는 방식 구현 필요)
-            console.log("객실 정보 추가:", { roomName, roomQty, roomCapacity, roomPrice, roomDiscount, roomContents, roomViewType });
+            console.log("객실 정보 추가:", {
+                roomName,
+                roomQty,
+                roomCapacity,
+                roomPrice,
+                roomDiscount,
+                roomContents,
+                roomViewType
+            });
 
             // 모달 닫기
             $("#roomModal").fadeOut();
@@ -140,15 +148,13 @@
         </button>
         <br><br>
 
-
+        <%-- 키워드 --%>
         <div class="form-group">
-            <%-- 키워드 --%>
             <label>Keyword</label>
             <div class="checkbox-group">
                 <c:forEach var="keyword" items="${keywords}">
-                    <label><input type="checkbox" name="keywordNo[]" <%--여러 개 선택해서 처리될 때는 배열로 받기 때문에 []--%>
+                    <label><input type="radio" name="keywordNo[]" <%--여러 개 선택해서 처리될 때는 배열로 받기 때문에 []--%>
                                   value="${keyword.keywordNo}">${keyword.keywordName}</label>
-                    <%--                        <c:out value="${keywords}" default="keywords 없음!" />--%>
                 </c:forEach>
                 <%--                    <label><input type="checkbox" name="keyword" value="명동"> 명동</label>--%>
                 <%--                    <label><input type="checkbox" name="keyword" value="홍대"> 홍대</label>--%>

@@ -21,6 +21,7 @@ import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 // controller -> service -> repository
@@ -334,7 +335,7 @@ public class AccommodationController {
 
         // 카테고리, 키워드, 편의시설 조회 (전체)
         List<CategoryDTO> categories = categoryService.getCategories();
-        List<KeywordDTO> keyword = keywordService.getAllKeywords();
+        List<KeywordDTO> keywords = keywordService.getAllKeywords();
         List<AmenitiesDTO> amenities = amenitiesService.getAmenities();
 
         // 기존에 선택(등록)된 카테고리, 키워드, 편의시설 정보 가져오기
@@ -346,7 +347,7 @@ public class AccommodationController {
         model.addAttribute("dto", dto);
         model.addAttribute("roomList", roomList);
         model.addAttribute("categories", categories);
-        model.addAttribute("keywords", keyword);
+        model.addAttribute("keywords", keywords);
         model.addAttribute("amenities", amenities);
         model.addAttribute("selectedAmenities", selectedAmenities);
         model.addAttribute("selectedKeywords", selectedKeywords);
@@ -362,17 +363,16 @@ public class AccommodationController {
     }
 
 
-    // 숙소 정보 변경 : 숙소의 정보를 가져와서 모델에 추가하는 방식
     @PostMapping("/acmModify")
     public String accommodationUpdate(
-            @RequestParam("acmNo") int acmNo, // 숙소 번호
-            @RequestParam("acmName") String acmName, // 숙소명
-            @RequestParam("acmAddress") String acmAddress, // 숙소 주소
-            @RequestParam("acmTel") String acmTel, // 숙소 연락처
-            @RequestParam("checkinTime") String checkinTime, // 체크인 시간
-            @RequestParam("checkoutTime") String checkoutTime, // 체크아웃 시간
-            @RequestParam("contents") String contents, // 숙소 설명
-            @RequestParam("categoryNo") int categoryNo, // 카테고리 번호
+            @RequestParam(value = "acmNo") int acmNo, // 숙소 번호
+            @RequestParam(value = "acmName", required = false) String acmName, // 숙소명
+            @RequestParam(value = "acmAddress", required = false) String acmAddress, // 숙소 주소
+            @RequestParam(value = "acmTel", required = false) String acmTel, // 숙소 연락처
+            @RequestParam(value = "checkinTime", required = false) String checkinTime, // 체크인 시간
+            @RequestParam(value = "checkoutTime", required = false) String checkoutTime, // 체크아웃 시간
+            @RequestParam(value = "contents", required = false) String contents, // 숙소 설명
+            @RequestParam(value = "categoryNo", required = false) int categoryNo, // 카테고리 번호
             @RequestParam(value = "amenities", required = false) List<Integer> amenities, // 편의시설 목록
             @RequestParam(value = "files", required = false) MultipartFile[] files, // 업로드된 이미지 파일
             // 객실 정보 관련 파라미터
@@ -383,28 +383,64 @@ public class AccommodationController {
             @RequestParam(value = "roomDiscount[]") String[] roomDiscounts, // 할인율 배열
             @RequestParam(value = "roomContents[]") String[] roomContents, // 상세 설명 배열
             @RequestParam(value = "roomViewType[]") String[] roomViewTypes, // 뷰 타입 배열
+            @RequestParam(value = "keywordNo", required = false) Integer keywordNo, // 단일 키워드 번호
             Model model) {
 
-        // AccommodationDTO 객체 생성
-        AccommodationDTO dto = new AccommodationDTO();
-        dto.setAcmNo(acmNo); // 숙소 번호 설정
-        dto.setAcmName(acmName); // 숙소명 설정
-        dto.setAcmAddress(acmAddress); // 숙소 주소 설정
-        dto.setAcmTel(acmTel); // 숙소 연락처 설정
-        dto.setCheckinTime(checkinTime); // 체크인 시간 설정
-        dto.setCheckoutTime(checkoutTime); // 체크아웃 시간 설정
-        dto.setContents(contents); // 숙소 설명 설정
-        dto.setCategoryNo(categoryNo); // 카테고리 번호 설정
-        dto.setAmenities(amenities); // 편의시설 설정
+        // 1. 기존 편의시설 삭제 (배열로 여러 개의 값을 받기 때문에 편의시설을 삭제 후 다시 update하는 방식으로 진행한다)
+        accommodationService.deleteAmenities(acmNo);
 
-        // 파일 처리 로직 (업로드된 파일을 저장하는 메서드 호출)
-        if (files != null && files.length > 0) {
-            for (MultipartFile file : files) {
-                // 파일 저장 로직 (예: 파일 시스템에 저장)
-                // accommodationService.saveFile(file);
+        // AccommodationDTO 객체 생성
+        AccommodationDTO dto = AccommodationDTO.builder()
+                .acmNo(acmNo)
+                .acmName(acmName)
+                .acmAddress(acmAddress)
+                .acmTel(acmTel)
+                .checkinTime(checkinTime)
+                .checkoutTime(checkoutTime)
+                .contents(contents)
+                .categoryNo(categoryNo)
+                .amenities(amenities) // 편의시설 설정
+                .keywordNo(keywordNo) // 단일 키워드 번호 설정
+                .build();
+
+        // 3. 새로운 편의시설 추가
+        if (amenities != null) {
+            for (Integer amenityNo : amenities) {
+                accommodationService.addAmenities(acmNo, amenityNo);
             }
         }
 
+        // 파일 처리 로직
+        if (files != null && files.length > 0) {
+            List<String> filenames = new ArrayList<>();
+            List<String> filepath = new ArrayList<>();
+
+            for (MultipartFile file : files) {
+                if (!file.isEmpty()) {
+                    String saveFileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+                    File saveFile = new File(uploadDirectory, saveFileName);
+                    try {
+                        file.transferTo(saveFile); // 파일을 실제 경로에 저장
+                        filenames.add(saveFileName);
+                        filepath.add(saveFile.getAbsolutePath());
+                    } catch (IOException e) {
+                        log.error("파일 업로드 중 오류 발생 >>>>>>>>> : {}", e.getMessage());
+                        throw new RuntimeException("파일 업로드 중 오류가 발생하였습니다.", e);
+                    }
+                }
+            }
+            dto.setFilenames(filenames);
+            dto.setFilepath(filepath);
+
+            // 클라이언트 접근 URL 생성
+            List<String> clientFilePaths = new ArrayList<>();
+            for (String filename : filenames) {
+                clientFilePaths.add("/upload/" + filename); // 클라이언트가 접근할 수 있는 URL 추가
+            }
+            dto.setClientFilepath(clientFilePaths); // DTO에 클라이언트 접근 경로 설정
+        }
+
+        log.info("acmNo : {}, amenities : {} 제대로 담기는가? >>>>>>>>>>>> ", acmNo, amenities);
         // 데이터베이스 업데이트
         accommodationService.updateAccommodation(dto); // 숙소 정보 업데이트
 
@@ -414,20 +450,20 @@ public class AccommodationController {
             roomDTO.setRoomName(roomNames[i]);
             roomDTO.setRoomQty(roomQtys[i]);
             roomDTO.setRoomCapacity(roomCapacities[i]);
-            roomDTO.setRoomPrice(Integer.parseInt(roomPrices[i])); // String을 int로 변환
-            roomDTO.setRoomDiscount(Integer.parseInt(roomDiscounts[i])); // String을 int로 변환
+            roomDTO.setRoomPrice(Integer.parseInt(roomPrices[i])); // 가격 변환
+            roomDTO.setRoomDiscount(Integer.parseInt(roomDiscounts[i])); // 할인율 변환
             roomDTO.setRoomContents(roomContents[i]);
             roomDTO.setRoomViewType(roomViewTypes[i]);
             roomDTO.setAccommodationNo(acmNo); // 숙소 번호 설정
 
-            // 객실 정보 업데이트
-            roomService.roomUpdate(roomDTO); // roomService의 업데이트 메서드 호출
+            roomService.roomUpdate(roomDTO); // 객실 정보 업데이트
         }
-
 
         // 수정 완료 후 목록 페이지로 리다이렉트
         return "redirect:/accommodation/acmList"; // 숙소 목록 페이지로 이동
     }
+
+
 
 
     // 숙소 정보 삭제
