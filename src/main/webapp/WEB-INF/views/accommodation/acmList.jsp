@@ -17,7 +17,7 @@
             // 하이픈이 포함된 경우
             if (searchInput.includes("-")) {
                 errorMessage.style.display = "block"; // 메시지 표시
-                errorMessage.innerText = "하이픈 없이 숫자만 입력하세요.";
+                errorMessage.innerText = "- 표시 없이 숫자만 입력하세요.";
                 return false; // 폼 제출 방지
             } else {
                 errorMessage.style.display = "none"; // 메시지 숨김

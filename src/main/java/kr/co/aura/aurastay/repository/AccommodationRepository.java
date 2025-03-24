@@ -25,7 +25,7 @@ public interface AccommodationRepository {
     AccommodationDTO selectOne(int acmNo);
 
     // 숙소 정보 변경
-    void acmUpdate(int acmNo);
+    void acmUpdate(AccommodationDTO dto);
 
     // 숙소 삭제
     void acmDelete(int acmNo);
@@ -40,5 +40,7 @@ public interface AccommodationRepository {
     // 편의시설 정보 가져오기
     void saveAmenities(@Param("accommodationNo") int accommodationNo, @Param("amenitiesNo") Integer amenitiesNo);
 
-
+    // 숙소 정보 변경하기 위해서 기존에 정보를 불러올 때 필요
+    List<Integer> selectSelectedKeywords(int acmNo);
+    List<Integer> selectSelectedAmenities(int acmNo);
 }

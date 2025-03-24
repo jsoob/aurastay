@@ -266,11 +266,11 @@ public class AccommodationController {
         int currentBlock = (currentPage - 1) / blockSize;       // 현재 블록
         int startPage = currentBlock * blockSize + 1;           // 블록의 시작 페이지
         int endPage = Math.min(startPage + blockSize - 1, totalPages);  // 블록의 끝 페이지
-        
+
 //        // 페이지네이션 범위 계산
 //        int startPage = Math.max(1, currentPage - 4);           // 현재 페이지 기준으로 5개 페이지 앞부터
 //        int endPage = Math.min(currentPage, startPage + 9);     // 시작 페이지에서 10개까지
-        
+
         // 만약 10개가 안된다면?
 //        if (endPage - startPage < 9){
 //            startPage = Math.max (1, endPage - 9);          // 뒤쪽으로 조정
@@ -308,7 +308,7 @@ public class AccommodationController {
         model.addAttribute("dto", dto); // 모델에 추가
         model.addAttribute("category", category);   // 카테고리 목록 추가
         model.addAttribute("keyword", keyword);     // 키워드 목록 추가
-         model.addAttribute("roomList", roomList);  // 객실 정보를 모델에 추가
+        model.addAttribute("roomList", roomList);  // 객실 정보를 모델에 추가
 //        model.addAttribute("amenities", amenities);
 
         log.info("Accommodation DTO >>>>>>>>>>>>>>>>>> : {}", dto);
@@ -321,12 +321,114 @@ public class AccommodationController {
     }
 
 
-    // 숙소 정보 변경
-    @PostMapping("/acmUpdate")
-    public String accommodationUpdate(@RequestParam("acmNo") int acmNo, Model model) {
-        accommodationService.acmUpdate(acmNo);
-        return "redirect:/accommodation/acmList";
+    // 숙소 정보 변경 : 숙소정보 화면을 불러오도록 @GetMapping 작성
+    @GetMapping("/acmModify")
+    public String acmModify(@RequestParam("acmNo") int acmNo, Model model) {
+        // 숙소 정보를 조회하고 모델에 추가하는 로직
+
+        // 숙소 정보를 데이터베이스에서 조회
+        AccommodationDTO dto = accommodationService.selectOne(acmNo);
+
+        // 객실 정보 조회
+        List<RoomDTO> roomList = roomService.findRoomByAccommodation(acmNo);
+
+        // 카테고리, 키워드, 편의시설 조회 (전체)
+        List<CategoryDTO> categories = categoryService.getCategories();
+        List<KeywordDTO> keyword = keywordService.getAllKeywords();
+        List<AmenitiesDTO> amenities = amenitiesService.getAmenities();
+
+        // 기존에 선택(등록)된 카테고리, 키워드, 편의시설 정보 가져오기
+        List<Integer> selectedAmenities = accommodationService.getSelectedAmenities(acmNo);
+        List<Integer> selectedKeywords = accommodationService.getSelectedKeywords(acmNo);
+
+
+        // 모델에 숙소 정보를 추가
+        model.addAttribute("dto", dto);
+        model.addAttribute("roomList", roomList);
+        model.addAttribute("categories", categories);
+        model.addAttribute("keywords", keyword);
+        model.addAttribute("amenities", amenities);
+        model.addAttribute("selectedAmenities", selectedAmenities);
+        model.addAttribute("selectedKeywords", selectedKeywords);
+
+        return "/accommodation/acmModify"; // 수정 페이지로 포워딩
     }
+    
+    // 숙소 정보 변경을 위한 객실 정보 불러오기 (모달에서 호출할 수 있는 API 작성 : AJAX를 통해 REST API 작성해야하기 때문)
+    @GetMapping("/rooms/{acmNo}")
+    @ResponseBody
+    public List<RoomDTO> getRoomsByAccommodation(@PathVariable int acmNo) {
+        return roomService.findRoomByAccommodation(acmNo); // 숙소 번호로 객실 정보 조회
+    }
+
+
+    // 숙소 정보 변경 : 숙소의 정보를 가져와서 모델에 추가하는 방식
+    @PostMapping("/acmModify")
+    public String accommodationUpdate(
+            @RequestParam("acmNo") int acmNo, // 숙소 번호
+            @RequestParam("acmName") String acmName, // 숙소명
+            @RequestParam("acmAddress") String acmAddress, // 숙소 주소
+            @RequestParam("acmTel") String acmTel, // 숙소 연락처
+            @RequestParam("checkinTime") String checkinTime, // 체크인 시간
+            @RequestParam("checkoutTime") String checkoutTime, // 체크아웃 시간
+            @RequestParam("contents") String contents, // 숙소 설명
+            @RequestParam("categoryNo") int categoryNo, // 카테고리 번호
+            @RequestParam(value = "amenities", required = false) List<Integer> amenities, // 편의시설 목록
+            @RequestParam(value = "files", required = false) MultipartFile[] files, // 업로드된 이미지 파일
+            // 객실 정보 관련 파라미터
+            @RequestParam(value = "roomName[]") String[] roomNames, // 객실명 배열
+            @RequestParam(value = "roomQty[]") int[] roomQtys, // 객실 수량 배열
+            @RequestParam(value = "roomCapacity[]") int[] roomCapacities, // 최대 인원 수 배열
+            @RequestParam(value = "roomPrice[]") String[] roomPrices, // 가격 배열
+            @RequestParam(value = "roomDiscount[]") String[] roomDiscounts, // 할인율 배열
+            @RequestParam(value = "roomContents[]") String[] roomContents, // 상세 설명 배열
+            @RequestParam(value = "roomViewType[]") String[] roomViewTypes, // 뷰 타입 배열
+            Model model) {
+
+        // AccommodationDTO 객체 생성
+        AccommodationDTO dto = new AccommodationDTO();
+        dto.setAcmNo(acmNo); // 숙소 번호 설정
+        dto.setAcmName(acmName); // 숙소명 설정
+        dto.setAcmAddress(acmAddress); // 숙소 주소 설정
+        dto.setAcmTel(acmTel); // 숙소 연락처 설정
+        dto.setCheckinTime(checkinTime); // 체크인 시간 설정
+        dto.setCheckoutTime(checkoutTime); // 체크아웃 시간 설정
+        dto.setContents(contents); // 숙소 설명 설정
+        dto.setCategoryNo(categoryNo); // 카테고리 번호 설정
+        dto.setAmenities(amenities); // 편의시설 설정
+
+        // 파일 처리 로직 (업로드된 파일을 저장하는 메서드 호출)
+        if (files != null && files.length > 0) {
+            for (MultipartFile file : files) {
+                // 파일 저장 로직 (예: 파일 시스템에 저장)
+                // accommodationService.saveFile(file);
+            }
+        }
+
+        // 데이터베이스 업데이트
+        accommodationService.updateAccommodation(dto); // 숙소 정보 업데이트
+
+        // 객실 정보 업데이트
+        for (int i = 0; i < roomNames.length; i++) {
+            RoomDTO roomDTO = new RoomDTO();
+            roomDTO.setRoomName(roomNames[i]);
+            roomDTO.setRoomQty(roomQtys[i]);
+            roomDTO.setRoomCapacity(roomCapacities[i]);
+            roomDTO.setRoomPrice(Integer.parseInt(roomPrices[i])); // String을 int로 변환
+            roomDTO.setRoomDiscount(Integer.parseInt(roomDiscounts[i])); // String을 int로 변환
+            roomDTO.setRoomContents(roomContents[i]);
+            roomDTO.setRoomViewType(roomViewTypes[i]);
+            roomDTO.setAccommodationNo(acmNo); // 숙소 번호 설정
+
+            // 객실 정보 업데이트
+            roomService.roomUpdate(roomDTO); // roomService의 업데이트 메서드 호출
+        }
+
+
+        // 수정 완료 후 목록 페이지로 리다이렉트
+        return "redirect:/accommodation/acmList"; // 숙소 목록 페이지로 이동
+    }
+
 
     // 숙소 정보 삭제
     @GetMapping("/acmDelete")

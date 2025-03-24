@@ -109,18 +109,6 @@ public class AccommodationService {
     }
 
 
-
-    // 숙소 정보 변경
-    public void acmUpdate(int acmNo) {
-
-        accommodationRepository.acmUpdate(acmNo);
-    }
-
-    // 숙소 정보 삭제
-    public void acmDelete(int acmNo) {
-        accommodationRepository.acmDelete(acmNo);
-    }
-
     // 숙소 정보 저장 (업데이트)
     public void save(AccommodationDTO accommodation) {
         accommodationRepository.update(accommodation);
@@ -141,4 +129,29 @@ public class AccommodationService {
     public int countAll(String search) {
         return accommodationRepository.countAll(search);
     }
+
+    
+    // 숙소 정보 변경/수정
+    public void updateAccommodation(AccommodationDTO dto) {
+        accommodationRepository.acmUpdate(dto);
+    }
+
+    // 숙소 정보와 함께 선택된 키워드와 편의시설을 불러오는 메서드
+    public List<Integer> getSelectedKeywords(int acmNo) {
+        return accommodationRepository.selectSelectedKeywords(acmNo);
+    }
+
+    public List<Integer> getSelectedAmenities(int acmNo) {
+        return accommodationRepository.selectSelectedAmenities(acmNo);
+    }
+
+
+
+
+    // 숙소 정보 삭제
+    public void acmDelete(int acmNo) {
+        accommodationRepository.acmDelete(acmNo);
+    }
+
+
 }

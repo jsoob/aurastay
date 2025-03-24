@@ -19,4 +19,5 @@ public interface RoomRepository {
     // 객실 정보 삭제
     void roomDelete(int roomNo);
 
+    RoomDTO findByRoomId(RoomDTO roomDTO);
 }

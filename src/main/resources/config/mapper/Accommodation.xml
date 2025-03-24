@@ -119,6 +119,42 @@
             #{amenitiesNo}
         )
     </insert>
+
+    <!-- 선택된 키워드 조회 쿼리 -->
+    <select id="selectSelectedKeywords" parameterType="int" resultType="int">
+        SELECT k.keyword_no
+        FROM accommodation a
+        JOIN keyword k ON a.keyword_no = k.keyword_no
+        WHERE a.accommodation_no = #{acmNo}
+    </select>
+
+    <!-- 선택된 편의시설 조회 쿼리 -->
+    <select id="selectSelectedAmenities" parameterType="int" resultType="int">
+        SELECT amenities_no
+        FROM accommodation_amenities
+        WHERE accommodation_no = #{acmNo}
+    </select>
+
+    <!-- 숙소 정보 변경/수정 쿼리 추가 -->
+    <update id="updateAccommodation" parameterType="AccommodationDTO">
+        UPDATE accommodation
+        SET
+        accommodation_name = #{acmName},
+        accommodation_address = #{acmAddress},
+        tel = #{acmTel},
+        checkin = #{checkinTime},
+        checkout = #{checkoutTime},
+        accommodation_contents = #{contents},
+        category_no = #{categoryNo},
+        keyword_no = #{keywordNo}
+        WHERE accommodation_no = #{acmNo}
+    </update>
+
+
+
+
+
+
     <delete id="acmDelete" parameterType="int">
         DELETE FROM accommodation
         WHERE accommodation_no = #{acmNo}

@@ -1,12 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%--모달창 배경 (검은색 배경이라고 가정한다면? : 색상은 나중에 변경하기) => 변경 완료 --%>
-
-
 <div id="roomModal" class="modal" style="display:none;">
     <div class="modal-content">
-        <span class="close">&times;</span>
+        <span class="close" id="modalClose">&times;</span>
         <h2>객실 정보 추가</h2>
 
         <div class="form-group">

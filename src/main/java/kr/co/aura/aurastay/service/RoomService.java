@@ -39,5 +39,9 @@ public class RoomService {
         roomRepository.roomDelete(roomNo);
     }
 
+    // 객실 1건 조회
+    public RoomDTO findByRoomId(RoomDTO roomDTO) {
+        return roomRepository.findByRoomId(roomDTO);
+    }
 
 }

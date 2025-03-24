@@ -74,7 +74,8 @@
     </delete>
 
     <!-- 객실이 포함된 숙소 찾기 (객실 번호로 숙소 정보 찾기) -->
-<!--    <select id="findByRoomId" resultType="AccommodationDTO">
+
+    <select id="findByRoomId" resultType="RoomDTO" parameterType="RoomDTO">
         SELECT
             a.accommodation_no              AS acmNo,
             a.accommodation_name            AS acmName,
@@ -86,9 +87,12 @@
             a.keyword_no                    AS keywordNo,
             a.business_no                   AS businessNo,
             a.category_no                   AS categoryNo
-        FROM accommodation a, room r
-        JOIN room r ON a.accommodation_no = r.accommodation_no
+        FROM accommodation a
+        INNER JOIN room r
+        ON a.accommodation_no = r.accommodation_no
         WHERE r.room_no = #{roomNo}
-    </select>-->
+    </select>
+
+
 
 </mapper>

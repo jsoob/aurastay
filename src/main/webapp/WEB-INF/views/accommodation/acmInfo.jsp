@@ -34,7 +34,7 @@
 <body>
 <div class="main-content">
     <h2>${dto.acmName}의 상세정보</h2>
-    <form action="/accommodation/acmAdd" method="post" enctype="multipart/form-data">
+    <form action="/accommodation/acmUpdate" method="post" enctype="multipart/form-data">
         <div class="info-card">
             <div class="form-group">
                 <label>숙소명</label>
@@ -118,8 +118,11 @@
 
         <div class="btn-container">
             <a href="acmList" class="btn btn-list">목록</a>
-            <a href="modify?acmNo=${dto.acmNo}" class="btn btn-submit">수정(등록)</a>
-            <a href="delete?acmNo=${dto.acmNo}" class="btn btn-cancel">삭제</a>
+<%--            <button type="submit" class="btn btn-submit">수정</button>--%>
+<%--                a href="/accommodation/accommodationUpdate?acmNo=${dto.acmNo}" class="btn btn-submit">수정(등록)</buttona>--%>
+            <a href="/accommodation/acmModify?acmNo=${dto.acmNo}" class="btn btn-submit">수정(등록)</a>
+
+            <a href="/accommodation/accommodationDelete?acmNo=${dto.acmNo}" class="btn btn-cancel">삭제</a>
         </div>
     </form>
 </div>
