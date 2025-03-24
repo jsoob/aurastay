@@ -112,7 +112,7 @@ label {
 #imageModal {
     display: none; /* 기본적으로 숨김 */
     position: fixed; /* 고정 위치 */
-    z-index: 1000; /* 최상위 */
+    z-index: 1000 ; /* 최상위 */
     left: 0;
     top: 0;
     width: 100%;
