@@ -59,10 +59,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             // 저장
             memberRepository.insertMember(member1);
 
-        } else { // 원래 로그인했던 사람이라면
-            memberRepository.updateMember(member);
         }
-
 
         return new CustomOAuth2User(oAuth2Response,authority);
     }

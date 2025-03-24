@@ -83,7 +83,6 @@ public class MemberController {
         memberService.modifyMemberInfo(member);
 
         // 세션도 수정
-
         session.setAttribute("dto", member);
         return ResponseEntity.ok().build();
     }
