@@ -1,12 +1,7 @@
 package kr.co.aura.aurastay.service;
 
-import kr.co.aura.aurastay.dto.PaymentDTO;
-import kr.co.aura.aurastay.dto.ReservationDTO;
-import kr.co.aura.aurastay.dto.SpecialRequestDTO;
-import kr.co.aura.aurastay.repository.PaymentRepository;
-import kr.co.aura.aurastay.repository.ReservationRepository;
-import kr.co.aura.aurastay.repository.ReservationRequestRepository;
-import kr.co.aura.aurastay.repository.SpecialRequestRepository;
+import kr.co.aura.aurastay.dto.*;
+import kr.co.aura.aurastay.repository.*;
 import kr.co.aura.aurastay.util.ReservationUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,8 +13,9 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
-    private final ReservationRepository reservationRepository;
+    private final AcmRoomRepository acmRoomRepository;
     private final SpecialRequestRepository specialRequestRepository;
+    private final ReservationRepository reservationRepository;
     private final ReservationRequestRepository reservationRequestRepository;
     private final PaymentRepository paymentRepository;
 
@@ -108,7 +104,8 @@ public class ReservationServiceImpl implements ReservationService {
             reservationRequestRepository.insertReservationRequest(rsrvRequestMap);
 
             PaymentDTO paymentDTO = PaymentDTO.builder()
-                    .roomPrice(amount.get("total"))
+                    .roomPrice(Integer.parseInt(jsonData.get("roomPrice").toString()))
+                    .discountPercentage(Integer.parseInt(jsonData.get("roomDiscount").toString()))
                     .pointPrice(0)
                     .paymentPrice(amount.get("total"))
                     .paymentStatus(1)
@@ -117,9 +114,55 @@ public class ReservationServiceImpl implements ReservationService {
                     .reservationNo(reservationNo)
                     .build();
             paymentRepository.insertPayment(paymentDTO);
-
         }
-
         return result;
+    }
+
+    @Override
+    public List<ReservationDTO> getReservations(ReservationDTO reservationDTO) {
+        List<ReservationDTO> reservationList = reservationRepository.getReservations(reservationDTO);
+
+        reservationList.stream().forEach(forRsrv -> {
+            //            int accommodationNo, int roomNo
+            AcmDTO getDTO = AcmDTO.builder()
+                    .acmNo(forRsrv.getAccommodationNo())
+                    .roomNo(forRsrv.getRoomNo())
+                    .build();
+            getDTO = acmRoomRepository.selectRoomDetail(getDTO);
+            forRsrv.setAcmDTO(getDTO);
+        });
+        //        Payment p = xxxRepository.getPayment(reservationDTO.getReservationNo());
+
+        return reservationList;
+    }
+
+    @Override
+    public ReservationDTO getReservationDetail(ReservationDTO reservationDTO) {
+        ReservationDTO rsDTO = reservationRepository.getReservation(reservationDTO);
+
+        // 숙소 정보
+        AcmDTO getAcmDTO = AcmDTO.builder()
+                .acmNo(rsDTO.getAccommodationNo())
+                .roomNo(rsDTO.getRoomNo())
+                .build();
+
+        getAcmDTO = acmRoomRepository.selectRoomDetail(getAcmDTO);
+        rsDTO.setAcmDTO(getAcmDTO);
+
+        // 예약 요청 정보
+        ReservationRequestDTO getRRDTO = ReservationRequestDTO.builder().reservationNo(rsDTO.getReservationNo()).build();
+        List<ReservationRequestDTO> rrdList = reservationRepository.getReservationRequests(getRRDTO);
+        rsDTO.setReservationRequests(rrdList);
+
+        // 결제
+        PaymentDTO paymentDTO = paymentRepository.getPayment(rsDTO.getReservationNo());
+        rsDTO.setPayment(paymentDTO);
+
+        return rsDTO;
+    }
+
+    @Override
+    public List<ReservationRequestDTO> getReservationRequests(ReservationRequestDTO reservationRequestDTO) {
+        return reservationRepository.getReservationRequests(reservationRequestDTO);
     }
 }

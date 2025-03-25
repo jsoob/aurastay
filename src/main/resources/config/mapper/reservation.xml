@@ -4,6 +4,71 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kr.co.aura.aurastay.repository.ReservationRepository">
+    <select id="getReservationRequests" parameterType="ReservationRequestDTO" resultType="ReservationRequestDTO">
+        SELECT
+        sr.request_no as requestNo,
+        sr.request_name as requestName,
+        rr.reservation_no as reservationNo
+        FROM
+        reservation_request rr
+        INNER JOIN special_request sr
+        ON rr.request_no = sr.request_no
+        WHERE rr.reservation_no = #{reservationNo}
+    </select>
+
+    <select id="getReservations" parameterType="ReservationDTO" resultType="ReservationDTO">
+        SELECT
+        TIMESTAMPDIFF(DAY, rs.checkin_date, rs.checkout_date) as dayCount,
+        rs.reservation_no as reservationNo,
+        STR_TO_DATE(rs.checkin_date, '%Y-%m-%d') as checkinDate, STR_TO_DATE(rs.checkout_date, '%Y-%m-%d') as checkoutDate,
+        rs.reservation_status as reservationStatus, rs.reservation_details_request as reservationDetailsRequest,
+        rs.residence_country as residenceCountry, rs.guest_name as guestName,
+        rs.guest_phone_number as guestPhoneNumber, rs.guest_email as guestEmail, rs.member_no as memberNo,
+        rs.room_no as roomNo, rs.accommodation_no as accommodationNo
+        <!--
+        rm.room_no as roomNo, rm.room_name as roomName, rm.room_qty as roomQty, rm.room_price as roomPrice,
+        rm.room_discount as roomDiscount, rm.room_contents as roomContents, rm.room_viewtype as roomViewtype, rm.room_capacity as roomCapacity,
+
+        acm.accommodation_no as accommodationNo, acm.accommodation_name as accommodationName, acm.accommodation_address as accommodationAddress,
+        acm.accommodation_contents as accommodationContents, acm.checkin, acm.checkout, acm.tel,
+        acm.keyword_no as keywordNo, acm.business_no as businessNo, acm.category_no as categoryNo
+        -->
+        FROM reservation rs
+        <!--LEFT OUTER JOIN room rm
+        ON rm.room_no = rs.room_no
+        LEFT OUTER JOIN accommodation acm
+        ON acm.accommodation_no = rs.accommodation_no-->
+        WHERE rs.member_no = #{memberNo}
+        <!--
+            0 결제 취소 / 1 예약 확정 / 2 취소 대기
+            (1 예약중 / 2 숙박완료 / 3 취소(대기 / 완료) )
+        -->
+        <if test= "reservationStatus != null and reservationStatus == 1">
+            AND (rs.reservation_status = 1 AND date_format(now(), '%Y-%m-%d') &lt; date_format(rs.checkin_date, '%Y-%m-%d') )
+        </if>
+        <if test= "reservationStatus != null and reservationStatus == 2">
+            AND (rs.reservation_status = 1 AND date_format(now(), '%Y-%m-%d') &gt;= date_format(rs.checkin_date, '%Y-%m-%d') )
+        </if>
+        <if test= "reservationStatus != null and reservationStatus == 3">
+            AND rs.reservation_status IN (0, 2)
+        </if>
+        ORDER BY STR_TO_DATE(rs.checkin_date, '%Y-%m-%d') DESC
+    </select>
+
+    <select id="getReservation" parameterType="ReservationDTO" resultType="ReservationDTO">
+        SELECT
+        TIMESTAMPDIFF(DAY, rs.checkin_date, rs.checkout_date) as dayCount,
+        rs.reservation_no as reservationNo,
+        STR_TO_DATE(rs.checkin_date, '%Y-%m-%d') as checkinDate, STR_TO_DATE(rs.checkout_date, '%Y-%m-%d') as checkoutDate,
+        rs.reservation_status as reservationStatus, rs.reservation_details_request as reservationDetailsRequest,
+        rs.residence_country as residenceCountry, rs.guest_name as guestName,
+        rs.guest_phone_number as guestPhoneNumber, rs.guest_email as guestEmail, rs.member_no as memberNo,
+        rs.room_no as roomNo, rs.accommodation_no as accommodationNo
+        FROM reservation rs
+        WHERE rs.member_no = #{memberNo}
+        AND rs.reservation_no = #{reservationNo}
+    </select>
+
     <select id="getRemainingRooms" parameterType="HashMap" resultType="int">
         select rm.room_qty - IFNULL(sum(rs.room_no), 0)
         from room rm

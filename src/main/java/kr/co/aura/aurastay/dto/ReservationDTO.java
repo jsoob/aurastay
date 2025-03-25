@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -23,4 +25,10 @@ public class ReservationDTO {
     private String guestName;
     private String guestPhoneNumber;
     private String guestEmail;
+    private int dayCount;
+
+    private List<SpecialRequestDTO> specialRequests;
+    private List<ReservationRequestDTO> reservationRequests;
+    private PaymentDTO payment;
+    private AcmDTO acmDTO;
 }

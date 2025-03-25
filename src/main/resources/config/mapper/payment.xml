@@ -4,16 +4,28 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kr.co.aura.aurastay.repository.PaymentRepository">
+    <select id="getPayment" parameterType="PaymentDTO" resultType="PaymentDTO">
+        SELECT
+            payment_no as paymentNo, room_price as roomPrice, discount_percentage as discountPercentage,
+            point_price as pointPrice, payment_price as paymentPrice,
+            payment_status as paymentStatus, payment_id as paymentId, provider as provider,
+            payment_completion_date as paymentCompletionDate,
+            payment_cancel_id as paymentCancelId, payment_cancel_date as paymentCancelDate,
+            reservation_no as reservationNo
+        FROM payment
+        WHERE reservation_no = #{reservationNo}
+    </select>
+
     <insert id="insertPayment" parameterType="PaymentDTO">
         INSERT INTO payment (
-            room_price, point_price, payment_price,
+            room_price, discount_percentage, point_price, payment_price,
             payment_status, payment_id, provider, payment_completion_date,
             <!--payment_cancel_id, payment_cancel_date,-->
             reservation_no
         )
         VALUES
         (
-            #{roomPrice}, #{pointPrice}, #{paymentPrice},
+            #{roomPrice}, #{discountPercentage}, #{pointPrice}, #{paymentPrice},
             #{paymentStatus}, #{paymentId}, #{provider}, SYSDATE(),
             #{reservationNo}
         )

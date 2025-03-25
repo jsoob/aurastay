@@ -10,5 +10,6 @@ import java.util.List;
 @Mapper
 @Repository
 public interface PaymentRepository {
+    PaymentDTO getPayment(int reservationNo);
     void insertPayment(PaymentDTO paymentDTO);
 }

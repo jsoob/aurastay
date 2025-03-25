@@ -7,6 +7,7 @@ import kr.co.aura.aurastay.service.AcmRoomService;
 import kr.co.aura.aurastay.service.ReservationService;
 import kr.co.aura.aurastay.util.ReservationUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@Slf4j
 @Controller
 @RequestMapping("/reservation")
 @RequiredArgsConstructor
@@ -24,11 +26,7 @@ public class ReservationController {
     private final AcmRoomService acmRoomService;
 
     @GetMapping("/stays")
-    // roomNo
-    //checkin
-    //checkout
-    // 예약하기 버튼 클릭시 가게
-    public String stays(@RequestParam("accommodationNo") int accommodationNo, @RequestParam("roomNo") int roomNo, @RequestParam("checkin") String checkin, @RequestParam("checkout") String checkout, Model model) {
+    public String stays(@RequestParam("accommodationNo") int acmNo, @RequestParam("roomNo") int roomNo, @RequestParam("checkin") String checkinDate, @RequestParam("checkout") String checkoutDate, Model model) {
         // 에어비앤비 getParameter
         // checkin=2025-04-15&
         // checkout=2025-04-16&
@@ -45,22 +43,17 @@ public class ReservationController {
 
         String url = "/reservation/reservationForm";
 
-//        System.out.println("accommodationNo: " + accommodationNo);
-//        System.out.println("roomNo: " + roomNo);
-//        System.out.println("checkin: " + checkin);
-//        System.out.println("checkout: " + checkout);
+        int countDay = ReservationUtil.getCheckDay(checkinDate, checkoutDate);
 
-        int countDay = ReservationUtil.getCheckDay(checkin, checkout);
-
-        model.addAttribute("checkinDate", checkin);
-        model.addAttribute("checkoutDate", checkout);
+        model.addAttribute("checkinDate", checkinDate);
+        model.addAttribute("checkoutDate", checkoutDate);
         model.addAttribute("countDay", countDay);
 
         int roomCountMin = 0;
 
         // 객실 수량 확인
         for (int i=0; i<countDay; i++) {
-            HashMap<String, Object> rsrvMap = ReservationUtil.getRoomCheck(checkin, accommodationNo, roomNo, i);
+            HashMap<String, Object> rsrvMap = ReservationUtil.getRoomCheck(checkinDate, acmNo, roomNo, i);
 
             int acmCount = reservationService.getRemainingRooms(rsrvMap); // 숙소 번호, 룸 번호, 해당 일자
             if(i==0) roomCountMin = acmCount;
@@ -83,13 +76,29 @@ public class ReservationController {
 
         // 숙소 정보 조회
         // 숙소 DTO 값 받아오기.
-        HashMap<String, Object> roomDetail = acmRoomService.selectRoomDetail(accommodationNo, roomNo);
-//        System.out.println("roomDetail : ");
-//        System.out.println(roomDetail);
+//        HashMap<String, Object> roomDetail = acmRoomService.selectRoomDetail(acmNo, roomNo);
+//        model.addAttribute("roomDetail", roomDetail);
 
-        model.addAttribute("roomDetail", roomDetail);
+        AcmDTO acmDTO = AcmDTO.builder()
+                .acmNo(acmNo)
+                .roomNo(roomNo)
+                .build();
+        AcmDTO roomMap = acmRoomService.selectRoomDetail(acmDTO);
 
-        // 숙소 조회
+        // 이후에 변경될 부분
+        // 숙소 정보 조회
+        // AccommodationDTO acmDetail = accommodationService.selectOne(acmNo);   // 서비스 호출
+        // 해당 숙소의 객실 정보 조회
+        // RoomDTO roomDetail = roomService.findByRoomId(acmNo); // 객실 정보 조회 추가
+        // 카테고리 정보 조회
+        //  CategoryDTO category = categoryService.getCategoryById(dto.getCategoryNo());                // 카테고리 목록을 가져오는 서비스 호출
+        // 키워드 정보 조회
+        // KeywordDTO keyword = keywordService.getKeywordById(dto.getKeywordNo());               // 키워드 목록을 가져오는 서비스 호출
+
+        model.addAttribute("acmDetail", roomMap); // 모델에 추가
+        model.addAttribute("category", roomMap);   // 카테고리 목록 추가
+        model.addAttribute("keyword", roomMap);     // 키워드 목록 추가
+        model.addAttribute("roomDetail", roomMap);  // 객실 정보를 모델에 추가
 
         // 특별 요청 예약
         List<SpecialRequestDTO> specialRequests = reservationService.getSpecialRequests();
@@ -106,16 +115,13 @@ public class ReservationController {
     // Unrecognized token 'payment': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')]
     @PostMapping("/payment")
     @ResponseBody
-    // @RequestParam(value = "payment")
     public String payment(@RequestBody Map<String, Object> jsonData ) {
         // , @RequestParam(value = "specialRequests", required = false) Integer[] specialRequests, @ModelAttribute ReservationDTO reservationDTO
-        System.out.println("jsonData >>>>>>>>>>>>>>>>>>>>>>>>>>");
-        System.out.println(jsonData);
+        log.info("jsonData >>>>>>>>>>>>>>>>>>>>>>>>>> {}", jsonData);
+//      jsonData >>>>>>>>>>>>>>>>>>>>>>>>>>
+//      {payment={status=PAID, id=1-385219, transactionId=0195b214-2f8a-2da1-7d45-b2a5d94b79e7, merchantId=merchant-bf82b603-be66-4474-9cc1-03d3199fa24c, storeId=store-4b8d38b9-6775-4065-9eb0-6d3d89d63815, method={type=PaymentMethodEasyPay, provider=KAKAOPAY, easyPayMethod={type=PaymentMethodEasyPayMethodCharge}}, channel={type=TEST, id=channel-id-abe78f42-5b5b-4a97-9bb8-c582e7792623, key=channel-key-6509c147-0348-470a-a3b5-5cb7138919dc, name=토스페이먼츠 결제창 일반결제, pgProvider=TOSSPAYMENTS, pgMerchantId=iamporttest_3}, version=V2, requestedAt=2025-03-20T05:43:42.24716878Z, updatedAt=2025-03-20T05:44:07.094514771Z, statusChangedAt=2025-03-20T05:44:07.065193154Z, orderName=스카이베이 호텔 경포, amount={total=1500000, taxFree=0, vat=136364, supply=1363636, discount=0, paid=1500000, cancelled=0, cancelledTaxFree=0}, currency=KRW, customer={id=port-customer-id-0195b214-2f93-ad54-dc47-5e081a5a4c44, name=김우씨, email=kmhe0128@naver.com, phoneNumber=01011111111}, promotionId=, isCulturalExpense=false, country=MT, paidAt=2025-03-20T05:44:07.065193154Z, pgTxId=tiamp20250320144343qG2I6, pgResponse={"mId":"tiamporttest_3","lastTransactionKey":"txrd_a01jps193xfn59tj0e3gbsf8jfh","paymentKey":"tiamp20250320144343qG2I6","orderId":"1-385219","orderName":"스카이베이 호텔 경포","taxExemptionAmount":0,"status":"DONE","requestedAt":"2025-03-20T14:43:43+09:00","approvedAt":"2025-03-20T14:44:06+09:00","useEscrow":false,"cultureExpense":false,"card":null,"virtualAccount":null,"transfer":null,"mobilePhone":null,"giftCertificate":null,"cashReceipt":null,"cashReceipts":null,"discount":null,"cancels":null,"secret":"ps_0RnYX2w5327zNGQpdpaKVNeyqApQ","type":"NORMAL","easyPay":{"provider":"카카오페이","amount":1500000,"discountAmount":0},"country":"KR","failure":null,"isPartialCancelable":true,"receipt":{"url":"https://dashboard.tosspayments.com/receipt/redirection?transactionId=tiamp20250320144343qG2I6&ref=PX"},"checkout":{"url":"https://api.tosspayments.com/v1/payments/tiamp20250320144343qG2I6/checkout"},"transactionKey":"txrd_a01jps193xfn59tj0e3gbsf8jfh","currency":"KRW","totalAmount":1500000,"balanceAmount":1500000,"suppliedAmount":1363636,"vat":136364,"taxFreeAmount":0,"method":"간편결제","version":"2022-07-27","metadata":null}, receiptUrl=https://dashboard.tosspayments.com/receipt/redirection?transactionId=tiamp20250320144343qG2I6&ref=PX, disputes=[]}, guestName=김우씨, guestPhoneNumber=01011111111, guestEmail=kmhe0128@naver.com, residenceCountry=몰타, memberNo=1, roomNo=1, reservationDetailsRequest=gggggg, acmNo=2, specialRequests=[1, 3, 5], orderName=스카이베이 호텔 경포, totalAmount=500000}
 
         int status = reservationService.addReservation(jsonData);
-
-//      jsonData >>>>>>>>>>>>>>>>>>>>>>>>>>
-//      {payment={status=PAID, id=1-385219, transactionId=0195b214-2f8a-2da1-7d45-b2a5d94b79e7, merchantId=merchant-bf82b603-be66-4474-9cc1-03d3199fa24c, storeId=store-4b8d38b9-6775-4065-9eb0-6d3d89d63815, method={type=PaymentMethodEasyPay, provider=KAKAOPAY, easyPayMethod={type=PaymentMethodEasyPayMethodCharge}}, channel={type=TEST, id=channel-id-abe78f42-5b5b-4a97-9bb8-c582e7792623, key=channel-key-6509c147-0348-470a-a3b5-5cb7138919dc, name=토스페이먼츠 결제창 일반결제, pgProvider=TOSSPAYMENTS, pgMerchantId=iamporttest_3}, version=V2, requestedAt=2025-03-20T05:43:42.24716878Z, updatedAt=2025-03-20T05:44:07.094514771Z, statusChangedAt=2025-03-20T05:44:07.065193154Z, orderName=스카이베이 호텔 경포, amount={total=1500000, taxFree=0, vat=136364, supply=1363636, discount=0, paid=1500000, cancelled=0, cancelledTaxFree=0}, currency=KRW, customer={id=port-customer-id-0195b214-2f93-ad54-dc47-5e081a5a4c44, name=김우씨, email=kmhe0128@naver.com, phoneNumber=01011111111}, promotionId=, isCulturalExpense=false, country=MT, paidAt=2025-03-20T05:44:07.065193154Z, pgTxId=tiamp20250320144343qG2I6, pgResponse={"mId":"tiamporttest_3","lastTransactionKey":"txrd_a01jps193xfn59tj0e3gbsf8jfh","paymentKey":"tiamp20250320144343qG2I6","orderId":"1-385219","orderName":"스카이베이 호텔 경포","taxExemptionAmount":0,"status":"DONE","requestedAt":"2025-03-20T14:43:43+09:00","approvedAt":"2025-03-20T14:44:06+09:00","useEscrow":false,"cultureExpense":false,"card":null,"virtualAccount":null,"transfer":null,"mobilePhone":null,"giftCertificate":null,"cashReceipt":null,"cashReceipts":null,"discount":null,"cancels":null,"secret":"ps_0RnYX2w5327zNGQpdpaKVNeyqApQ","type":"NORMAL","easyPay":{"provider":"카카오페이","amount":1500000,"discountAmount":0},"country":"KR","failure":null,"isPartialCancelable":true,"receipt":{"url":"https://dashboard.tosspayments.com/receipt/redirection?transactionId=tiamp20250320144343qG2I6&ref=PX"},"checkout":{"url":"https://api.tosspayments.com/v1/payments/tiamp20250320144343qG2I6/checkout"},"transactionKey":"txrd_a01jps193xfn59tj0e3gbsf8jfh","currency":"KRW","totalAmount":1500000,"balanceAmount":1500000,"suppliedAmount":1363636,"vat":136364,"taxFreeAmount":0,"method":"간편결제","version":"2022-07-27","metadata":null}, receiptUrl=https://dashboard.tosspayments.com/receipt/redirection?transactionId=tiamp20250320144343qG2I6&ref=PX, disputes=[]}, guestName=김우씨, guestPhoneNumber=01011111111, guestEmail=kmhe0128@naver.com, residenceCountry=몰타, memberNo=1, roomNo=1, reservationDetailsRequest=gggggg, accommodationNo=2, specialRequests=[1, 3, 5], orderName=스카이베이 호텔 경포, totalAmount=500000}
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("status", status);
@@ -124,21 +130,59 @@ public class ReservationController {
          // "redirect:/reservation/myReservation";
     }
 
-    
     @GetMapping("/mystays")
-    public String myStays(Model model) {
+    public String myStays(@RequestParam(value = "rsStatus", defaultValue = "1") int reservationStatus, Model model) {
+        log.info("mystays");
+//        log.info("reservationStatus >>>>>>>>>>>>>>> {}", reservationStatus);
+
+        // 가져온 회원 번호
+        int member_no = 1;
+
+        ReservationDTO reservationDTO = ReservationDTO.builder().memberNo(member_no).reservationStatus(reservationStatus).build();
+
         // 예약 조회
-        List<SpecialRequestDTO> specialRequests = reservationService.getSpecialRequests();
-        model.addAttribute("specialRequests", specialRequests);
+        List<ReservationDTO> reservationList = reservationService.getReservations(reservationDTO);
+
+        model.addAttribute("rsStatus", reservationStatus);
+        model.addAttribute("rsList", reservationList);
 
         return "/reservation/myReservation";
     }
 
     @GetMapping("/mystay")
-    public String mystayDetail(Model model) {
+    public String mystayDetail(@RequestParam(value = "rsNo", required = true) int rsNo,  Model model) {
+        // 가져온 회원 번호
+        int member_no = 1;
+
+        ReservationDTO reservationDTO = ReservationDTO.builder().memberNo(member_no).reservationNo(rsNo).build();
+
+        // 예약 조회
+        ReservationDTO rsDTO = reservationService.getReservationDetail(reservationDTO);
+        model.addAttribute("rsrv", rsDTO);
+
+        AcmDTO roomMap = acmRoomService.selectRoomDetail(rsDTO.getAcmDTO());
+
+        // 이후에 변경될 부분
+        // 숙소 정보 조회
+        // AccommodationDTO acmDetail = accommodationService.selectOne(acmNo);   // 서비스 호출
+        // 해당 숙소의 객실 정보 조회
+        // RoomDTO roomDetail = roomService.findByRoomId(acmNo); // 객실 정보 조회 추가
+        // 카테고리 정보 조회
+        //  CategoryDTO category = categoryService.getCategoryById(dto.getCategoryNo());                // 카테고리 목록을 가져오는 서비스 호출
+        // 키워드 정보 조회
+        // KeywordDTO keyword = keywordService.getKeywordById(dto.getKeywordNo());               // 키워드 목록을 가져오는 서비스 호출
+
+        model.addAttribute("category", roomMap);   // 카테고리 목록 추가
+        model.addAttribute("keyword", roomMap);     // 키워드 목록 추가
+        model.addAttribute("roomDetail", roomMap);  // 객실 정보를 모델에 추가
+
         return "/reservation/myReservationDetail";
     }
-    
+
+    @GetMapping("/oldmystays")
+    public String oldmystays(Model model) {
+        return "/reservation/old_myReservation_noData";
+    }
 
     @GetMapping("/album_ex")
     public String album_ex(Model model) {

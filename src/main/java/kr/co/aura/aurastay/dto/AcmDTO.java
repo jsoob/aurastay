@@ -8,13 +8,13 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class AcmDTO {
-    private int accommodationNo;
-    private String accommodationName;
-    private String accommodationAddress;
-    private String accommodationContents;
-    private String checkin;
-    private String checkout;
-    private String tel;
+    private int acmNo;
+    private String acmName;
+    private String acmAddress;
+    private String contents;
+    private String checkinTime;
+    private String checkoutTime;
+    private String acmTel;
     private int keywordNo;
     private String keywordName;
     private int businessNo;

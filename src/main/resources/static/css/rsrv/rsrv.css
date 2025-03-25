@@ -106,6 +106,10 @@
     max-width: 700px;
 }
 
+.max-w-600 {
+    max-width: 600px;
+}
+
 .f-gray {
     color: #a0a0a7;
 }
@@ -135,6 +139,10 @@
 
 .text-red {
     color : rgb(197, 56, 41);
+}
+
+.opacity-1 {
+    opacity: 1 !important;
 }
 
 /* form 입력창 label 위로 올라가는 기능 */

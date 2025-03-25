@@ -25,6 +25,9 @@
     <script type="text/javascript" src="https://cdn.portone.io/v2/browser-sdk.js"></script>
 
     <link rel="stylesheet" href="/css/rsrv/rsrv.css">
+
+    <c:set var="roomDisPrice" value="${roomDetail.roomPrice - (roomDetail.roomPrice*roomDetail.roomDiscount/100)}" />
+    <c:set var="paymentPrice" value="${roomDisPrice*countDay}" />
     <script>
         $(() => {
             // $('.rsrv-body-container a, .rsrv-body-container button').on("click",function(e){
@@ -225,7 +228,7 @@
                     paymentId : "1"+"-"+rnd,
 
                     // 상품명
-                    orderName : "${roomDetail['accommodationName']}",
+                    orderName : "${acmDetail['acmName']}",
                     customer : {
                         id : "idid",
                         fullName : guestName,
@@ -244,7 +247,7 @@
                     },
 
                     // 가격
-                    totalAmount : ${roomDetail.roomPrice*countDay}, // 100원짜리 <- 나중에 EL로 가격 가져와도 됨.
+                    totalAmount : ${paymentPrice}, // 100원짜리 <- 나중에 EL로 가격 가져와도 됨.
                     <%-- ${roomDetail.roomPrice} --%>
                     // 통화 단위
                     currency : "CURRENCY_KRW",
@@ -308,18 +311,22 @@
                         memberNo : 1, // 사용자번호
                         roomNo :${roomDetail['roomNo']},
                         reservationDetailsRequest : $("#reservationDetailsRequest").val(),
-                        accommodationNo : ${roomDetail['accommodationNo']},
+                        accommodationNo : ${acmDetail['acmNo']},
 
                         specialRequests : specialRequests,
 
                         checkinDate : `${checkinDate}`,
-                        checkin : `${roomDetail['checkin']}`,
+                        checkin : `${acmDetail['checkinTime']}`,
 
                         checkoutDate : `${checkoutDate}`,
-                        checkout : `${roomDetail['checkout']}`,
+                        checkout : `${acmDetail['checkoutTime']}`,
 
-                        orderName : "${roomDetail.accommodationName}",
-                        totalAmount : ${roomDetail.roomPrice}
+                        orderName : "${acmDetail.acmName}",
+
+                        roomPrice : ${roomDetail.roomPrice},
+                        roomDiscount : ${roomDetail.roomDiscount},
+                        totalAmount : ${paymentPrice}
+                        <%--totalAmount : ${roomDetail.roomPrice}--%>
                     };
                     console.log("jsonData = ", jsonData);
                     $.ajax({
@@ -366,14 +373,8 @@
             <div class="d-flex p-4 gap-4 py-md-5 justify-content-center"> <%-- align-items-center --%>
                 <div class="left-container">
 
-                <c:choose>
-                    <c:when test="${acmCount eq 1}">
-                        <div class="last-rsrv">
-                    </c:when>
-                    <c:otherwise>
-                        <div class="last-rsrv" style="display: none;">
-                    </c:otherwise>
-                </c:choose>
+                <c:if test="${acmCount eq 1}">
+                    <div class="last-rsrv">
                         <div class="box-border mb-3">
                             <div class="row px-2">
                                 <div class="row fs-5 pb-1">
@@ -385,12 +386,13 @@
                             </div>
                         </div>
                     </div>
+                </c:if>
 
                     <h3 class="mb-4">예약 정보</h3>
                     <div class="box-border mb-3 ps-4">
                         <div class="row mb-3">
                             <div class="fs-5 mb-3">룸 타입</div>
-                            <div class="fs-5 fw-bold">${roomDetail['accommodationName']}</div>
+                            <div class="fs-5 fw-bold">${acmDetail['acmName']}</div>
                             <div class="fs-6 fw-bold">${roomDetail['roomName']}</div>
                         </div>
                         <div class="row mb-3">
@@ -400,7 +402,7 @@
                                     <fmt:parseDate value="${checkinDate}" var="dateFmt2" pattern="yyyy-MM-dd"/>
                                     <fmt:formatDate value="${dateFmt2}" pattern="E" var="intDay"/>
                                     <div class="fw-bold">${checkinDate} (${intDay})</div>
-                                    <div class="">${roomDetail['checkin']}</div>
+                                    <div class="">${acmDetail['checkinTime']}</div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -410,7 +412,7 @@
                                     <fmt:formatDate value="${dateFmt1}" pattern="E" var="outDay"/>
 
                                     <div class="fw-bold">${checkoutDate} (${outDay})</div>
-                                    <div class="">${roomDetail['checkout']}</div>
+                                    <div class="">${acmDetail['checkoutTime']}</div>
                                 </div>
                             </div>
 
@@ -633,9 +635,9 @@
                                          src="https://a0.muscache.com/im/pictures/0f52b46a-16fe-472f-a04b-eec52680f162.jpg?aki_policy=large"
                                          alt="">
                                     <div class="w-100 ms-1">
-                                        <strong class="d-block">${roomDetail['accommodationName']}</strong><%--E°SO 이소하우스 60평 독채--%>
-                                        <p class="mb-2">${roomDetail.categoryName}</p><%--펜션--%>
-                                        <p class="fs-10 mb-2">${roomDetail.accommodationAddress}</p><%--강원도 강릉시 창해로 307--%>
+                                        <strong class="d-block">${acmDetail['acmName']}</strong><%--E°SO 이소하우스 60평 독채--%>
+                                        <p class="mb-2">${category.categoryName}</p><%--펜션--%>
+                                        <p class="fs-10 mb-2">${acmDetail.acmAddress}</p><%--강원도 강릉시 창해로 307--%>
                                         <div class="fs-10 float-start me-2">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
                                                  class="mb-1 bi bi-star-fill" viewBox="0 0 16 16">
@@ -643,7 +645,7 @@
                                             </svg>
                                             4.93(114)
                                         </div>
-                                        <div class="fs-10 fw-bold">•<span class="ms-1">${roomDetail.keywordName}</span></div><%--해변(키워드명)--%>
+                                        <div class="fs-10 fw-bold">•<span class="ms-1">${keyword.keywordName}</span></div><%--해변(키워드명)--%>
                                     </div>
                                 </div>
                             </div>
@@ -655,9 +657,13 @@
                             <div class="row py-1 lh-sm fs-10 pe-2">
 <%--                                <div class="col-sm-8 text-start"><span>₩${roomDetail.roomPrice}</span> x <span>${countDay}</span>박</div>--%>
                                 <div class="col-sm-8 text-start">1박당 요금(세금 및 봉사료 포함)</div>
-                                <div class="col-sm-4 text-end">₩<fmt:formatNumber type="number"
-                                                      maxFractionDigits="0"
-                                                      value="${roomDetail.roomPrice}" /></div>
+                                <div class="col-sm-4 text-end <c:if test='${roomDetail.roomDiscount ne 0}'>text-decoration-line-through</c:if>">₩<fmt:formatNumber type="number"
+                                                      maxFractionDigits="0" value="${roomDetail.roomPrice}" /></div>
+                            </div>
+
+                            <div class="row py-1 lh-sm fs-10 pe-2">
+                                <div class="col-sm-8 text-start">할인 ${roomDetail.roomDiscount} %</div>
+                                <div class="col-sm-4 text-end ">₩<fmt:formatNumber type="number" maxFractionDigits="0" value="${roomDisPrice}" /></div>
                             </div>
 
                             <div class="row py-1 lh-sm fs-10 pe-2">
@@ -681,9 +687,8 @@
                             <div  class="row py-1 lh-sm pe-2">
                                 <div class="col-sm-8 text-start">총액 <span class="fw-bold">(KRW)</span>
                                 </div>
-                                <div class="col-sm-4 text-end"><span class="fw-bold">₩<fmt:formatNumber type="number"
-                                                                                                        maxFractionDigits="0"
-                                                                                                        value="${roomDetail.roomPrice*countDay}" /></span></div>
+
+                                <div class="col-sm-4 text-end"><span class="fw-bold">₩<fmt:formatNumber type="number" maxFractionDigits="0" value="${paymentPrice}" /></span></div>
                             </div>
                         </div>
 

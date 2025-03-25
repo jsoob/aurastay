@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class PaymentDTO {
     private int paymentNo;
     private int roomPrice;
+    private int discountPercentage;
     private int pointPrice;
     private int paymentPrice;
     private int paymentStatus;

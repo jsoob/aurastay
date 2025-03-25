@@ -22,7 +22,14 @@
     <link rel="stylesheet" href="/css/rsrv/rsrv.css">
     <script>
         $(() => {
+            <%--let rs = ${rs};--%>
+            // console.log("rs = ", rs);
+            <%--let triggerEl = document.querySelector('#pills-tab a[href="/reservation/mystays?rs=${rs}"]');--%>
+            <%--bootstrap.Tab.getInstance(triggerEl).show();--%>
 
+            $('a[data-bs-toggle="pill"]').on('shown.bs.tab', function (e) {
+                let gg = $(e.target).attr("aria-controls");
+            });
         });
     </script>
 </head>
