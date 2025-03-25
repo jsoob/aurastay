@@ -24,6 +24,23 @@
                 $(this).fadeOut(); // 모달 숨기기
             });
         });
+
+        // 숙소 삭제 함수
+        function deleteAccommodation(acmNo) {
+            if (confirm("정말로 이 숙소를 삭제하시겠습니까?")) {
+                $.ajax({
+                    url: '/accommodation/' + acmNo,
+                    type: 'DELETE', // DELETE 요청
+                    success: function(response) {
+                        alert(response); // 성공 메시지
+                        location.href = 'acmList'; // 목록 페이지로 리다이렉트
+                    },
+                    error: function(xhr) {
+                        alert(xhr.responseText); // 오류 메시지
+                    }
+                });
+            }
+        }
     </script>
 
 </head>
@@ -121,8 +138,8 @@
 <%--            <button type="submit" class="btn btn-submit">수정</button>--%>
 <%--                a href="/accommodation/accommodationUpdate?acmNo=${dto.acmNo}" class="btn btn-submit">수정(등록)</buttona>--%>
             <a href="/accommodation/acmModify?acmNo=${dto.acmNo}" class="btn btn-submit">수정(등록)</a>
-
-            <a href="/accommodation/accommodationDelete?acmNo=${dto.acmNo}" class="btn btn-cancel">삭제</a>
+            <button type="button" class="btn btn-cancel" onclick="deleteAccommodation(${dto.acmNo})">삭제</button>
+<%--            <a href="/accommodation/accommodationDelete?acmNo=${dto.acmNo}" class="btn btn-cancel">삭제</a>--%>
         </div>
     </form>
 </div>

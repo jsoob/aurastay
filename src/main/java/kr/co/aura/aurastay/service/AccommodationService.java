@@ -6,6 +6,7 @@ import kr.co.aura.aurastay.dto.AmenitiesDTO;
 import kr.co.aura.aurastay.dto.RoomDTO;
 import kr.co.aura.aurastay.dto.RoomImageDTO;
 import kr.co.aura.aurastay.repository.AccommodationRepository;
+import kr.co.aura.aurastay.repository.ReservationRepository;
 import kr.co.aura.aurastay.repository.RoomImageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,7 @@ public class AccommodationService {
     private final AccommodationRepository accommodationRepository;
     private final RoomService roomService;          // roomService와 연동
     private final RoomImageRepository roomImageRepository;
+    private final ReservationRepository reservationRepository;
 
     // 전체 조회하기
     public List<AccommodationDTO> selectAll(int currentPage, int pageSize, String search) {
@@ -183,11 +185,6 @@ public class AccommodationService {
     }
 
 
-    // 숙소 정보 삭제
-    public void acmDelete(int acmNo) {
-        accommodationRepository.acmDelete(acmNo);
-    }
-
     // 정보 변경할 때 필요한 편의시설 정보 삭제 후 다시 저장하기 위한 메서드
     public void deleteAmenities(int acmNo) {
         accommodationRepository.deleteAmenities(acmNo);
@@ -220,6 +217,22 @@ public class AccommodationService {
             // 파일명과 경로를 repository에 전달
             accommodationRepository.addImages(acmNo, filename, path);
         }
+    }
+
+    // 삭제 전, 예약내역 존재여부 확인 중
+    public boolean checkReservations(int acmNo) {
+        // 해당 숙소의 예약 내역이 존재하는지 확인
+        return reservationRepository.existsByAccommodationNo(acmNo);
+    }
+
+    // 숙소 정보 삭제
+    public void acmDelete(int acmNo) {
+
+        // 객실 삭제
+        accommodationRepository.deleteRoomsByAccommodationNo(acmNo);
+
+        // 숙소 삭제
+        accommodationRepository.acmDelete(acmNo);
     }
 
 }

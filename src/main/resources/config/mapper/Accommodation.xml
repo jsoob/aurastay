@@ -167,24 +167,22 @@
         WHERE accommodation_no = #{acmNo}
     </delete>
 
-    <!-- 얘를 고쳐라 ~ ! : 어떤식으로 추가할지.. -->
     <!-- 숙소 정보 수정을 위해 등록된 이미지를 변경하고자 할 때 실행되는 쿼리문 -->
     <insert id="addImages" parameterType="java.lang.Object">
         INSERT INTO room_image (filename, filepath, accommodation_no)
         VALUES (#{filename}, #{filepath}, #{acmNo})
     </insert>
 
-
-
-
-
-
-
+    <!-- 숙소 정보 삭제 -->
     <delete id="acmDelete" parameterType="int">
         DELETE FROM accommodation
         WHERE accommodation_no = #{acmNo}
     </delete>
-
+    <!-- 객실 정보 삭제 -->
+    <delete id="deleteRoomsByAccommodationNo" parameterType="int">
+        DELETE FROM room
+        WHERE accommodation_no = #{acmNo}
+    </delete>
 
 
 </mapper>

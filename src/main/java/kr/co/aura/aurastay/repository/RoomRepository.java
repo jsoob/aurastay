@@ -20,4 +20,5 @@ public interface RoomRepository {
     void roomDelete(int roomNo);
 
     RoomDTO findByRoomId(RoomDTO roomDTO);
+
 }

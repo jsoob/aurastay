@@ -7,6 +7,7 @@ import kr.co.aura.aurastay.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -476,17 +477,19 @@ public class AccommodationController {
 
 
 
+    // 숙소 정보 삭제 (단, 예약내역이 있을 경우 삭제가 되지 않음)
+    @DeleteMapping("/{acmNo}")
+    public ResponseEntity<String> deleteAccommodation(@PathVariable int acmNo) {
+        // 예약 내역이 존재하는지 체크
+        boolean hasReservations = accommodationService.checkReservations(acmNo);
 
-    // 숙소 정보 삭제
-    @GetMapping("/acmDelete")
-    public String accommodationDelete(@RequestParam("acmNo") int acmNo, Model model) {
+        if (hasReservations) {
+            return ResponseEntity.status(403).body("예약 내역이 존재하여 삭제할 수 없습니다."); // 403 Forbidden
+        }
+
+        // 숙소 및 관련 객실 삭제
         accommodationService.acmDelete(acmNo);
-        return "redirect:/accommodation/acmList";
+
+        return ResponseEntity.ok("숙소와 관련된 모든 정보가 삭제되었습니다."); // 200 OK
     }
-
-//    // 숙소 전체 목록에서 검색 기능을 처리 : 사용자가 입력한 키워드를 기반으로 숙소 검색
-//    @GetMapping("/search")
-//    public String search(@RequestParam("keyword"))
-
-
 }

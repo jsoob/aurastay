@@ -27,9 +27,6 @@ public interface AccommodationRepository {
     // 숙소 정보 변경
     void updateAccommodation(AccommodationDTO dto);
 
-    // 숙소 삭제
-    void acmDelete(int acmNo);
-
     //
     AccommodationDTO findById(int acmNo);           // 숙소 ID로 숙소정보를 조회하는 메서드
 
@@ -57,4 +54,9 @@ public interface AccommodationRepository {
                    @Param("filename") String filenames,
                    @Param("filepath") String filepath);
 
+    // 숙소를 삭제하면서 객실도 같이 삭제
+    void deleteRoomsByAccommodationNo(int acmNo);
+
+    // 숙소 삭제
+    void acmDelete(int acmNo);
 }
