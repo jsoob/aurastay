@@ -53,7 +53,7 @@ public interface AccommodationRepository {
     void deleteExistingImages(int acmNo);
 
     // 리스트로 다 받아오는거라 한건데.. 이게 아닌가..?
-    void addImages(@Param("accommodationNo") int accommodationNo,
+    void addImages(@Param("acmNo") int acmNo,
                    @Param("filename") String filenames,
                    @Param("filepath") String filepath);
 

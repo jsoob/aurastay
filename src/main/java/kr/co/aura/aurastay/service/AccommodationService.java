@@ -57,18 +57,23 @@ public class AccommodationService {
         System.out.println("숙소 등록이 완료된다면 보여주는 dto : " + dto);
 
         // 이미지 정보를 저장하는 로직 추가
-        if (dto.getFilenames() != null && dto.getFilenames().isEmpty()) {
-            for (int i = 0; i < dto.getFilenames().size(); i++) {
-                RoomImageDTO roomImage = new RoomImageDTO();
-                roomImage.setFilename(dto.getFilenames().get(i));
-                roomImage.setFilepath(dto.getFilepath().get(i));
-                roomImage.setImageNo(dto.getAcmNo());   // 숙소 번호와 연결
-
-                // 로그 추가
-                log.info("Saving image: {}", roomImage);
-                roomImageRepository.add(roomImage);
-            }
+        if (dto.getFilenames() != null && !dto.getFilenames().isEmpty()) {
+            addImages(dto.getAcmNo(), dto.getFilenames(), dto.getFilepath());
         }
+
+//        // 이미지 정보를 저장하는 로직 추가
+//        if (dto.getFilenames() != null && dto.getFilenames().isEmpty()) {
+//            for (int i = 0; i < dto.getFilenames().size(); i++) {
+//                RoomImageDTO roomImage = new RoomImageDTO();
+//                roomImage.setFilename(dto.getFilenames().get(i));
+//                roomImage.setFilepath(dto.getFilepath().get(i));
+//                roomImage.setImageNo(dto.getAcmNo());   // 숙소 번호와 연결
+//
+//                // 로그 추가
+//                log.info("Saving image: {}", roomImage);
+//                roomImageRepository.add(roomImage);
+//            }
+//        }
 
         // 객실 정보가 있으면 추가 (객실 등록)
         if (dto.getRooms() != null && !dto.getRooms().isEmpty()) {
@@ -136,6 +141,35 @@ public class AccommodationService {
 
     // 숙소 정보 변경/수정
     public void updateAccommodation(AccommodationDTO dto) {
+        // 숙소 정보 업데이트
+        accommodationRepository.updateAccommodation(dto);
+
+        // 기존 이미지 삭제
+        deleteExistingImages(dto.getAcmNo());
+
+        // 새로운 이미지 추가
+        if (dto.getFilenames() != null && !dto.getFilenames().isEmpty()) {
+            addImages(dto.getAcmNo(), dto.getFilenames(), dto.getFilepath());
+        }
+
+        // 객실 정보가 있으면 추가 (객실 등록 또는 업데이트)
+        if (dto.getRooms() != null && !dto.getRooms().isEmpty()) {
+            for (RoomDTO room : dto.getRooms()) {
+                if (room.getRoomNo() > 0) { // roomNo가 0보다 큰 경우
+                    roomService.roomUpdate(room); // 기존 객실 정보 업데이트
+                } else {
+                    roomService.roomAdd(room); // 새로운 객실 정보 추가
+                }
+            }
+        }
+
+        // 편의시설 업데이트
+        if (dto.getAmenities() != null && !dto.getAmenities().isEmpty()) {
+            deleteAmenities(dto.getAcmNo()); // 기존 편의시설 삭제
+            for (Integer amenitiesNo : dto.getAmenities()) {
+                accommodationRepository.addAmenities(dto.getAcmNo(), amenitiesNo);
+            }
+        }
         accommodationRepository.updateAccommodation(dto);
     }
 
@@ -170,7 +204,6 @@ public class AccommodationService {
     }
 
     // 이미지 정보 (추가)
-// 이미지 정보 추가
     public void addImages(int acmNo, List<String> filenames, List<String> filepath) {
         // 현재 파일 경로를 출력 (디버깅용)
         System.out.println("파일 경로 >>>>>>>>>>>>>> : " + filepath);
@@ -180,6 +213,9 @@ public class AccommodationService {
             // 각 파일 이름과 경로를 하나씩 꺼내서 처리
             String filename = filenames.get(i);  // 현재 파일 이름
             String path = filepath.get(i);  // 현재 파일 경로
+
+            // imageNo는 자동 증가가 아닌 경우, 적절한 값을 설정
+//            int imageNo = i + 1; // 예시로 인덱스를 사용할 수 있지만, 실제로는 다른 로직이 필요할 수 있음
 
             // 파일명과 경로를 repository에 전달
             accommodationRepository.addImages(acmNo, filename, path);
