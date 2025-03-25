@@ -6,7 +6,6 @@ import kr.co.aura.aurastay.dto.MemberDTO;
 import kr.co.aura.aurastay.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,7 +65,7 @@ public class MemberController {
     // 마이페이지
     @GetMapping("/myPage")
     public String myPage(Model model) {
-        return "member/mypage";
+        return "member/myPage";
     }
 
     // 개인정보수정
@@ -105,11 +103,11 @@ public class MemberController {
     // 비밀번호 확인
     @PostMapping("/checkPassword")
     public ResponseEntity<Map<String, Boolean>> checkPassword(@RequestParam("memberNo") int memberNo
-            ,@RequestParam("password") String password, HttpSession session) {
+            , @RequestParam("password") String password, HttpSession session) {
 
         MemberDTO member = memberService.findByMemberNo(memberNo);
         Map<String, Boolean> response = new HashMap<>();
-        
+
         boolean matches = passwordEncoder.matches(password, member.getMemberPassword());
         response.put("response", matches);
         if (matches) {

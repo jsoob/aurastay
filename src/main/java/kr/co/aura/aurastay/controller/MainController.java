@@ -43,7 +43,6 @@ public class MainController {
             member = ((CustomUserDetail) principal).getMember();
         }
 
-        System.out.println(member);
         session.setAttribute("dto", member);
         return "index";
     }

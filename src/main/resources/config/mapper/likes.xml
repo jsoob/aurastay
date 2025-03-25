@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.aura.aurastay.repository.LikesRepository">
+    <insert id="addWishList" parameterType="LikesDTO">
+        insert into likes
+        values(null,#{accommodationNo},#{memberNo})
+    </insert>
+    <select id="getWishList" parameterType="int" resultType="HashMap">
+        <!-- 숙소번호, 숙소명, 주소, 숙소이미지경로  -->
+        SELECT
+        a.accommodation_no as accommodationNo,
+        a.accommodation_name as accommodationName,
+        a.accommodation_address as accommodationAddress,
+        r.filepath as filepath
+        FROM likes l
+        JOIN member m ON l.member_no = m.member_no
+        JOIN accommodation a ON l.accommodation_no = a.accommodation_no
+        JOIN room_image r ON a.accommodation_no = r.accommodation_no
+        WHERE l.member_no = #{memberNo};
+    </select>
+    <delete id="deleteWishList" parameterType="LikesDTO">
+        delete from likes
+        where accommodation_no = #{accommodationNo} and member_no = #{memberNo}
+    </delete>
+</mapper>

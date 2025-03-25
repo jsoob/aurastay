@@ -25,7 +25,7 @@
             <%-- 인증된 사용자가 볼 수 있는 리스트 --%>
             <sec:authorize access="isAuthenticated()">
                 <li><a class="dropdown-item" href="/member/myPage">마이페이지</a></li>
-                <li><a class="dropdown-item" href="/member/wishList">위시리스트</a></li>
+                <li><a class="dropdown-item" href="/wishlist">위시리스트</a></li>
                 <li><a class="dropdown-item" href="">예약내역</a></li>
                 <li>
                     <form action="/logout" method="post" id="logoutForm">

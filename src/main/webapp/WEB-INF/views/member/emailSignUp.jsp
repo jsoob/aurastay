@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/css/signUp.css">
 </head>
 <body>
-<jsp:include page="../main/header.jsp"/>
+<jsp:include page="../main/basic-header.jsp"/>
 <div class="main">
     <div class="container mt-5 mb-5">
         <h3 class="text-center">회원가입</h3>
