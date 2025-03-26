@@ -24,6 +24,7 @@
                     success: function (data) {
                         // 모달의 입력 필드에 값을 채워넣기
                         $("input[name='roomNo']").val(data.roomNo);
+                        $("input[name='acmNo']").val(data.acmNo);
                         $("input[name='roomName']").val(data.roomName);
                         $("input[name='roomQty']").val(data.roomQty);
                         $("input[name='roomCapacity']").val(data.roomCapacity);

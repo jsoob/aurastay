@@ -67,7 +67,7 @@ public class RoomController {
         return ResponseEntity.ok("객실 정보가 저장되었습니다."); // 성공 메시지 반환
     }
 
-    // 객실 정보 조회
+    // 객실 정보 조회 (모달창으로 객실정보를 가져오게끔.. 가져왔으면.. )
     @GetMapping("/room/{roomNo}")
     public ResponseEntity<RoomDTO> getRoom(@PathVariable("roomNo") int roomNo){
         RoomDTO room = roomService.findByRoomId(roomNo);
@@ -80,9 +80,11 @@ public class RoomController {
 
     }
 
-    // 객실 정보 수정 : 객실 정보 수정하기
+    // 객실 정보 수정 : 객실 정보 수정하기 (모달창에서 객실정보를 수정한 것을 보내야해)
     @PostMapping("/roomUpdate")
     public ResponseEntity<String> roomUpdate(@RequestBody RoomDTO roomDTO) {
+
+        System.out.println("받은 데이터 값을 확인해보자 : " + roomDTO.toString());   // 디버깅 로그용
 
         // 수정할 객실 정보를 업데이트
         roomService.roomUpdate(roomDTO);

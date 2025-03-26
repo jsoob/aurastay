@@ -73,9 +73,10 @@
         WHERE room_no = #{roomNo} AND accommodation_no = #{acmNo} <!-- room_no를 기준으로 업데이트 -->
     </update>
 
-    <!--이걸 하면 연속적으로 객실의 정보가 추가되는 것을 볼 수 있음-->
+    <!-- 이걸 하면 연속적으로 객실의 정보가 추가되는 것을 볼 수 있음-->
     <!-- 객실 추가 (새로운 객실 정보를 삽입) -->
-    <insert id="여기에 뭐라고 써야할지 알려줘" parameterType="RoomDTO">
+    <!-- 여기는 jsp에서 모달창에서 추가하는 버튼이랑 추가가 여러 개 된 리스트 UI화면을 만들고 난 뒤에 적용시킬 mapper 정도가 좋을듯 -->
+    <insert id="여기에 id값을 넣으면 추가가 연속적으로 됩니다~ 나중에~" parameterType="RoomDTO">
         INSERT INTO room (room_name, room_qty, room_capacity, room_price, room_discount, room_contents, room_viewtype, accommodation_no)
         VALUES (#{roomName}, #{roomQty}, #{roomCapacity}, #{roomPrice}, #{roomDiscount}, #{roomContents}, #{roomViewType}, #{acmNo})
     </insert>
