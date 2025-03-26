@@ -1,0 +1,232 @@
+/* 전체 헤더 css */
+header {
+    position: fixed;
+    z-index: 1050;
+    top: 0;
+    width: 100%;
+    height:80px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    padding-left: 70px;
+    padding-right: 70px;
+    color: black;
+    background-color:white;
+    align-items: flex-start;
+    box-shadow: 0px 3px 2px -3px lightgray;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 로고 크기 */
+header > a > img {
+    width: 90px;
+}
+
+/* 검색창 */
+header .search {
+    position: relative;
+    width: 400px;
+    flex-shrink: 1;
+}
+header .search > input {
+    width: 100%;
+    border: 1px solid lightgray;
+    border-radius: 30px;
+    padding: 10px 12px;
+    font-size: 13px;
+}
+header .search button {
+    position : absolute;
+    width: 30px;
+    height: 30px;
+    top: 6px;
+    right: 12px;
+    margin: 0;
+    padding: 3px;
+
+    border: none;
+    border-radius: 50%;
+    background-color: #ff385c;
+}
+header .search button img {
+    filter: invert(1); /* 색상 반전 */
+}
+
+/* 드롭다운 버튼 */
+header .dropdown > .btn {
+    border-radius: 30px;
+    background-color: white;
+    border: 1px solid lightgray;
+    padding: 5px 10px;
+}
+header .btn:hover {
+    box-shadow: 1px 2px 2px lightgray;
+}
+header .dropdown > ul > li {
+    font-size: 14px;
+    text-align: center;
+}
+
+/* 기존 드롭다운 스타일 유지하면서 버튼을 a 태그처럼 변경 */
+.logout-btn {
+    background: none;
+    border: none;
+    color: inherit;
+    padding: 5px 5px;
+    font: inherit;
+    text-align: center;
+    display: block;
+}
+
+#logoutForm {
+    margin-bottom: 0px;
+}
+
+/* 메인 */
+/* nav 높이만큼 padding-top 줌 */
+.main {
+    padding-top: 80px;
+    min-height: 700px;
+}
+.main_body_container {
+    padding-top: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    max-width: 1800px;
+}
+
+/* 네비게이션 바 (스크롤 시 고정) */
+.main .nav-list {
+    position: sticky;
+    top: 80px; /* 헤더 아래 고정 */
+    z-index: 1040;
+    background-color: white;
+    box-shadow: 0px 3px 5px -3px lightgray;
+    padding: 15px 0;
+    width: 100%;
+}
+.main .nav-list ul {
+    display: flex; /* 가로 정렬 */
+    justify-content: space-around;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    white-space: nowrap; /* 줄바꿈 방지 */
+}
+.main .nav-list li{
+    display: inline-block;
+    text-align: center;
+    width: 19%;
+    opacity: 0.7;
+}
+.main .nav-list li:hover {
+    opacity: 1;
+}
+.main .nav-list li > a{
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: space-around;
+    color: black;
+    font-size: 12px;
+}
+
+/* 숙소 아이콘 */
+.main .nav-list > ul > li > a > img {
+    width: 25px;
+}
+
+/* 필터 버튼 */
+.main .filter-btn {
+    border-radius: 10px;
+    background-color: white;
+    border: 1px solid lightgray;
+    padding: 10px 10px;
+    font-size: 12px;
+    color: black;
+}
+.main .filter-btn:hover {
+    box-shadow: 1px 2px 2px lightgray;
+}
+.main .filter-btn > img {
+    margin-right: 6px;
+}
+
+/* 숙소 리스트 css */
+.radius_12 {
+    border-radius: 12px;
+}
+
+.fs-10 {
+    font-size: 10pt;
+}
+
+.fs-14 {
+    font-size: 14pt;
+}
+
+/* 슬라이드 이미지 */
+.slide-imgs {
+    /*width: 400px;
+    height: 400px;*/
+}
+/* 이전/다음 버튼 위치 조정 */
+.carousel-control-btn {
+    top: 40%;
+    height: 50px;
+}
+
+/* 할인율 & 원가 css */
+.review_rating, .acm-price {
+
+}
+
+/* 12345 버튼 css */
+/*.carousel-index-btn button {*/
+.carousel-indicators.carousel-index-btn > button {
+    width: 15px;
+    height: 5px;
+}
+
+/* 위시리스트 버튼 위치 */
+.wish-btn-container {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+}
+/* 버튼 지우기 */
+.wish-btn {
+    background: none;
+    border: none;
+}
+
+/* 하트 버튼 */
+/* 하트 hover시 wish-btn-svg 변경 */
+.wish-btn:hover .wish-btn-svg {
+    fill: rgb(253 253 253 / 0%);
+}
+/* 하트 */
+.wish-btn-svg {
+    display: block;
+    /* 하트 안 색깔 */
+    fill: rgba(0, 0, 0, 0.5);
+    /* 선 색상 */
+    stroke: white;
+    /* 선 두께 */
+    stroke-width: 3;
+    height: 24px;
+    width: 24px;
+    overflow: visible;
+}
+/* 위시 클릭 되어 있으면 색깔 핑크로 채우기 */
+.wish-btn-svg-active {
+    fill: #ff385c;
+}
+
+/* 풋터 */
+footer {
+    font-size: 14px;
+}

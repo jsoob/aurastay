@@ -1,0 +1,104 @@
+.main {
+    text-align: center;
+}
+
+/* 로고 이미지 */
+.main .logo {
+    padding: 50px 30px;
+    text-align: center;
+}
+.main .logo > img {
+    width: 100px;
+}
+
+/* 각 버튼 별 */
+.main .loginBtn {
+    width: 400px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+}
+.main .loginBtn > img {
+    margin-right: 10px;
+}
+.main a {
+    text-decoration: none;
+}
+
+/* 소셜로그인 */
+.main .SocialLoginButtons_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main .SocialLoginButtons_container > div {
+    margin-bottom: 20px;
+}
+
+/* 버튼 별 css */
+#kakao {
+    background-color: #FEE500;
+}
+
+#naver {
+    background-color: #00C73C;
+    color: white;
+}
+
+#google, #email {
+    background-color: white;
+}
+
+/* 사업자로 시작하기 */
+.main .TextButton_container {
+    font-size: 12px;
+    box-sizing: border-box;
+    padding: 10px 0;
+}
+.main .TextButton_container a {
+    text-decoration: none;
+    color: black;
+}
+.main .TextButton_container > span {
+    margin: 0 20px;
+}
+
+.emailLoginDiv {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: stretch;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#memberEmail, #memberPassword {
+    width: 400px;
+}
+#loginBtn {
+    width: 400px;
+    background-color: white;
+    color: #ff385c;
+    border-color: #ff385c;
+}
+
+#loginBtn:hover {
+    background-color: #ff385c;
+    color: white;
+}
+
+.text-danger {
+    margin-bottom: 10px;
+}

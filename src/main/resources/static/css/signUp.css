@@ -1,0 +1,42 @@
+.signUpWidth {
+    max-width: 400px;
+}
+
+.emailDiv {
+    display: flex;
+    justify-content: space-between;
+}
+
+.emailDiv > input {
+    max-width: 290px;
+}
+
+#checkEmailBtn {
+    min-width: 100px;
+}
+
+#verifyEmailCodeBtn {
+    min-width: 70px;
+}
+
+/* 이메일인증 모달 */
+#modalMessage {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-left: 5px;
+}
+
+.btn-outline-danger {
+    background-color: white;
+    color: #ff385c;
+    border-color: #ff385c;
+}
+.btn-outline-danger:hover {
+    background-color: #ff385c;
+    color: white;
+}
