@@ -11,69 +11,69 @@
     <link rel="stylesheet" type="text/css" href="../css/acm.css">
 
     <script>
-        $(document).ready(function () {
-            // 모달 열기
-            $("#showModal").click(function () {
-             //   console.log("......");
-                var acmNo = ${dto.acmNo}; // 현재 숙소 번호
-                $.ajax({
-                    url: '/accommodation/rooms/' + acmNo,
-                    method: 'GET',
-                    success: function (data) {
-                        console.dir(data);
-                        // AJAX로 받아온 객실 정보를 모달 폼에 채워 넣기
-                        data.forEach(room => {
-                            $('input[name="roomNo"]').val(room.roomNo);
-                            $('input[name="roomName"]').val(room.roomName);
-                            $('input[name="roomQty"]').val(room.roomQty);
-                            $('input[name="roomCapacity"]').val(room.roomCapacity);
-                            $('input[name="roomPrice"]').val(room.roomPrice);
-                            $('input[name="roomDiscount"]').val(room.roomDiscount);
-                            $('textarea[name="roomContents"]').val(room.roomContents);
-                            $('select[name="roomViewType"]').val(room.roomViewType);
-                        });
-                        $("#roomModal").fadeIn(); // 모달 열기
-                    },
-                    error: function (error) {
-                        console.error('객실 정보를 불러오는 데 실패했습니다.', error);
-                    }
-                });
-            });
+        <%--$(document).ready(function () {--%>
+        <%--    // 모달 열기--%>
+        <%--    $("#showModal").click(function () {--%>
+        <%--     //   console.log("......");--%>
+        <%--        var acmNo = ${dto.acmNo}; // 현재 숙소 번호--%>
+        <%--        $.ajax({--%>
+        <%--            url: '/accommodation/rooms/' + acmNo,--%>
+        <%--            method: 'GET',--%>
+        <%--            success: function (data) {--%>
+        <%--                console.dir(data);--%>
+        <%--                // AJAX로 받아온 객실 정보를 모달 폼에 채워 넣기--%>
+        <%--                data.forEach(room => {--%>
+        <%--                    $('input[name="roomNo"]').val(room.roomNo);--%>
+        <%--                    $('input[name="roomName"]').val(room.roomName);--%>
+        <%--                    $('input[name="roomQty"]').val(room.roomQty);--%>
+        <%--                    $('input[name="roomCapacity"]').val(room.roomCapacity);--%>
+        <%--                    $('input[name="roomPrice"]').val(room.roomPrice);--%>
+        <%--                    $('input[name="roomDiscount"]').val(room.roomDiscount);--%>
+        <%--                    $('textarea[name="roomContents"]').val(room.roomContents);--%>
+        <%--                    $('select[name="roomViewType"]').val(room.roomViewType);--%>
+        <%--                });--%>
+        <%--                $("#roomModal").fadeIn(); // 모달 열기--%>
+        <%--            },--%>
+        <%--            error: function (error) {--%>
+        <%--                console.error('객실 정보를 불러오는 데 실패했습니다.', error);--%>
+        <%--            }--%>
+        <%--        });--%>
+        <%--    });--%>
 
-            // 객실 수정된 정보를 폼에 반영하는 함수
-            // acmModify.jsp 내에 updateRoomInfo 함수 정의
-            function updateRoomInfo(roomData) {
-                $("#roomName").val(roomData.roomName);
-                $("#roomQty").val(roomData.roomQty);
-                $("#roomCapacity").val(roomData.roomCapacity);
-                $("#roomPrice").val(roomData.roomPrice);
-                $("#roomDiscount").val(roomData.roomDiscount);
-                $("#roomContents").val(roomData.roomContents);
-                $("#roomViewType").val(roomData.roomViewType);
-            }
+        <%--    // 객실 수정된 정보를 폼에 반영하는 함수--%>
+        <%--    // acmModify.jsp 내에 updateRoomInfo 함수 정의--%>
+        <%--    function updateRoomInfo(roomData) {--%>
+        <%--        $("#roomName").val(roomData.roomName);--%>
+        <%--        $("#roomQty").val(roomData.roomQty);--%>
+        <%--        $("#roomCapacity").val(roomData.roomCapacity);--%>
+        <%--        $("#roomPrice").val(roomData.roomPrice);--%>
+        <%--        $("#roomDiscount").val(roomData.roomDiscount);--%>
+        <%--        $("#roomContents").val(roomData.roomContents);--%>
+        <%--        $("#roomViewType").val(roomData.roomViewType);--%>
+        <%--    }--%>
 
 
-            // 모달 닫기 함수
-            function closeModal() {
-                $("#roomModal").fadeOut();
-            }
+        <%--    // 모달 닫기 함수--%>
+        <%--    function closeModal() {--%>
+        <%--        $("#roomModal").fadeOut();--%>
+        <%--    }--%>
 
-            // 모달 닫기 버튼 클릭 이벤트
-            $("#closeModal, .close").click(closeModal);
+        <%--    // 모달 닫기 버튼 클릭 이벤트--%>
+        <%--    $("#closeModal, .close").click(closeModal);--%>
 
-            // 모달 바깥 영역 클릭 시 닫기
-            $(window).click(function (event) {
-                if ($(event.target).is("#roomModal")) {
-                    closeModal();
-                }
-            });
+        <%--    // 모달 바깥 영역 클릭 시 닫기--%>
+        <%--    $(window).click(function (event) {--%>
+        <%--        if ($(event.target).is("#roomModal")) {--%>
+        <%--            closeModal();--%>
+        <%--        }--%>
+        <%--    });--%>
 
-            // 추가 버튼 클릭 이벤트
-            $("#btn").click(function () {
-                let newFileInput = '<input type="file" name="files" multiple>'; // 새로운 파일 입력 필드
-                $(this).before(newFileInput); // 버튼 앞에 추가
-            });
-        });
+        <%--    // 추가 버튼 클릭 이벤트--%>
+        <%--    $("#btn").click(function () {--%>
+        <%--        let newFileInput = '<input type="file" name="files" multiple>'; // 새로운 파일 입력 필드--%>
+        <%--        $(this).before(newFileInput); // 버튼 앞에 추가--%>
+        <%--    });--%>
+        <%--});--%>
     </script>
 
 
@@ -150,35 +150,32 @@
 
 
 
-        <div id="roomInfoContainer">
+<%--        <div id="roomInfoContainer">--%>
         <%-- JSON 형식으로 하거나 자바스크립트 방식으로 hidden을 주던가.. --%>
         <%-- input으로 하나하나 값을 찍어서 전달(이 때 값은 숨어)--%>
 <%--        <input type="text" value="" id="room" name="roomName" />--%>
-        <input type="text" name="roomReadName" value="" placeholder="객실명을 입력하세요" />
-        <input type="number" name="roomReadQty" value="" placeholder="객실 수량" />
-        <input type="number" name="roomReadCapacity" value="" placeholder="객실 수용 인원" />
-        <input type="number" name="roomReadPrice" value="" placeholder="객실 가격" />
-        <input type="number" name="roomReadDiscount" value="" placeholder="할인율" />
-        <textarea name="roomReadContents" placeholder="객실 설명"></textarea>
-        <select name="roomReadViewType" id="roomReadViewType">
-            <option value="">전망 선택</option>
-            <option value="sea">바다 전망</option>
-            <option value="mountain">산 전망</option>
-            <option value="city">도시 전망</option>
-        </select>
-        </div>
+
+<%--        <input type="text" name="roomReadName" value="" placeholder="객실명을 입력하세요" />--%>
+<%--        <input type="number" name="roomReadQty" value="" placeholder="객실 수량" />--%>
+<%--        <input type="number" name="roomReadCapacity" value="" placeholder="객실 수용 인원" />--%>
+<%--        <input type="number" name="roomReadPrice" value="" placeholder="객실 가격" />--%>
+<%--        <input type="number" name="roomReadDiscount" value="" placeholder="할인율" />--%>
+<%--        <textarea name="roomReadContents" placeholder="객실 설명"></textarea>--%>
+<%--        <select name="roomReadViewType" id="roomReadViewType">--%>
+<%--            <option value="">전망 선택</option>--%>
+<%--            <option value="sea">바다 전망</option>--%>
+<%--            <option value="mountain">산 전망</option>--%>
+<%--            <option value="city">도시 전망</option>--%>
+<%--        </select>--%>
+<%--        </div>--%>
 
 
-        <jsp:include page="roomModal.jsp"/>
+<%--        <jsp:include page="roomModifyModal.jsp"/>--%>
 
-        <br>
-        <label>객실 정보 ('객실정보 추가' 버튼을 클릭해주세요!)</label>
-        <button id="showModal" type="button" class="btn btn-add-room">객실 정보 추가</button>
-        <br><br>
-
-
-
-
+<%--        <br>--%>
+<%--        <label>객실 정보 ('객실정보 추가' 버튼을 클릭해주세요!)</label>--%>
+<%--        <button id="showModal" type="button" class="btn btn-add-room">객실 정보 추가</button>--%>
+<%--        <br><br>--%>
 
 
         <div class="form-group">

@@ -28,6 +28,12 @@
         WHERE accommodation_no = #{acmNo}
     </select>
 
+    <!-- 객실 번호로 조회 -->
+    <select id="findByRoomId" parameterType="int" resultType="RoomDTO">
+        SELECT *
+        FROM room
+        WHERE room_no = #{roomNo}
+    </select>
 
     <!-- 객실 추가 -->
     <insert id="roomAdd" parameterType="RoomDTO"  useGeneratedKeys="true" keyProperty="roomNo">
@@ -83,23 +89,23 @@
 
     <!-- 객실이 포함된 숙소 찾기 (객실 번호로 숙소 정보 찾기) -->
 
-    <select id="findByRoomId" resultType="RoomDTO" parameterType="RoomDTO">
-        SELECT
-            a.accommodation_no              AS acmNo,
-            a.accommodation_name            AS acmName,
-            a.accommodation_address         AS acmAddress,
-            a.accommodation_contents        AS contents,
-            a.checkin                       AS checkinTime,
-            a.checkout                      AS checkoutTime,
-            a.tel                           AS acmTel,
-            a.keyword_no                    AS keywordNo,
-            a.business_no                   AS businessNo,
-            a.category_no                   AS categoryNo
-        FROM accommodation a
-        INNER JOIN room r
-        ON a.accommodation_no = r.accommodation_no
-        WHERE r.room_no = #{roomNo}
-    </select>
+<!--    <select id="findByRoomId" resultType="RoomDTO" parameterType="RoomDTO">-->
+<!--        SELECT-->
+<!--            a.accommodation_no              AS acmNo,-->
+<!--            a.accommodation_name            AS acmName,-->
+<!--            a.accommodation_address         AS acmAddress,-->
+<!--            a.accommodation_contents        AS contents,-->
+<!--            a.checkin                       AS checkinTime,-->
+<!--            a.checkout                      AS checkoutTime,-->
+<!--            a.tel                           AS acmTel,-->
+<!--            a.keyword_no                    AS keywordNo,-->
+<!--            a.business_no                   AS businessNo,-->
+<!--            a.category_no                   AS categoryNo-->
+<!--        FROM accommodation a-->
+<!--        INNER JOIN room r-->
+<!--        ON a.accommodation_no = r.accommodation_no-->
+<!--        WHERE r.room_no = #{roomNo}-->
+<!--    </select>-->
 
 
 

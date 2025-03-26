@@ -55,6 +55,9 @@
                 roomViewType
             });
 
+            // 알림 메시지를 표시
+            alert("객실 정보가 추가되었습니다.");
+
             // 모달 닫기
             $("#roomAddModal").fadeOut();
         }

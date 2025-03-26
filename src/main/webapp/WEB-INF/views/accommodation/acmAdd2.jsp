@@ -121,5 +121,5 @@
 <%--<jsp:include page="../comm/footer.jsp"/>--%>
 <%--</body>--%>
 
-<%--<jsp:include page="roomModal.jsp"/>--%>
+<%--<jsp:include page="roomModifyModal.jsp"/>--%>
 <%--</html>--%>

@@ -42,9 +42,12 @@ public class RoomService {
         roomRepository.roomDelete(roomNo);
     }
 
-    // 객실 1건 조회
-    public RoomDTO findByRoomId(RoomDTO roomDTO) {
-        return roomRepository.findByRoomId(roomDTO);
+    // 객실 1건 조회 (객실 번호로 조회하기)
+    public RoomDTO findByRoomId(int roomNo) {
+        return roomRepository.findByRoomId(roomNo);
     }
 
+//    public RoomDTO findByRoomId(int roomNo) {
+//        return roomRepository.findByRoomId(roomNo);
+//    }
 }

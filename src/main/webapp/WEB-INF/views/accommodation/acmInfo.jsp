@@ -9,9 +9,38 @@
     <link rel="stylesheet" type="text/css" href="../css/common.css">
     <!-- acmInfo 전용 CSS 파일 연결 -->
     <link rel="stylesheet" type="text/css" href="../css/acmInfo.css">
+    <%-- 모달창 css 파일 --%>
+    <link rel="stylesheet" type="text/css" href="../css/acm.css">
 
     <script>
+
         $(document).ready(function () {
+            // 객실 정보 수정을 위한 모달창과 관련된 함수를 실행하는 곳
+            // 전역함수로 설정
+            window.openRoomModifyModal = function (roomNo){
+                $.ajax({
+                    url: '/room/room/' + roomNo, // 객실 정보 가져오기
+                    method: 'GET',
+                    success: function (data) {
+                        // 모달의 입력 필드에 값을 채워넣기
+                        $("input[name='roomNo']").val(data.roomNo);
+                        $("input[name='roomName']").val(data.roomName);
+                        $("input[name='roomQty']").val(data.roomQty);
+                        $("input[name='roomCapacity']").val(data.roomCapacity);
+                        $("input[name='roomPrice']").val(data.roomPrice);
+                        $("input[name='roomDiscount']").val(data.roomDiscount);
+                        $("textarea[name='roomContents']").val(data.roomContents);
+                        $("select[name='roomViewType']").val(data.roomViewType);
+
+                        // 모달 열기
+                        $("#roomModifyModal").fadeIn();
+                    },
+                    error: function (error) {
+                        console.error('객실 정보를 불러오는 데 실패했습니다.', error);
+                    }
+                });
+            }
+
             // 이미지 클릭 시 모달 열기
             $('.modal-img').click(function () {
                 var imgSrc = $(this).attr('src');
@@ -23,25 +52,39 @@
             $('#imageModal').click(function () {
                 $(this).fadeOut(); // 모달 숨기기
             });
-        });
 
-        // 숙소 삭제 함수
-        function deleteAccommodation(acmNo) {
-            if (confirm("정말로 이 숙소를 삭제하시겠습니까?")) {
-                $.ajax({
-                    url: '/accommodation/' + acmNo,
-                    type: 'DELETE', // DELETE 요청
-                    success: function(response) {
-                        alert(response); // 성공 메시지
-                        location.href = 'acmList'; // 목록 페이지로 리다이렉트
-                    },
-                    error: function(xhr) {
-                        alert(xhr.responseText); // 오류 메시지
-                    }
-                });
+            // 숙소 삭제 함수
+            function deleteAccommodation(acmNo) {
+                if (confirm("정말로 이 숙소를 삭제하시겠습니까?")) {
+                    $.ajax({
+                        url: '/accommodation/' + acmNo,
+                        type: 'DELETE', // DELETE 요청
+                        success: function (response) {
+                            alert(response); // 성공 메시지
+                            location.href = 'acmList'; // 목록 페이지로 리다이렉트
+                        },
+                        error: function (xhr) {
+                            alert(xhr.responseText); // 오류 메시지
+                        }
+                    });
+                }
             }
-        }
+
+            // 모달을 닫는 기능
+            // 모달 닫기
+            $("#closeModal, #modalClose").click(function () {
+                $("#roomModifyModal").fadeOut(); // 모달 닫기
+            });
+
+            // 모달 바깥 클릭 시 닫기
+            $(window).click(function (event) {
+                if ($(event.target).is("#roomModifyModal")) {
+                    $("#roomModifyModal").fadeOut();
+                }
+            });
+        });
     </script>
+
 
 </head>
 
@@ -112,6 +155,12 @@
                         <div class="room-detail-item"><strong>뷰타입:</strong> ${room.roomViewType}</div>
                         <div class="room-detail-item"><strong>상세 설명:</strong> ${room.roomContents}</div>
                     </div>
+
+                        <%--                <a href="/accommodation/roomModifyModal?acmNo=${dto.acmNo}" class="btn btn-submit">수정(등록)</a>--%>
+                    <jsp:include page="roomModifyModal.jsp"/>
+                    <button id="roomModifyModal" type="button" class="btn btn-submit"
+                            onclick="openRoomModifyModal(${room.roomNo})">수정
+                    </button>
                 </div>
             </c:forEach>
         </div>
@@ -128,25 +177,26 @@
             <label class="form-label">숙소 이미지</label>
             <c:if test="${not empty dto.filenames}">
                 <c:forEach items="${dto.filenames}" var="filenames">
-                    <img src="/accommodation/views/${filenames}" alt="${dto.acmName} 이미지" class="modal-img" style="width:200px; height:auto; cursor: pointer;" />
+                    <img src="/accommodation/views/${filenames}" alt="${dto.acmName} 이미지" class="modal-img"
+                         style="width:200px; height:auto; cursor: pointer;"/>
                 </c:forEach>
             </c:if>
         </div>
 
         <div class="btn-container">
             <a href="acmList" class="btn btn-list">목록</a>
-<%--            <button type="submit" class="btn btn-submit">수정</button>--%>
-<%--                a href="/accommodation/accommodationUpdate?acmNo=${dto.acmNo}" class="btn btn-submit">수정(등록)</buttona>--%>
+            <%--            <button type="submit" class="btn btn-submit">수정</button>--%>
+            <%--                a href="/accommodation/accommodationUpdate?acmNo=${dto.acmNo}" class="btn btn-submit">수정(등록)</buttona>--%>
             <a href="/accommodation/acmModify?acmNo=${dto.acmNo}" class="btn btn-submit">수정(등록)</a>
             <button type="button" class="btn btn-cancel" onclick="deleteAccommodation(${dto.acmNo})">삭제</button>
-<%--            <a href="/accommodation/accommodationDelete?acmNo=${dto.acmNo}" class="btn btn-cancel">삭제</a>--%>
+            <%--            <a href="/accommodation/accommodationDelete?acmNo=${dto.acmNo}" class="btn btn-cancel">삭제</a>--%>
         </div>
     </form>
 </div>
 
 <!-- 모달 구조 -->
 <div id="imageModal">
-    <img id="modal-img" src="" alt="확대된 이미지" />
+    <img id="modal-img" src="" alt="확대된 이미지"/>
 </div>
 
 <jsp:include page="../comm/footer.jsp"/>

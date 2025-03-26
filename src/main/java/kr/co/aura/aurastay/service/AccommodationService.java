@@ -154,16 +154,16 @@ public class AccommodationService {
             addImages(dto.getAcmNo(), dto.getFilenames(), dto.getFilepath());
         }
 
-        // 객실 정보가 있으면 추가 (객실 등록 또는 업데이트)
-        if (dto.getRooms() != null && !dto.getRooms().isEmpty()) {
-            for (RoomDTO room : dto.getRooms()) {
-                if (room.getRoomNo() > 0) { // roomNo가 0보다 큰 경우
-                    roomService.roomUpdate(room); // 기존 객실 정보 업데이트
-                } else {
-                    roomService.roomAdd(room); // 새로운 객실 정보 추가
-                }
-            }
-        }
+//        // 객실 정보가 있으면 추가 (객실 등록 또는 업데이트)
+//        if (dto.getRooms() != null && !dto.getRooms().isEmpty()) {
+//            for (RoomDTO room : dto.getRooms()) {
+//                if (room.getRoomNo() > 0) { // roomNo가 0보다 큰 경우
+//                    roomService.roomUpdate(room); // 기존 객실 정보 업데이트
+//                } else {
+//                    roomService.roomAdd(room); // 새로운 객실 정보 추가
+//                }
+//            }
+//        }
 
         // 편의시설 업데이트
         if (dto.getAmenities() != null && !dto.getAmenities().isEmpty()) {

@@ -381,16 +381,8 @@ public class AccommodationController {
             @RequestParam(value = "categoryNo", required = false) int categoryNo, // 카테고리 번호
             @RequestParam(value = "amenities", required = false) List<Integer> amenities, // 편의시설 목록
             @RequestParam(value = "files", required = false) MultipartFile[] files, // 업로드된 이미지 파일
-            // 객실 정보 관련 파라미터
-            @RequestParam(value = "roomNo") int roomNo, // 객실 번호 배열 추가
-            @RequestParam(value = "roomReadName") String roomNames, // 객실명 배열
-            @RequestParam(value = "roomQty") int roomQtys, // 객실 수량 배열
-            @RequestParam(value = "roomCapacity") int roomCapacities, // 최대 인원 수 배열
-            @RequestParam(value = "roomPrice") String roomPrices, // 가격 배열
-            @RequestParam(value = "roomDiscount") String roomDiscounts, // 할인율 배열
-            @RequestParam(value = "roomContents") String roomContents, // 상세 설명 배열
-            @RequestParam(value = "roomViewType") String roomViewTypes, // 뷰 타입 배열
             @RequestParam(value = "keywordNo", required = false) Integer keywordNo, // 단일 키워드 번호
+
             Model model) {
 
         // 1. 기존 편의시설 삭제 (배열로 여러 개의 값을 받기 때문에 편의시설을 삭제 후 다시 update하는 방식으로 진행한다)
@@ -456,25 +448,25 @@ public class AccommodationController {
         // 데이터베이스 업데이트
         accommodationService.updateAccommodation(dto); // 숙소 정보 업데이트
 
-        // 객실 정보 업데이트
-        for (int i = 0; i < roomNames.length(); i++) {
-            RoomDTO roomDTO = new RoomDTO();
-            roomDTO.setAcmNo(acmNo);
-//            roomDTO.setRoomNo(roomNo[i]); // 객실 번호 설정 확인
-            roomDTO.setRoomName(roomNames);
-            roomDTO.setRoomQty(roomQtys);
-            roomDTO.setRoomCapacity(roomCapacities);
-            roomDTO.setRoomPrice(Integer.parseInt(roomPrices)); // 가격 변환
-            roomDTO.setRoomDiscount(Integer.parseInt(roomDiscounts)); // 할인율 변환
-            roomDTO.setRoomContents(roomContents);
-            roomDTO.setRoomViewType(roomViewTypes);
-            roomDTO.setAccommodationNo(acmNo); // 숙소 번호 설정
-
-            roomService.roomUpdate(roomDTO); // 객실 정보 업데이트
-
-            // 로그 추가 (디버깅용)
-            log.info("Updated room (객실 정보가 정상적으로 업로드가 되고 있는가? >>>>>>>>>>> ) : {} >>>>>>>>> ", roomDTO);
-        }
+//        // 객실 정보 업데이트
+//        for (int i = 0; i < roomNames.length(); i++) {
+//            RoomDTO roomDTO = new RoomDTO();
+//            roomDTO.setAcmNo(acmNo);
+////            roomDTO.setRoomNo(roomNo[i]); // 객실 번호 설정 확인
+//            roomDTO.setRoomName(roomNames);
+//            roomDTO.setRoomQty(roomQtys);
+//            roomDTO.setRoomCapacity(roomCapacities);
+//            roomDTO.setRoomPrice(Integer.parseInt(roomPrices)); // 가격 변환
+//            roomDTO.setRoomDiscount(Integer.parseInt(roomDiscounts)); // 할인율 변환
+//            roomDTO.setRoomContents(roomContents);
+//            roomDTO.setRoomViewType(roomViewTypes);
+//            roomDTO.setAccommodationNo(acmNo); // 숙소 번호 설정
+//
+//            roomService.roomUpdate(roomDTO); // 객실 정보 업데이트
+//
+//            // 로그 추가 (디버깅용)
+//            log.info("Updated room (객실 정보가 정상적으로 업로드가 되고 있는가? >>>>>>>>>>> ) : {} >>>>>>>>> ", roomDTO);
+//        }
 
         // 수정 완료 후 목록 페이지로 리다이렉트
         return "redirect:/accommodation/acmList"; // 숙소 목록 페이지로 이동

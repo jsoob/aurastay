@@ -39,7 +39,7 @@ public class RoomController {
 //        return "accommodation/acmInfo";
 //    }
 
-    // 객실 등록 폼 페이지로 이동
+    // 객실 등록 단계 : 객실 등록 폼 페이지로 이동
     @GetMapping("/roomAdd")
     public String roomAdd(Model model) {
         RoomDTO dto = new RoomDTO();  // 빈 DTO 객체 생성
@@ -48,7 +48,7 @@ public class RoomController {
     }
 
 
-    // 객실 정보 입력 후 등록하는 메서드
+    // 객실 등록 단계 : 객실 정보 입력 후 등록하는 메서드
 //    @ResponseBody // AJAX 요청에 대한 응답을 JSON으로 반환하기 위해 추가
     @PostMapping("/roomAdd")
     public ResponseEntity<String> roomForm(@RequestBody RoomDTO roomDTO){
@@ -67,9 +67,22 @@ public class RoomController {
         return ResponseEntity.ok("객실 정보가 저장되었습니다."); // 성공 메시지 반환
     }
 
-    // 객실 정보 수정하기
+    // 객실 정보 조회
+    @GetMapping("/room/{roomNo}")
+    public ResponseEntity<RoomDTO> getRoom(@PathVariable("roomNo") int roomNo){
+        RoomDTO room = roomService.findByRoomId(roomNo);
+
+        if (room != null) {
+            return ResponseEntity.ok(room);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
+    // 객실 정보 수정 : 객실 정보 수정하기
     @PostMapping("/roomUpdate")
-    public String roomUpdate(@RequestBody RoomDTO roomDTO) {
+    public ResponseEntity<String> roomUpdate(@RequestBody RoomDTO roomDTO) {
 
         // 수정할 객실 정보를 업데이트
         roomService.roomUpdate(roomDTO);
@@ -82,7 +95,8 @@ public class RoomController {
 //        // 숙소 정보 저장
 //        accommodationService.save(accommodation);
 
-        return "redirect:/accommodation/acmList";  // 수정 후 숙소 목록으로 리다이렉트
+        return ResponseEntity.ok("객실 정보가 수정되었습니다.");        // 성공 메시지 반환
+//        return "redirect:/accommodation/acmList";  // 수정 후 숙소 목록으로 리다이렉트
     }
 
     // 등록된 객실 삭제하기
