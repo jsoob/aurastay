@@ -363,6 +363,11 @@ public class AccommodationController {
         return roomService.findRoomByAccommodation(acmNo); // 숙소 번호로 객실 정보 조회
     }
 
+    // 숙소 등록
+    // 숙소 수정
+    // 객실 등록
+    // 객실 수정
+
 
     @PostMapping("/acmModify")
     public String accommodationUpdate(
@@ -377,14 +382,14 @@ public class AccommodationController {
             @RequestParam(value = "amenities", required = false) List<Integer> amenities, // 편의시설 목록
             @RequestParam(value = "files", required = false) MultipartFile[] files, // 업로드된 이미지 파일
             // 객실 정보 관련 파라미터
-//            @RequestParam(value = "roomNo[]") int[] roomNo, // 객실 번호 배열 추가
-            @RequestParam(value = "roomName[]") String[] roomNames, // 객실명 배열
-            @RequestParam(value = "roomQty[]") int[] roomQtys, // 객실 수량 배열
-            @RequestParam(value = "roomCapacity[]") int[] roomCapacities, // 최대 인원 수 배열
-            @RequestParam(value = "roomPrice[]") String[] roomPrices, // 가격 배열
-            @RequestParam(value = "roomDiscount[]") String[] roomDiscounts, // 할인율 배열
-            @RequestParam(value = "roomContents[]") String[] roomContents, // 상세 설명 배열
-            @RequestParam(value = "roomViewType[]") String[] roomViewTypes, // 뷰 타입 배열
+            @RequestParam(value = "roomNo") int roomNo, // 객실 번호 배열 추가
+            @RequestParam(value = "roomReadName") String roomNames, // 객실명 배열
+            @RequestParam(value = "roomQty") int roomQtys, // 객실 수량 배열
+            @RequestParam(value = "roomCapacity") int roomCapacities, // 최대 인원 수 배열
+            @RequestParam(value = "roomPrice") String roomPrices, // 가격 배열
+            @RequestParam(value = "roomDiscount") String roomDiscounts, // 할인율 배열
+            @RequestParam(value = "roomContents") String roomContents, // 상세 설명 배열
+            @RequestParam(value = "roomViewType") String roomViewTypes, // 뷰 타입 배열
             @RequestParam(value = "keywordNo", required = false) Integer keywordNo, // 단일 키워드 번호
             Model model) {
 
@@ -452,17 +457,17 @@ public class AccommodationController {
         accommodationService.updateAccommodation(dto); // 숙소 정보 업데이트
 
         // 객실 정보 업데이트
-        for (int i = 0; i < roomNames.length; i++) {
+        for (int i = 0; i < roomNames.length(); i++) {
             RoomDTO roomDTO = new RoomDTO();
             roomDTO.setAcmNo(acmNo);
 //            roomDTO.setRoomNo(roomNo[i]); // 객실 번호 설정 확인
-            roomDTO.setRoomName(roomNames[i]);
-            roomDTO.setRoomQty(roomQtys[i]);
-            roomDTO.setRoomCapacity(roomCapacities[i]);
-            roomDTO.setRoomPrice(Integer.parseInt(roomPrices[i])); // 가격 변환
-            roomDTO.setRoomDiscount(Integer.parseInt(roomDiscounts[i])); // 할인율 변환
-            roomDTO.setRoomContents(roomContents[i]);
-            roomDTO.setRoomViewType(roomViewTypes[i]);
+            roomDTO.setRoomName(roomNames);
+            roomDTO.setRoomQty(roomQtys);
+            roomDTO.setRoomCapacity(roomCapacities);
+            roomDTO.setRoomPrice(Integer.parseInt(roomPrices)); // 가격 변환
+            roomDTO.setRoomDiscount(Integer.parseInt(roomDiscounts)); // 할인율 변환
+            roomDTO.setRoomContents(roomContents);
+            roomDTO.setRoomViewType(roomViewTypes);
             roomDTO.setAccommodationNo(acmNo); // 숙소 번호 설정
 
             roomService.roomUpdate(roomDTO); // 객실 정보 업데이트

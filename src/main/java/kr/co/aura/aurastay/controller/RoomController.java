@@ -49,8 +49,8 @@ public class RoomController {
 
 
     // 객실 정보 입력 후 등록하는 메서드
+//    @ResponseBody // AJAX 요청에 대한 응답을 JSON으로 반환하기 위해 추가
     @PostMapping("/roomAdd")
-    @ResponseBody // AJAX 요청에 대한 응답을 JSON으로 반환하기 위해 추가
     public ResponseEntity<String> roomForm(@RequestBody RoomDTO roomDTO){
 //                           @RequestParam("acmNo") int acmNo) {
         // roomDTO에 담긴 정보를 통해 객실 등록 처리
@@ -69,7 +69,7 @@ public class RoomController {
 
     // 객실 정보 수정하기
     @PostMapping("/roomUpdate")
-    public String roomUpdate(@ModelAttribute("dto") RoomDTO roomDTO) {
+    public String roomUpdate(@RequestBody RoomDTO roomDTO) {
 
         // 수정할 객실 정보를 업데이트
         roomService.roomUpdate(roomDTO);

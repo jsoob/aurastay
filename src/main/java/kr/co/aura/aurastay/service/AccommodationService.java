@@ -230,7 +230,6 @@ public class AccommodationService {
 
         // 객실 삭제
         accommodationRepository.deleteRoomsByAccommodationNo(acmNo);
-
         // 숙소 삭제
         accommodationRepository.acmDelete(acmNo);
     }

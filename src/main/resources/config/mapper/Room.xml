@@ -54,25 +54,25 @@
     </insert>
 
     <!-- 객실 수정 -->
-<!--    <update id="roomUpdate" parameterType="RoomDTO">-->
-<!--        UPDATE room-->
-<!--        SET-->
-<!--            room_name = #{roomName},-->
-<!--            room_qty = #{roomQty},-->
-<!--            room_capacity = #{roomCapacity},-->
-<!--            room_price = #{roomPrice},-->
-<!--            room_discount = #{roomDiscount},-->
-<!--            room_contents = #{roomContents},-->
-<!--            room_viewtype = #{roomViewType}-->
-<!--        WHERE room_no = #{roomNo} AND accommodation_no = #{acmNo} &lt;!&ndash; room_no를 기준으로 업데이트 &ndash;&gt;-->
-<!--    </update>-->
+    <update id="roomUpdate" parameterType="RoomDTO">
+        UPDATE room
+        SET
+            room_name = #{roomName},
+            room_qty = #{roomQty},
+            room_capacity = #{roomCapacity},
+            room_price = #{roomPrice},
+            room_discount = #{roomDiscount},
+            room_contents = #{roomContents},
+            room_viewtype = #{roomViewType}
+        WHERE room_no = #{roomNo} AND accommodation_no = #{acmNo} <!-- room_no를 기준으로 업데이트 -->
+    </update>
 
     <!--이걸 하면 연속적으로 객실의 정보가 추가되는 것을 볼 수 있음-->
     <!-- 객실 추가 (새로운 객실 정보를 삽입) -->
-    <insert id="roomUpdate" parameterType="RoomDTO">
-        INSERT INTO room (room_name, room_qty, room_capacity, room_price, room_discount, room_contents, room_viewtype, accommodation_no)
-        VALUES (#{roomName}, #{roomQty}, #{roomCapacity}, #{roomPrice}, #{roomDiscount}, #{roomContents}, #{roomViewType}, #{acmNo})
-    </insert>
+<!--    <insert id="roomUpdate" parameterType="RoomDTO">-->
+<!--        INSERT INTO room (room_name, room_qty, room_capacity, room_price, room_discount, room_contents, room_viewtype, accommodation_no)-->
+<!--        VALUES (#{roomName}, #{roomQty}, #{roomCapacity}, #{roomPrice}, #{roomDiscount}, #{roomContents}, #{roomViewType}, #{acmNo})-->
+<!--    </insert>-->
 
 
     <!-- 객실 삭제 -->
