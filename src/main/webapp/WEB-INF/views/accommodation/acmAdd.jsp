@@ -12,18 +12,18 @@
         $(document).ready(function () {
             // 모달 열기
             $("#showModal").click(function () {
-                $("#roomModal").fadeIn();
+                $("#roomAddModal").fadeIn();
             });
 
             // 모달 닫기
             $("#closeModal, .close").click(function () {
-                $("#roomModal").fadeOut();
+                $("#roomAddModal").fadeOut();
             });
 
             // 모달 바깥 영역 클릭 시 닫기
             $(window).click(function (event) {
-                if ($(event.target).is("#roomModal")) {
-                    $("#roomModal").fadeOut();
+                if ($(event.target).is("#roomAddModal")) {
+                    $("#roomAddModal").fadeOut();
                 }
             });
 
@@ -56,7 +56,7 @@
             });
 
             // 모달 닫기
-            $("#roomModal").fadeOut();
+            $("#roomAddModal").fadeOut();
         }
     </script>
 
@@ -139,7 +139,7 @@
 
         </div>
 
-        <jsp:include page="roomModal.jsp"/>
+        <jsp:include page="roomAddModal.jsp"/>
 
         <br>
         <label>객실 정보 ('객실정보 추가' 버튼을 클릭해주세요!)</label>
