@@ -23,17 +23,13 @@ $(() => {
             return;
         }
 
-        // 인증코드 input박스, 인증 button 생기게 함
-        // 인증번호 input
-        // let codeInput = '<input type="text" id="codeInput" name="code"/>';
-        // // 인증번호
-        // let codeBtn = '<button id="codeBtn" class="btn btn-outline-danger btn-block">인증</button>';
-        // $(".codeDiv").html(codeInput + codeBtn);
+        $("#btnSend").text("인증메일 재발송");
 
         $(".codeDiv").html(`
             <input type="text" id="codeInput" name="code" class="form-control" placeholder="인증번호 입력">
             <button id="codeBtn" class="btn btn-outline-danger">인증</button>
         `);
+
 
         $.ajax({
             type: "post",
@@ -45,7 +41,6 @@ $(() => {
             success: function (data) {
                 console.log(data);
                 authCode = data.code; // 인증번호 저장
-                alert("인증번호가 이메일로 전송되었습니다.");
             },
             error: function (xhr) {
                 alert("이메일 전송 실패하였습니다. 다시 시도해주세요.");
@@ -66,9 +61,7 @@ $(() => {
 
         // 받아온 인증코드와 일치하는지 확인 후
         if (inputCode === authCode) {
-            // alert("인증 성공! 비밀번호 변경 페이지로 이동합니다.");
-            // 보안성 약함
-            // window.location.href = "/resetPassword?email=" + $("#email").val();
+
             $.ajax({
                 type: "post",
                 url: "/storeEmailSession",

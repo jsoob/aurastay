@@ -37,8 +37,9 @@
 
                             <div class="codeDiv">
                             </div>
-
+                            <div class="col-sm-12 form-group">
                             <button id="btnSend" class="btn btn-outline-danger btn-block">인증메일 발송</button>
+                        </div>
                         </div>
                     </div>
                 </div>

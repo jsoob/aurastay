@@ -2,19 +2,14 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title> </title>
+    <title>AURA STAY - 회원가입 인증</title>
 </head>
-<body>
-<div style="margin:100px">
-    <h1>안녕하세요</h1>
-    <h1>AURA STAY 입니다.</h1>
-    <br>
-    <p>회원가입 창으로 돌아가 아래 코드를 입력해주세요.</p>
-
-    <div align="center" style="border:1px solid black; font-family: Verdana">
-        <h3>회원 가입 인증 코드입니다.</h3>
-        <div style="font-size: 130%" >${authNum}</div>
-    </div>
+<body style="font-family: 'Verdana', sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;">
+<div style="max-width: 600px; margin: 50px auto; background: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); text-align: center;">
+    <div style="font-size: 24px; font-weight: bold; color: #333;">AURA STAY 회원가입 인증</div>
+    <p style="font-size: 16px; color: #555; margin-top: 10px;">회원가입을 완료하려면 아래의 인증 코드를 입력해주세요.</p>
+    <div style="font-size: 24px; font-weight: bold; color: #d9534f; background: #f9f9f9; display: inline-block; padding: 10px 20px; border-radius: 5px; margin-top: 20px;">${authNum}</div>
+    <p style="margin-top: 30px; font-size: 14px; color: #777;">본 메일은 발신 전용입니다. 문의 사항이 있으면 고객센터를 이용해주세요.</p>
 </div>
 </body>
 </html>

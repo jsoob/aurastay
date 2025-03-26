@@ -46,16 +46,18 @@
 
 /* 수정 버튼 */
 #editBtn {
-    background-color: #f3f2f2;
-    border: 1px solid lightgray;
+    background-color: #ff385c;
+    color: white;
+    border: 0px solid lightgray;
     border-radius: 5px;
     padding: 5px 10px;
 }
 
 /* 비밀번호 변경 버튼 */
 #changePwdBtn {
-    background-color: #f3f2f2;
-    border: 1px solid lightgray;
+    background-color: #ff385c;
+    color: white;
+    border: 0px solid lightgray;
     border-radius: 5px;
     padding: 5px 10px;
 }

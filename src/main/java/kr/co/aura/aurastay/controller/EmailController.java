@@ -21,7 +21,7 @@ public class EmailController {
     public ResponseEntity sendPassword(@RequestBody EmailPostDTO emailPostDTO) {
         EmailMessage emailMessage = EmailMessage.builder()
                 .to(emailPostDTO.getEmail())
-                .subject("비밀번호 재설정 인증코드 발급")
+                .subject("[AURASTAY] 비밀번호 찾기 인증코드 안내해드립니다.")
                 .build();
         String authNum = emailService.sendEmail(emailMessage, "password");
         EmailResponseDTO emailResponseDTO = new EmailResponseDTO();
@@ -34,7 +34,7 @@ public class EmailController {
     public ResponseEntity sendEmail(@RequestBody EmailPostDTO emailPostDTO) {
         EmailMessage emailMessage = EmailMessage.builder()
                 .to(emailPostDTO.getEmail())
-                .subject("이메일 인증을 위한 인증코드 발송")
+                .subject("[AURASTAY] 회원가입 인증코드 안내해드립니다.")
                 .build();
         String authNum = emailService.sendEmail(emailMessage, "email");
         EmailResponseDTO emailResponseDTO = new EmailResponseDTO();
