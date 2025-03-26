@@ -4,6 +4,9 @@ import kr.co.aura.aurastay.dto.MemberDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
+import java.util.List;
+
 @Repository
 @Mapper
 public interface MemberRepository {
@@ -25,4 +28,7 @@ public interface MemberRepository {
     MemberDTO findById(int memberNo);
     // 사용자 삭제
     void deleteMember(int memberNo);
+
+    // 숙소 쪽으로 옮기거나 삭제하거나
+    List<HashMap<String, Object>> getAllAccommodation();
 }

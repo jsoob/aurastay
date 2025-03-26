@@ -19,10 +19,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,8 +31,8 @@ public class MainController {
 
     // 사용자 메인 페이지
     @GetMapping({"/", "/index", "/main"})
-    public String index(@AuthenticationPrincipal Object principal, HttpSession session) {
-
+    public String index(@AuthenticationPrincipal Object principal, HttpSession session, Model model) {
+        // 사용자 정보 session에 저장
         MemberDTO member = null;
 
         if (principal instanceof OAuth2User) { // 소셜로그인 사용자
@@ -44,6 +42,19 @@ public class MainController {
         }
 
         session.setAttribute("dto", member);
+
+        // 숙소리스트 가져오기
+        List<HashMap<String, Object>> list = memberService.getAllAccommodation();
+
+        log.info(">>>>>>>>>>>>>>>>>>>list : {}", list);
+
+        Map<Integer, List<Map<String, Object>>> groupedAccommodations = list.stream()
+                .filter(accommodation -> accommodation.get("accommodationNo") != null) // null 방지
+                .collect(Collectors.groupingBy(accommodation -> (Integer) accommodation.get("accommodationNo")));
+
+        log.info(">>>>>>>>>>>>>>>>groupedAccommodation : {}", groupedAccommodations); // map형태 Integer, ArrayList
+        model.addAttribute("groupedAccommodations", groupedAccommodations);
+
         return "index";
     }
 

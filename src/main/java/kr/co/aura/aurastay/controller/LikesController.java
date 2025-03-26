@@ -45,7 +45,7 @@ public class LikesController {
 
 
         model.addAttribute("list", list);
-        return "member/wishlist";
+        return "member/wishList";
     }
 
     // 추가

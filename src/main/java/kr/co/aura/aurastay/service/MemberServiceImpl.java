@@ -7,6 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -66,6 +70,12 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void withdrawalMember(int memberNo) {
         memberRepository.deleteMember(memberNo);
+    }
+
+    // 숙소 쪽으로 옮기거나 삭제하거나
+    @Override
+    public List<HashMap<String, Object>> getAllAccommodation() {
+        return memberRepository.getAllAccommodation();
     }
 
 }

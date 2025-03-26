@@ -2,6 +2,9 @@ package kr.co.aura.aurastay.service;
 
 import kr.co.aura.aurastay.dto.MemberDTO;
 
+import java.util.HashMap;
+import java.util.List;
+
 public interface MemberService {
     // 사용자 정보 저장
     public void save(MemberDTO dto);
@@ -19,4 +22,7 @@ public interface MemberService {
     MemberDTO findByMemberNo(int memberNo);
     // 회원탈퇴
     void withdrawalMember(int memberNo);
+
+    // 숙소 쪽으로 옮기거나 삭제하거나
+    List<HashMap<String, Object>> getAllAccommodation();
 }

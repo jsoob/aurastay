@@ -6,93 +6,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <style>
 
-        .wishlist-container {
-            max-width: 1600px;
-            margin: auto;
-            padding: 20px;
-        }
-
-        .wishlist-card {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease-in-out;
-        }
-
-        .wishlist-card:hover {
-            transform: scale(1.05);
-        }
-
-        .wishlist-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .wishlist-card-body {
-            padding: 15px;
-            text-align: center;
-        }
-
-        .wishlist-card-body h5 {
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-
-        .wishlist-card-body p {
-            color: #555;
-            font-size: 14px;
-        }
-    </style>
     <link rel="stylesheet" href="/css/main.css">
-    <script>
-        $(document).ready(function () {
-            $(".wish-btn").click(function () {
-
-                let wishBtn = $(this);
-                let svgIcon = wishBtn.children("svg");
-                let accommodationNo = wishBtn.closest(".card").attr("data-accommodation-no");
-                let memberNo = $("#memberNo").val();
-
-                // 위시리스트 추가 또는 삭제
-                if (svgIcon.hasClass("wish-btn-svg-active")) {
-                    // 이미 추가된 상태라면 삭제 요청
-                    $.ajax({
-                        url: "/wishlist/remove",
-                        type: "DELETE",
-                        contentType: "application/json",
-                        data: JSON.stringify({memberNo: memberNo, accommodationNo: accommodationNo}),
-                        success: function (response) {
-                            alert("위시리스트에서 삭제되었습니다.");
-                            svgIcon.removeClass("wish-btn-svg-active");
-                        },
-                        error: function () {
-                            alert("삭제에 실패했습니다.");
-                        }
-                    });
-                } else {
-                    // 추가 요청
-                    $.ajax({
-                        url: "/wishlist/add",
-                        type: "POST",
-                        contentType: "application/json",
-                        data: JSON.stringify({memberNo: memberNo, accommodationNo: accommodationNo}),
-                        success: function (response) {
-                            alert("위시리스트에 추가되었습니다.");
-                            svgIcon.addClass("wish-btn-svg-active");
-                        },
-                        error: function () {
-                            alert("추가에 실패했습니다.");
-                        }
-                    });
-                }
-            })
-        })
-
-    </script>
+    <link rel="stylesheet" href="/css/wishList.css">
 
     <script async
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4t4CjqXYx4Ch9EZdO3BSmryXcYs4EiIE&callback=initMap"></script>
@@ -219,5 +135,6 @@
 </div>
 
 <jsp:include page="../main/footer.jsp"/>
+<script src="/js/wishList.js"></script>
 </body>
 </html>
