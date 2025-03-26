@@ -1,5 +1,6 @@
 package kr.co.aura.aurastay.repository;
 
+import kr.co.aura.aurastay.dto.ReservationCancelDTO;
 import kr.co.aura.aurastay.dto.ReservationDTO;
 import kr.co.aura.aurastay.dto.ReservationRequestDTO;
 import org.apache.ibatis.annotations.Mapper;
@@ -21,4 +22,6 @@ public interface ReservationRepository {
 
     // 예약 - 요청 조회
     List<ReservationRequestDTO> getReservationRequests(ReservationRequestDTO reservationRequestDTO);
+    // 예약 취소 요청
+    void cancelReservationReq(ReservationDTO rsDTO);
 }

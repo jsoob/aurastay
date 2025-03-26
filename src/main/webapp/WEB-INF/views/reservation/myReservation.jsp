@@ -23,6 +23,12 @@
     <link rel="stylesheet" href="/css/rsrv/rsrv.css">
     <script>
         $(() => {
+            // document.getElementById('rsrvBtn').addEventListener('click', (event) => {
+            //     $('#rsrvCancelModal').modal('show');
+            // });
+            $("#rsrvBtn").click(function() {
+                $('#rsrvCancelModal').modal('show');
+            });
             // $("button.copyAddress").click(function() {
             //     navigator.clipboard.writeText($(this).attr('value'));
             // });
@@ -182,7 +188,44 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <c:if test="${rsStatus == 1}">
-                                            <button class="btn btn btn-secondary btn-pink w-100 h-50px fw-bold">예약 취소</button>
+                                            <button class="btn btn btn-secondary btn-pink w-100 h-50px fw-bold" id="rsrvBtn" data-bs-toggle="modal" data-bs-target="#rsrvCancelModal">예약 취소</button>
+
+                                            <%-- 결제취소 모달 --%>
+                                            <div class="modal fade" id="rsrvCancelModal" tabindex="-1" aria-labelledby="rsrvCancelModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog  modal-dialog-centered modal-lg" >
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="rsrvCancelModalLabel">예약 취소 요청</h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <form class="m-0" action="/reservation/staycancel" name="stayCancelForm" method="post">
+                                                            <div class="modal-body">
+                                                                <div class="row mb-3">
+                                                                    <div class="col-sm-3">
+                                                                        <label>예약번호</label>
+                                                                        <input type="text" name="rsNo" class="form-control fs-10 bckc-gray" value="${rsrv.reservationNo}" readonly>
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        <label>예약 정보</label>
+                                                                        <input type="text" class="form-control fs-10 bckc-gray" value="${rsrv['acmDTO'].acmName} - ${rsrv['acmDTO'].roomName} (${rsrv.dayCount}박)" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <h3>취소 사유를 입력하세요.</h3>
+                                                                    <div class="mb-2">숙소 측에서 예약 요청을 승인하면 예약 취소 및 환불이 진행됩니다.<br>(미승인시, 체크인 당일 그대로 예약 진행됩니다.)</div>
+                                                                    <div>
+                                                                        <textarea id="cancelReasons" name="cancelReasons" class="py-2 box-border" rows="3" required></textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <input type="submit" class="btn btn-primary btn-pink" value="취소 요청">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </c:if>
                                         <c:if test="${rsStatus == 2}">
                                             <button class="btn btn btn-secondary btn-pink w-100 h-50px fw-bold">리뷰 작성</button>

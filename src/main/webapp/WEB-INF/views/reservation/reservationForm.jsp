@@ -308,7 +308,7 @@
                         guestPhoneNumber : guestPhoneNumber,
                         guestEmail : guestEmail,
                         residenceCountry : $('#residenceCountry').find(':selected')[0].innerText,
-                        memberNo : 1, // 사용자번호
+                        memberNo : 2, // 사용자번호
                         roomNo :${roomDetail['roomNo']},
                         reservationDetailsRequest : $("#reservationDetailsRequest").val(),
                         accommodationNo : ${acmDetail['acmNo']},
@@ -661,11 +661,12 @@
                                                       maxFractionDigits="0" value="${roomDetail.roomPrice}" /></div>
                             </div>
 
-                            <div class="row py-1 lh-sm fs-10 pe-2">
-                                <div class="col-sm-8 text-start">할인 ${roomDetail.roomDiscount} %</div>
-                                <div class="col-sm-4 text-end ">₩<fmt:formatNumber type="number" maxFractionDigits="0" value="${roomDisPrice}" /></div>
-                            </div>
-
+                            <c:if test='${roomDetail.roomDiscount ne 0}'>
+                                <div class="row py-1 lh-sm fs-10 pe-2">
+                                    <div class="col-sm-8 text-start">할인 ${roomDetail.roomDiscount} %</div>
+                                    <div class="col-sm-4 text-end ">₩<fmt:formatNumber type="number" maxFractionDigits="0" value="${roomDisPrice}" /></div>
+                                </div>
+                            </c:if>
                             <div class="row py-1 lh-sm fs-10 pe-2">
                                 <div class="col-sm-8 text-start">
                                     <button id="rsrvCommBtn" class="btn-none text-decoration-underline text-dark px-0">포인트 적립</button>

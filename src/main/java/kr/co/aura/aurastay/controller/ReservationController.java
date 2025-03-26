@@ -127,7 +127,7 @@ public class ReservationController {
         jsonObject.put("status", status);
 
          return jsonObject.toJSONString();
-         // "redirect:/reservation/myReservation";
+         // "redirect:/reservation/mystays";
     }
 
     @GetMapping("/mystays")
@@ -136,9 +136,9 @@ public class ReservationController {
 //        log.info("reservationStatus >>>>>>>>>>>>>>> {}", reservationStatus);
 
         // 가져온 회원 번호
-        int member_no = 1;
+        int memberNo = 2;
 
-        ReservationDTO reservationDTO = ReservationDTO.builder().memberNo(member_no).reservationStatus(reservationStatus).build();
+        ReservationDTO reservationDTO = ReservationDTO.builder().memberNo(memberNo).reservationStatus(reservationStatus).build();
 
         // 예약 조회
         List<ReservationDTO> reservationList = reservationService.getReservations(reservationDTO);
@@ -152,9 +152,9 @@ public class ReservationController {
     @GetMapping("/mystay")
     public String mystayDetail(@RequestParam(value = "rsNo", required = true) int rsNo,  Model model) {
         // 가져온 회원 번호
-        int member_no = 1;
+        int memberNo = 2;
 
-        ReservationDTO reservationDTO = ReservationDTO.builder().memberNo(member_no).reservationNo(rsNo).build();
+        ReservationDTO reservationDTO = ReservationDTO.builder().memberNo(memberNo).reservationNo(rsNo).build();
 
         // 예약 조회
         ReservationDTO rsDTO = reservationService.getReservationDetail(reservationDTO);
@@ -178,6 +178,24 @@ public class ReservationController {
 
         return "/reservation/myReservationDetail";
     }
+
+
+    @PostMapping("/staycancel")
+    public String stayCancel(@RequestParam(value = "rsNo", required = true) int rsNo, @RequestParam(value = "cancelReasons", required = true) String cancelReasons, Model model) {
+        // 가져온 회원 번호
+        int memberNo = 2;
+
+//        ReservationDTO reservationDTO = ReservationDTO.builder().memberNo(memberNo).reservationNo(rsNo).build();
+
+        // 예약 취소 요청
+        reservationService.cancelReservationReq(memberNo, rsNo, cancelReasons);
+        // 예약 조회
+//        ReservationDTO rsDTO = reservationService.getReservationDetail(reservationDTO);
+
+        return "redirect:/reservation/mystays";
+    }
+
+
 
     @GetMapping("/oldmystays")
     public String oldmystays(Model model) {

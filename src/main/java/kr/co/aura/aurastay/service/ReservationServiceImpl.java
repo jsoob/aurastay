@@ -18,6 +18,7 @@ public class ReservationServiceImpl implements ReservationService {
     private final ReservationRepository reservationRepository;
     private final ReservationRequestRepository reservationRequestRepository;
     private final PaymentRepository paymentRepository;
+    private final ReservationCancelRepository reservationCancelRepository;
 
     @Override
     public List<SpecialRequestDTO> getSpecialRequests() {
@@ -80,7 +81,7 @@ public class ReservationServiceImpl implements ReservationService {
             result = 1; // 숙소 결제 가능
 
             ReservationDTO rsrvDTO = ReservationDTO.builder()
-                    .memberNo(1)
+                    .memberNo(2)
                     .accommodationNo((int)jsonData.get("accommodationNo"))
                     .roomNo((int)jsonData.get("roomNo"))
                     .checkinDate(checkinDate)
@@ -164,5 +165,23 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public List<ReservationRequestDTO> getReservationRequests(ReservationRequestDTO reservationRequestDTO) {
         return reservationRepository.getReservationRequests(reservationRequestDTO);
+    }
+
+    @Override
+    public void cancelReservationReq(int memberNo, int rsNo, String cancelReasons) {
+        ReservationDTO rsDTO = ReservationDTO.builder().memberNo(memberNo).reservationNo(rsNo).build();
+        rsDTO = reservationRepository.getReservation(rsDTO);
+
+        ReservationCancelDTO cancelDTO = ReservationCancelDTO.builder()
+                .reservationNo(rsDTO.getReservationNo())
+                .cancelReasons(cancelReasons)
+                .cancelStatus(2) // 취소대기
+                .build();
+
+        reservationCancelRepository.cancelReservationReq(cancelDTO);
+
+        rsDTO.setReservationStatus(2); // 취소 대기
+        reservationRepository.cancelReservationReq(rsDTO);
+
     }
 }

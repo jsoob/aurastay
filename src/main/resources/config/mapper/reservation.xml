@@ -96,4 +96,10 @@
         )
     </insert>
 
+    <update id="cancelReservationReq" parameterType="ReservationDTO">
+        UPDATE reservation
+        SET reservation_status = #{reservationStatus}
+        WHERE reservation_no = #{reservationNo}
+    </update>
+
 </mapper>

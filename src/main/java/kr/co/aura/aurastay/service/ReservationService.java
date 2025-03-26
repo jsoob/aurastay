@@ -17,4 +17,6 @@ public interface ReservationService {
     List<ReservationDTO> getReservations(ReservationDTO reservationDTO);
     ReservationDTO getReservationDetail(ReservationDTO reservationDTO);
     List<ReservationRequestDTO> getReservationRequests(ReservationRequestDTO reservationRequestDTO);
+
+    void cancelReservationReq(int memberNo, int rsNo, String cancelReasons);
 }
