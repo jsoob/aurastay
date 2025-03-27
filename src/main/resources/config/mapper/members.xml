@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.aura.aurastay.repository.MemberRepository">
+    <!-- 회원가입 -->
+    <insert id="insertMember" parameterType="MemberDTO">
+        insert into member
+        values(null,#{memberEmail},#{providerId},#{memberPassword},#{memberName},#{memberNickname},#{memberPhoneNumber},0,current_timestamp(),null,#{authority})
+    </insert>
+    <!-- 일치하는 이메일이 있는지 확인 -->
+    <select id="findByUsername" parameterType="String" resultType="MemberDTO">
+        select member_no as memberNo, member_email as memberEmail, provider_id as providerId, member_password as memberPassword, member_name as memberName,member_nickname as memberNickname, member_phone_number as memberPhoneNumber, point, registration_date as registrationDate, withdrawal_date as withdrawalDate, authority
+        from member
+        where member_email = #{username} and provider_id is null and withdrawal_date is null
+    </select>
+    <!-- 이미 존재하는 이메일인지 확인 -->
+    <select id="existsByEmail" parameterType="String" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM member WHERE member_email = #{username} and provider_id is null and withdrawal_date is null)
+    </select>
+    <!-- providerid로 사용자 조회 -->
+    <select id="findByProviderId" parameterType="String" resultType="MemberDTO">
+        select member_no as memberNo, member_email as memberEmail, provider_id as providerId, member_password as memberPassword, member_name as memberName,member_nickname as memberNickname, member_phone_number as memberPhoneNumber, point, registration_date as registrationDate, withdrawal_date as withdrawalDate, authority
+        from member
+        where provider_id = #{providerId} and withdrawal_date is null
+    </select>
+    <!-- 소셜로그인 기존 사용자는 업데이트 -->
+    <update id="updateMember" parameterType="MemberDTO">
+        update member
+        set withdrawal_date=#{withdrawalDate}
+        where provider_id = #{providerId}
+    </update>
+    <!-- 비밀번호 재설정 -->
+    <update id="resetPassword" parameterType="MemberDTO">
+        update member
+        set member_password = #{memberPassword}
+        where member_email = #{memberEmail} and provider_id is null and withdrawal_date is null
+    </update>
+    <!-- 마이페이지 정보 수정 -->
+    <update id="modifyMember" parameterType="MemberDTO">
+        update member
+        set member_email = #{memberEmail}, member_name = #{memberName}, member_nickname = #{memberNickname}, member_phone_number = #{memberPhoneNumber}
+        where member_no = #{memberNo}
+    </update>
+    <!-- memberNo로 정보 조회 -->
+    <select id="findById" parameterType="int" resultType="MemberDTO">
+        select member_no as memberNo, member_email as memberEmail, provider_id as providerId, member_password as memberPassword, member_name as memberName,member_nickname as memberNickname, member_phone_number as memberPhoneNumber, point, registration_date as registrationDate, withdrawal_date as withdrawalDate, authority
+        from member
+        where member_no = #{memberNo}
+    </select>
+    <!-- 탈퇴 (실제 삭제는 x)-->
+    <update id="deleteMember" parameterType="int">
+        update member
+        set withdrawal_date = current_timestamp()
+        where member_no = #{memberNo}
+    </update>
+
+    <!-- accommodation.xml 로  옮겨야 할 수 있음. -->
+    <!-- 전체 숙소 정보 및 숙소이미지 -->
+    <select id="getAllAccommodation" resultType="HashMap">
+        <!-- 숙소번호, 숙소명, 주소, 객실가격, 할인율, 숙소 이미지-->
+        select a.accommodation_no as accommodationNo, a.accommodation_name as accommodationName, a.accommodation_address as accommodationAddress, r.room_price as roomPrice, r.room_discount as roomDiscount, round((r.room_price*(1-(r.room_discount / 100)))) as discountedPrice,
+        r.room_discount as roomDiscount,i.filepath as filepath
+        from accommodation a
+        join room r on a.accommodation_no = r.accommodation_no
+        join room_image i on a.accommodation_no = i.accommodation_no
+        where (r.room_price*(1-(r.room_discount / 100))) = (
+                select min(room_price * (1-(room_discount / 100)))
+                from room
+                where accommodation_no = a.accommodation_no);
+    </select>
+</mapper>
