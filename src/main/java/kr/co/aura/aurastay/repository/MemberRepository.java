@@ -28,7 +28,4 @@ public interface MemberRepository {
     MemberDTO findById(int memberNo);
     // 사용자 삭제
     void deleteMember(int memberNo);
-
-    // 숙소 쪽으로 옮기거나 삭제하거나
-    List<HashMap<String, Object>> getAllAccommodation();
 }

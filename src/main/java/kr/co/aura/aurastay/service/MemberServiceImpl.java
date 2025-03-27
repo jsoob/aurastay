@@ -72,10 +72,5 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.deleteMember(memberNo);
     }
 
-    // 숙소 쪽으로 옮기거나 삭제하거나
-    @Override
-    public List<HashMap<String, Object>> getAllAccommodation() {
-        return memberRepository.getAllAccommodation();
-    }
 
 }

@@ -91,8 +91,8 @@
 
                             <div class="carousel-inner">
                                 <!-- 이미지도 위처럼 c:foreach + choose/when-otherwise 를 사용해서 1번째 꺼랑 다른것들 구분 -->
-                                <c:forEach var="accommodation" items="${accommodations}" varStatus="imgaStatus">
-                                    <div class="carousel-item ${imgaStatus.first ? 'active':''}">
+                                <c:forEach var="accommodation" items="${accommodations}" varStatus="imgStatus">
+                                    <div class="carousel-item ${imgStatus.first ? 'active':''}">
                                         <!-- 첫번째 이미지는 active 가 붙는다 -->
                                         <a href="acm/list">
                                             <img class="w-100 slide-imgs"

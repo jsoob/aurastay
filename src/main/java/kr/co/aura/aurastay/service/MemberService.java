@@ -23,6 +23,4 @@ public interface MemberService {
     // 회원탈퇴
     void withdrawalMember(int memberNo);
 
-    // 숙소 쪽으로 옮기거나 삭제하거나
-    List<HashMap<String, Object>> getAllAccommodation();
 }

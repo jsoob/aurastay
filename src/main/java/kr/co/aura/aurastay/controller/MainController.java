@@ -1,13 +1,10 @@
 package kr.co.aura.aurastay.controller;
 
 import jakarta.servlet.http.HttpSession;
-import kr.co.aura.aurastay.dto.BusinessDTO;
-import kr.co.aura.aurastay.dto.LikesDTO;
-import kr.co.aura.aurastay.dto.MemberDTO;
+import kr.co.aura.aurastay.dto.*;
+import kr.co.aura.aurastay.repository.RoomImageRepository;
 import kr.co.aura.aurastay.security.CustomUserDetail;
-import kr.co.aura.aurastay.service.BusinessService;
-import kr.co.aura.aurastay.service.LikesService;
-import kr.co.aura.aurastay.service.MemberService;
+import kr.co.aura.aurastay.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +28,16 @@ public class MainController {
     private final MemberService memberService;
     private final BusinessService businessService;
     private final LikesService likesService;
+    private final MainService mainService;
+
 
     // 사용자 메인 페이지
     @GetMapping({"/", "/index", "/main"})
-    public String index(@AuthenticationPrincipal Object principal, HttpSession session, Model model) {
+    public String index(@AuthenticationPrincipal Object principal
+            , HttpSession session
+            , Model model
+            , @RequestParam(defaultValue = "1") int page
+            , @RequestParam(defaultValue = "12") int size){
         // 사용자 정보 session에 저장
         MemberDTO member = null;
 
@@ -47,7 +50,7 @@ public class MainController {
         session.setAttribute("dto", member);
 
         // 숙소리스트 가져오기
-        List<HashMap<String, Object>> list = memberService.getAllAccommodation();
+        List<HashMap<String, Object>> list = mainService.getAllAccommodation();
 
         Map<Integer, List<Map<String, Object>>> groupedAccommodations = list.stream()
                 .filter(accommodation -> accommodation.get("accommodationNo") != null) // null 방지
@@ -55,8 +58,26 @@ public class MainController {
 
         model.addAttribute("groupedAccommodations", groupedAccommodations);
 
+
+
+        //////// 숙소리스트 페이징처리 ///////////
+
+        int offset = (page - 1) * size;
+        // 전체 숙소정보 가져오기
+        List<HashMap<String, Object>> accommodations = mainService.getPagedAccommodations(offset, size);
+
+        // 전체 숙소 수
+        int totalCount = mainService.getTotalCount();
+
+        model.addAttribute("accommodations", accommodations);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", (int) Math.ceil((double) totalCount / size));
+
+
+
+
         // 로그인한 사용자라면
-        if(member != null) {
+        if (member != null) {
             // wish 정보 가져오기
             List<LikesDTO> wish = likesService.getWish(member.getMemberNo());
             model.addAttribute("wish", wish);
