@@ -28,7 +28,7 @@ public class BusinessController {
     }
 
     // 사업자관리페이지
-    @GetMapping("/dashboard")
+    @GetMapping("/main")
     public String businessDashboardPage(@AuthenticationPrincipal Object principal, HttpSession session) {
 
         if (principal instanceof UserDetails) {
@@ -36,7 +36,7 @@ public class BusinessController {
             session.setAttribute("dto", ((CustomUserDetail) principal).getBusiness());
         }
 
-        return "business/dashboard";
+        return "business/main";
     }
 
 //    // 로그인 // 시큐리티 사용으로 필요없어짐

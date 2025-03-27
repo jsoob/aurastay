@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="sidebar">
     <ul>
-        <li><a href="/main">홈</a></li>
+        <li><a href="/business/main">홈</a></li>
         <li>
             <a>숙소관리</a>
             <ul>

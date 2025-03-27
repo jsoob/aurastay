@@ -291,7 +291,7 @@ public class AccommodationController {
         model.addAttribute("hasNext", endPage < totalPages);        // 다음 버튼이 보여질지 여부를 결정
 
         // jsp 페이지로 이동
-        return "/accommodation/acmList";
+        return "accommodation/acmList";
     }
 
     // 상세 정보 조회
@@ -319,7 +319,7 @@ public class AccommodationController {
         log.info("Retrieved Room >>>>>>>>>>>>>>>>>>> : {}", roomList);
 //        log.info("편의시설 상세 정보 조회 불러와지고 있는가 >>>>>>>>>>>> : {}", amenities);
 
-        return "/accommodation/acmInfo";
+        return "accommodation/acmInfo";
     }
 
 
@@ -353,7 +353,7 @@ public class AccommodationController {
         model.addAttribute("selectedAmenities", selectedAmenities);
         model.addAttribute("selectedKeywords", selectedKeywords);
 
-        return "/accommodation/acmModify"; // 수정 페이지로 포워딩
+        return "accommodation/acmModify"; // 수정 페이지로 포워딩
     }
 
     // 숙소 정보 변경을 위한 객실 정보 불러오기 (모달에서 호출할 수 있는 API 작성 : AJAX를 통해 REST API 작성해야하기 때문)

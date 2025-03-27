@@ -26,7 +26,7 @@
             <sec:authorize access="isAuthenticated()">
                 <li><a class="dropdown-item" href="/member/myPage">마이페이지</a></li>
                 <li><a class="dropdown-item" href="/wishlist">위시리스트</a></li>
-                <li><a class="dropdown-item" href="">예약내역</a></li>
+                <li><a class="dropdown-item" href="/reservation/mystays">예약내역</a></li>
                 <li>
                     <form action="/logout" method="post" id="logoutForm">
                         <button type="submit" class="dropdown-item logout-btn">로그아웃</button>
