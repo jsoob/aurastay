@@ -222,6 +222,7 @@ header .dropdown > ul > li {
 .wish-btn:hover .wish-btn-svg {
     fill: rgb(253 253 253 / 0%);
 }
+
 /* 하트 */
 .wish-btn-svg {
     display: block;
@@ -235,6 +236,7 @@ header .dropdown > ul > li {
     width: 24px;
     overflow: visible;
 }
+
 /* 위시 클릭 되어 있으면 색깔 핑크로 채우기 */
 .wish-btn-svg-active {
     fill: #ff385c;

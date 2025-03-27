@@ -30,6 +30,7 @@ public class LikesController {
     public String wishList(HttpSession session, Model model) {
 
         Object dto = session.getAttribute("dto");
+
         int memberNo = ((MemberDTO) dto).getMemberNo();
 
         List<HashMap<String, Object>> list = likesService.wishList(memberNo);
@@ -38,13 +39,8 @@ public class LikesController {
         Map<Integer, List<HashMap<String, Object>>> groupedWishes = list.stream()
                 .collect(Collectors.groupingBy(wish -> (Integer) wish.get("accommodationNo")));
 
-        log.info(">>>>>>>>>>>>>>>>groupedWishes : {}", groupedWishes); // map형태 Integer, ArrayList
-        log.info(">>>>>>>>>>>>>>>>>>>list : {}", list);
-
         model.addAttribute("groupedWishes", groupedWishes);
 
-
-        model.addAttribute("list", list);
         return "member/wishList";
     }
 
@@ -52,7 +48,10 @@ public class LikesController {
     @PostMapping("/add")
     public ResponseEntity<?> addWishList(@RequestBody LikesDTO likesDTO) {
 
-        likesService.addWishList(likesDTO);
+        // 위시리스트에 없다면
+        if (!likesService.existsWish(likesDTO)) {
+            likesService.addWishList(likesDTO);
+        }
 
         return ResponseEntity.ok().build();
     }

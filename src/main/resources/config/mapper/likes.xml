@@ -25,4 +25,12 @@
         delete from likes
         where accommodation_no = #{accommodationNo} and member_no = #{memberNo}
     </delete>
+    <select id="getWish" parameterType="int" resultType="LikesDTO">
+        select like_no as likeNo, accommodation_no as accommodationNo
+        from likes
+        where member_no = #{memberNo}
+    </select>
+    <select id="existsWish" parameterType="LikesDTO" resultType="boolean">
+        select EXISTS (SELECT 1 FROM likes WHERE member_no = #{memberNo} and accommodation_no = #{accommodationNo})
+    </select>
 </mapper>

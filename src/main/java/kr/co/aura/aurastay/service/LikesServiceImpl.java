@@ -27,4 +27,14 @@ public class LikesServiceImpl implements LikesService{
     public void removeWishList(LikesDTO likesDTO) {
         likesRepository.deleteWishList(likesDTO);
     }
+
+    @Override
+    public List<LikesDTO> getWish(int memberNo) {
+        return likesRepository.getWish(memberNo);
+    }
+
+    @Override
+    public boolean existsWish(LikesDTO likesDTO) {
+        return likesRepository.existsWish(likesDTO);
+    }
 }

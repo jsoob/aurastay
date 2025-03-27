@@ -15,7 +15,6 @@
 <body>
 
 <jsp:include page="main/header.jsp"/>
-
 <div class="main">
     <nav class="nav-list">
         <ul>
@@ -136,7 +135,7 @@
                             <div class="card-text">
                                 <a href="acm/list" class="text-decoration-none text-dark">
                                     <div class="fs-14 fw-bold">${accommodations[0].get("accommodationName")}</div>
-                                    <div class="ps-1 fs-10"> </div>
+                                    <div class="ps-1 fs-10"></div>
                                 </a>
 
                                     <%--<hr class="my-2">--%>
@@ -153,8 +152,8 @@
                                     </div>
 
                                     <div class="fw-bold">
-                                        <%-- 30%할인된 금액 보이게 --%>
-                                        ${accommodations[0].get("discountedPrice")}원 ~
+                                            <%-- 30%할인된 금액 보이게 --%>
+                                            ${accommodations[0].get("discountedPrice")}원 ~
                                     </div>
                                 </div>
 
@@ -168,6 +167,13 @@
     </div>
 </div>
 <jsp:include page="main/footer.jsp"/>
+<script>
+    let wishlist = [];
+    <c:forEach var="wish" items="${wish}">
+        wishlist.push(${wish.accommodationNo});
+    </c:forEach>
+    console.log(wishlist);
+</script>
 <script src="/js/main.js"></script>
 </body>
 </html>

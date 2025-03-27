@@ -2,9 +2,11 @@ package kr.co.aura.aurastay.controller;
 
 import jakarta.servlet.http.HttpSession;
 import kr.co.aura.aurastay.dto.BusinessDTO;
+import kr.co.aura.aurastay.dto.LikesDTO;
 import kr.co.aura.aurastay.dto.MemberDTO;
 import kr.co.aura.aurastay.security.CustomUserDetail;
 import kr.co.aura.aurastay.service.BusinessService;
+import kr.co.aura.aurastay.service.LikesService;
 import kr.co.aura.aurastay.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,7 @@ import java.util.stream.Collectors;
 public class MainController {
     private final MemberService memberService;
     private final BusinessService businessService;
+    private final LikesService likesService;
 
     // 사용자 메인 페이지
     @GetMapping({"/", "/index", "/main"})
@@ -46,14 +49,20 @@ public class MainController {
         // 숙소리스트 가져오기
         List<HashMap<String, Object>> list = memberService.getAllAccommodation();
 
-        log.info(">>>>>>>>>>>>>>>>>>>list : {}", list);
-
         Map<Integer, List<Map<String, Object>>> groupedAccommodations = list.stream()
                 .filter(accommodation -> accommodation.get("accommodationNo") != null) // null 방지
                 .collect(Collectors.groupingBy(accommodation -> (Integer) accommodation.get("accommodationNo")));
 
-        log.info(">>>>>>>>>>>>>>>>groupedAccommodation : {}", groupedAccommodations); // map형태 Integer, ArrayList
         model.addAttribute("groupedAccommodations", groupedAccommodations);
+
+        // 로그인한 사용자라면
+        if(member != null) {
+            // wish 정보 가져오기
+            List<LikesDTO> wish = likesService.getWish(member.getMemberNo());
+            model.addAttribute("wish", wish);
+            // index.jsp에서 wish.accommodationNo가 data-accommodation-no의 값과 같으면 하트svg addClass('~~~active') 하면됨
+            log.info(">>>>>>>>>>>>>wish : {}", wish);
+        }
 
         return "index";
     }
