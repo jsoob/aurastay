@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.aura.aurastay.repository.AmenitiesRepository">
+    <!-- 전체 조회 : getAllAmenities -->
+    <select id="getAllAmenities" parameterType="AmenitiesDTO">
+        SELECT amenities_no, amenities_name
+        FROM amenities
+    </select>
+
+<!--     1건 조회 : findByAmenities-->
+<!--    <select id="findByAmenities" parameterType="AmenitiesDTO" resultType="String">-->
+<!--        SELECT m.amenities_name-->
+<!--        FROM accommodation a-->
+<!--        JOIN accommodation_amenities amen ON a.accommodation_no = amen.accommodation_no-->
+<!--        JOIN amenities m ON amen.amenities_no = m.amenities_no-->
+<!--        WHERE a.accommodation_no = #{acmNo};-->
+<!--    </select>-->
+</mapper>

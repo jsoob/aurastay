@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.aura.aurastay.repository.RoomRepository">
+
+    <!-- 숙소에 속한 객실 리스트 조회 -->
+    <select id="findRoomByAccommodation" resultType="RoomDTO">
+        SELECT
+            r.room_no                 as roomNo,
+            r.accommodation_no        as acmNo,
+            r.room_name               as roomName,
+            r.room_qty                as roomQty,
+            r.room_price              as roomPrice,
+            r.room_discount           as roomDiscount,
+            r.room_contents           as roomContents,
+            r.room_viewtype           as roomViewType,
+            r.room_capacity           as roomCapacity
+        FROM room r
+        JOIN accommodation a ON r.accommodation_no = a.accommodation_no
+        WHERE r.accommodation_no = #{acmNo}
+    </select>
+
+    <select id="selectOne" parameterType="int" resultType="RoomDTO">
+        SELECT *
+        FROM room
+        WHERE accommodation_no = #{acmNo}
+    </select>
+
+    <!-- 객실 번호로 조회 -->
+    <select id="findByRoomId" parameterType="int" resultType="RoomDTO">
+        SELECT *
+        FROM room
+        WHERE room_no = #{roomNo}
+    </select>
+
+    <!-- 객실 추가 -->
+    <insert id="roomAdd" parameterType="RoomDTO"  useGeneratedKeys="true" keyProperty="roomNo">
+        INSERT INTO room (
+            room_name,
+            room_qty,
+            room_price,
+            room_discount,
+            room_contents,
+            room_viewtype,
+            room_capacity,
+            accommodation_no
+        )
+        VALUES (
+            #{roomName},
+            #{roomQty},
+            #{roomPrice},
+            #{roomDiscount},
+            #{roomContents},
+            #{roomViewType},
+            #{roomCapacity},
+            #{acmNo}
+        )
+    </insert>
+
+    <!-- 객실 수정 -->
+    <update id="roomUpdate" parameterType="RoomDTO">
+        UPDATE room
+        SET
+            room_name = #{roomName},
+            room_qty = #{roomQty},
+            room_capacity = #{roomCapacity},
+            room_price = #{roomPrice},
+            room_discount = #{roomDiscount},
+            room_contents = #{roomContents},
+            room_viewtype = #{roomViewType}
+        WHERE room_no = #{roomNo} AND accommodation_no = #{acmNo} <!-- room_no를 기준으로 업데이트 -->
+    </update>
+
+    <!-- 이걸 하면 연속적으로 객실의 정보가 추가되는 것을 볼 수 있음-->
+    <!-- 객실 추가 (새로운 객실 정보를 삽입) -->
+    <!-- 여기는 jsp에서 모달창에서 추가하는 버튼이랑 추가가 여러 개 된 리스트 UI화면을 만들고 난 뒤에 적용시킬 mapper 정도가 좋을듯 -->
+    <insert id="여기에 id값을 넣으면 추가가 연속적으로 됩니다~ 나중에~" parameterType="RoomDTO">
+        INSERT INTO room (room_name, room_qty, room_capacity, room_price, room_discount, room_contents, room_viewtype, accommodation_no)
+        VALUES (#{roomName}, #{roomQty}, #{roomCapacity}, #{roomPrice}, #{roomDiscount}, #{roomContents}, #{roomViewType}, #{acmNo})
+    </insert>
+
+
+    <!-- 객실 삭제 -->
+    <delete id="roomDelete" parameterType="int">
+        DELETE FROM room
+        WHERE room_no = #{roomNo}
+    </delete>
+
+    <!-- 객실이 포함된 숙소 찾기 (객실 번호로 숙소 정보 찾기) -->
+
+<!--    <select id="findByRoomId" resultType="RoomDTO" parameterType="RoomDTO">-->
+<!--        SELECT-->
+<!--            a.accommodation_no              AS acmNo,-->
+<!--            a.accommodation_name            AS acmName,-->
+<!--            a.accommodation_address         AS acmAddress,-->
+<!--            a.accommodation_contents        AS contents,-->
+<!--            a.checkin                       AS checkinTime,-->
+<!--            a.checkout                      AS checkoutTime,-->
+<!--            a.tel                           AS acmTel,-->
+<!--            a.keyword_no                    AS keywordNo,-->
+<!--            a.business_no                   AS businessNo,-->
+<!--            a.category_no                   AS categoryNo-->
+<!--        FROM accommodation a-->
+<!--        INNER JOIN room r-->
+<!--        ON a.accommodation_no = r.accommodation_no-->
+<!--        WHERE r.room_no = #{roomNo}-->
+<!--    </select>-->
+
+
+
+</mapper>

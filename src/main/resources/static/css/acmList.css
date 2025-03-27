@@ -1,0 +1,136 @@
+/* 테이블 전체 스타일 */
+.table {
+    width: 100%;
+    max-width: 1200px;              /* 최대 너비 설정 */
+    border-collapse: collapse;
+    margin: 20px auto;              /* 중앙 정렬 */
+    font-size: 16px;
+    text-align: center;
+    border: 2px solid #ddd;
+}
+
+/* 테이블 헤더 스타일 */
+.table th {
+    background-color: #d85656;
+    color: white;
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+/* 테이블 본문 스타일 */
+.table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+/* 홀수 행 스타일 (줄무늬 효과) */
+.table tr:nth-child(odd) {
+    background-color: #f1f1f1;
+}
+
+/* 마우스 오버 시 강조 효과 */
+.table tr:hover {
+    background-color: #d1e7fd;
+    transition: 0.3s;
+}
+
+/* 숙소 이름(링크) 스타일 */
+.table a {
+    color: #972843;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.table a:hover {
+    text-decoration: underline;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .table {
+        font-size: 14px;
+    }
+
+    .table th, .table td {
+        padding: 8px;
+    }
+}
+
+/* acmList.css에서만 적용되는 footer 스타일 */
+body.addList footer {
+    position: static;           /* 페이지 내에서 위치 */
+    left: 300px;
+    padding: 5px;
+    text-align: center;
+    /* background-color: white; */
+}
+
+/* 페이지네이션 스타일 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.pagination a, .pagination strong {
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 0;
+    background-color: transparent;
+    color: #972843;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #d1e7fd;
+    transform: scale(1.1);
+}
+
+.pagination strong {
+    background-color: transparent;
+    color: #d85656;
+    font-weight: bold;
+}
+
+/* 검색창 스타일 */
+.search-container {
+    display: flex;                  /* 플렉스박스를 사용하여 정렬 */
+    justify-content: flex-end;      /* 오른쪽 정렬 */
+    margin-bottom: 20px;            /* 아래 여백 */
+}
+
+.search-container input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px;                   /* 검색창 너비를 늘림 */
+    margin-right: 10px;             /* 버튼과의 간격 */
+}
+
+.search-container button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #d85656;      /* 버튼 배경색 */
+    color: white;                   /* 버튼 글씨색 */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-container button:hover {
+    background-color: #c74444;      /* 버튼 호버 색상 */
+}
+
+/* - 하이픈 추가했을 때 발생하는 에러메시지 css */
+/* 에러 메시지 스타일 */
+#errorMessage {
+    color: red;                 /* 글씨색 빨강 */
+    display: none;              /* 기본적으로 숨김 */
+    margin-top: 2px;            /* 위쪽 여백 */
+    font-size: 14px;            /* 폰트 크기 */
+    text-align: right;          /* 오른쪽 정렬 */
+    padding-right: 70px;
+
+}

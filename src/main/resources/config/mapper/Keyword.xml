@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.aura.aurastay.repository.KeywordRepository">
+    <select id="getAllKeywords" resultType="KeywordDTO">
+        SELECT keyword_no, keyword_name
+        FROM keyword
+    </select>
+
+    <select id="getKeywordById" parameterType="int" resultType="KeywordDTO">
+        SELECT keyword_no, keyword_name
+        FROM keyword
+        WHERE keyword_no = #{keywordNo}
+    </select>
+</mapper>
