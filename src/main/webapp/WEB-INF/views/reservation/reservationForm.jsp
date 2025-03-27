@@ -15,7 +15,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <%-- select 라이브러리 --%>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -260,17 +259,11 @@
                     alert("결제 실패", response.message); // 결제 실패..
                     return location.reload(true);
                 } else {
-                    console.log("response", response);
-
-                    console.log("response.paymentId = " , response.paymentId); // 결제 요청에 전달된 결제 ID입니다.
-                    console.log("response.txId = " , response.txId); // 결제 시도 고유 번호 / 포트원에서 채번하는 결제 시도 고유 번호입니다.
-                    console.log("response.transactionType = " , response.transactionType); // 일반결제의 경우 무조건 PAYMENT로 전달됩니다.
-
-                    // console.log("response.code = " , response.code); // 실패한 경우 오류 코드입니다.
-                    // console.log("response.message = " , response.message); // 실패한 경우 오류 메시지입니다.
+                    // console.log("response", response);
                     //
-                    // console.log("response.pgCode = " , response.pgCode); // PG에서 오류 코드를 내려 주는 경우 이 오류 코드를 그대로 반환합니다.
-                    // console.log("response.pgMessage = " , response.pgMessage); // PG에서 오류 메시지를 내려 주는 경우 이 오류 메시지를 그대로 반환합니다.
+                    // console.log("response.paymentId = " , response.paymentId); // 결제 요청에 전달된 결제 ID입니다.
+                    // console.log("response.txId = " , response.txId); // 결제 시도 고유 번호 / 포트원에서 채번하는 결제 시도 고유 번호입니다.
+                    // console.log("response.transactionType = " , response.transactionType); // 일반결제의 경우 무조건 PAYMENT로 전달됩니다.
 
                     let specialRequestsLength = $("input[name='specialRequests[]']:checked").length;
                     let specialRequests = [];
