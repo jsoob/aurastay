@@ -26,6 +26,7 @@
             rm.room_no = #{roomNo}
     </select>
 
+    <!-- 사업자 기준 숙소 조회 -->
     <select id="getBnsAcmList" parameterType="map" resultType="AccommodationDTO">
         SELECT
         a.accommodation_no          AS acmNo,
@@ -50,8 +51,8 @@
         LIMIT #{limit} OFFSET #{offset}
     </select>
 
-    <!-- 전체 숙소 개수 조회 -->
-    <select id="countAll" parameterType="map" resultType="int">
+    <!-- 사업자 기준 숙소 개수 조회 -->
+    <select id="countAcmAll" parameterType="map" resultType="int">
         SELECT count(*)
         FROM accommodation
         WHERE 1=1
@@ -59,6 +60,39 @@
             AND (accommodation_name LIKE CONCAT ('%', #{search}, '%') OR tel LIKE CONCAT ('%', #{search}, '%'))
         </if>
         AND business_no = #{businessNo}
+    </select>
+
+    <!-- 사업자 기준 해당 숙소내 객실 조회 -->
+
+    <select id="getBnsRoomList" parameterType="map" resultType="RoomDTO">
+        SELECT
+            r.room_no                 as roomNo,
+            r.accommodation_no        as acmNo,
+            r.room_name               as roomName,
+            r.room_qty                as roomQty,
+            r.room_price              as roomPrice,
+            r.room_discount           as roomDiscount,
+            r.room_contents           as roomContents,
+            r.room_viewtype           as roomViewType,
+            r.room_capacity           as roomCapacity
+        FROM room r
+        JOIN accommodation a ON r.accommodation_no = a.accommodation_no
+        WHERE 1=1
+        <if test="search != null and search != ''">
+            AND r.room_name LIKE CONCAT ('%', #{search}, '%')
+        </if>
+        AND a.accommodation_no = #{acmNo}
+        ORDER BY r.room_no DESC  <!-- 객실 번호 기준으로 내림차순 정렬 -->
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+    <select id="countRoomAll" parameterType="map" resultType="int">
+        SELECT count(*)
+        FROM room
+        WHERE 1=1
+        <if test="search != null and search != ''">
+            AND room_name LIKE CONCAT ('%', #{search}, '%')
+        </if>
+        AND accommodation_no = #{acmNo}
     </select>
 
 </mapper>

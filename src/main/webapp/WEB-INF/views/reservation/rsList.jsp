@@ -14,16 +14,15 @@
     <script>
 
         $(document).ready(function () {
-            const modal = document.querySelector('.modal');
+            const modal = document.querySelector('#rsAcmModal');
+            const modal2 = document.querySelector('#rsRoomModal');
 
+            // Acm
             // 모달 열기
-            $("#acmName, .modal_btn").click(function () {
+            $("#acmName, #showAcmModal").click(function () {
                 selectAcmList();
-
-                //'on' class 추가
-                modal.classList.add('on');
+                modal.classList.add('on'); // 모달 오픈
             });
-
             $("#rsAcmModalTable tbody").on('click', 'td', function() {
                 // console.log($(this).children());
                 // console.log($(this).children().eq(0).text());
@@ -39,33 +38,67 @@
 
                 //'on' class 제거
                 modal.classList.remove('on');
+                // 선택하라고 뜨는 span 비활성화
+                document.querySelector('#showRoomSpan .showSpan').classList.remove('on');
             });
+
+            // Room
+            // 모달 열기
+            $("#roomName, #showRoomModal").click(function () {
+                let acmNo = $("#acmNo").val();
+                console.log(acmNo);
+                if( acmNo == "" ) {
+                    document.querySelector('#showRoomSpan .showSpan').classList.add('on');
+                    return;
+                }
+                selectRoomList();
+                modal2.classList.add('on'); // 모달 오픈
+            });
+            $("#rsRoomModalTable tbody").on('click', 'td', function() {
+                // console.log($(this).children());
+                // console.log($(this).children().eq(0).text());
+
+                let roomNo = $(this).closest('tr').find('td:first').text();
+                console.log("roomNo = ", roomNo);
+
+                let roomName = $(this).closest('tr').find('td').eq(1).text();
+                console.log("roomName = ", roomName);
+
+                $("#roomNo").val(roomNo);
+                $("#roomName").val(roomName);
+
+                //'on' class 제거
+                modal2.classList.remove('on');
+            });
+
 
             //닫기 버튼을 눌렀을 때 모달팝업이 닫힘
             $(".close_btn").click(function () {
                 //'on' class 제거
                 modal.classList.remove('on');
+                modal2.classList.remove('on');
             });
-
+            // 모달 영역 말고 다른 부분 선택시 팝업 닫기
             $(window).click(function (event) {
                 if ($(event.target).is("#rsAcmModal")) {
                     modal.classList.remove('on');
+                } else if ($(event.target).is("#rsRoomModal")) {
+                    modal2.classList.remove('on');
                 }
             });
         });
 
         function selectAcmList(cp) {
-            let search = $("#searchInput").val();
-            let currentPage = cp === null ? 1 : cp;
-
-            console.log("cp = ", cp);
+            let search = $("#rsAcmSearchInput").val();
+            let currentPage = (cp > 1 ? cp : 1);
 
             $.ajax({
                 url: "/reservation/bAcmList",
                 type: "get",
                 contentType: "application/json",
                 // data: JSON.stringify({businessNo: '2025032711', search: search}),
-                data: {businessNo: '2136548211', currentPage: currentPage,  search: search},
+                // 2025032711 2136548211
+                data: {businessNo: '2025032711', currentPage: currentPage,  search: search},
                 success: function (data) {
                     console.log(data);
 
@@ -85,34 +118,84 @@
                                 '</tr>'
                             )
                     );
+                    $("#rsAcmModalTable #rsAcmModalFoot td").empty();
 
-                    $("#rsAcmModalTable #rsAcmModalFoot").empty();
-
-                    let pagination = $('<div class="pagination"></div>');
+                    let pagination = $('<div class="pagination m-0"></div>');
 
                     if(data.currentPage > 1) {
-                        let prevBtn = $("<button class='btn' onclick='selectAcmList("+(data.currentPage-1)+")'>이전</button>");
+                        let prevBtn = $("<a class='w-40p' onclick='selectAcmList("+(data.currentPage-1)+")'>이전</a>");
                         pagination.append(prevBtn);
                     }
 
-                    let span = $('<span></span>');
+                    // let span = $('<span class="d-if"></span>');
                     for(let i=(data.startPage); i<=(data.endPage); i++ ) {
                         if(i == data.currentPage) {
-                            span.append("<strong>"+i+"</strong>");
+                            pagination.append("<strong>"+i+"</strong>");
                         } else {
-                            span.append("<button class='btn' onclick='selectAcmList("+i+")'>이전</button>");
+                            pagination.append("<a class='pagination-btn' onclick='selectAcmList("+i+")'>"+i+"</a>");
                         }
                     }
-                    pagination.append(span);
 
                     if(data.hasNext) {
-                        let nextBtn = $("<button class='btn' onclick='selectAcmList("+(data.currentPage+1)+")'>다음</button>");
+                        let nextBtn = $("<a class='w-40p' onclick='selectAcmList("+(data.currentPage+1)+")'>다음</a>");
                         pagination.append(nextBtn);
                     }
+                    $("#rsAcmModalTable #rsAcmModalFoot td").append(pagination);
+                },
+                error: function () {
+                    console.log("조회 실패");
+                }
+            });
+        }
 
-                    $("#rsAcmModalTable #rsAcmModalFoot").append(pagination);
+        function selectRoomList(cp) {
+            let search = $("#rsRoomSearchInput").val();
+            let currentPage = (cp > 1 ? cp : 1);
 
+            $.ajax({
+                url: "/reservation/bRoomList",
+                type: "get",
+                contentType: "application/json",
+                data: {acmNo: $("#acmNo").val(), currentPage: currentPage,  search: search},
+                success: function (data) {
+                    console.log(data);
 
+                    $("#rsRoomModalTable #rsRoomModalBody").empty();
+                    data.list.forEach(roomInfo =>
+                        $("#rsRoomModalTable #rsRoomModalBody")
+                            .append(
+                                '<tr>' +
+                                    '<td>' +roomInfo.roomNo + '</td>' +
+                                    '<td>' +roomInfo.roomName + '</td>' +
+                                    '<td>' +roomInfo.roomQty + '</td>' +
+                                    '<td>' +roomInfo.roomCapacity + '</td>' +
+                                    '<td>' +roomInfo.roomPrice + '</td>' +
+                                    '<td>' +roomInfo.roomDiscount + '</td>' +
+                                    '<td>' +roomInfo.roomViewType + '</td>' +
+                                '</tr>'
+                            )
+                    );
+
+                    $("#rsRoomModalTable #rsRoomModalFoot td").empty();
+
+                    let pagination = $('<div class="pagination m-0"></div>');
+
+                    if(data.currentPage > 1) {
+                        let prevBtn = $("<a class='w-40p' onclick='selectRoomList("+(data.currentPage-1)+")'>이전</a>");
+                        pagination.append(prevBtn);
+                    }
+                    for(let i=(data.startPage); i<=(data.endPage); i++ ) {
+                        if(i == data.currentPage) {
+                            pagination.append("<strong>"+i+"</strong>");
+                        } else {
+                            pagination.append("<a class='pagination-btn' onclick='selectRoomList("+i+")'>"+i+"</a>");
+                        }
+                    }
+                    if(data.hasNext) {
+                        let nextBtn = $("<a class='w-40p' onclick='selectRoomList("+(data.currentPage+1)+")'>다음</a>");
+                        pagination.append(nextBtn);
+                    }
+                    $("#rsRoomModalTable #rsRoomModalFoot td").append(pagination);
                 },
                 error: function () {
                     console.log("조회 실패");
@@ -130,13 +213,32 @@
 <div class="main-content">
     <h2 class="text-center">📌 예약 목록 📌 </h2>
 
+    <div class="search-container jc-s">
+        <div class="me-2">
+            <input type="hidden" id="acmNo" name="acmNo">
+            <input type="text" id="acmName" name="acmName" placeholder="숙소명" readonly onfocus="this.blur()" class="w-250p bckc-gray to-e">
+            <button id="showAcmModal" type="button" class="btn btn-add-room modal_btn">숙소 조회</button>
+        </div>
+
+        <div class="me-2">
+            <input type="hidden" id="roomNo" name="roomNo">
+            <input type="text" id="roomName" name="roomName" placeholder="객실명" readonly onfocus="this.blur()" class="w-200p bckc-gray to-e">
+            <button id="showRoomModal" type="button" class="btn btn-add-room modal_btn">객실 조회</button>
+            <div id="showRoomSpan" class="text-end"><span class="showSpan text-red">객실을 먼저 선택해 주세요.</span></div>
+        </div>
+
+        <div class="me-2" style="margin-left: auto;">
+            <input type="text" id="rsName" name="rsName" placeholder="예약명" class="w-200p to-e">
+            <button id="rsBtn" type="button" class="btn btn-add-room modal_btn">예약 조회</button>
+        </div>
+    </div>
+
     <div id="rsAcmModal" class="modal">
-        <div class="modal_popup min-w-500 max-w-700 w-50">
-            <h3>숙소 정보</h3>
+        <div class="modal_popup min-w-500 max-w-700 w-50 modal-scroll">
+            <h3 class="d-fr">숙소 정보<button type="button" class="close_btn float-end">닫기</button></h3>
 
             <div class="search-container">
-                <input type="text" id="searchInput" name="search" placeholder="숙소명 또는 전화번호 입력" oninput="validateSearchInput()">
-                <button type="submit">검색</button>
+                <input type="text" id="rsAcmSearchInput" name="search" placeholder="숙소명 또는 전화번호 검색" oninput="selectAcmList()">
             </div>
 
             <div class="form-group">
@@ -157,26 +259,49 @@
                     </tbody>
 
                     <tfoot id="rsAcmModalFoot">
-
+                    <tr>
+                        <td colspan="6"></td>
+                    </tr>
                     </tfoot>
                 </table>
-            </div>
-
-            <div class="pagination">
-
-            </div>
-
-
-            <div class="footer">
-                <button type="button" class="close_btn float-end">닫기</button>
             </div>
         </div>
     </div>
 
-    <div class="search-container jc-s">
-        <input type="hidden" id="acmNo" name="acmNo">
-        <input type="text" id="acmName" name="acmName" placeholder="숙소명" readonly onfocus="this.blur()" class="bckc-gray">
-        <button id="showAcmModal" type="button" class="btn btn-add-room modal_btn">숙소 검색</button>
+    <div id="rsRoomModal" class="modal">
+        <div class="modal_popup min-w-500 max-w-700 w-50 modal-scroll">
+            <h3 class="d-fr">객실 정보<button type="button" class="close_btn float-end">닫기</button></h3>
+
+            <div class="search-container">
+                <input type="text" id="rsRoomSearchInput" name="search" placeholder="객실명 검색" oninput="selectRoomList()">
+            </div>
+
+            <div class="form-group">
+                <table id="rsRoomModalTable" class="table table-striped table-hover">
+                    <thead id="rsRoomModalHead">
+                        <tr>
+                            <th>객실번호</th>
+                            <th>객실이름</th>
+                            <th>객실 수량</th>
+                            <th>최대 인원 수</th>
+                            <th>가격</th>
+                            <th>할인율</th>
+                            <th>뷰타입</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="rsRoomModalBody">
+
+                    </tbody>
+
+                    <tfoot id="rsRoomModalFoot">
+                    <tr>
+                        <td colspan="7"></td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
     </div>
 
     <jsp:include page="../comm/footer.jsp"/>

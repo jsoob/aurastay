@@ -84,6 +84,13 @@
     text-align: right;
 }
 
+.m-0 {
+    margin: 0px;
+}
+
+.me-2 {
+    margin-right: .5rem !important;
+}
 
 .float-start {
     float: left;
@@ -93,6 +100,12 @@
 }
 .float-end {
     float: right;
+}
+.d-if {
+    display: inline-flex;
+}
+.d-fr {
+    display: flow-root;
 }
 
 /* 첫번째 위치 */
@@ -109,10 +122,48 @@
     width: 50%;
 }
 
+.w-40p {
+    width: 40px;
+}
+
+.w-250p {
+    width: 250px !important;
+}
+
+.w-200p {
+    width: 200px !important;
+}
+
 .min-w-500 {
     min-width: 500px;
 }
 
+/* 넘치는 글자 ... 처리 */
+.to-e {
+    text-overflow: ellipsis;
+}
+
+.showSpan {
+    display: none;
+}
+.showSpan.on {
+    display: block;
+}
+
+/* Webkit 스크롤바 스타일 적용 */
+.modal-scroll::-webkit-scrollbar {
+    width: 8px; /* 스크롤바의 너비 */
+}
+
+.modal-scroll::-webkit-scrollbar-thumb {
+    background-color: darkgray;
+    border-radius: 10px;
+}
+
+.modal-scroll::-webkit-scrollbar-track {
+    background-color: lightgray;
+    border-radius: 10px;
+}
 
 /*모달 팝업 영역 스타일링*/
 .modal {
@@ -137,7 +188,7 @@
 .modal .modal_popup {
     /*팝업*/
     position: absolute;
-    top: 30%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 20px;
@@ -156,3 +207,20 @@
     cursor: pointer;
     transition: box-shadow 0.2s;
 }
+
+.pagination-btn {
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 0;
+    background-color: transparent;
+    color: #972843;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+    border: none;
+}
+.modal-scroll {
+    height: 450px;
+    overflow: auto;
+}
+
+

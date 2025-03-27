@@ -2,6 +2,7 @@ package kr.co.aura.aurastay.repository;
 
 import kr.co.aura.aurastay.dto.AccommodationDTO;
 import kr.co.aura.aurastay.dto.AcmDTO;
+import kr.co.aura.aurastay.dto.RoomDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,10 @@ import java.util.List;
 public interface AcmRoomRepository {
 //    HashMap<String, Object> selectRoomDetail(int accommodationNo, int roomNo);
     AcmDTO selectRoomDetail(AcmDTO acmDTO);
-    List<AccommodationDTO> getBnsAcmList(@Param("businessNo") int businessNo, @Param("offset") int offset, int limit, @Param("search") String search);
 
-    int countAll(int businessNo, String search);
+    List<AccommodationDTO> getBnsAcmList(@Param("businessNo") int businessNo, @Param("offset") int offset, int limit, @Param("search") String search);
+    int countAcmAll(int businessNo, String search);
+
+    List<RoomDTO> getBnsRoomList(@Param("acmNo") int acmNo, @Param("offset") int offset, int limit, @Param("search") String search);
+    int countRoomAll(int acmNo, String search);
 }

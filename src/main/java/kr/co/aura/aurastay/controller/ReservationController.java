@@ -215,19 +215,18 @@ public class ReservationController {
     }
 
     @GetMapping("/bAcmList")
-    public ResponseEntity<Map<String, Object>> addWishList(
+    public ResponseEntity<Map<String, Object>> bAcmList(
 //            @RequestBody(required = true) RsJsonDTO rsJsonDTO,
             @RequestParam(value = "businessNo", required = true) int businessNo,
                                    @RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
-                                    @RequestParam(name = "search", required = false) String search,
-                                    Model model) {
+                                    @RequestParam(name = "search", required = false) String search) {
         log.info("숙소 목록 조회");
 
-        int pageSize = 10;      // 페이지당 항목 수
+        int pageSize = 6;      // 페이지당 항목 수
         List<AccommodationDTO> list = acmRoomService.getBnsAcmList(businessNo, currentPage, pageSize, search);
 
         // 총 숙소 개수를 가져오는 서비스 메서드 호출
-        int totalItems = acmRoomService.countAll(businessNo, search);       // 총 숙소 개수
+        int totalItems = acmRoomService.countAcmAll(businessNo, search);       // 총 숙소 개수
         // 총 페이지 수 계산
         int totalPages = (int) Math.ceil((double) totalItems / pageSize);
 
@@ -245,12 +244,51 @@ public class ReservationController {
         acmData.put("endPage", endPage);
         acmData.put("search", search);
         acmData.put("list", list);
+
         // 다음 버튼 표시 여부 설정
-        acmData.put("hasNext", endPage < totalPages);        // 다음 버튼이 보여질지 여부를 결정
+        acmData.put("hasNext",  currentPage < endPage);
 
         System.out.println("acmData = " + acmData);
 
         return new ResponseEntity<>(acmData, HttpStatus.OK);
+    }
+
+    @GetMapping("/bRoomList")
+    public ResponseEntity<Map<String, Object>> bRoomList(
+            @RequestParam(value = "acmNo", required = true) int acmNo,
+            @RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(name = "search", required = false) String search) {
+        log.info("객실 목록 조회");
+
+        int pageSize = 6;      // 페이지당 항목 수
+        List<RoomDTO> list = acmRoomService.getBnsRoomList(acmNo, currentPage, pageSize, search);
+
+        // 총 숙소 개수를 가져오는 서비스 메서드 호출
+        int totalItems = acmRoomService.countRoomAll(acmNo, search);       // 총 숙소 개수
+        // 총 페이지 수 계산
+        int totalPages = (int) Math.ceil((double) totalItems / pageSize);
+
+        // 페이지 블록 계산
+        int blockSize = 10;             // 블록당 페이지 수
+        int currentBlock = (currentPage - 1) / blockSize;       // 현재 블록
+        int startPage = currentBlock * blockSize + 1;           // 블록의 시작 페이지
+        int endPage = Math.min(startPage + blockSize - 1, totalPages);  // 블록의 끝 페이지
+
+        HashMap<String, Object> roomData = new HashMap<>();
+        roomData.put("currentPage", currentPage);
+        roomData.put("totalCount", totalItems); // 갯수
+        roomData.put("totalPages", totalPages);
+        roomData.put("startPage", startPage);
+        roomData.put("endPage", endPage);
+        roomData.put("search", search);
+        roomData.put("list", list);
+
+        // 다음 버튼 표시 여부 설정
+        roomData.put("hasNext",  currentPage < endPage);
+
+        System.out.println("roomData = " + roomData);
+
+        return new ResponseEntity<>(roomData, HttpStatus.OK);
     }
 
 }
