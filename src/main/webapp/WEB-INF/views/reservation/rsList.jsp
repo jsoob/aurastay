@@ -20,6 +20,9 @@
 <div class="main-content">
     <h2 class="text-center">📌 예약 목록 📌 </h2>
 
+    <label for=""></label>
+    <input type="text" name="acmName" class="form-control" disabled>
+
 
     <jsp:include page="../comm/footer.jsp"/>
 </div>

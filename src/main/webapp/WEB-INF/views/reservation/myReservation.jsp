@@ -14,11 +14,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- select 라이브러리 -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <link rel="stylesheet" href="/css/main.css">
 
     <link rel="stylesheet" href="/css/rsrv/rsrv.css">
     <script>
@@ -47,11 +48,13 @@
 </head>
 <body>
 
-<div class="container rsrv-container">
+<jsp:include page="../main/header.jsp"/>
+
+<div class="container main_body_container rsrv-container">
     <div class="rsrv-title-container">
         <h1>내 예약 조회</h1>
     </div>
-    <div class="rsrv-body-container">
+    <div class="rsrv-body-container main_body_container ">
 
         <div class="myReservation-div">
             <div class="myReservation-tabs">
@@ -240,5 +243,7 @@
 
         </div>
     </div>
+    <jsp:include page="../main/footer.jsp"/>
+    <script src="/js/main.js"></script>
 </body>
 </html>
