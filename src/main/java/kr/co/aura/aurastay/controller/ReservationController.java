@@ -41,7 +41,7 @@ public class ReservationController {
         // code=HM2QXJHCAJ&
         // orderId=1376602254524241888
 
-        String url = "/reservation/reservationForm";
+        String url = "reservation/reservationForm";
 
         int countDay = ReservationUtil.getCheckDay(checkinDate, checkoutDate);
 
@@ -146,7 +146,7 @@ public class ReservationController {
         model.addAttribute("rsStatus", reservationStatus);
         model.addAttribute("rsList", reservationList);
 
-        return "/reservation/myReservation";
+        return "reservation/myReservation";
     }
 
     @GetMapping("/mystay")
@@ -176,7 +176,7 @@ public class ReservationController {
         model.addAttribute("keyword", roomMap);     // 키워드 목록 추가
         model.addAttribute("roomDetail", roomMap);  // 객실 정보를 모델에 추가
 
-        return "/reservation/myReservationDetail";
+        return "reservation/myReservationDetail";
     }
 
 
