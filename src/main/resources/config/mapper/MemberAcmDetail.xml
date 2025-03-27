@@ -1,0 +1,32 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.aura.aurastay.repository.MemberAcmRepository">
+
+    <!-- 숙소 정보 조회하기 -->
+    <select id="getAccommodationById" parameterType="int" resultType="AccommodationDTO">
+        SELECT
+        a.accommodation_no          AS acmNo,
+        a.accommodation_name        AS acmName,
+        a.accommodation_address     AS acmAddress,
+        a.accommodation_contents    AS contents,
+        a.checkin                   AS checkinTime,
+        a.checkout                  AS checkoutTime,
+        a.tel                       AS acmTel,
+        a.keyword_no                AS keywordNo,
+        a.business_no               AS businessNo,
+        a.category_no               AS categoryNo,
+        c.category_name             AS categoryName,
+        GROUP_CONCAT(m.amenities_name SEPARATOR ', ') AS amenitiesName  <!-- 편의시설 이름 결합 -->
+        FROM accommodation a
+        LEFT JOIN category c ON a.category_no = c.category_no
+        LEFT JOIN keyword k ON a.keyword_no = k.keyword_no
+        LEFT JOIN accommodation_amenities am ON a.accommodation_no = am.accommodation_no
+        LEFT JOIN amenities m ON am.amenities_no = m.amenities_no
+        WHERE a.accommodation_no = #{acmNo}
+        GROUP BY a.accommodation_no, c.category_name
+    </select>
+
+
+</mapper>
