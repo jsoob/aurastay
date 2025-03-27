@@ -12,7 +12,7 @@
         <li>
             <a>예약관리</a>
             <ul>
-                <li><a href="/reservationList">예약 내역</a></li>
+                <li><a href="/reservation/rsList">예약 내역</a></li>
                 <li><a href="/reservationInfo">예약 변경/취소</a></li>
             </ul>
         </li>

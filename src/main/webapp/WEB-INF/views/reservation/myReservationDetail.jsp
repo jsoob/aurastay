@@ -44,7 +44,6 @@
     </script>
 </head>
 <body>
-<h3><a href="/">목록가기</a></h3>
 
 <%-- 실제 html --%>
 <div class="container rsrv-container">
