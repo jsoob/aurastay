@@ -78,7 +78,7 @@
                                     <c:forEach var="wish" items="${wishes}" varStatus="imgStatus">
                                         <div class="carousel-item ${imgStatus.first ? 'active' : ''}">
                                             <a href="acm/list">
-                                                <img class="d-block w-100" src="${wish.filepath}" alt="숙소 이미지">
+                                                <img class="d-block w-100" src="/accommodation/views/${wish.filename}" alt="숙소 이미지">
                                             </a>
                                         </div>
                                     </c:forEach>
