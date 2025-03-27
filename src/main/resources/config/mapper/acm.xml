@@ -26,4 +26,39 @@
             rm.room_no = #{roomNo}
     </select>
 
+    <select id="getBnsAcmList" parameterType="map" resultType="AccommodationDTO">
+        SELECT
+        a.accommodation_no          AS acmNo,
+        a.accommodation_name        AS acmName,
+        a.accommodation_address     AS acmAddress,
+        a.accommodation_contents    AS contents,
+        a.checkin                   AS checkinTime,
+        a.checkout                  AS checkoutTime,
+        a.tel                       AS acmTel,
+        a.keyword_no                AS keywordNo,
+        a.business_no               AS businessNo,
+        a.category_no               AS categoryNo
+        FROM accommodation a
+        LEFT JOIN category c ON a.category_no = c.category_no
+        LEFT JOIN keyword k ON a.keyword_no = k.keyword_no
+        WHERE 1=1
+        <if test="search != null and search != ''">
+            AND (a.accommodation_name LIKE CONCAT ('%', #{search}, '%') OR a.tel LIKE CONCAT ('%', #{search}, '%'))
+        </if>
+        AND a.business_no = #{businessNo}
+        ORDER BY a.accommodation_no DESC  <!-- 숙소 번호 기준으로 내림차순 정렬 -->
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <!-- 전체 숙소 개수 조회 -->
+    <select id="countAll" parameterType="map" resultType="int">
+        SELECT count(*)
+        FROM accommodation
+        WHERE 1=1
+        <if test="search != null and search != ''">
+            AND (accommodation_name LIKE CONCAT ('%', #{search}, '%') OR tel LIKE CONCAT ('%', #{search}, '%'))
+        </if>
+        AND business_no = #{businessNo}
+    </select>
+
 </mapper>

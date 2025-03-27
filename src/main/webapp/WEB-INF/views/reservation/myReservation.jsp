@@ -54,7 +54,7 @@
     <div class="rsrv-title-container">
         <h1>내 예약 조회</h1>
     </div>
-    <div class="rsrv-body-container main_body_container ">
+    <div class="rsrv-body-container main_body_container">
 
         <div class="myReservation-div">
             <div class="myReservation-tabs">

@@ -1,14 +1,15 @@
 package kr.co.aura.aurastay.controller;
 
-import kr.co.aura.aurastay.dto.AcmDTO;
-import kr.co.aura.aurastay.dto.ReservationDTO;
-import kr.co.aura.aurastay.dto.SpecialRequestDTO;
+import kr.co.aura.aurastay.dto.*;
+import kr.co.aura.aurastay.service.AccommodationService;
 import kr.co.aura.aurastay.service.AcmRoomService;
 import kr.co.aura.aurastay.service.ReservationService;
 import kr.co.aura.aurastay.util.ReservationUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ import java.util.*;
 public class ReservationController {
     private final ReservationService reservationService;
     private final AcmRoomService acmRoomService;
+    private final AccommodationService accommodationService;
 
     @GetMapping("/stays")
     public String stays(@RequestParam("accommodationNo") int acmNo, @RequestParam("roomNo") int roomNo, @RequestParam("checkin") String checkinDate, @RequestParam("checkout") String checkoutDate, Model model) {
@@ -205,11 +207,50 @@ public class ReservationController {
         return "reservation/album_ex";
     }
 
-    // 1211565655
+    // 2025032711
     @GetMapping("/rsList")
     public String rsList(Model model) {
 
         return "reservation/rsList";
+    }
+
+    @GetMapping("/bAcmList")
+    public ResponseEntity<Map<String, Object>> addWishList(
+//            @RequestBody(required = true) RsJsonDTO rsJsonDTO,
+            @RequestParam(value = "businessNo", required = true) int businessNo,
+                                   @RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
+                                    @RequestParam(name = "search", required = false) String search,
+                                    Model model) {
+        log.info("숙소 목록 조회");
+
+        int pageSize = 10;      // 페이지당 항목 수
+        List<AccommodationDTO> list = acmRoomService.getBnsAcmList(businessNo, currentPage, pageSize, search);
+
+        // 총 숙소 개수를 가져오는 서비스 메서드 호출
+        int totalItems = acmRoomService.countAll(businessNo, search);       // 총 숙소 개수
+        // 총 페이지 수 계산
+        int totalPages = (int) Math.ceil((double) totalItems / pageSize);
+
+        // 페이지 블록 계산
+        int blockSize = 10;             // 블록당 페이지 수
+        int currentBlock = (currentPage - 1) / blockSize;       // 현재 블록
+        int startPage = currentBlock * blockSize + 1;           // 블록의 시작 페이지
+        int endPage = Math.min(startPage + blockSize - 1, totalPages);  // 블록의 끝 페이지
+
+        HashMap<String, Object> acmData = new HashMap<>();
+        acmData.put("currentPage", currentPage);
+        acmData.put("totalCount", totalItems); // 갯수
+        acmData.put("totalPages", totalPages);
+        acmData.put("startPage", startPage);
+        acmData.put("endPage", endPage);
+        acmData.put("search", search);
+        acmData.put("list", list);
+        // 다음 버튼 표시 여부 설정
+        acmData.put("hasNext", endPage < totalPages);        // 다음 버튼이 보여질지 여부를 결정
+
+        System.out.println("acmData = " + acmData);
+
+        return new ResponseEntity<>(acmData, HttpStatus.OK);
     }
 
 }

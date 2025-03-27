@@ -15,7 +15,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <%-- select 라이브러리 --%>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -23,6 +22,8 @@
 
     <%-- 결제 --%>
     <script type="text/javascript" src="https://cdn.portone.io/v2/browser-sdk.js"></script>
+
+    <link rel="stylesheet" href="/css/main.css">
 
     <link rel="stylesheet" href="/css/rsrv/rsrv.css">
     <script>
@@ -45,13 +46,15 @@
 </head>
 <body>
 
+<jsp:include page="../main/header.jsp"/>
+
 <%-- 실제 html --%>
-<div class="container rsrv-container">
+<div class="container main_body_container rsrv-container">
     <div class="rsrv-title-container">
         <h1><a class="text-decoration-none text-dark" href="/reservation/mystays"><span
                 class="px-2 rsrv-back-circleBtn fs-3 fw-bold"><</span></a> 예약 정보</h1>
     </div>
-    <div class="rsrv-body-container">
+    <div class="rsrv-body-container main_body_container">
         <div class="d-flex p-4 gap-4 py-md-5 justify-content-center"> <%-- align-items-center --%>
             <div class="left-container">
                 <h3 class="mb-4">예약 정보<c:if test="${rsrv.reservationStatus eq 2}"> (취소대기)</c:if></h3>
@@ -332,5 +335,7 @@
     </div>
 </div>
 </div>
+<jsp:include page="../main/footer.jsp"/>
+<script src="/js/main.js"></script>
 </body>
 </html>
