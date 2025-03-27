@@ -102,4 +102,9 @@
         WHERE reservation_no = #{reservationNo}
     </update>
 
+    <!-- 숙소 번호 -->
+    <select id="existsByAccommodationNo" parameterType="int" resultType="boolean">
+        SELECT COUNT(*) > 0 FROM reservation WHERE accommodation_no = #{acmNo}
+    </select>
+
 </mapper>

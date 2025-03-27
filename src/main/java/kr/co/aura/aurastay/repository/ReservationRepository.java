@@ -24,4 +24,7 @@ public interface ReservationRepository {
     List<ReservationRequestDTO> getReservationRequests(ReservationRequestDTO reservationRequestDTO);
     // 예약 취소 요청
     void cancelReservationReq(ReservationDTO rsDTO);
+
+    // 숙소 관련
+    boolean existsByAccommodationNo(int acmNo);
 }
