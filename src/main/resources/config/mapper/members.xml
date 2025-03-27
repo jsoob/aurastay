@@ -61,7 +61,7 @@
     <select id="getAllAccommodation" resultType="HashMap">
         <!-- 숙소번호, 숙소명, 주소, 객실가격, 할인율, 숙소 이미지-->
         select a.accommodation_no as accommodationNo, a.accommodation_name as accommodationName, a.accommodation_address as accommodationAddress, r.room_price as roomPrice, r.room_discount as roomDiscount, round((r.room_price*(1-(r.room_discount / 100)))) as discountedPrice,
-        r.room_discount as roomDiscount,i.filepath as filepath
+        r.room_discount as roomDiscount,i.filename as filename
         from accommodation a
         join room r on a.accommodation_no = r.accommodation_no
         join room_image i on a.accommodation_no = i.accommodation_no

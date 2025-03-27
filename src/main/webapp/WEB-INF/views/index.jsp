@@ -97,7 +97,7 @@
                                         <!-- 첫번째 이미지는 active 가 붙는다 -->
                                         <a href="acm/list">
                                             <img class="w-100 slide-imgs"
-                                                 src="${accommodation.filepath}" alt="숙소 이미지">
+                                                 src="/accommodation/views/${accommodation.filename}" alt="숙소 이미지">
                                         </a>
                                     </div>
                                 </c:forEach>
