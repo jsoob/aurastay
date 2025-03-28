@@ -2,6 +2,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+
+
 <mapper namespace="kr.co.aura.aurastay.repository.MemberAcmRepository">
 
     <!-- 숙소 정보 조회하기 -->
@@ -18,7 +20,7 @@
         a.business_no               AS businessNo,
         a.category_no               AS categoryNo,
         c.category_name             AS categoryName,
-        GROUP_CONCAT(m.amenities_name SEPARATOR ', ') AS amenitiesName  <!-- 편의시설 이름 결합 -->
+        GROUP_CONCAT(m.amenities_name SEPARATOR ', ') AS amenitiesName
         FROM accommodation a
         LEFT JOIN category c ON a.category_no = c.category_no
         LEFT JOIN keyword k ON a.keyword_no = k.keyword_no
@@ -28,5 +30,57 @@
         GROUP BY a.accommodation_no, c.category_name
     </select>
 
+    <!-- 숙소 이미지 조회 -->
+    <select id="getAccommodationRoomImagesById" parameterType="int" resultType="RoomImageDTO">
+        SELECT
+        r.image_no AS imageNo,
+        r.filename AS filename,
+        r.filepath AS filepath
+        FROM room_image r
+        WHERE r.accommodation_no = #{acmNo}
+    </select>
+
+    <!-- 객실 정보 조회 -->
+    <select id="getRoomInfoById" parameterType="int" resultType="RoomDTO">
+        SELECT
+        r.room_no                 as roomNo,
+        r.accommodation_no        as acmNo,
+        r.room_name               as roomName,
+        r.room_qty                as roomQty,
+        r.room_price              as roomPrice,
+        r.room_discount           as roomDiscount,
+        r.room_contents           as roomContents,
+        r.room_viewtype           as roomViewType,
+        r.room_capacity           as roomCapacity
+        FROM room r
+        JOIN accommodation a ON r.accommodation_no = a.accommodation_no
+        WHERE r.accommodation_no = #{acmNo}
+    </select>
+
+    <!-- 숙소 카테고리 조회 -->
+    <select id="getCategoriesById" parameterType="int" resultType="CategoryDTO">
+        SELECT
+        c.category_no,
+        c.category_name
+        FROM
+        accommodation a
+        JOIN
+        category c ON a.category_no = c.category_no
+        WHERE
+        a.accommodation_no = #{acmNo}
+    </select>
+
+    <!-- 숙소 키워드 조회 -->
+    <select id="getKeywordsById" parameterType="int" resultType="KeywordDTO">
+        SELECT
+        k.keyword_no,
+        k.keyword_name
+        FROM
+        accommodation a
+        JOIN
+        keyword k ON a.keyword_no = k.keyword_no
+        WHERE
+        a.accommodation_no = #{acmNo}
+    </select>
 
 </mapper>

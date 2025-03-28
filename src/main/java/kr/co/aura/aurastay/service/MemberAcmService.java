@@ -1,9 +1,11 @@
 package kr.co.aura.aurastay.service;
 
-import kr.co.aura.aurastay.dto.AccommodationDTO;
+import kr.co.aura.aurastay.dto.*;
 import kr.co.aura.aurastay.repository.MemberAcmRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -16,10 +18,26 @@ public class MemberAcmService {
         AccommodationDTO dto = memberAcmRepository.getAccommodationById(acmNo);
 
         System.out.println("DTO 내용: " + dto); // DTO 상태 출력
-
         return dto;
+    }
 
-//        return memberAcmRepository.getAccommodationById(acmNo);
+    // 숙소 이미지 조회
+    public List<RoomImageDTO> getAccommodationRoomImagesById(int acmNo) {
+        return memberAcmRepository.getAccommodationRoomImagesById(acmNo);
+    }
 
+    // 객실 정보 조회
+    public List<RoomDTO> getRoomInfoById(int acmNo) {
+        return memberAcmRepository.getRoomInfoById(acmNo);
+    }
+
+    // 카테고리 정보 조회
+    public List<CategoryDTO> getCategoriesById(int acmNo) {
+        return memberAcmRepository.getCategoriesById(acmNo);
+    }
+
+    // 키워드 정보 조회
+        public List<KeywordDTO> getKeywordsById(int acmNo) {
+        return memberAcmRepository.getKeywordsById(acmNo);
     }
 }
