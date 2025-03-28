@@ -12,7 +12,7 @@ public interface MainRepository {
     // 전체 숙소 정보, 이미지
     List<HashMap<String, Object>> getAllAccommodation();
 
-    List<HashMap<String, Object>> getPagedAccommodations();
+    List<HashMap<String, Object>> getPagedAccommodations(HashMap<String,Integer> map);
 
     int getTotalCount();
 }

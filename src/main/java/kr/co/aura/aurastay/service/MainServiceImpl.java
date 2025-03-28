@@ -27,7 +27,10 @@ public class MainServiceImpl implements MainService{
     // 페이징처리
     @Override
     public List<HashMap<String, Object>> getPagedAccommodations(int offset, int size) {
-        return List.of();
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("offset", offset);
+        map.put("size", size);
+        return mainRepository.getPagedAccommodations(map);
     }
 
 }

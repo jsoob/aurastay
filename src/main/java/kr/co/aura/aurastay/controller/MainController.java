@@ -35,9 +35,7 @@ public class MainController {
     @GetMapping({"/", "/index", "/main"})
     public String index(@AuthenticationPrincipal Object principal
             , HttpSession session
-            , Model model
-            , @RequestParam(defaultValue = "1") int page
-            , @RequestParam(defaultValue = "12") int size){
+            , Model model) {
         // 사용자 정보 session에 저장
         MemberDTO member = null;
 
@@ -49,43 +47,63 @@ public class MainController {
 
         session.setAttribute("dto", member);
 
-        // 숙소리스트 가져오기
-        List<HashMap<String, Object>> list = mainService.getAllAccommodation();
-
-        Map<Integer, List<Map<String, Object>>> groupedAccommodations = list.stream()
-                .filter(accommodation -> accommodation.get("accommodationNo") != null) // null 방지
-                .collect(Collectors.groupingBy(accommodation -> (Integer) accommodation.get("accommodationNo")));
-
-        model.addAttribute("groupedAccommodations", groupedAccommodations);
-
-
-
-        //////// 숙소리스트 페이징처리 ///////////
-
-        int offset = (page - 1) * size;
-        // 전체 숙소정보 가져오기
-        List<HashMap<String, Object>> accommodations = mainService.getPagedAccommodations(offset, size);
-
-        // 전체 숙소 수
-        int totalCount = mainService.getTotalCount();
-
-        model.addAttribute("accommodations", accommodations);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", (int) Math.ceil((double) totalCount / size));
-
-
-
-
         // 로그인한 사용자라면
         if (member != null) {
             // wish 정보 가져오기
             List<LikesDTO> wish = likesService.getWish(member.getMemberNo());
             model.addAttribute("wish", wish);
-            // index.jsp에서 wish.accommodationNo가 data-accommodation-no의 값과 같으면 하트svg addClass('~~~active') 하면됨
-            log.info(">>>>>>>>>>>>>wish : {}", wish);
         }
 
+        // 숙소리스트 가져오기
+//        List<HashMap<String, Object>> list = mainService.getPagedAccommodations(0,12); // 처음엔 1페이지이고 12개만 보이게
+//
+//        Map<Integer, List<Map<String, Object>>> groupedAccommodations = list.stream()
+//                .filter(accommodation -> accommodation.get("accommodationNo") != null) // null 방지
+//                .collect(Collectors.groupingBy(accommodation -> (Integer) accommodation.get("accommodationNo")));
+//
+//        model.addAttribute("groupedAccommodations", groupedAccommodations);
+//
+        // 전체 숙소 수
+        int totalCount = mainService.getTotalCount();
+
+        /// //페이징
+        // 첫 페이지
+        model.addAttribute("currentPage", 1);
+        // 총 페이지수 (전체 숙소 수/12)
+        model.addAttribute("totalPages", (int) Math.ceil((double) totalCount / 12));
+
         return "index";
+    }
+
+    @GetMapping("/loadAccommodationList")
+    public ResponseEntity<?> loadAccommodationList(@RequestParam(defaultValue = "1") int page,
+                                                   @RequestParam(defaultValue = "12") int size,
+                                                   Model model,
+                                                   HttpSession session) {
+        //////// 숙소리스트 페이징처리 ///////////
+
+        int offset = (page - 1) * size;
+        // 12개의 숙소정보 가져오기
+        List<HashMap<String, Object>> accommodations = mainService.getPagedAccommodations(offset, size);
+
+        // accommodationNo기준으로 그룹핑
+        Map<Integer, List<Map<String, Object>>> groupedAccommodations = accommodations.stream()
+                .filter(accommodation -> accommodation.get("accommodationNo") != null) // null 방지
+                .collect(Collectors.groupingBy(accommodation -> (Integer) accommodation.get("accommodationNo")));
+
+        // (Integer,List) 형태로 model에 담음
+        model.addAttribute("groupedAccommodations", groupedAccommodations);
+
+        // 현재페이지
+        model.addAttribute("currentPage", page);
+
+        // 전체 숙소 수
+        int totalCount = mainService.getTotalCount();
+
+        // 총 페이지수 (전체 숙소 수/12)
+        model.addAttribute("totalPages", (int) Math.ceil((double) totalCount / 12));
+
+        return ResponseEntity.ok(groupedAccommodations);
     }
 
     // 로그인

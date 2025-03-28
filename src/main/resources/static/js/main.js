@@ -1,18 +1,7 @@
 $(document).ready(function () {
 
-
-    // wishlist 배열이 전역에서 사용 가능하도록 확인
-    if (typeof wishlist !== "undefined" && Array.isArray(wishlist)) {
-        $(".card").each(function () {
-            let accommodationNo = $(this).data("accommodation-no"); // 현재 카드의 숙소 번호 가져오기
-
-            if (wishlist.includes(accommodationNo)) {
-                $(this).find(".wish-btn-svg").addClass("wish-btn-svg-active"); // 위시리스트에 있으면 active 추가
-            }
-        });
-    }
-
-    $(".wish-btn").click(function () {
+    // 하트 버튼 누르면
+    $(document).on("click",".wish-btn", function (){
 
         let memberNo = $("#memberNo").val();
 
@@ -60,4 +49,5 @@ $(document).ready(function () {
             });
         }
     })
+
 })

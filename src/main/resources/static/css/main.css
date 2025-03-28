@@ -242,6 +242,13 @@ header .dropdown > ul > li {
     fill: #ff385c;
 }
 
+.loadMore {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 15px;
+}
+
 /* 풋터 */
 footer {
     font-size: 14px;
