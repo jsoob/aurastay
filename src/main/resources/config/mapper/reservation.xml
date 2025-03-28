@@ -102,6 +102,55 @@
         WHERE reservation_no = #{reservationNo}
     </update>
 
+    <!-- 사업자 기준 예약 조회 -->
+    <select id="getBnsRsList" parameterType="map" resultType="ReservationDTO">
+        SELECT
+        TIMESTAMPDIFF(DAY, rs.checkin_date, rs.checkout_date) as dayCount,
+        rs.reservation_no as reservationNo,
+        STR_TO_DATE(rs.checkin_date, '%Y-%m-%d') as checkinDate, STR_TO_DATE(rs.checkout_date, '%Y-%m-%d') as checkoutDate,
+        rs.reservation_status as reservationStatus, rs.reservation_details_request as reservationDetailsRequest,
+        rs.residence_country as residenceCountry, rs.guest_name as guestName,
+        rs.guest_phone_number as guestPhoneNumber, rs.guest_email as guestEmail, rs.member_no as memberNo,
+        rs.room_no as roomNo, rs.accommodation_no as accommodationNo
+        FROM reservation rs
+        INNER JOIN room rm
+        ON rs.room_no = rm.room_no
+        INNER JOIN accommodation a
+        ON rs.accommodation_no = a.accommodation_no
+        WHERE 1=1
+        <if test="acmNo != 0">
+            AND rm.accommodation_no = #{acmNo}
+        </if>
+        <if test="roomNo != 0">
+            AND rm.room_no = #{roomNo}
+        </if>
+        <if test="search != null and search != ''">
+            AND ( rm.room_name LIKE CONCAT ('%', #{search}, '%') OR a.accommodation_name LIKE CONCAT ('%', #{search}, '%') )
+        </if>
+        AND a.business_no = #{businessNo}
+        ORDER BY STR_TO_DATE(rs.checkin_date, '%Y-%m-%d') DESC  <!-- 체크인날짜 기준으로 내림차순 정렬 -->
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+    <select id="countRsAll" parameterType="map" resultType="int">
+        SELECT count(*)
+        FROM reservation rs
+        INNER JOIN room rm
+        ON rs.room_no = rm.room_no
+        INNER JOIN accommodation a
+        ON rs.accommodation_no = a.accommodation_no
+        WHERE 1=1
+        <if test="acmNo != 0">
+            AND rm.accommodation_no = #{acmNo}
+        </if>
+        <if test="roomNo != 0">
+            AND rm.room_no = #{roomNo}
+        </if>
+        <if test="search != null and search != ''">
+            AND ( rm.room_name LIKE CONCAT ('%', #{search}, '%') OR a.accommodation_name LIKE CONCAT ('%', #{search}, '%') )
+        </if>
+        AND a.business_no = #{businessNo}
+    </select>
+
     <!-- 숙소 번호 -->
     <select id="existsByAccommodationNo" parameterType="int" resultType="boolean">
         SELECT COUNT(*) > 0 FROM reservation WHERE accommodation_no = #{acmNo}

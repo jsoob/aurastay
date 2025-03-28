@@ -1,9 +1,10 @@
 package kr.co.aura.aurastay.service;
 
-import kr.co.aura.aurastay.dto.AccommodationDTO;
-import kr.co.aura.aurastay.dto.AcmDTO;
-import kr.co.aura.aurastay.dto.RoomDTO;
+import kr.co.aura.aurastay.dto.*;
 import kr.co.aura.aurastay.repository.AcmRoomRepository;
+import kr.co.aura.aurastay.repository.PaymentRepository;
+import kr.co.aura.aurastay.repository.ReservationRepository;
+import kr.co.aura.aurastay.repository.ReservationRequestRepository;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
@@ -12,8 +13,14 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class AcmRoomService {
-
+    // 숙소 정보
     private final AcmRoomRepository acmRoomRepository;
+    // 예약 정보
+    private final ReservationRepository reservationRepository;
+    // 결제 정보
+    private final PaymentRepository paymentRepository;
+    // 예약 특별요청
+    private final ReservationRequestRepository reservationRequestRepository;
 
     public AcmDTO selectRoomDetail(AcmDTO acmDTO) {
         return acmRoomRepository.selectRoomDetail(acmDTO);
@@ -48,4 +55,5 @@ public class AcmRoomService {
     public int countRoomAll(int acmNo, String search) {
         return acmRoomRepository.countRoomAll(acmNo, search);
     }
+
 }

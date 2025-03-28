@@ -207,19 +207,21 @@ public class ReservationController {
         return "reservation/album_ex";
     }
 
-    // 2025032711
     @GetMapping("/rsList")
     public String rsList(Model model) {
-
         return "reservation/rsList";
+    }
+    @GetMapping("/cancelList")
+    public String cancelList(Model model) {
+        return "reservation/cancelList";
     }
 
     @GetMapping("/bAcmList")
     public ResponseEntity<Map<String, Object>> bAcmList(
 //            @RequestBody(required = true) RsJsonDTO rsJsonDTO,
-            @RequestParam(value = "businessNo", required = true) int businessNo,
-                                   @RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
-                                    @RequestParam(name = "search", required = false) String search) {
+              @RequestParam(value = "businessNo", required = true) int businessNo,
+              @RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
+              @RequestParam(name = "search", required = false) String search) {
         log.info("숙소 목록 조회");
 
         int pageSize = 6;      // 페이지당 항목 수
@@ -289,6 +291,60 @@ public class ReservationController {
         System.out.println("roomData = " + roomData);
 
         return new ResponseEntity<>(roomData, HttpStatus.OK);
+    }
+
+    @GetMapping("/bRsList")
+    public ResponseEntity<Map<String, Object>> bRsList(
+            @RequestParam(value = "businessNo", required = true) int businessNo,
+            @RequestParam(value = "acmNo", required = false) int acmNo,
+            @RequestParam(value = "roomNo", required = false) int roomNo,
+            @RequestParam(name = "currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(name = "search", required = false) String search) {
+        log.info("예약 목록 조회");
+
+        int pageSize = 10;      // 페이지당 항목 수
+        List<ReservationDTO> list = reservationService.getBnsRsList(businessNo, acmNo, roomNo, currentPage, pageSize, search);
+
+        // 총 숙소 개수를 가져오는 서비스 메서드 호출
+        int totalItems = reservationService.countRsAll(businessNo, acmNo, roomNo, search);       // 총 숙소 개수
+        // 총 페이지 수 계산
+        int totalPages = (int) Math.ceil((double) totalItems / pageSize);
+
+        // 페이지 블록 계산
+        int blockSize = 10;             // 블록당 페이지 수
+        int currentBlock = (currentPage - 1) / blockSize;       // 현재 블록
+        int startPage = currentBlock * blockSize + 1;           // 블록의 시작 페이지
+        int endPage = Math.min(startPage + blockSize - 1, totalPages);  // 블록의 끝 페이지
+
+        HashMap<String, Object> rsData = new HashMap<>();
+        rsData.put("currentPage", currentPage);
+        rsData.put("totalCount", totalItems); // 갯수
+        rsData.put("totalPages", totalPages);
+        rsData.put("startPage", startPage);
+        rsData.put("endPage", endPage);
+        rsData.put("search", search);
+        rsData.put("list", list);
+
+        // 다음 버튼 표시 여부 설정
+        rsData.put("hasNext",  currentPage < endPage);
+
+        System.out.println("rsData = " + rsData);
+
+        return new ResponseEntity<>(rsData, HttpStatus.OK);
+    }
+
+    @GetMapping("/getRsCancl")
+    public ResponseEntity<Map<String, Object>> getRsCancl(@RequestParam(value = "rsNo", required = true) int rsNo) {
+        log.info("예약 취소 조회");
+
+
+        ReservationDTO rsDTO = ReservationDTO.builder().reservationNo(rsNo).build();
+        rsDTO = reservationService.getRsCancl(rsDTO);
+
+        HashMap<String, Object> rsCancelData = new HashMap<>();
+        rsCancelData.put("rsCancelInfo", rsDTO);
+
+        return new ResponseEntity<>(rsCancelData, HttpStatus.OK);
     }
 
 }

@@ -31,4 +31,6 @@ public class ReservationDTO {
     private List<ReservationRequestDTO> reservationRequests;
     private PaymentDTO payment;
     private AcmDTO acmDTO;
+    private MemberDTO memberDTO;
+    private ReservationCancelDTO rsCancel;
 }

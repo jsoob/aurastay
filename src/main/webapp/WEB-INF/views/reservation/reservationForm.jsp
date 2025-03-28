@@ -362,7 +362,7 @@
 </head>
 <body>
 
-<jsp:include page="../main/header.jsp"/>
+<jsp:include page="../main/basic-header.jsp"/>
 
 <%-- 실제 html --%>
 <div class="container rsrv-container">

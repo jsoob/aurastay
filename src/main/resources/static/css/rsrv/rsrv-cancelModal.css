@@ -1,0 +1,19 @@
+.cancelModal .input-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.cancelModal .input-group input, .input-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.cancelModal .input-group textarea {
+    height: 80px;
+    resize: none;
+    width: 100%;
+}
+

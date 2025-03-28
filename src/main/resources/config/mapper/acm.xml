@@ -63,7 +63,6 @@
     </select>
 
     <!-- 사업자 기준 해당 숙소내 객실 조회 -->
-
     <select id="getBnsRoomList" parameterType="map" resultType="RoomDTO">
         SELECT
             r.room_no                 as roomNo,
@@ -94,5 +93,4 @@
         </if>
         AND accommodation_no = #{acmNo}
     </select>
-
 </mapper>

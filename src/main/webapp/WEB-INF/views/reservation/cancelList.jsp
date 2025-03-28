@@ -10,8 +10,68 @@
 
     <link rel="stylesheet" href="/css/rsrv/rsrv.css">
     <link rel="stylesheet" href="/css/rsrv/business-rsrv.css">
+    <link rel="stylesheet" href="/css/rsrv/rsrv-cancelModal.css">
 
     <script src="/js/rsrv/business-rsrv.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            const cancelModal = document.querySelector('#rsResetModal');
+
+            // 예약 조회 td 선택
+            $("#rsTable tbody").on('click', 'td', function(e) {
+                let trIdx = $(this).closest('tr').index();
+                let tdIdx = $(this).closest('td').index();
+
+                let rsNo = $(this).closest('tr').find('td:first').text();
+                let rsStatus = $(this).closest('tr').find('td:last').attr('rs-s');
+                let memberNo = $(this).closest('tr').find('td').eq(1).attr('rs-s');
+
+                // 예약 상태
+                if(tdIdx == 7 && rsStatus != 1) {
+                    selectRsCancel(rsNo, memberNo);
+                    if(rsStatus == 0) {
+                        console.log("예약 취소 상태ggg");
+                    } else if(rsStatus == 2) {
+                        console.log("예약 취소 요청 상태 gggg");
+                    }
+                    cancelModal.classList.add('on'); // 모달 오픈
+                }
+            });
+
+            //닫기 버튼을 눌렀을 때 모달팝업이 닫힘
+            $(".close_btn").click(function () {
+                //'on' class 제거
+                cancelModal.classList.remove('on');
+            });
+            // 모달 영역 말고 다른 부분 선택시 팝업 닫기
+            $(window).click(function (event) {
+                if ($(event.target).is("#rsResetModal")) {
+                    cancelModal.classList.remove('on');
+                }
+            });
+        });
+
+        function selectRsCancel(rsNo, memberNo) {
+            if(rsNo === undefined || memberNo === undefined) {
+                return;
+            }
+            console.log("조회");
+            $.ajax({
+                url: "/reservation/getRsCancl",
+                type: "get",
+                contentType: "application/json",
+                data: { reservationNo: rsNo,  },
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function () {
+                    console.log("조회 실패");
+                }
+            });
+        }
+    </script>
 
 </head>
 <body id="addListPage" class="addList">
@@ -70,6 +130,41 @@
                 </tr>
             </tfoot>
         </table>
+    </div>
+
+
+    <div id="rsResetModal" class="modal cancelModal">
+        <div class="modal_popup min-w-500 max-w-700 w-50">
+            <h3 class="d-fr mt-0">예약 취소 요청 정보
+                <span class="cancel"></span>
+                <button type="button" class="close_btn float-end">닫기</button>
+            </h3>
+
+            <div class="form-group">
+                <div class="modal-body my-20">
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <label>예약번호</label>
+                                <input type="text" name="rsNo" class="form-control fs-10 bckc-gray" value="" readonly>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <label>예약 정보</label>
+                                <input type="text" name="rsInfoText" class="form-control fs-10 bckc-gray" value="${rsrv['acmDTO'].acmName} - ${rsrv['acmDTO'].roomName} (${rsrv.dayCount}박)" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>취소 사유</label>
+                        <div>
+                            <textarea id="cancelReasons" name="cancelReasons" class="py-2 box-border bckc-gray" disabled rows="3" required></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="rsAcmModal" class="modal">

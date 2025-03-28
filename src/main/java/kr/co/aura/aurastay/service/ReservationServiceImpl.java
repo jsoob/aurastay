@@ -19,6 +19,8 @@ public class ReservationServiceImpl implements ReservationService {
     private final ReservationRequestRepository reservationRequestRepository;
     private final PaymentRepository paymentRepository;
     private final ReservationCancelRepository reservationCancelRepository;
+    // 예약자 조회
+    private final MemberRepository memberRepository;
 
     @Override
     public List<SpecialRequestDTO> getSpecialRequests() {
@@ -183,5 +185,69 @@ public class ReservationServiceImpl implements ReservationService {
         rsDTO.setReservationStatus(2); // 취소 대기
         reservationRepository.cancelReservationReq(rsDTO);
 
+    }
+
+    // 사업자 기준 예약 조회
+    @Override
+    public List<ReservationDTO> getBnsRsList(int businessNo, int acmNo, int roomNo, int currentPage, int pageSize, String search) {
+        int offset = (currentPage - 1) * pageSize;
+
+        List<ReservationDTO> list = reservationRepository.getBnsRsList(businessNo, acmNo, roomNo, offset, pageSize, search);
+
+        list.stream().forEach(forRsrv -> {
+            AcmDTO getDTO = AcmDTO.builder()
+                    .acmNo(forRsrv.getAccommodationNo())
+                    .roomNo(forRsrv.getRoomNo())
+                    .build();
+            getDTO = acmRoomRepository.selectRoomDetail(getDTO);
+            forRsrv.setAcmDTO(getDTO);
+
+            // 예약자 조회
+            MemberDTO memberDTO = memberRepository.findById(forRsrv.getMemberNo());
+            forRsrv.setMemberDTO(memberDTO);
+
+            // 예약 요청 정보
+            ReservationRequestDTO getRRDTO = ReservationRequestDTO.builder().reservationNo(forRsrv.getReservationNo()).build();
+            List<ReservationRequestDTO> rrdList = reservationRepository.getReservationRequests(getRRDTO);
+            forRsrv.setReservationRequests(rrdList);
+
+            // 결제
+            PaymentDTO paymentDTO = paymentRepository.getPayment(forRsrv.getReservationNo());
+            forRsrv.setPayment(paymentDTO);
+        });
+
+        return list;
+    }
+    @Override
+    public int countRsAll(int businessNo, int acmNo, int roomNo, String search) {
+        return reservationRepository.countRsAll(businessNo, acmNo, roomNo, search);
+    }
+
+    @Override
+    public ReservationDTO getRsCancl(ReservationDTO getRsDTO) {
+        ReservationDTO rsDTO = reservationRepository.getReservation(getRsDTO);
+
+        // 숙소 정보
+        AcmDTO getAcmDTO = AcmDTO.builder()
+                .acmNo(rsDTO.getAccommodationNo())
+                .roomNo(rsDTO.getRoomNo())
+                .build();
+
+        getAcmDTO = acmRoomRepository.selectRoomDetail(getAcmDTO);
+        rsDTO.setAcmDTO(getAcmDTO);
+
+        // 예약 요청 정보
+        ReservationRequestDTO getRRDTO = ReservationRequestDTO.builder().reservationNo(rsDTO.getReservationNo()).build();
+        List<ReservationRequestDTO> rrdList = reservationRepository.getReservationRequests(getRRDTO);
+        rsDTO.setReservationRequests(rrdList);
+
+        // 결제
+        PaymentDTO paymentDTO = paymentRepository.getPayment(rsDTO.getReservationNo());
+        rsDTO.setPayment(paymentDTO);
+
+        ReservationCancelDTO cancelDTO = reservationCancelRepository.getRsCancl(rsDTO.getReservationNo());
+        rsDTO.setRsCancel(cancelDTO);
+
+        return rsDTO;
     }
 }

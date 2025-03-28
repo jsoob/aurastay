@@ -2,6 +2,7 @@ package kr.co.aura.aurastay.repository;
 
 import kr.co.aura.aurastay.dto.AccommodationDTO;
 import kr.co.aura.aurastay.dto.AcmDTO;
+import kr.co.aura.aurastay.dto.ReservationDTO;
 import kr.co.aura.aurastay.dto.RoomDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
