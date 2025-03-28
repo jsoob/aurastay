@@ -10,11 +10,35 @@
 
     <link rel="stylesheet" href="/css/rsrv/rsrv.css">
     <link rel="stylesheet" href="/css/rsrv/business-rsrv.css">
-    <link rel="stylesheet" href="/css/rsrv/rsrv-cancelModal.css">
+
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"
+    ></script>
 
     <script src="/js/rsrv/business-rsrv.js"></script>
 
     <script>
+        function cancelPay() {
+            $.ajax({
+                url: "/reservation/getRsCanclggg",
+                type: "get",
+                contentType: "application/json",
+                data: {
+                    impUid : "1-123330",
+                    merchantUid : "tt",
+                    amount : 50000,
+                    reason : "취소해줘요"
+                },
+                success: function (data) {
+                },
+                error: function () {
+                    console.log("조회 실패");
+                }
+            });
+        }
+
 
         $(document).ready(function () {
             const cancelModal = document.querySelector('#rsResetModal');
@@ -31,10 +55,21 @@
                 // 예약 상태
                 if(tdIdx == 7 && rsStatus != 1) {
                     selectRsCancel(rsNo, memberNo);
-                    if(rsStatus == 0) {
+                    /*if(rsStatus == 0) {
                         console.log("예약 취소 상태ggg");
-                    } else if(rsStatus == 2) {
+                    } else */
+                    $("#rsResetModal .modal-footer").empty();
+                    if(rsStatus == 2) {
                         console.log("예약 취소 요청 상태 gggg");
+                        $("#rsResetModal .modal-footer").append(
+                            '<div class="row">' +
+                                '<div class="col-sm-12 text-center py-2">' +
+                                    '<input type="button" onclick="cancelPay()" class="cancelBtn me-2 btn-pink" value="예약 취소 승인">' +
+                                    '<input type="button" class="cancelBtn" value="예약 취소 거절">' +
+                                '</div>' +
+                            '</div>'
+
+                        );
                     }
                     cancelModal.classList.add('on'); // 모달 오픈
                 }
@@ -62,9 +97,22 @@
                 url: "/reservation/getRsCancl",
                 type: "get",
                 contentType: "application/json",
-                data: { reservationNo: rsNo,  },
+                data: { reservationNo: rsNo, memberNo : memberNo },
                 success: function (data) {
-                    console.log(data);
+                    let rsCancelInfo = data.rsCancelInfo;
+                    console.log(rsCancelInfo);
+
+                    $("#rsResetModal input[name=rsNo]").val(rsCancelInfo.reservationNo);
+                    $("#rsResetModal textarea[name=cancelReasons]").text((rsCancelInfo.rsCancel).cancelReasons);
+
+                    $("#rsResetModal input[name=rsInfoText]").val((rsCancelInfo.acmDTO).acmName + " - " + (rsCancelInfo.acmDTO).roomName + "(" + rsCancelInfo.dayCount + "박)");
+
+                    $("#rsResetModal input[name=cancelDate]").val( (rsCancelInfo.rsCancel).cancelDate);
+                    $("#rsResetModal input[name=cancelRespDate]").val( (rsCancelInfo.rsCancel).cancelRespDate || '' );
+
+                    let rsStatus =  (rsCancelInfo.rsCancel).cancelStatus;
+                    $("#rsResetModal input[name=cancelStatus]").val( (rsStatus === 0 ? "결제 취소" : (rsStatus === 1 ? "예약 확정" : "취소 대기" ) ));
+
                 },
                 error: function () {
                     console.log("조회 실패");
@@ -72,7 +120,6 @@
             });
         }
     </script>
-
 </head>
 <body id="addListPage" class="addList">
 
@@ -133,39 +180,7 @@
     </div>
 
 
-    <div id="rsResetModal" class="modal cancelModal">
-        <div class="modal_popup min-w-500 max-w-700 w-50">
-            <h3 class="d-fr mt-0">예약 취소 요청 정보
-                <span class="cancel"></span>
-                <button type="button" class="close_btn float-end">닫기</button>
-            </h3>
-
-            <div class="form-group">
-                <div class="modal-body my-20">
-                    <div class="row mb-3">
-                        <div class="col-sm-3">
-                            <div class="input-group">
-                                <label>예약번호</label>
-                                <input type="text" name="rsNo" class="form-control fs-10 bckc-gray" value="" readonly>
-                            </div>
-                        </div>
-                        <div class="col-sm-8">
-                            <div class="input-group">
-                                <label>예약 정보</label>
-                                <input type="text" name="rsInfoText" class="form-control fs-10 bckc-gray" value="${rsrv['acmDTO'].acmName} - ${rsrv['acmDTO'].roomName} (${rsrv.dayCount}박)" readonly>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label>취소 사유</label>
-                        <div>
-                            <textarea id="cancelReasons" name="cancelReasons" class="py-2 box-border bckc-gray" disabled rows="3" required></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <jsp:include page="bsRsCancelModal.jsp" />
 
     <div id="rsAcmModal" class="modal">
         <div class="modal_popup min-w-500 max-w-700 w-50 modal-scroll">

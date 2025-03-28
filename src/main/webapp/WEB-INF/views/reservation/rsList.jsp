@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/css/rsrv/business-rsrv.css">
 
     <script src="/js/rsrv/business-rsrv.js"></script>
+    <script src="/js/rsrv/rsrvCancelModal.js"></script>
 
 </head>
 <body id="addListPage" class="addList">
@@ -71,6 +72,8 @@
             </tfoot>
         </table>
     </div>
+
+    <jsp:include page="bsRsCancelModal.jsp" />
 
     <div id="rsAcmModal" class="modal">
         <div class="modal_popup min-w-500 max-w-700 w-50 modal-scroll">

@@ -3,6 +3,7 @@ package kr.co.aura.aurastay.controller;
 import kr.co.aura.aurastay.dto.*;
 import kr.co.aura.aurastay.service.AccommodationService;
 import kr.co.aura.aurastay.service.AcmRoomService;
+import kr.co.aura.aurastay.service.RefundService;
 import kr.co.aura.aurastay.service.ReservationService;
 import kr.co.aura.aurastay.util.ReservationUtil;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class ReservationController {
     private final ReservationService reservationService;
     private final AcmRoomService acmRoomService;
     private final AccommodationService accommodationService;
+    private final RefundService refundService;
 
     @GetMapping("/stays")
     public String stays(@RequestParam("accommodationNo") int acmNo, @RequestParam("roomNo") int roomNo, @RequestParam("checkin") String checkinDate, @RequestParam("checkout") String checkoutDate, Model model) {
@@ -334,11 +336,10 @@ public class ReservationController {
     }
 
     @GetMapping("/getRsCancl")
-    public ResponseEntity<Map<String, Object>> getRsCancl(@RequestParam(value = "rsNo", required = true) int rsNo) {
+    public ResponseEntity<Map<String, Object>> getRsCancl(@ModelAttribute ReservationDTO rsDTO ) {
         log.info("예약 취소 조회");
+//        ReservationDTO rsDTO = ReservationDTO.builder().reservationNo(rsNo).build();
 
-
-        ReservationDTO rsDTO = ReservationDTO.builder().reservationNo(rsNo).build();
         rsDTO = reservationService.getRsCancl(rsDTO);
 
         HashMap<String, Object> rsCancelData = new HashMap<>();
@@ -346,5 +347,25 @@ public class ReservationController {
 
         return new ResponseEntity<>(rsCancelData, HttpStatus.OK);
     }
+
+    @GetMapping("/getRsCanclggg")
+    public ResponseEntity<Map<String, Object>> getRsCanclggg(
+            @ModelAttribute RefundRequest refundRequest
+//            @RequestParam(value = "impUid", required = true) String impUid,
+//            @RequestParam(value = "amount", required = true) int amount,
+//            @RequestParam(value = "reason", required = true) String reason
+    ) {
+        log.info("예약 취소");
+
+        log.info("refundRequest.getImpUid() = " + refundRequest.getImpUid());
+        log.info("refundRequest.getMerchantUid() = " + refundRequest.getMerchantUid());
+        boolean result = refundService.processRefund(refundRequest);
+        System.out.println("result = " + result);
+
+        HashMap<String, Object> rsCancelData = new HashMap<>();
+
+        return new ResponseEntity<>(rsCancelData, HttpStatus.OK);
+    }
+
 
 }

@@ -17,3 +17,10 @@
     width: 100%;
 }
 
+.cancelBtn {
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: white;
+    background-color: #6c757d;
+    border: none;
+}

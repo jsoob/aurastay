@@ -245,7 +245,9 @@ public class ReservationServiceImpl implements ReservationService {
         PaymentDTO paymentDTO = paymentRepository.getPayment(rsDTO.getReservationNo());
         rsDTO.setPayment(paymentDTO);
 
+        System.out.println("rsDTO.getReservationNo() = " + rsDTO.getReservationNo());
         ReservationCancelDTO cancelDTO = reservationCancelRepository.getRsCancl(rsDTO.getReservationNo());
+        System.out.println(cancelDTO);
         rsDTO.setRsCancel(cancelDTO);
 
         return rsDTO;

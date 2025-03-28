@@ -15,7 +15,7 @@ public class ReservationCancelDTO {
     private int cancelNo;
     private String cancelReasons;
     private int cancelStatus;
-    private int cancelDate;
-    private int cancelRespDate;
+    private String cancelDate;
+    private String  cancelRespDate;
     private int reservationNo;
 }

@@ -42,14 +42,6 @@ $(document).ready(function () {
         console.log(trIdx+"행 "+tdIdx + "열");
         console.log("예약 상태 = " + rsStatus);
 
-        // 예약 상태
-        if(tdIdx == 7 && rsStatus == 0) {
-            console.log("예약 취소 상태");
-
-        } else if(tdIdx == 7 && rsStatus == 2) {
-            console.log("예약 취소 요청 상태");
-
-        }
     });
 
     // Acm

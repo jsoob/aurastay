@@ -97,6 +97,10 @@
     margin-top: 0;
 }
 
+.mt-2 {
+    margin-top: .5rem !important;
+}
+
 .mb-0 {
     margin-bottom: 0;
 }
@@ -111,6 +115,15 @@
 
 .p-0 {
     padding: 0 !important;
+}
+
+.pe-2 {
+    padding-right: .5rem !important;
+}
+
+.py-2 {
+    padding-top: .5rem !important;
+    padding-bottom: .5rem !important;
 }
 
 .float-start {
@@ -229,7 +242,7 @@
 .modal .modal_popup .close_btn {
     display: block;
     padding: 10px 20px;
-    background-color: rgb(116, 0, 0);
+    background-color: #d85656;
     border: none;
     border-radius: 5px;
     color: #fff;
