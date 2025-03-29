@@ -8,4 +8,5 @@ public interface BusinessService {
     BusinessDTO findByEmail(String email);
     void resetPassword(BusinessDTO dto);
     boolean isBusinessExist(String email);
+    boolean isAllBusinessExist(String email);
 }

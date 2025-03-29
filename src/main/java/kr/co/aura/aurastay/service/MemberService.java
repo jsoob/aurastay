@@ -16,6 +16,8 @@ public interface MemberService {
     void resetPassword(MemberDTO dto);
     // 존재하는 사용자인지 확인
     boolean isMemberExist(String email);
+    // 존재하는 사용자인지 확인(탈퇴 포함)
+    boolean isAllMemberExist(String email);
     // 개인정보 수정
     void modifyMemberInfo(MemberDTO dto);
     // memberNo로 사용자 찾기

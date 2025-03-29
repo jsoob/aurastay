@@ -14,8 +14,11 @@ public interface MemberRepository {
     void insertMember(MemberDTO dto);
     // 이메일로 사용자 찾기
     MemberDTO findByUsername(String username);
-    // 존재하는 사용자인지 확인
+    // 존재하는 사용자인지 확인(탈퇴 포함)
     boolean existsByEmail(String memberEmail);
+    // 존재하는 사용자인지 확인
+    boolean existsByEmailAndWithdrawal(String memberEmail);
+
     // 소셜로그인 사용자 정보 찾기
     MemberDTO findByProviderId(String providerId);
     // 사용자 정보 수정

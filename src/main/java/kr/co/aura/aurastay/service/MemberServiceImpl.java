@@ -58,6 +58,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public boolean isAllMemberExist(String email) {
+        return memberRepository.existsByEmailAndWithdrawal(email);
+    }
+
+    @Override
     public void modifyMemberInfo(MemberDTO dto) {
         memberRepository.modifyMember(dto);
     }

@@ -165,7 +165,7 @@ public class MainController {
                                   @RequestParam("email") String email,
                                   @RequestParam("user") int user,
                                   HttpSession session) {
-        // 이부분 if(isExistMember){memberDTO에 담아 memberService.resetPassword(dto)} 이렇게 수정할지..
+
         if (user == 0) { // member
             MemberDTO memberDTO = MemberDTO.builder()
                     .memberPassword(password)
@@ -189,6 +189,17 @@ public class MainController {
     @PostMapping("/checkEmail")
     public ResponseEntity<Map<String, Boolean>> checkEmail(@RequestParam String email) {
         boolean exists = memberService.isMemberExist(email) || businessService.isBusinessExist(email); // member 또는 business에 존재하는 이메일
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("exists", exists);
+        return ResponseEntity.ok(response);
+    }
+
+    // 비밀번호 찾기 이메일 확인
+    @PostMapping("/findPassword/checkEmail")
+    public ResponseEntity<Map<String, Boolean>> findPasswordCheckEmail(@RequestParam String email) {
+        boolean exists = memberService.isAllMemberExist(email) || businessService.isAllBusinessExist(email); // member 또는 business에 존재하는 이메일인지 확인(탈퇴회원 포함)
+
+
         Map<String, Boolean> response = new HashMap<>();
         response.put("exists", exists);
         return ResponseEntity.ok(response);

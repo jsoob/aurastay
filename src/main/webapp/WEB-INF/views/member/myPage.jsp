@@ -106,11 +106,24 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="confirmDeleteLabel">회원 탈퇴 확인</h5>
+                <h5 class="modal-title" id="confirmDeleteLabel">회원 탈퇴</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                정말 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다.
+                <p>
+                    1. 현재 사용중인 계정 정보는 복구 불가능합니다.
+                    탈퇴시 현재 사용하고 계신 계정 정보는 재생이 불가능한 방법으로 파기되며 본인과 타인 모두 복구가 불가능합니다.
+                    현재 사용중인 이메일의 경우 탈퇴 후 7일 이후부터 동일 아이디로 재가입이 가능합니다.
+                </p>
+                <p>
+                    2. 회원 탈퇴 시 회원님의 포인트는 소멸되며 어떠한 경우에도 복구할 수 없습니다.
+                </p>
+                <p>
+                    3. 게시판형 서비스에 등록된 게시물은 삭제되지 않고 유지됩니다.
+                    이용후기와 같은 게시판형 서비스에 등록한 게시물은 삭제되지 않고 유지됩니다.
+                    탈퇴 후에는 회원정보가 삭제되어 본인 여부를 확인할 수 있는 방법이 없으므로, 게시글을 임의로 삭제할 수 없습니다.
+                    삭제를 원하는 게시물이 있을 경우, 반드시 삭제 후 탈퇴 하시기 바라며, 필요한 데이터는 미리 백업을 해주시기 바랍니다.
+                </p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
@@ -120,7 +133,7 @@
     </div>
 </div>
 
-<script src ="/js/mypage.js"></script>
+<script src="/js/mypage.js"></script>
 </body>
 </html>
 

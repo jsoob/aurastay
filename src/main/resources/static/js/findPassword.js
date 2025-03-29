@@ -92,7 +92,7 @@ function ExistEmail(email) {
     return new Promise((resolve) => {
         $.ajax({
             type: "post",
-            url: "/checkEmail",
+            url: "/findPassword/checkEmail",
             data: {email: email},
             success: function (response) {
                 resolve(response.exists);

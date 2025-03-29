@@ -15,9 +15,13 @@
         from member
         where member_email = #{username} and provider_id is null and withdrawal_date is null
     </select>
-    <!-- 이미 존재하는 이메일인지 확인 -->
-    <select id="existsByEmail" parameterType="String" resultType="boolean">
+    <!-- 탈퇴하지 않은 사용자 중에 존재하는 이메일인지 확인 -->
+    <select id="existsByEmailAndWithdrawal" parameterType="String" resultType="boolean">
         SELECT EXISTS (SELECT 1 FROM member WHERE member_email = #{username} and provider_id is null and withdrawal_date is null)
+    </select>
+    <!-- 탈퇴한 사용자 포함해서 이미 존재하는 이메일인지 확인 -->
+    <select id="existsByEmail" parameterType="String" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM member WHERE member_email = #{username} and provider_id is null)
     </select>
     <!-- providerid로 사용자 조회 -->
     <select id="findByProviderId" parameterType="String" resultType="MemberDTO">

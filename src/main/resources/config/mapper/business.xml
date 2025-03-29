@@ -15,8 +15,12 @@
         from business
         where business_email = #{username} and withdrawal_date is null
     </select>
-    <!--  이미 존재하는 이메일인지 확인  -->
+    <!-- 탈퇴한 사업자 포함해서 이미 존재하는 이메일인지 확인 -->
     <select id="existsByEmail" parameterType="String" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM business WHERE business_email = #{username})
+    </select>
+    <!-- 탈퇴하지 않은 사업자 중에 존재하는 이메일인지 확인 -->
+    <select id="existsByEmailAndWithdrawal" parameterType="String" resultType="boolean">
         SELECT EXISTS (SELECT 1 FROM business WHERE business_email = #{username} and withdrawal_date is null)
     </select>
     <!-- 비밀번호 재설정 -->
