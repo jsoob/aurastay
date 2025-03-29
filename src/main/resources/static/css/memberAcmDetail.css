@@ -1,6 +1,6 @@
-/* 전체 컨테이너 스타일 */
+/* 전체 컨테이너 스타일 : header와의 간격 */
 .container {
-    margin-top: 20px;
+    margin-top: 70px;
 }
 
 /* 이미지 카드 스타일 */
@@ -14,34 +14,43 @@
 
 /* 이미지 스타일 */
 .info-card img {
-    border-radius: 8px; /* 둥글게 */
-    transition: transform 0.2s; /* 이미지 확대 효과 */
+    border-radius: 8px;             /* 둥글게 */
+    transition: transform 0.2s;     /* 이미지 확대 효과 */
+    width: 100%;                    /* 일반 이미지가 전체 너비를 차지하도록 */
+    height: 200px;                  /* 원하는 높이 설정 (예: 200px) */
+    object-fit: cover;              /* 비율을 유지하며 잘림 */
 }
 
 .info-card img:hover {
-    transform: scale(1.05); /* 마우스 오버 시 이미지 확대 */
+    transform: scale(1.05);         /* 마우스 오버 시 이미지 확대 */
 }
 
 /* 캐러셀 스타일 */
 .carousel-inner img {
-    width: 100%; /* 캐러셀 이미지가 전체 너비를 차지하도록 */
-    height: auto; /* 비율에 맞춰 자동 조정 */
+    width: 100%;                    /* 캐러셀 이미지가 전체 너비를 차지하도록 */
+    /*height: auto;       !* 비율에 맞춰 자동 조정 *!*/
+    height: 500px;                  /* 원하는 높이 설정 */
+    object-fit: cover;              /* 비율을 유지하며 잘림 */
 }
+
+
+
 
 /* 제목 스타일 */
 h1, h2, h3, h4 {
-    margin-top: 30px; /* 제목 간격 증가 */
+    margin-top: 130px; /* 제목 간격 증가 */
     color: #333; /* 제목 색상 */
 }
 
 h1 {
     font-size: 2.5rem; /* 제목 크기 증가 */
     font-weight: bold; /* 두껍게 */
+    padding-bottom: 20px;
 }
 
 h2 {
     font-size: 2rem; /* 서브 제목 크기 */
-    margin-top: 40px; /* 객실 제목 간격 */
+    margin-top: 10px; /* 객실 제목 간격 */
 }
 
 h3 {
@@ -83,3 +92,104 @@ footer {
     margin-top: 60px; /* footer 간격 */
     font-size: 14px;
 }
+
+
+
+/* --------------- 카드 적용 ----------------- */
+
+/* 숙소 정보 카드 */
+.accommodation-info {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    /* 1차 추가 */
+    /*display: flex; !* 플렉스 박스를 사용하여 아이콘과 텍스트를 나란히 배치 *!*/
+    /*align-items: center; !* 수직 중앙 정렬 *!*/
+}
+
+/* 숙소 정보 내부 요소 */
+.accommodation-info p {
+    font-size: 1rem; /* 기본 문단 크기 */
+    font-weight: 400; /* 일반 두께 */
+    color: #444;
+    /*margin: 5px 0;*/ /* 문단 간격 */
+    margin: 0;      /* 기본 마진 제거 */
+    line-height: 1.5; /* 줄 간격 증가 */
+}
+
+.accommodation-info h2 {
+    font-size: 1.8rem; /* 제목 크기 조정 */
+    margin-bottom: 20px; /* 제목과 텍스트 간격 조정 */
+}
+
+/* 아이콘 스타일 */
+.accommodation-info i {
+    margin-right: 10px;
+    color: #007bff;
+}
+
+/* 객실 정보 스타일 */
+.room-card {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+/* 객실 정보 표 스타일 */
+.room-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.room-table th, .room-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 0.9rem; /* 표 글자 크기 조정 */
+}
+
+.room-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+/* ------------ 숙소 정보에 대한 css ------------ */
+/* 아이콘 스타일 */
+#accommodationIcon {
+    width : 60px;
+    height: auto;
+    margin-right: 20px;
+}
+
+#addressIcon, #telIcon, #characterIcon, #checkincheckoutIcon, #amenitiesIcon {
+    width: 40px; /* 아이콘 크기 조정 */
+    height: auto; /* 비율에 맞춰 자동 조정 */
+    margin-right: 15px; /* 아이콘과 텍스트 간의 간격 */
+}
+
+/* 아이콘과 텍스트를 세로로 정렬 */
+.accommodation-info img {
+    width: 40px; /* 아이콘 크기 조정 */
+    height: auto; /* 비율에 맞춰 자동 조정 */
+    margin-bottom: 10px; /* 아이콘과 텍스트 간격 */
+}
+
+.info-item {
+    display: flex;          /* 플렉스를 사용해서 아이콘과 텍스트를 나란히 배치 */
+    align-items: center;    /* 수직 중앙 정렬 */
+    margin-bottom: 10px;    /* 항목간 간격 */
+}
+
+.info-item img {
+    width: 40px; /* 아이콘 크기 조정 */
+    height: auto; /* 비율에 맞춰 자동 조정 */
+    margin-right: 10px; /* 아이콘과 텍스트 간의 간격 */
+}
+

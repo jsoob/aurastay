@@ -9,7 +9,7 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
 
-    <title>${dto.acmName} 상세페이지</title>
+    <title>${dto.acmName}</title>
 
     <!-- main.CSS 파일 연결 -->
 
@@ -21,67 +21,123 @@
 <body>
 <jsp:include page="../main/header.jsp"/>
 
-<h3>숙소 상세페이지가 정상적으로 나오고 있습니다.</h3>
+<%--<h3>숙소 상세페이지가 정상적으로 나오고 있습니다.</h3>--%>
 
 <div class="container">
     <h1>${dto.acmName}</h1>
 
-    <!-- 숙소 이미지 표시 -->
+    <%-- -------------------------------- 숙소 이미지 표시 -------------------------------- --%>
     <div class="info-card">
-        <label class="form-label">숙소 이미지</label>
+        <%--<label class="form-label">숙소 이미지</label>--%>
         <c:if test="${not empty images}">
-            <div class="row">
-                <c:forEach var="image" items="${images}">
-                    <div class="col-4">
-                        <img src="/accommodation/views/${image.filename}" alt="숙소 이미지" class="img-fluid"
-                             style="width:100%; height:auto; cursor: pointer;"/>
-                    </div>
-                </c:forEach>
+            <%-- 캐러셀 추가 --%>
+            <div id="carouselImages" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <c:forEach var="image" items="${images}" varStatus="imgStatus">
+                        <div class="carousel-item ${imgStatus.first ? 'active' : ''}">
+                            <img src="/accommodation/views/${image.filename}" class="d-block w-100"
+                                 alt="${dto.acmName}">
+                        </div>
+                    </c:forEach>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselImages"
+                        data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">이전</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselImages"
+                        data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">다음</span>
+                </button>
             </div>
         </c:if>
         <c:if test="${empty images}">
-            <p>이미지가 없습니다.</p>
+            <p>이미지가 없습니다.</p>\
         </c:if>
+
+
+        <%--            <div class="row">--%>
+        <%--                <c:forEach var="image" items="${images}">--%>
+        <%--                    <div class="col-4">--%>
+        <%--                        <img src="/accommodation/views/${image.filename}" alt="숙소 이미지" class="img-fluid"--%>
+        <%--                             style="width:100%; height:auto; cursor: pointer;"/>--%>
+        <%--                    </div>--%>
+        <%--                </c:forEach>--%>
+        <%--            </div>--%>
+
     </div>
 
     <%-- 추가적인 이미지 표시 (캐러셀 등) --%>
-    <c:if test="${not empty accommodations}">
-        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <c:forEach var="accommodation" items="${accommodations}" varStatus="imgStatus">
-                    <div class="carousel-item ${imgStatus.first ? 'active' : ''}">
-                        <img src="/accommodation/views/${accommodation.filename}" class="d-block w-100" alt="숙소 이미지">
-                    </div>
-                </c:forEach>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">이전</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">다음</span>
-            </button>
-        </div>
-    </c:if>
+    <%--    <c:if test="${not empty accommodations}">--%>
+    <%--        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">--%>
+    <%--            <div class="carousel-inner">--%>
+    <%--                <c:forEach var="accommodation" items="${accommodations}" varStatus="imgStatus">--%>
+    <%--                    <div class="carousel-item ${imgStatus.first ? 'active' : ''}">--%>
+    <%--                        <img src="/accommodation/views/${accommodation.filename}" class="d-block w-100" alt="숙소 이미지">--%>
+    <%--                    </div>--%>
+    <%--                </c:forEach>--%>
+    <%--            </div>--%>
+    <%--            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">--%>
+    <%--                <span class="carousel-control-prev-icon" aria-hidden="true"></span>--%>
+    <%--                <span class="visually-hidden">이전</span>--%>
+    <%--            </button>--%>
+    <%--            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">--%>
+    <%--                <span class="carousel-control-next-icon" aria-hidden="true"></span>--%>
+    <%--                <span class="visually-hidden">다음</span>--%>
+    <%--            </button>--%>
+    <%--        </div>--%>
+    <%--    </c:if>--%>
     <%-- 숙소 이미지 끝 --%>
 
-    <%-- 숙소 정보 표시 --%>
-    <c:if test="${not empty dto}">
-        <h3>${dto.acmAddress}</h3>
-        <h4>전화번호: ${dto.acmTel}</h4>
-        <h4>특징(타이틀제목은 나중에 삭제할 예정): ${dto.contents}</h4>
-        <h4>체크인 ${dto.checkinTime}</h4>
-        <h4>체크아웃 ${dto.checkoutTime}</h4>
-        <h4>사업자번호 ${dto.businessNo}</h4>
-        <h4>편의시설 ${dto.amenitiesName}</h4>
-    </c:if>
+    <%-- -------------------------------- 숙소 정보 표시 -------------------------------- --%>
+    <%--    <c:if test="${not empty dto}">--%>
+    <%--        <p>${dto.acmAddress}</p>--%>
+    <%--        <p>전화번호: ${dto.acmTel}</p>--%>
+    <%--        <p>특징(타이틀제목은 나중에 삭제할 예정): ${dto.contents}</p>--%>
+    <%--        <p>체크인 ${dto.checkinTime}</p>--%>
+    <%--        <p>체크아웃 ${dto.checkoutTime}</p>--%>
+    <%--        <p>사업자번호 ${dto.businessNo}</p>--%>
+    <%--        <p>편의시설 ${dto.amenitiesName}</p>--%>
+    <%--    </c:if>--%>
+
+    <div class="accommodation-info">
+        <div>
+            <img src="/img/accommodation.png" id="accommodationIcon" alt="accommodationIcon">
+            <h2>숙소 정보</h2>
+        </div>
+        <div class="info-item">
+            <img src="/img/address.png" id="addressIcon" alt="addressIcon">
+            <p><i class="fas fa-map-marker-alt"></i> ${dto.acmAddress}</p> <%-- 주소 --%>
+        </div>
+        <div class="info-item">
+            <img src="/img/tel.png" id="telIcon" alt="telIcon">
+            <p><i class="fas fa-phone"></i> 전화번호 ${dto.acmTel}</p> <%-- 연락처 --%>
+        </div>
+        <div class="info-item">
+            <img src="/img/character.png" id="characterIcon" alt="characterIcon">
+            <p><i class="fas fa-star"></i> ${dto.contents}</p> <%-- 설명 --%>
+        </div>
+        <div class="info-item">
+            <img src="/img/checkincheckout.png" id="checkincheckoutIcon" alt="checkincheckoutIcon">
+            <p><i class="fas fa-clock"></i> 체크인 ${dto.checkinTime} | 체크아웃 ${dto.checkoutTime}</p> <%-- 체크인 & 체크아웃 --%>
+        </div>
+        <div class="info-item">
+            <img src="/img/amenities.png" id="amenitiesIcon" alt="amenitiesIcon">
+            <p><i class="fas fa-concierge-bell"></i> 편의시설 제공 ${dto.amenitiesName}</p> <%-- 편의시설 --%>
+        </div>
+        <div class="info-item">
+            <p><i class="fas fa-briefcase"></i> 사업자번호 ${dto.businessNo}</p>
+        </div>
+    </div>
+
+
     <c:if test="${empty dto}">
         <p>숙소 정보를 불러오는 데 실패했습니다.</p>
     </c:if>
 
     <c:if test="${not empty categories}">
-        <h4>카테고리:</h4>
+        <p>카테고리:</p>
         <ul>
             <c:forEach var="category" items="${categories}">
                 <li>${category.categoryName}</li>
@@ -91,7 +147,7 @@
     </c:if>
 
     <c:if test="${not empty keywords}">
-        <h4>키워드:</h4>
+        <p>키워드:</p>
         <ul>
             <c:forEach var="keyword" items="${keywords}">
                 <li>${keyword.keywordName}</li>
@@ -102,19 +158,47 @@
 
     <%-- 숙소 정보 불러오기 끝 --%>
 
-    <%-- 객실 정보 표시 --%>
-    <c:if test="${not empty room}">
-        <h2>객실 정보</h2>
+    <%-- -------------------------------- 객실 정보 표시 -------------------------------- --%>
+    <%--    <c:if test="${not empty room}">--%>
+    <%--        <h2>객실 정보</h2>--%>
+    <%--        <c:forEach var="r" items="${room}">--%>
+    <%--            <p>객실명: ${r.roomName}</p>--%>
+    <%--            <p>객실 수: ${r.roomQty}</p>--%>
+    <%--            <p>객실 가격: ${r.roomPrice}</p>--%>
+    <%--            <p>객실 할인: ${r.roomDiscount}</p>--%>
+    <%--            <p>객실 설명: ${r.roomContents}</p>--%>
+    <%--            <p>최대 수용 인원: ${r.roomCapacity}</p>--%>
+    <%--            <hr>--%>
+    <%--        </c:forEach>--%>
+    <%--    </c:if>--%>
+
+    <h2>객실 정보</h2>
+    <table class="room-table">
+        <thead>
+        <tr>
+            <th>객실명</th>
+            <th>객실 수</th>
+            <th>가격</th>
+            <th>할인</th>
+            <th>최대 인원</th>
+            <th>설명</th>
+        </tr>
+        </thead>
+        <tbody>
         <c:forEach var="r" items="${room}">
-            <h4>객실명: ${r.roomName}</h4>
-            <p>객실 수: ${r.roomQty}</p>
-            <p>객실 가격: ${r.roomPrice}</p>
-            <p>객실 할인: ${r.roomDiscount}</p>
-            <p>객실 설명: ${r.roomContents}</p>
-            <p>최대 수용 인원: ${r.roomCapacity}</p>
-            <hr>
+            <tr>
+                <td>${r.roomName}</td>
+                <td>${r.roomQty}</td>
+                <td>${r.roomPrice}원</td>
+                <td>${r.roomDiscount}%</td>
+                <td>${r.roomCapacity}명</td>
+                <td>${r.roomContents}</td>
+            </tr>
         </c:forEach>
-    </c:if>
+        </tbody>
+    </table>
+
+
     <c:if test="${empty room}">
         <p>객실 정보가 없습니다.</p>
     </c:if>
@@ -126,5 +210,6 @@
 </body>
 
 <jsp:include page="../main/footer.jsp"/>
+
 
 </html>
