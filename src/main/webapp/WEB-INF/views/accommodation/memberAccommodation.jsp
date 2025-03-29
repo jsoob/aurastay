@@ -12,13 +12,15 @@
     <title>${dto.acmName} 상세페이지</title>
 
     <!-- main.CSS 파일 연결 -->
-    <link rel="stylesheet" type="text/css" href="../css/main.css">
 
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/memberAcmDetail.css">
 </head>
 
-<jsp:include page="../main/header.jsp"/>
 
 <body>
+<jsp:include page="../main/header.jsp"/>
+
 <h3>숙소 상세페이지가 정상적으로 나오고 있습니다.</h3>
 
 <div class="container">
@@ -82,7 +84,8 @@
         <h4>카테고리:</h4>
         <ul>
             <c:forEach var="category" items="${categories}">
-                <li>${category.categoryName}</li> <!-- 카테고리 번호 출력 -->
+                <li>${category.categoryName}</li>
+                <!-- 카테고리 번호 출력 -->
             </c:forEach>
         </ul>
     </c:if>
@@ -91,12 +94,13 @@
         <h4>키워드:</h4>
         <ul>
             <c:forEach var="keyword" items="${keywords}">
-                <li>${keyword.keywordName}</li> <!-- 키워드 이름 출력 -->
+                <li>${keyword.keywordName}</li>
+                <!-- 키워드 이름 출력 -->
             </c:forEach>
         </ul>
     </c:if>
 
-<%-- 숙소 정보 불러오기 끝 --%>
+    <%-- 숙소 정보 불러오기 끝 --%>
 
     <%-- 객실 정보 표시 --%>
     <c:if test="${not empty room}">

@@ -1,0 +1,85 @@
+/* 전체 컨테이너 스타일 */
+.container {
+    margin-top: 20px;
+}
+
+/* 이미지 카드 스타일 */
+.info-card {
+    margin-bottom: 30px;
+    padding: 20px; /* 패딩 증가 */
+    border: 1px solid #ddd;
+    border-radius: 8px; /* 둥글게 */
+    background-color: #f9f9f9;
+}
+
+/* 이미지 스타일 */
+.info-card img {
+    border-radius: 8px; /* 둥글게 */
+    transition: transform 0.2s; /* 이미지 확대 효과 */
+}
+
+.info-card img:hover {
+    transform: scale(1.05); /* 마우스 오버 시 이미지 확대 */
+}
+
+/* 캐러셀 스타일 */
+.carousel-inner img {
+    width: 100%; /* 캐러셀 이미지가 전체 너비를 차지하도록 */
+    height: auto; /* 비율에 맞춰 자동 조정 */
+}
+
+/* 제목 스타일 */
+h1, h2, h3, h4 {
+    margin-top: 30px; /* 제목 간격 증가 */
+    color: #333; /* 제목 색상 */
+}
+
+h1 {
+    font-size: 2.5rem; /* 제목 크기 증가 */
+    font-weight: bold; /* 두껍게 */
+}
+
+h2 {
+    font-size: 2rem; /* 서브 제목 크기 */
+    margin-top: 40px; /* 객실 제목 간격 */
+}
+
+h3 {
+    font-size: 1.5rem; /* 작은 제목 크기 */
+}
+
+/* 리스트 스타일 */
+ul {
+    list-style-type: none; /* 기본 리스트 스타일 제거 */
+    padding: 0; /* 패딩 제거 */
+}
+
+ul li {
+    margin-bottom: 15px; /* 리스트 항목 간격 증가 */
+    padding: 12px; /* 패딩 증가 */
+    border: 1px solid #ddd; /* 리스트 항목 테두리 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    background-color: #fff; /* 배경색 */
+    transition: background-color 0.3s; /* 배경색 전환 효과 */
+}
+
+ul li:hover {
+    background-color: #f0f0f0; /* 마우스 오버 시 배경색 변경 */
+}
+
+/* 객실 정보 스타일 */
+p {
+    margin: 10px 0; /* 문단 간격 */
+    line-height: 1.5; /* 줄 간격 증가 */
+}
+
+/* 버튼 스타일 */
+.btn {
+    margin-top: 20px; /* 버튼 간격 */
+}
+
+/* footer 스타일 */
+footer {
+    margin-top: 60px; /* footer 간격 */
+    font-size: 14px;
+}
