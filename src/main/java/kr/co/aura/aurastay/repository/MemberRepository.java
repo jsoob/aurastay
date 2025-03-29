@@ -18,7 +18,6 @@ public interface MemberRepository {
     boolean existsByEmail(String memberEmail);
     // 존재하는 사용자인지 확인
     boolean existsByEmailAndWithdrawal(String memberEmail);
-
     // 소셜로그인 사용자 정보 찾기
     MemberDTO findByProviderId(String providerId);
     // 사용자 정보 수정
@@ -29,6 +28,8 @@ public interface MemberRepository {
     void modifyMember(MemberDTO member);
     // memberNo로 사용자 찾기
     MemberDTO findById(int memberNo);
-    // 사용자 삭제
+    // 사용자 탈퇴일자 update
     void deleteMember(int memberNo);
+    // 탈퇴한지 7일이 지났다면 삭제
+    void deleteOldWithdrawnMember();
 }

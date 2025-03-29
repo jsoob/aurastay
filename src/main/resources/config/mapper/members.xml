@@ -59,4 +59,9 @@
         set withdrawal_date = current_timestamp()
         where member_no = #{memberNo}
     </update>
+    <!-- 탈퇴한지 7일이 지났다면 삭제 -->
+    <delete id="deleteOldWithdrawnMember">
+        DELETE FROM member
+        WHERE withdrawal_date &lt; DATE_SUB(now(), INTERVAL 7 DAY);
+    </delete>
 </mapper>
