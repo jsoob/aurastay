@@ -136,7 +136,7 @@
 
 
                     let html = '<div class="col">' +
-                        '<div class="card" data-accommodation-no="' + accommodationNo + '">' +
+                        '<div class="card shadow-sm" data-accommodation-no="' + accommodationNo + '">' +
                         '<div id="carousel_' + accommodationNo + '" class="carousel slide">' +
                         '<div class="carousel-indicators carousel-index-btn">';
 
