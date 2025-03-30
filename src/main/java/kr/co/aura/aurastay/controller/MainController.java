@@ -72,6 +72,10 @@ public class MainController {
         // 총 페이지수 (전체 숙소 수/12)
         model.addAttribute("totalPages", (int) Math.ceil((double) totalCount / 12));
 
+        // 리뷰 수, 평점
+        List<HashMap<String, Object>> reviewList = mainService.getReview();
+        model.addAttribute("reviewList", reviewList);
+
         return "index";
     }
 
@@ -102,6 +106,9 @@ public class MainController {
 
         // 총 페이지수 (전체 숙소 수/12)
         model.addAttribute("totalPages", (int) Math.ceil((double) totalCount / 12));
+
+
+
 
         return ResponseEntity.ok(groupedAccommodations);
     }
@@ -182,7 +189,7 @@ public class MainController {
 
         // 모든 세션 정보 삭제 (로그아웃 상태로 만듦)
         session.invalidate();
-        return "redirect:/login";
+        return "passwordResetComplete";
     }
 
     // 이메일 중복 확인
@@ -204,6 +211,5 @@ public class MainController {
         response.put("exists", exists);
         return ResponseEntity.ok(response);
     }
-
 
 }

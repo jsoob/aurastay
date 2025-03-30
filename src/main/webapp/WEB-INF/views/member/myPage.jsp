@@ -37,17 +37,17 @@
 
             <div class="form-group">
                 <label>이름</label>
-                <input type="text" name="memberName" value="${dto.memberName}" readonly>
+                <input type="text" id="name" name="memberName" value="${dto.memberName}" readonly>
             </div>
 
             <div class="form-group">
                 <label>닉네임</label>
-                <input type="text" name="memberNickname" value="${dto.memberNickname}" readonly>
+                <input type="text" id="nickname" name="memberNickname" value="${dto.memberNickname}" readonly>
             </div>
 
             <div class="form-group">
                 <label>전화번호</label>
-                <input type="text" name="memberPhoneNumber" value="${dto.memberPhoneNumber}" readonly>
+                <input type="text" id="phone" name="memberPhoneNumber" value="${dto.memberPhoneNumber}" readonly>
             </div>
 
             <div class="form-group">

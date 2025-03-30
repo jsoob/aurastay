@@ -19,21 +19,8 @@
         where accommodation_no = a.accommodation_no);
     </select>
 
-
     <!-- 페이징 전체 숙소정보, 숙소이미지 -->
-    <!-- 더 적어야함 -->
     <select id="getPagedAccommodations" parameterType="HashMap" resultType="HashMap">
-<!--        SELECT a.accommodation_no as accommodationNo, a.accommodation_name as accommodationName, a.accommodation_address as accommodationAddress, r.room_price as roomPrice, r.room_discount as roomDiscount, round((r.room_price*(1-(r.room_discount / 100)))) as discountedPrice,-->
-<!--        r.room_discount as roomDiscount,i.filename as filename-->
-<!--        from accommodation a-->
-<!--        join room r on a.accommodation_no = r.accommodation_no-->
-<!--        join room_image i on a.accommodation_no = i.accommodation_no-->
-<!--        where (r.room_price*(1-(r.room_discount / 100))) = (-->
-<!--        select min(room_price * (1-(room_discount / 100)))-->
-<!--        from room-->
-<!--        where accommodation_no = a.accommodation_no);-->
-<!--        ORDER BY createdAt DESC-->
-<!--        LIMIT #{size} OFFSET #{offset}-->
         WITH SelectedAccommodations AS (
         SELECT a.accommodation_no
         FROM accommodation a
@@ -45,7 +32,7 @@
         SELECT
         a.accommodation_no AS accommodationNo,
         a.accommodation_name AS accommodationName,
-        a.accommodation_address AS accommodationAddress,
+        SUBSTRING_INDEX(a.accommodation_address,' ',2) AS accommodationAddress,
         r.room_price AS roomPrice,
         r.room_discount AS roomDiscount,
         ROUND(r.room_price * (1 - (r.room_discount / 100))) AS discountedPrice,
@@ -56,8 +43,15 @@
         WHERE a.accommodation_no IN (SELECT accommodation_no FROM SelectedAccommodations)
         ORDER BY a.accommodation_no DESC
     </select>
-
+    <!-- 전체 숙소 수 -->
     <select id="getTotalCount" resultType="int">
         SELECT COUNT(*) FROM accommodation
+    </select>
+    <!-- 숙소별 리뷰 수, 리뷰 평점 -->
+    <select id="getReview" resultType="HashMap">
+        SELECT a.accommodation_no as accommodationNo, count(review_no) as cnt,round(avg(review_rating),2) as reviewRating
+        FROM accommodation a
+        LEFT OUTER JOIN review r ON a.accommodation_no = r.accommodation_no
+        GROUP BY a.accommodation_no;
     </select>
 </mapper>

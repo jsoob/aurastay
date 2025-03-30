@@ -17,7 +17,12 @@ public class MainServiceImpl implements MainService{
     public int getTotalCount() {
         return mainRepository.getTotalCount();
     }
-    
+    // 숙소별 리뷰 수, 평점
+    @Override
+    public List<HashMap<String, Object>> getReview() {
+        return mainRepository.getReview();
+    }
+
     // 숙소 쪽으로 옮기거나 삭제하거나
     @Override
     public List<HashMap<String, Object>> getAllAccommodation() {

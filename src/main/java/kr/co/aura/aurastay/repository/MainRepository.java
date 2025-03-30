@@ -11,8 +11,10 @@ import java.util.List;
 public interface MainRepository {
     // 전체 숙소 정보, 이미지
     List<HashMap<String, Object>> getAllAccommodation();
-
+    // 숙소 12개씩 가져오기
     List<HashMap<String, Object>> getPagedAccommodations(HashMap<String,Integer> map);
-
+    // 전체 숙소 수
     int getTotalCount();
+    // 숙소별 리뷰 수, 리뷰평점
+    List<HashMap<String, Object>>getReview();
 }
