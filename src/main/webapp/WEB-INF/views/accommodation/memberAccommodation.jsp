@@ -68,26 +68,6 @@
 
     </div>
 
-    <%-- 추가적인 이미지 표시 (캐러셀 등) --%>
-    <%--    <c:if test="${not empty accommodations}">--%>
-    <%--        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">--%>
-    <%--            <div class="carousel-inner">--%>
-    <%--                <c:forEach var="accommodation" items="${accommodations}" varStatus="imgStatus">--%>
-    <%--                    <div class="carousel-item ${imgStatus.first ? 'active' : ''}">--%>
-    <%--                        <img src="/accommodation/views/${accommodation.filename}" class="d-block w-100" alt="숙소 이미지">--%>
-    <%--                    </div>--%>
-    <%--                </c:forEach>--%>
-    <%--            </div>--%>
-    <%--            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">--%>
-    <%--                <span class="carousel-control-prev-icon" aria-hidden="true"></span>--%>
-    <%--                <span class="visually-hidden">이전</span>--%>
-    <%--            </button>--%>
-    <%--            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">--%>
-    <%--                <span class="carousel-control-next-icon" aria-hidden="true"></span>--%>
-    <%--                <span class="visually-hidden">다음</span>--%>
-    <%--            </button>--%>
-    <%--        </div>--%>
-    <%--    </c:if>--%>
     <%-- 숙소 이미지 끝 --%>
 
     <%-- -------------------------------- 숙소 정보 표시 -------------------------------- --%>
@@ -124,11 +104,45 @@
         </div>
         <div class="info-item">
             <img src="/img/amenities.png" id="amenitiesIcon" alt="amenitiesIcon">
-            <p><i class="fas fa-concierge-bell"></i> 편의시설 제공 ${dto.amenitiesName}</p> <%-- 편의시설 --%>
+            <div>
+<%--                <p><i class="fas fa-concierge-bell"></i> 편의시설 제공 </p>--%>
+                <p id="amenitiesCharacter">${dto.amenitiesName}</p>
+            </div>
         </div>
         <div class="info-item">
-            <p><i class="fas fa-briefcase"></i> 사업자번호 ${dto.businessNo}</p>
+            <img src="/img/category.png" id="categoryIcon" alt="categoryIcon">
+            <p><i class="gas fa-clock"></i> ${category.categoryName}</p>
+            <c:if test="${not empty categories}">
+                <ul>
+                    <c:forEach var="category" items="${categories}">
+                        <p id="categoryCharacter">${category.categoryName}</p>
+                        <!-- 카테고리 번호 출력 -->
+                    </c:forEach>
+                </ul>
+            </c:if>
         </div>
+        <div class="info-item">
+            <img src="/img/keyword.png" id="keywordIcon" alt="keywordIcon">
+                <!-- 키워드 이름 출력 -->
+                <c:if test="${not empty keywords}">
+                    <ul>
+                        <c:forEach var="keyword" items="${keywords}">
+                            <p id="keywordCharacter">${keyword.keywordName}</p>
+                        </c:forEach>
+                    </ul>
+                </c:if>
+        </div>
+
+
+<%--        <div class="info-item">--%>
+<%--            <img src="/img/amenities.png" id="amenitiesIcon" alt="amenitiesIcon">--%>
+<%--            <p><i class="fas fa-concierge-bell"></i> 편의시설 제공 ${dto.amenitiesName}</p> &lt;%&ndash; 편의시설 &ndash;%&gt;--%>
+<%--        </div>--%>
+
+        <%-- 사업자번호는 상세페이지에서 딱히 보여줄 필요가 없으니 주석처리 --%>
+<%--        <div class="info-item">--%>
+<%--            <p><i class="fas fa-briefcase"></i> 사업자번호 ${dto.businessNo}</p>--%>
+<%--        </div>--%>
     </div>
 
 
@@ -136,25 +150,25 @@
         <p>숙소 정보를 불러오는 데 실패했습니다.</p>
     </c:if>
 
-    <c:if test="${not empty categories}">
-        <p>카테고리:</p>
-        <ul>
-            <c:forEach var="category" items="${categories}">
-                <li>${category.categoryName}</li>
-                <!-- 카테고리 번호 출력 -->
-            </c:forEach>
-        </ul>
-    </c:if>
+<%--    <c:if test="${not empty categories}">--%>
+<%--        <p>카테고리:</p>--%>
+<%--        <ul>--%>
+<%--            <c:forEach var="category" items="${categories}">--%>
+<%--                <li>${category.categoryName}</li>--%>
+<%--                <!-- 카테고리 번호 출력 -->--%>
+<%--            </c:forEach>--%>
+<%--        </ul>--%>
+<%--    </c:if>--%>
 
-    <c:if test="${not empty keywords}">
-        <p>키워드:</p>
-        <ul>
-            <c:forEach var="keyword" items="${keywords}">
-                <li>${keyword.keywordName}</li>
-                <!-- 키워드 이름 출력 -->
-            </c:forEach>
-        </ul>
-    </c:if>
+<%--    <c:if test="${not empty keywords}">--%>
+<%--        <p>키워드:</p>--%>
+<%--        <ul>--%>
+<%--            <c:forEach var="keyword" items="${keywords}">--%>
+<%--                <li>${keyword.keywordName}</li>--%>
+<%--                <!-- 키워드 이름 출력 -->--%>
+<%--            </c:forEach>--%>
+<%--        </ul>--%>
+<%--    </c:if>--%>
 
     <%-- 숙소 정보 불러오기 끝 --%>
 

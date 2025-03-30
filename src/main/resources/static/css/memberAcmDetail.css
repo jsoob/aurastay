@@ -118,6 +118,7 @@ footer {
     /*margin: 5px 0;*/ /* 문단 간격 */
     margin: 0;      /* 기본 마진 제거 */
     line-height: 1.5; /* 줄 간격 증가 */
+    padding-left: 7px;
 }
 
 .accommodation-info h2 {
@@ -168,10 +169,22 @@ footer {
     margin-right: 20px;
 }
 
-#addressIcon, #telIcon, #characterIcon, #checkincheckoutIcon, #amenitiesIcon {
+#addressIcon, #telIcon, #characterIcon, #checkincheckoutIcon, #amenitiesIcon, #keywordIcon {
     width: 40px; /* 아이콘 크기 조정 */
     height: auto; /* 비율에 맞춰 자동 조정 */
     margin-right: 15px; /* 아이콘과 텍스트 간의 간격 */
+}
+
+/* 카테고리 이미지 아이콘 사이즈 및 간격 조정 */
+#categoryIcon {
+    width: 30px;
+    height: auto;
+    margin-right: 15px;
+}
+
+/* 키워드 글자 간격 조정 */
+#keywordCharacter {
+    padding-left: 13px;
 }
 
 /* 아이콘과 텍스트를 세로로 정렬 */
@@ -184,6 +197,7 @@ footer {
 .info-item {
     display: flex;          /* 플렉스를 사용해서 아이콘과 텍스트를 나란히 배치 */
     align-items: center;    /* 수직 중앙 정렬 */
+    /*align-items: flex-start;   !* 수직 정렬을 위쪽으로 설정 *!*/
     margin-bottom: 10px;    /* 항목간 간격 */
 }
 
@@ -191,5 +205,10 @@ footer {
     width: 40px; /* 아이콘 크기 조정 */
     height: auto; /* 비율에 맞춰 자동 조정 */
     margin-right: 10px; /* 아이콘과 텍스트 간의 간격 */
+}
+
+#amenitiesCharacter {
+    /* 편의시설 텍스트만 줄 맞춤 정렬이 안되므로 개인적으로 따로 진행 */
+    padding-left: 15px;     /* 왼쪽 이미지 사진 기준으로 간격 조절 */
 }
 
