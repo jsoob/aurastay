@@ -4,6 +4,8 @@ import jakarta.servlet.http.HttpSession;
 import kr.co.aura.aurastay.dto.LikesDTO;
 import kr.co.aura.aurastay.dto.MemberDTO;
 import kr.co.aura.aurastay.service.LikesService;
+import kr.co.aura.aurastay.service.MainService;
+import kr.co.aura.aurastay.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,8 @@ import java.util.stream.Collectors;
 public class LikesController {
 
     private final LikesService likesService;
+    private final MemberService memberService;
+    private final MainService mainService;
 
 
     // 위시리스트 조회
@@ -40,6 +44,9 @@ public class LikesController {
                 .collect(Collectors.groupingBy(wish -> (Integer) wish.get("accommodationNo")));
 
         model.addAttribute("groupedWishes", groupedWishes);
+
+        List<HashMap<String, Object>> reviewList = mainService.getReview();
+        model.addAttribute("reviewList", reviewList);
 
         return "member/wishList";
     }

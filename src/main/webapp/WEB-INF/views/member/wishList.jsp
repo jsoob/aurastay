@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>위시리스트</title>
@@ -57,7 +58,7 @@
                     <c:set var="accommodationNo" value="${entry.key}"/>
                     <c:set var="wishes" value="${entry.value}"/>
                     <div class="col">
-                        <div class="card shadow-sm wishlist-card"
+                        <div class="card wishlist-card"
                              data-accommodation-no="${wishes[0].get('accommodationNo')}">
 
                             <!-- 캐러셀 -->
@@ -78,7 +79,8 @@
                                     <c:forEach var="wish" items="${wishes}" varStatus="imgStatus">
                                         <div class="carousel-item ${imgStatus.first ? 'active' : ''}">
                                             <a href="acm/list">
-                                                <img class="d-block w-100" src="/accommodation/views/${wish.filename}" alt="숙소 이미지">
+                                                <img class="d-block w-100" src="/accommodation/views/${wish.filename}"
+                                                     alt="숙소 이미지">
                                             </a>
                                         </div>
                                     </c:forEach>
@@ -106,13 +108,47 @@
                                 <%-- 캐러셀 끝 --%>
 
                             <div class="card-body ">
-                                <div class="card-text">
+                                <div class="card-text cardTextDiv">
                                     <a href="acm/list" class="text-decoration-none text-dark">
                                         <div class="fs-14 fw-bold">${wishes[0].get("accommodationName")}</div>
                                         <div class="ps-1 fs-10">${wishes[0].get("accommodationAddress")}</div>
                                     </a>
+
+
+                                <div class="text-end">
+                                    <div class="review_rating fs-10">
+                                        <span class="fw-bold">
+                                                    <c:forEach var="review" items="${reviewList}">
+                                                        <c:if test="${review.get('accommodationNo') eq wishes[0].get('accommodationNo')}">
+                                                            <c:if test="${not empty review.get('reviewRating') && review.get('reviewRating') != 0 && review.get('reviewRating') != ''}">
+                                                                ★ ${review.get('reviewRating')}
+                                                            </c:if>
+                                                        </c:if>
+                                                    </c:forEach>
+
+                                            </span>
+                                        <span>
+                                            <c:forEach var="review" items="${reviewList}">
+                                                <c:if test="${review.get('accommodationNo') eq wishes[0].get('accommodationNo')}">
+                                                    <c:if test="${review.get('cnt') > 0}">
+                                                    (${review.get('cnt')})
+                                                    </c:if>
+                                                </c:if>
+                                            </c:forEach>
+                                        </span>
+                                    </div>
+
+                                    <div class="acm-price fs-10">
+                                        <span class="acm-discount">${wishes[0].get("roomDiscount")}%</span>
+                                        <span class="acm-price-org text-decoration-line-through"><fmt:formatNumber value="${wishes[0].get('roomPrice')}" type="number" pattern="#,###" /></span>
+                                    </div>
+
+                                    <div class="fw-bold">
+                                        <fmt:formatNumber value="${wishes[0].get('discountedPrice')}" type="number" pattern="#,###" />원 ~
+                                    </div>
                                 </div>
                             </div>
+                                </div>
 
                             <div class="wish-btn-container text-center mt-2">
                                 <button type="button" class="wish-btn">
