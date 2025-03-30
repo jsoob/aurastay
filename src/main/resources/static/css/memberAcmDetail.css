@@ -37,12 +37,13 @@
 
 
 /* 제목 스타일 */
-h1, h2, h3, h4 {
-    margin-top: 130px; /* 제목 간격 증가 */
+h2, h3, h4 {
+    margin-top: 40px; /* 제목 간격 증가 */
     color: #333; /* 제목 색상 */
 }
 
 h1 {
+    margin-top: 130px;
     font-size: 2.5rem; /* 제목 크기 증가 */
     font-weight: bold; /* 두껍게 */
     padding-bottom: 20px;
@@ -125,7 +126,7 @@ footer {
 /* 아이콘 스타일 */
 .accommodation-info i {
     margin-right: 10px;
-    color: #007bff;
+    color: #ff5a83;
 }
 
 /* 객실 카드 스타일 */
@@ -230,3 +231,17 @@ footer {
     padding-left: 15px;     /* 왼쪽 이미지 사진 기준으로 간격 조절 */
 }
 
+/* 예약하기 버튼 스타일 */
+.reserve-button {
+    background: #ff4672;              /* 버튼 배경색: 핑크색 */
+    border: 2px solid #ff4672;        /* 버튼 테두리 색상: 핑크색 */
+    color: #ffffff;                   /* 버튼 텍스트 색상: 흰색 */
+    transition: background 0.3s, border 0.3s; /* 배경색과 테두리 색상 변화에 대한 트랜지션 효과 */
+}
+
+/* 버튼에 마우스를 올렸을 때의 스타일 */
+.reserve-button:hover {
+    background: #e03e65;              /* 마우스 오버 시 배경색: 약간 진한 핑크색 */
+    border: 2px solid #e03e65;        /* 마우스 오버 시 테두리 색상: 약간 진한 핑크색 */
+    color: #ffffff;                   /* 텍스트 색상 유지: 흰색 */
+}
