@@ -8,6 +8,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
+    <%-- bootstrap datepicker 추가 : 현재 달과 다음 달을 보여준다 --%>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+
 
     <title>${dto.acmName}</title>
 
@@ -15,6 +20,39 @@
 
     <link rel="stylesheet" type="text/css" href="/css/main.css">
     <link rel="stylesheet" type="text/css" href="/css/memberAcmDetail.css">
+
+    <%-- 체크인 날짜 / 체크아웃 날짜 입력을 위한 달력 컴포넌트 생성을 위한 js 코드 (달력 2개) --%>
+    <%--    <script>--%>
+    <%--        $(document).ready(function () {--%>
+    <%--            $('#checkin').on('change', function () {--%>
+    <%--                const checkinDate = new Date($(this).val());--%>
+    <%--                checkinDate.setDate(checkinDate.getDate() + 1);--%>
+    <%--                $('#checkout').attr('min', checkinDate.toISOString().split('T')[0]);--%>
+    <%--            });--%>
+    <%--        });--%>
+    <%--    </script>--%>
+
+    <script>
+        $(document).ready(function () {
+            $('.datepicker').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true,
+                startDate: new Date(),
+                todayHighlight: true,
+                // 현재 달과 다음 달을 보여주는 옵션
+                beforeShowMonth: function (date) {
+                    return date.getMonth() <= (new Date().getMonth() + 1) ? date : null;
+                }
+            });
+
+            $('#checkin').on('changeDate', function () {
+                const checkinDate = new Date($(this).val());
+                checkinDate.setDate(checkinDate.getDate() + 1);
+                $('#checkout').datepicker('setStartDate', checkinDate);
+            });
+        });
+    </script>
+
 </head>
 
 
@@ -70,49 +108,52 @@
 
     <%-- 숙소 이미지 끝 --%>
 
-    <%-- -------------------------------- 숙소 정보 표시 -------------------------------- --%>
-    <div class="accommodation-info">
-        <div>
-            <img src="/img/accommodation.png" id="accommodationIcon" alt="accommodationIcon">
-            <h2>숙소 정보</h2>
-        </div>
-        <div class="info-item">
-            <img src="/img/address.png" id="addressIcon" alt="addressIcon">
-            <p><i class="fas fa-map-marker-alt"></i> ${dto.acmAddress}</p> <%-- 주소 --%>
-        </div>
-        <div class="info-item">
-            <img src="/img/tel.png" id="telIcon" alt="telIcon">
-            <p><i class="fas fa-phone"></i> 전화번호 ${dto.acmTel}</p> <%-- 연락처 --%>
-        </div>
-        <div class="info-item">
-            <img src="/img/character.png" id="characterIcon" alt="characterIcon">
-            <p><i class="fas fa-star"></i> ${dto.contents}</p> <%-- 설명 --%>
-        </div>
-        <div class="info-item">
-            <img src="/img/checkincheckout.png" id="checkincheckoutIcon" alt="checkincheckoutIcon">
-            <p><i class="fas fa-clock"></i> 체크인 ${dto.checkinTime} | 체크아웃 ${dto.checkoutTime}</p> <%-- 체크인 & 체크아웃 --%>
-        </div>
-        <div class="info-item">
-            <img src="/img/amenities.png" id="amenitiesIcon" alt="amenitiesIcon">
+    <%-- 숙소 정보와 예약정보 확인하는 항목이 같은 행에 위치하도록 배치 --%>
+    <div class="row">
+        <%-- -------------------------------- 숙소 정보 표시 -------------------------------- --%>
+        <div class="col-md-8">
             <div>
-<%--                <p><i class="fas fa-concierge-bell"></i> 편의시설 제공 </p>--%>
-                <p id="amenitiesCharacter">${dto.amenitiesName}</p>
+                <img src="/img/accommodation.png" id="accommodationIcon" alt="accommodationIcon">
+                <h2>숙소 정보</h2>
             </div>
-        </div>
-        <div class="info-item">
-            <img src="/img/category.png" id="categoryIcon" alt="categoryIcon">
-            <p><i class="gas fa-clock"></i> ${category.categoryName}</p>
-            <c:if test="${not empty categories}">
-                <ul>
-                    <c:forEach var="category" items="${categories}">
-                        <p id="categoryCharacter">${category.categoryName}</p>
-                        <!-- 카테고리 번호 출력 -->
-                    </c:forEach>
-                </ul>
-            </c:if>
-        </div>
-        <div class="info-item">
-            <img src="/img/keyword.png" id="keywordIcon" alt="keywordIcon">
+            <div class="info-item">
+                <img src="/img/address.png" id="addressIcon" alt="addressIcon">
+                <p><i class="fas fa-map-marker-alt"></i> ${dto.acmAddress}</p> <%-- 주소 --%>
+            </div>
+            <div class="info-item">
+                <img src="/img/tel.png" id="telIcon" alt="telIcon">
+                <p><i class="fas fa-phone"></i> 전화번호 ${dto.acmTel}</p> <%-- 연락처 --%>
+            </div>
+            <div class="info-item">
+                <img src="/img/character.png" id="characterIcon" alt="characterIcon">
+                <p><i class="fas fa-star"></i> ${dto.contents}</p> <%-- 설명 --%>
+            </div>
+            <div class="info-item">
+                <img src="/img/checkincheckout.png" id="checkincheckoutIcon" alt="checkincheckoutIcon">
+                <p><i class="fas fa-clock"></i> 체크인 ${dto.checkinTime} | 체크아웃 ${dto.checkoutTime}
+                </p> <%-- 체크인 & 체크아웃 --%>
+            </div>
+            <div class="info-item">
+                <img src="/img/amenities.png" id="amenitiesIcon" alt="amenitiesIcon">
+                <div>
+                    <%--                <p><i class="fas fa-concierge-bell"></i> 편의시설 제공 </p>--%>
+                    <p id="amenitiesCharacter">${dto.amenitiesName}</p>
+                </div>
+            </div>
+            <div class="info-item">
+                <img src="/img/category.png" id="categoryIcon" alt="categoryIcon">
+                <p><i class="gas fa-clock"></i> ${category.categoryName}</p>
+                <c:if test="${not empty categories}">
+                    <ul>
+                        <c:forEach var="category" items="${categories}">
+                            <p id="categoryCharacter">${category.categoryName}</p>
+                            <!-- 카테고리 번호 출력 -->
+                        </c:forEach>
+                    </ul>
+                </c:if>
+            </div>
+            <div class="info-item">
+                <img src="/img/keyword.png" id="keywordIcon" alt="keywordIcon">
                 <!-- 키워드 이름 출력 -->
                 <c:if test="${not empty keywords}">
                     <ul>
@@ -121,46 +162,67 @@
                         </c:forEach>
                     </ul>
                 </c:if>
+            </div>
+
+
+            <%--        <div class="info-item">--%>
+            <%--            <img src="/img/amenities.png" id="amenitiesIcon" alt="amenitiesIcon">--%>
+            <%--            <p><i class="fas fa-concierge-bell"></i> 편의시설 제공 ${dto.amenitiesName}</p> &lt;%&ndash; 편의시설 &ndash;%&gt;--%>
+            <%--        </div>--%>
+
+            <%-- 사업자번호는 상세페이지에서 딱히 보여줄 필요가 없으니 주석처리 --%>
+            <%--        <div class="info-item">--%>
+            <%--            <p><i class="fas fa-briefcase"></i> 사업자번호 ${dto.businessNo}</p>--%>
+            <%--        </div>--%>
         </div>
 
 
-<%--        <div class="info-item">--%>
-<%--            <img src="/img/amenities.png" id="amenitiesIcon" alt="amenitiesIcon">--%>
-<%--            <p><i class="fas fa-concierge-bell"></i> 편의시설 제공 ${dto.amenitiesName}</p> &lt;%&ndash; 편의시설 &ndash;%&gt;--%>
-<%--        </div>--%>
+        <c:if test="${empty dto}">
+            <p>숙소 정보를 불러오는 데 실패했습니다.</p>
+        </c:if>
 
-        <%-- 사업자번호는 상세페이지에서 딱히 보여줄 필요가 없으니 주석처리 --%>
-<%--        <div class="info-item">--%>
-<%--            <p><i class="fas fa-briefcase"></i> 사업자번호 ${dto.businessNo}</p>--%>
-<%--        </div>--%>
+        <%--    <c:if test="${not empty categories}">--%>
+        <%--        <p>카테고리:</p>--%>
+        <%--        <ul>--%>
+        <%--            <c:forEach var="category" items="${categories}">--%>
+        <%--                <li>${category.categoryName}</li>--%>
+        <%--                <!-- 카테고리 번호 출력 -->--%>
+        <%--            </c:forEach>--%>
+        <%--        </ul>--%>
+        <%--    </c:if>--%>
+
+        <%--    <c:if test="${not empty keywords}">--%>
+        <%--        <p>키워드:</p>--%>
+        <%--        <ul>--%>
+        <%--            <c:forEach var="keyword" items="${keywords}">--%>
+        <%--                <li>${keyword.keywordName}</li>--%>
+        <%--                <!-- 키워드 이름 출력 -->--%>
+        <%--            </c:forEach>--%>
+        <%--        </ul>--%>
+        <%--    </c:if>--%>
+
+        <%-- 숙소 정보 불러오기 끝 --%>
+
+
+        <%-- -------------------------------- 체크인/체크아웃 날짜 선택 -------------------------------- --%>
+        <div class="col-md-4 reservation-info">
+            <div class="card reservation-info-card">
+                <div class="card-body">
+                    <h2>예약 정보</h2>
+                    <div class="mb-3">
+                        <label for="checkin" class="form-label">체크인 날짜:</label>
+                        <input type="date" id="checkin" name="checkin" class="form-control datepicker" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="checkout" class="form-label">체크아웃 날짜:</label>
+                        <input type="date" id="checkout" name="checkout" class="form-control datepicker" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%-- 체크인/체크아웃 날짜 선택 끝 --%>
     </div>
-
-
-    <c:if test="${empty dto}">
-        <p>숙소 정보를 불러오는 데 실패했습니다.</p>
-    </c:if>
-
-<%--    <c:if test="${not empty categories}">--%>
-<%--        <p>카테고리:</p>--%>
-<%--        <ul>--%>
-<%--            <c:forEach var="category" items="${categories}">--%>
-<%--                <li>${category.categoryName}</li>--%>
-<%--                <!-- 카테고리 번호 출력 -->--%>
-<%--            </c:forEach>--%>
-<%--        </ul>--%>
-<%--    </c:if>--%>
-
-<%--    <c:if test="${not empty keywords}">--%>
-<%--        <p>키워드:</p>--%>
-<%--        <ul>--%>
-<%--            <c:forEach var="keyword" items="${keywords}">--%>
-<%--                <li>${keyword.keywordName}</li>--%>
-<%--                <!-- 키워드 이름 출력 -->--%>
-<%--            </c:forEach>--%>
-<%--        </ul>--%>
-<%--    </c:if>--%>
-
-    <%-- 숙소 정보 불러오기 끝 --%>
+    <%-- 숙소정보 & 예약정보 확인하는 행 정렬 끝 --%>
 
     <%-- -------------------------------- 객실 정보 표시 -------------------------------- --%>
 
@@ -174,7 +236,11 @@
                 <p>할인: ${r.roomDiscount}%</p>
                 <p>최대 인원: ${r.roomCapacity}명</p>
                 <p>설명: ${r.roomContents}</p>
-                <button class="btn btn-primary reserve-button">예약하기</button>
+<%--                    <a href="reservation/stays?accommodationNo=${dto.acmNo}&roomNo=${r.roomNo}&checkin=${여기에 날짜}2025-03-28&checkout=${여기에 날짜}2025-03-29">예약하기</a>--%>
+                <%--<form action="reservation/reservationForm" method="post">
+                    <input type="hidden" name="roomNo" value="${r.roomNo}"> &lt;%&ndash; 객실 ID를 숨겨진 입력 필드로 전달하기 &ndash;%&gt;
+                    <button type="submit" class="btn btn-primary reserve-button">예약하기</button>
+                </form>--%>
             </div>
         </c:forEach>
     </div>
