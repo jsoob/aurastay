@@ -71,16 +71,6 @@
     <%-- 숙소 이미지 끝 --%>
 
     <%-- -------------------------------- 숙소 정보 표시 -------------------------------- --%>
-    <%--    <c:if test="${not empty dto}">--%>
-    <%--        <p>${dto.acmAddress}</p>--%>
-    <%--        <p>전화번호: ${dto.acmTel}</p>--%>
-    <%--        <p>특징(타이틀제목은 나중에 삭제할 예정): ${dto.contents}</p>--%>
-    <%--        <p>체크인 ${dto.checkinTime}</p>--%>
-    <%--        <p>체크아웃 ${dto.checkoutTime}</p>--%>
-    <%--        <p>사업자번호 ${dto.businessNo}</p>--%>
-    <%--        <p>편의시설 ${dto.amenitiesName}</p>--%>
-    <%--    </c:if>--%>
-
     <div class="accommodation-info">
         <div>
             <img src="/img/accommodation.png" id="accommodationIcon" alt="accommodationIcon">
@@ -173,49 +163,22 @@
     <%-- 숙소 정보 불러오기 끝 --%>
 
     <%-- -------------------------------- 객실 정보 표시 -------------------------------- --%>
-    <%--    <c:if test="${not empty room}">--%>
-    <%--        <h2>객실 정보</h2>--%>
-    <%--        <c:forEach var="r" items="${room}">--%>
-    <%--            <p>객실명: ${r.roomName}</p>--%>
-    <%--            <p>객실 수: ${r.roomQty}</p>--%>
-    <%--            <p>객실 가격: ${r.roomPrice}</p>--%>
-    <%--            <p>객실 할인: ${r.roomDiscount}</p>--%>
-    <%--            <p>객실 설명: ${r.roomContents}</p>--%>
-    <%--            <p>최대 수용 인원: ${r.roomCapacity}</p>--%>
-    <%--            <hr>--%>
-    <%--        </c:forEach>--%>
-    <%--    </c:if>--%>
 
     <h2>객실 정보</h2>
-    <table class="room-table">
-        <thead>
-        <tr>
-            <th>객실명</th>
-            <th>객실 수</th>
-            <th>가격</th>
-            <th>할인</th>
-            <th>최대 인원</th>
-            <th>설명</th>
-        </tr>
-        </thead>
-        <tbody>
+    <div class="room-cards">
         <c:forEach var="r" items="${room}">
-            <tr>
-                <td>${r.roomName}</td>
-                <td>${r.roomQty}</td>
-                <td>${r.roomPrice}원</td>
-                <td>${r.roomDiscount}%</td>
-                <td>${r.roomCapacity}명</td>
-                <td>${r.roomContents}</td>
-            </tr>
+            <div class="room-card">
+                <h3>${r.roomName}</h3>
+                <p>객실 수: ${r.roomQty}</p>
+                <p>가격: ${r.roomPrice}원</p>
+                <p>할인: ${r.roomDiscount}%</p>
+                <p>최대 인원: ${r.roomCapacity}명</p>
+                <p>설명: ${r.roomContents}</p>
+                <button class="btn btn-primary reserve-button">예약하기</button>
+            </div>
         </c:forEach>
-        </tbody>
-    </table>
+    </div>
 
-
-    <c:if test="${empty room}">
-        <p>객실 정보가 없습니다.</p>
-    </c:if>
     <%-- 객실 정보 불러오기 끝 --%>
 
 
