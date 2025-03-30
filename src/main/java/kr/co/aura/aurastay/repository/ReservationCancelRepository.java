@@ -14,5 +14,7 @@ import java.util.List;
 public interface ReservationCancelRepository {
     void cancelReservationReq(ReservationCancelDTO cancelDTO);
 
-    ReservationCancelDTO getRsCancl(int reservationNo);
+    ReservationCancelDTO getRsCancel(int reservationNo);
+
+    void cancelReservationRes(ReservationCancelDTO cancelDTO);
 }

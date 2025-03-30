@@ -24,7 +24,7 @@ public interface ReservationRepository {
     // 예약 - 요청 조회
     List<ReservationRequestDTO> getReservationRequests(ReservationRequestDTO reservationRequestDTO);
     // 예약 취소 요청
-    void cancelReservationReq(ReservationDTO rsDTO);
+    void cancelReservation(ReservationDTO rsDTO);
 
     // 사업자 기준 예약 조회
     List<ReservationDTO> getBnsRsList(

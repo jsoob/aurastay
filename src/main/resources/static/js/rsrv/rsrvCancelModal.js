@@ -36,7 +36,7 @@ function selectRsCancel(rsNo, memberNo) {
     }
     console.log("조회");
     $.ajax({
-        url: "/reservation/getRsCancl",
+        url: "/reservation/getRsCancel",
         type: "get",
         contentType: "application/json",
         data: { reservationNo: rsNo, memberNo : memberNo },

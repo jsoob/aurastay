@@ -26,8 +26,15 @@
         VALUES
         (
             #{roomPrice}, #{discountPercentage}, #{pointPrice}, #{paymentPrice},
-            #{paymentStatus}, #{paymentId}, #{provider}, SYSDATE(),
+            #{paymentStatus}, #{paymentId}, #{provider}, current_timestamp(),
             #{reservationNo}
         )
     </insert>
+    
+    <update id="cancelPayment" parameterType="paymentDTO">
+        UPDATE payment
+        SET payment_status = #{paymentStatus}, payment_cancel_id = #{paymentCancelId}
+        WHERE payment_no = #{paymentNo}
+        AND reservation_no = #{reservationNo}
+    </update>
 </mapper>

@@ -1,5 +1,6 @@
 package kr.co.aura.aurastay.controller;
 
+import jakarta.servlet.http.HttpSession;
 import kr.co.aura.aurastay.dto.*;
 import kr.co.aura.aurastay.service.AccommodationService;
 import kr.co.aura.aurastay.service.AcmRoomService;
@@ -26,24 +27,10 @@ import java.util.*;
 public class ReservationController {
     private final ReservationService reservationService;
     private final AcmRoomService acmRoomService;
-    private final AccommodationService accommodationService;
     private final RefundService refundService;
 
     @GetMapping("/stays")
     public String stays(@RequestParam("accommodationNo") int acmNo, @RequestParam("roomNo") int roomNo, @RequestParam("checkin") String checkinDate, @RequestParam("checkout") String checkoutDate, Model model) {
-        // 에어비앤비 getParameter
-        // checkin=2025-04-15&
-        // checkout=2025-04-16&
-        // numberOfGuests=1&
-        // numberOfAdults=1&
-        // guestCurrency=KRW&
-        // productId=730576608330784746&
-        // isWorkTrip=false&
-        // numberOfChildren=0&
-        // numberOfInfants=0&
-        // numberOfPets=0&
-        // code=HM2QXJHCAJ&
-        // orderId=1376602254524241888
 
         String url = "reservation/reservationForm";
 
@@ -78,26 +65,11 @@ public class ReservationController {
         // 숙소 수량 count
         model.addAttribute("acmCount", roomCountMin); // 객실 수량이 1이면..마지막 객실 알림 / 2~ 이상이면 알림 없음.
 
-        // 숙소 정보 조회
-        // 숙소 DTO 값 받아오기.
-//        HashMap<String, Object> roomDetail = acmRoomService.selectRoomDetail(acmNo, roomNo);
-//        model.addAttribute("roomDetail", roomDetail);
-
         AcmDTO acmDTO = AcmDTO.builder()
                 .acmNo(acmNo)
                 .roomNo(roomNo)
                 .build();
         AcmDTO roomMap = acmRoomService.selectRoomDetail(acmDTO);
-
-        // 이후에 변경될 부분
-        // 숙소 정보 조회
-        // AccommodationDTO acmDetail = accommodationService.selectOne(acmNo);   // 서비스 호출
-        // 해당 숙소의 객실 정보 조회
-        // RoomDTO roomDetail = roomService.findByRoomId(acmNo); // 객실 정보 조회 추가
-        // 카테고리 정보 조회
-        //  CategoryDTO category = categoryService.getCategoryById(dto.getCategoryNo());                // 카테고리 목록을 가져오는 서비스 호출
-        // 키워드 정보 조회
-        // KeywordDTO keyword = keywordService.getKeywordById(dto.getKeywordNo());               // 키워드 목록을 가져오는 서비스 호출
 
         model.addAttribute("acmDetail", roomMap); // 모델에 추가
         model.addAttribute("category", roomMap);   // 카테고리 목록 추가
@@ -135,12 +107,14 @@ public class ReservationController {
     }
 
     @GetMapping("/mystays")
-    public String myStays(@RequestParam(value = "rsStatus", defaultValue = "1") int reservationStatus, Model model) {
+    public String myStays(@RequestParam(value = "rsStatus", defaultValue = "1") int reservationStatus, HttpSession session, Model model) {
         log.info("mystays");
 //        log.info("reservationStatus >>>>>>>>>>>>>>> {}", reservationStatus);
 
         // 가져온 회원 번호
-        int memberNo = 2;
+        Object dto = session.getAttribute("dto");
+        int memberNo = ((MemberDTO) dto).getMemberNo();
+//        int memberNo = 2;
 
         ReservationDTO reservationDTO = ReservationDTO.builder().memberNo(memberNo).reservationStatus(reservationStatus).build();
 
@@ -154,9 +128,11 @@ public class ReservationController {
     }
 
     @GetMapping("/mystay")
-    public String mystayDetail(@RequestParam(value = "rsNo", required = true) int rsNo,  Model model) {
+    public String mystayDetail(@RequestParam(value = "rsNo", required = true) int rsNo, HttpSession session, Model model) {
         // 가져온 회원 번호
-        int memberNo = 2;
+        Object dto = session.getAttribute("dto");
+        int memberNo = ((MemberDTO) dto).getMemberNo();
+//        int memberNo = 2;
 
         ReservationDTO reservationDTO = ReservationDTO.builder().memberNo(memberNo).reservationNo(rsNo).build();
 
@@ -166,16 +142,6 @@ public class ReservationController {
 
         AcmDTO roomMap = acmRoomService.selectRoomDetail(rsDTO.getAcmDTO());
 
-        // 이후에 변경될 부분
-        // 숙소 정보 조회
-        // AccommodationDTO acmDetail = accommodationService.selectOne(acmNo);   // 서비스 호출
-        // 해당 숙소의 객실 정보 조회
-        // RoomDTO roomDetail = roomService.findByRoomId(acmNo); // 객실 정보 조회 추가
-        // 카테고리 정보 조회
-        //  CategoryDTO category = categoryService.getCategoryById(dto.getCategoryNo());                // 카테고리 목록을 가져오는 서비스 호출
-        // 키워드 정보 조회
-        // KeywordDTO keyword = keywordService.getKeywordById(dto.getKeywordNo());               // 키워드 목록을 가져오는 서비스 호출
-
         model.addAttribute("category", roomMap);   // 카테고리 목록 추가
         model.addAttribute("keyword", roomMap);     // 키워드 목록 추가
         model.addAttribute("roomDetail", roomMap);  // 객실 정보를 모델에 추가
@@ -183,13 +149,14 @@ public class ReservationController {
         return "reservation/myReservationDetail";
     }
 
-
     @PostMapping("/staycancel")
-    public String stayCancel(@RequestParam(value = "rsNo", required = true) int rsNo, @RequestParam(value = "cancelReasons", required = true) String cancelReasons, Model model) {
+    public String stayCancel(
+            @RequestParam(value = "rsNo", required = true) int rsNo,
+            @RequestParam(value = "cancelReasons", required = true) String cancelReasons, HttpSession session, Model model) {
         // 가져온 회원 번호
-        int memberNo = 2;
-
-//        ReservationDTO reservationDTO = ReservationDTO.builder().memberNo(memberNo).reservationNo(rsNo).build();
+        Object dto = session.getAttribute("dto");
+        int memberNo = ((MemberDTO) dto).getMemberNo();
+//        int memberNo = 2;
 
         // 예약 취소 요청
         reservationService.cancelReservationReq(memberNo, rsNo, cancelReasons);
@@ -335,12 +302,12 @@ public class ReservationController {
         return new ResponseEntity<>(rsData, HttpStatus.OK);
     }
 
-    @GetMapping("/getRsCancl")
-    public ResponseEntity<Map<String, Object>> getRsCancl(@ModelAttribute ReservationDTO rsDTO ) {
+    @GetMapping("/getRsCancel")
+    public ResponseEntity<Map<String, Object>> getRsCancel(@ModelAttribute ReservationDTO rsDTO ) {
         log.info("예약 취소 조회");
 //        ReservationDTO rsDTO = ReservationDTO.builder().reservationNo(rsNo).build();
 
-        rsDTO = reservationService.getRsCancl(rsDTO);
+        rsDTO = reservationService.getRsCancel(rsDTO);
 
         HashMap<String, Object> rsCancelData = new HashMap<>();
         rsCancelData.put("rsCancelInfo", rsDTO);
@@ -348,17 +315,41 @@ public class ReservationController {
         return new ResponseEntity<>(rsCancelData, HttpStatus.OK);
     }
 
-    @GetMapping("/getRsCanclggg")
-    public ResponseEntity<Map<String, Object>> getRsCanclggg(
-            @ModelAttribute RefundRequest refundRequest
-//            @RequestParam(value = "impUid", required = true) String impUid,
-//            @RequestParam(value = "amount", required = true) int amount,
-//            @RequestParam(value = "reason", required = true) String reason
+    @GetMapping("/cancelRs")
+    public ResponseEntity<Map<String, Object>> cancelRs (
+            @RequestParam(value = "rsNo", required = true) int rsNo,
+            @RequestParam(value = "cancelStatus", required = true) int cancelStatus,
+            @RequestParam(value = "paymentNo", required = true) int paymentNo
     ) {
         log.info("예약 취소");
+        log.info("rsNo = {} ", rsNo);
+        log.info("cancelStatus = {} ", cancelStatus);
+        log.info("paymentNo = {} ", paymentNo);
 
+        PaymentDTO paymentDTO = PaymentDTO.builder()
+                .paymentNo(paymentNo)
+                .reservationNo(rsNo)
+                .paymentCancelId("paymentCancelId")
+                .paymentStatus(cancelStatus)
+                .build();
+
+        ReservationDTO rsDTO = ReservationDTO.builder()
+                .reservationNo(rsNo)
+                .reservationStatus(cancelStatus)
+                .payment(paymentDTO)
+                .build();
+
+        reservationService.cancelReservationRes(rsDTO);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/cancelRsPay")
+    public ResponseEntity<Map<String, Object>> cancelRsPay(@ModelAttribute RefundRequest refundRequest) {
+        log.info("예약 취소 상태 변경");
         log.info("refundRequest.getImpUid() = " + refundRequest.getImpUid());
         log.info("refundRequest.getMerchantUid() = " + refundRequest.getMerchantUid());
+
         boolean result = refundService.processRefund(refundRequest);
         System.out.println("result = " + result);
 

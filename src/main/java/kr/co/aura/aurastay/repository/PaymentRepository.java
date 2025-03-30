@@ -12,4 +12,5 @@ import java.util.List;
 public interface PaymentRepository {
     PaymentDTO getPayment(int reservationNo);
     void insertPayment(PaymentDTO paymentDTO);
+    void cancelPayment(PaymentDTO paymentDTO);
 }

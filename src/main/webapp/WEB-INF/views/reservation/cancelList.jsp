@@ -20,27 +20,10 @@
     <script src="/js/rsrv/business-rsrv.js"></script>
 
     <script>
-        function cancelPay() {
-            $.ajax({
-                url: "/reservation/getRsCanclggg",
-                type: "get",
-                contentType: "application/json",
-                data: {
-                    impUid : "1-123330",
-                    merchantUid : "tt",
-                    amount : 50000,
-                    reason : "취소해줘요"
-                },
-                success: function (data) {
-                },
-                error: function () {
-                    console.log("조회 실패");
-                }
-            });
-        }
-
+        let rsCancelInfo;
 
         $(document).ready(function () {
+            <%--console.log("bNo = ", ${dto.businessNo});--%>
             const cancelModal = document.querySelector('#rsResetModal');
 
             // 예약 조회 td 선택
@@ -64,8 +47,8 @@
                         $("#rsResetModal .modal-footer").append(
                             '<div class="row">' +
                                 '<div class="col-sm-12 text-center py-2">' +
-                                    '<input type="button" onclick="cancelPay()" class="cancelBtn me-2 btn-pink" value="예약 취소 승인">' +
-                                    '<input type="button" class="cancelBtn" value="예약 취소 거절">' +
+                                    '<input type="button" onclick="cancelRs(\'Y\')" class="cancelBtn me-2 btn-pink" value="예약 취소 승인">' +
+                                    '<input type="button" onclick="cancelRs(\'N\')" class="cancelBtn" value="예약 취소 거절">' +
                                 '</div>' +
                             '</div>'
 
@@ -94,12 +77,12 @@
             }
             console.log("조회");
             $.ajax({
-                url: "/reservation/getRsCancl",
+                url: "/reservation/getRsCancel",
                 type: "get",
                 contentType: "application/json",
                 data: { reservationNo: rsNo, memberNo : memberNo },
                 success: function (data) {
-                    let rsCancelInfo = data.rsCancelInfo;
+                    rsCancelInfo = data.rsCancelInfo;
                     console.log(rsCancelInfo);
 
                     $("#rsResetModal input[name=rsNo]").val(rsCancelInfo.reservationNo);
@@ -113,6 +96,52 @@
                     let rsStatus =  (rsCancelInfo.rsCancel).cancelStatus;
                     $("#rsResetModal input[name=cancelStatus]").val( (rsStatus === 0 ? "결제 취소" : (rsStatus === 1 ? "예약 확정" : "취소 대기" ) ));
 
+                },
+                error: function () {
+                    console.log("조회 실패");
+                }
+            });
+        }
+
+        function cancelRs(yn) {
+            console.log("yn = ", yn);
+            if(yn == "Y") {
+                console.log("yn!!!!");
+                cancelPay();
+            }
+
+            return;
+            $.ajax({
+                url: "/reservation/cancelRs",
+                type: "get",
+                contentType: "application/json",
+                data: {
+                    rsNo : (rsCancelInfo).reservationNo,
+                    cancelStatus : (yn == "Y" ? 0 : 1 ),
+                    paymentNo : (rsCancelInfo.payment).paymentNo
+                },
+                success: function (data) {
+                    selectRsList();
+                    cancelModal.classList.remove('on');
+                },
+                error: function () {
+                    console.log("조회 실패");
+                }
+            });
+        }
+
+        function cancelPay() {
+            $.ajax({
+                url: "/reservation/cancelRsPay",
+                type: "get",
+                contentType: "application/json",
+                data: {
+                    impUid : (rsCancelInfo.payment).paymentId,
+                    merchantUid : "productId",
+                    amount : (rsCancelInfo.rsCancel).paymentPrice,
+                    reason : (rsCancelInfo.rsCancel).cancelReasons
+                },
+                success: function (data) {
                 },
                 error: function () {
                     console.log("조회 실패");

@@ -19,10 +19,12 @@ public interface ReservationService {
     List<ReservationRequestDTO> getReservationRequests(ReservationRequestDTO reservationRequestDTO);
 
     void cancelReservationReq(int memberNo, int rsNo, String cancelReasons);
+    void cancelReservationRes(ReservationDTO rsDTO);
 
     List<ReservationDTO> getBnsRsList(int businessNo, int acmNo, int roomNo, int currentPage, int pageSize, String search);
 
     int countRsAll(int businessNo, int acmNo, int roomNo, String search);
 
-    ReservationDTO getRsCancl(ReservationDTO rsDTO);
+    ReservationDTO getRsCancel(ReservationDTO rsDTO);
+
 }

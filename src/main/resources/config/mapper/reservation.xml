@@ -96,7 +96,8 @@
         )
     </insert>
 
-    <update id="cancelReservationReq" parameterType="ReservationDTO">
+    <!-- 예약 상태 변경 -->
+    <update id="cancelReservation" parameterType="ReservationDTO">
         UPDATE reservation
         SET reservation_status = #{reservationStatus}
         WHERE reservation_no = #{reservationNo}

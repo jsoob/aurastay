@@ -8,10 +8,17 @@
         INSERT INTO
             reservation_cancel (cancel_reasons, cancel_status, cancel_date, reservation_no)
         VALUES
-            ( #{cancelReasons}, #{cancelStatus}, SYSDATE(), #{reservationNo} )
+            ( #{cancelReasons}, #{cancelStatus}, current_timestamp(), #{reservationNo} )
     </insert>
 
-    <select id="getRsCancl" parameterType="int" resultType="ReservationCancelDTO">
+    <update id="cancelReservationRes" parameterType="ReservationCancelDTO">
+        UPDATE reservation_cancel
+        SET cancel_status = #{cancelStatus}, cancel_resp_date = current_timestamp()
+        WHERE reservation_no = #{reservationNo}
+        AND cancel_no = #{cancelNo}
+    </update>
+
+    <select id="getRsCancel" parameterType="int" resultType="ReservationCancelDTO">
         SELECT
             rc.cancel_no as cancelNo, rc.cancel_reasons as cancelReasons,
             rc.cancel_status as cancelStatus,

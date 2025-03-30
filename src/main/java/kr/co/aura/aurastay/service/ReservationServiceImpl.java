@@ -183,8 +183,29 @@ public class ReservationServiceImpl implements ReservationService {
         reservationCancelRepository.cancelReservationReq(cancelDTO);
 
         rsDTO.setReservationStatus(2); // 취소 대기
-        reservationRepository.cancelReservationReq(rsDTO);
+        reservationRepository.cancelReservation(rsDTO);
 
+    }
+
+    // 사업자 기준 예약 승인 / 반려
+    @Override
+    public void cancelReservationRes(ReservationDTO rsDTO) {
+        // 결제취소 테이블 변경
+        ReservationCancelDTO cancelDTO = reservationCancelRepository.getRsCancel(rsDTO.getReservationNo());
+        cancelDTO.setCancelStatus(rsDTO.getReservationStatus());
+
+        reservationCancelRepository.cancelReservationRes(cancelDTO);
+
+        // 결제 테이블 변경
+        PaymentDTO paymentDTO = PaymentDTO.builder()
+                .paymentNo(rsDTO.getPayment().getPaymentNo())
+                .paymentStatus(rsDTO.getPayment().getPaymentStatus())
+                .paymentCancelId(rsDTO.getPayment().getPaymentCancelId())
+                .build();
+        paymentRepository.cancelPayment(paymentDTO);
+
+        // 예약 테이블 변경
+        reservationRepository.cancelReservation(rsDTO);
     }
 
     // 사업자 기준 예약 조회
@@ -224,7 +245,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public ReservationDTO getRsCancl(ReservationDTO getRsDTO) {
+    public ReservationDTO getRsCancel(ReservationDTO getRsDTO) {
         ReservationDTO rsDTO = reservationRepository.getReservation(getRsDTO);
 
         // 숙소 정보
@@ -246,7 +267,7 @@ public class ReservationServiceImpl implements ReservationService {
         rsDTO.setPayment(paymentDTO);
 
         System.out.println("rsDTO.getReservationNo() = " + rsDTO.getReservationNo());
-        ReservationCancelDTO cancelDTO = reservationCancelRepository.getRsCancl(rsDTO.getReservationNo());
+        ReservationCancelDTO cancelDTO = reservationCancelRepository.getRsCancel(rsDTO.getReservationNo());
         System.out.println(cancelDTO);
         rsDTO.setRsCancel(cancelDTO);
 
