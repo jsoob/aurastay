@@ -56,7 +56,13 @@
     <div class="rsrv-body-container main_body_container">
         <div class="d-flex p-4 gap-4 py-md-5 justify-content-center"> <%-- align-items-center --%>
             <div class="left-container">
-                <h3 class="mb-4">예약 정보<c:if test="${rsrv.reservationStatus eq 2}"> (취소대기)</c:if></h3>
+                <h3 class="mb-4">예약 정보
+                    <c:choose>
+                        <c:when test="${rsrv.reservationStatus eq 0}"> (취소완료)</c:when>
+                        <c:when test="${rsrv.reservationStatus eq 1}"> (예약확정)</c:when>
+                        <c:when test="${rsrv.reservationStatus eq 2}"> (취소대기)</c:when>
+                    </c:choose>
+                </h3>
                 <div class="box-border mb-3 ps-4">
                     <div class="row mb-3">
                         <div class="fs-5 mb-3">룸 타입</div>
