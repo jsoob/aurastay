@@ -184,5 +184,4 @@
         WHERE accommodation_no = #{acmNo}
     </delete>
 
-
 </mapper>
