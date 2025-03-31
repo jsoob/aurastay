@@ -1,5 +1,7 @@
 $(document).ready(function () {
-    $(".wish-btn").click(function () {
+
+    // 하트 버튼 누르면
+    $(document).on("click",".wish-btn", function (){
 
         let memberNo = $("#memberNo").val();
 
@@ -47,4 +49,5 @@ $(document).ready(function () {
             });
         }
     })
+
 })

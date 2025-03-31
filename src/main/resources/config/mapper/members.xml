@@ -15,9 +15,13 @@
         from member
         where member_email = #{username} and provider_id is null and withdrawal_date is null
     </select>
-    <!-- 이미 존재하는 이메일인지 확인 -->
-    <select id="existsByEmail" parameterType="String" resultType="boolean">
+    <!-- 탈퇴하지 않은 사용자 중에 존재하는 이메일인지 확인 -->
+    <select id="existsByEmailAndWithdrawal" parameterType="String" resultType="boolean">
         SELECT EXISTS (SELECT 1 FROM member WHERE member_email = #{username} and provider_id is null and withdrawal_date is null)
+    </select>
+    <!-- 탈퇴한 사용자 포함해서 이미 존재하는 이메일인지 확인 -->
+    <select id="existsByEmail" parameterType="String" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM member WHERE member_email = #{username} and provider_id is null)
     </select>
     <!-- providerid로 사용자 조회 -->
     <select id="findByProviderId" parameterType="String" resultType="MemberDTO">
@@ -55,19 +59,9 @@
         set withdrawal_date = current_timestamp()
         where member_no = #{memberNo}
     </update>
-
-    <!-- accommodation.xml 로  옮겨야 할 수 있음. -->
-    <!-- 전체 숙소 정보 및 숙소이미지 -->
-    <select id="getAllAccommodation" resultType="HashMap">
-        <!-- 숙소번호, 숙소명, 주소, 객실가격, 할인율, 숙소 이미지-->
-        select a.accommodation_no as accommodationNo, a.accommodation_name as accommodationName, a.accommodation_address as accommodationAddress, r.room_price as roomPrice, r.room_discount as roomDiscount, round((r.room_price*(1-(r.room_discount / 100)))) as discountedPrice,
-        r.room_discount as roomDiscount,i.filename as filename
-        from accommodation a
-        join room r on a.accommodation_no = r.accommodation_no
-        join room_image i on a.accommodation_no = i.accommodation_no
-        where (r.room_price*(1-(r.room_discount / 100))) = (
-                select min(room_price * (1-(room_discount / 100)))
-                from room
-                where accommodation_no = a.accommodation_no);
-    </select>
+    <!-- 탈퇴한지 7일이 지났다면 삭제 -->
+    <delete id="deleteOldWithdrawnMember">
+        DELETE FROM member
+        WHERE withdrawal_date &lt; DATE_SUB(now(), INTERVAL 7 DAY);
+    </delete>
 </mapper>

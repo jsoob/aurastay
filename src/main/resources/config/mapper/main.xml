@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.aura.aurastay.repository.MainRepository">
+
+    <!-- accommodation.xml 로  옮겨야 할 수 있음. -->
+    <!-- 전체 숙소 정보 및 숙소이미지 -->
+    <select id="getAllAccommodation" resultType="HashMap">
+        <!-- 숙소번호, 숙소명, 주소, 객실가격, 할인율, 숙소 이미지-->
+        select a.accommodation_no as accommodationNo, a.accommodation_name as accommodationName, a.accommodation_address as accommodationAddress, r.room_price as roomPrice, r.room_discount as roomDiscount, round((r.room_price*(1-(r.room_discount / 100)))) as discountedPrice,
+        r.room_discount as roomDiscount,i.filename as filename
+        from accommodation a
+        join room r on a.accommodation_no = r.accommodation_no
+        join room_image i on a.accommodation_no = i.accommodation_no
+        where (r.room_price*(1-(r.room_discount / 100))) = (
+        select min(room_price * (1-(room_discount / 100)))
+        from room
+        where accommodation_no = a.accommodation_no);
+    </select>
+
+    <!-- 페이징 전체 숙소정보, 숙소이미지 -->
+    <select id="getPagedAccommodations" parameterType="HashMap" resultType="HashMap">
+<!--        WITH SelectedAccommodations AS (-->
+<!--        SELECT a.accommodation_no-->
+<!--        FROM accommodation a-->
+<!--        GROUP BY a.accommodation_no-->
+<!--        ORDER BY a.accommodation_no DESC-->
+<!--        LIMIT #{size} OFFSET #{offset}-->
+<!--        )-->
+
+<!--        SELECT-->
+<!--        a.accommodation_no AS accommodationNo,-->
+<!--        a.accommodation_name AS accommodationName,-->
+<!--        SUBSTRING_INDEX(a.accommodation_address,' ',2) AS accommodationAddress,-->
+<!--        r.room_price AS roomPrice,-->
+<!--        r.room_discount AS roomDiscount,-->
+<!--        ROUND(r.room_price * (1 - (r.room_discount / 100))) AS discountedPrice,-->
+<!--        i.filename AS filename-->
+<!--        FROM accommodation a-->
+<!--        JOIN room r ON a.accommodation_no = r.accommodation_no-->
+<!--        JOIN room_image i ON a.accommodation_no = i.accommodation_no-->
+<!--        WHERE a.accommodation_no IN (SELECT accommodation_no FROM SelectedAccommodations)-->
+<!--        ORDER BY a.accommodation_no DESC-->
+
+        WITH SelectedAccommodations AS (
+        SELECT a.accommodation_no
+        FROM accommodation a
+        GROUP BY a.accommodation_no
+        ORDER BY a.accommodation_no DESC
+        LIMIT #{size} OFFSET #{offset}
+        ),
+
+        MinDiscountedRooms AS (
+        SELECT r.accommodation_no,
+        MIN(ROUND(r.room_price * (1 - (r.room_discount / 100)))) AS min_discounted_price
+        FROM room r
+        GROUP BY r.accommodation_no
+        )
+
+        SELECT
+        a.accommodation_no AS accommodationNo,
+        a.accommodation_name AS accommodationName,
+        SUBSTRING_INDEX(a.accommodation_address, ' ', 2) AS accommodationAddress,
+        r.room_price AS roomPrice,
+        r.room_discount AS roomDiscount,
+        ROUND(r.room_price * (1 - (r.room_discount / 100))) AS discountedPrice,
+        i.filename AS filename
+        FROM accommodation a
+        JOIN MinDiscountedRooms mdr ON a.accommodation_no = mdr.accommodation_no
+        JOIN room r ON a.accommodation_no = r.accommodation_no AND ROUND(r.room_price * (1 - (r.room_discount / 100))) = mdr.min_discounted_price
+        join room_image i on a.accommodation_no = i.accommodation_no
+        WHERE a.accommodation_no IN (SELECT accommodation_no FROM SelectedAccommodations)
+        ORDER BY a.accommodation_no DESC;
+    </select>
+    <!-- 전체 숙소 수 -->
+    <select id="getTotalCount" resultType="int">
+        SELECT COUNT(*) FROM accommodation
+    </select>
+    <!-- 숙소별 리뷰 수, 리뷰 평점 -->
+    <select id="getReview" resultType="HashMap">
+        SELECT a.accommodation_no as accommodationNo, count(review_no) as cnt,round(avg(review_rating),2) as reviewRating
+        FROM accommodation a
+        LEFT OUTER JOIN review r ON a.accommodation_no = r.accommodation_no
+        GROUP BY a.accommodation_no;
+    </select>
+</mapper>

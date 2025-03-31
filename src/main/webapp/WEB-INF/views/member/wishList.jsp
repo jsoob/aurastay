@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>위시리스트</title>
@@ -10,36 +11,51 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/wishList.css">
 
-    <script async
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4t4CjqXYx4Ch9EZdO3BSmryXcYs4EiIE&callback=initMap"></script>
+    <script defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4t4CjqXYx4Ch9EZdO3BSmryXcYs4EiIE&callback=initMap&libraries=marker"></script>
     <script>
+
+        // 숙소 데이터를 JavaScript 배열로 변환
+        let accommodations = [
+            <c:forEach var="entry" items="${groupedWishes}" varStatus="loop">
+            {
+                name: "${entry.value[0].get('accommodationName')}",
+                address: "${entry.value[0].get('accommodationFullAddress')}"
+            }<c:if test="${!loop.last}">,</c:if>
+            </c:forEach>
+        ];
+
+        console.log(accommodations);
+
         function initMap() {
-            //지도 기본 설정(서울 중심)
-            const center = {lat: 37.5665, lng: 126.9780}; // 서울좌표
+            //지도 기본 설정
+            const center = {lat: 36.3946, lng: 127.8632737};
             const map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 15,
-                center: center
-            })
-            // 마커 추가
-            const marker = new google.maps.Marker({
-                position: center,
-                map: map,
-                title: "서울"
+                zoom: 7,
+                center: center,
+                mapId: '1e925f5dd27e6bc3'
             })
 
-            // 주소로 위도 경도 가져와야함
-            // 여러개의 마커 추가
-            const malls = [
-                {label: "C", name: "코엑스몰", lat: 37.5115557, lng: 127.0595261},
-                {label: "G", name: "고투몰", lat: 37.5062379, lng: 127.0050378},
-            ];
-            malls.forEach(({label, name, lat, lng}) => {
-                const marker = new google.maps.Marker({
-                    position: {lat, lng},
-                    label,
-                    map,
-                });
-            });
+            // 주소 변환 객체
+            const geocoder = new google.maps.Geocoder();
+
+            accommodations.forEach((accommodation => {
+                geocoder.geocode({'address' : accommodation.address}, function(results, status){
+                    if(status === 'OK') {
+                        let location = results[0].geometry.location; // 변환된 위도/경도 가져오기
+
+                        // 지도에 마커 추가
+                        new google.maps.marker.AdvancedMarkerElement({
+                            map : map,
+                            position: location,
+                            title : accommodation.name
+                        });
+
+                    } else {
+                        console.error("주소변환 실패");
+                    }
+                })
+            }))
         }
     </script>
 </head>
@@ -57,7 +73,7 @@
                     <c:set var="accommodationNo" value="${entry.key}"/>
                     <c:set var="wishes" value="${entry.value}"/>
                     <div class="col">
-                        <div class="card shadow-sm wishlist-card"
+                        <div class="card wishlist-card"
                              data-accommodation-no="${wishes[0].get('accommodationNo')}">
 
                             <!-- 캐러셀 -->
@@ -78,7 +94,8 @@
                                     <c:forEach var="wish" items="${wishes}" varStatus="imgStatus">
                                         <div class="carousel-item ${imgStatus.first ? 'active' : ''}">
                                             <a href="acm/list">
-                                                <img class="d-block w-100" src="/accommodation/views/${wish.filename}" alt="숙소 이미지">
+                                                <img class="d-block w-100" src="/accommodation/views/${wish.filename}"
+                                                     alt="숙소 이미지">
                                             </a>
                                         </div>
                                     </c:forEach>
@@ -106,11 +123,45 @@
                                 <%-- 캐러셀 끝 --%>
 
                             <div class="card-body ">
-                                <div class="card-text">
+                                <div class="card-text cardTextDiv">
                                     <a href="acm/list" class="text-decoration-none text-dark">
                                         <div class="fs-14 fw-bold">${wishes[0].get("accommodationName")}</div>
                                         <div class="ps-1 fs-10">${wishes[0].get("accommodationAddress")}</div>
                                     </a>
+
+
+                                    <div class="text-end">
+                                        <div class="review_rating fs-10">
+                                        <span class="fw-bold">
+                                                    <c:forEach var="review" items="${reviewList}">
+                                                        <c:if test="${review.get('accommodationNo') eq wishes[0].get('accommodationNo')}">
+                                                            <c:if test="${not empty review.get('reviewRating') && review.get('reviewRating') != 0 && review.get('reviewRating') != ''}">
+                                                                ★ ${review.get('reviewRating')}
+                                                            </c:if>
+                                                        </c:if>
+                                                    </c:forEach>
+
+                                            </span>
+                                            <span>
+                                            <c:forEach var="review" items="${reviewList}">
+                                                <c:if test="${review.get('accommodationNo') eq wishes[0].get('accommodationNo')}">
+                                                    <c:if test="${review.get('cnt') > 0}">
+                                                        (${review.get('cnt')})
+                                                    </c:if>
+                                                </c:if>
+                                            </c:forEach>
+                                        </span>
+                                        </div>
+
+                                        <div class="acm-price fs-10">
+                                            <span class="acm-discount">${wishes[0].get("roomDiscount")}%</span>
+                                            <span class="acm-price-org text-decoration-line-through"><fmt:formatNumber value="${wishes[0].get('roomPrice')}" type="number" pattern="#,###" /></span>
+                                        </div>
+
+                                        <div class="fw-bold">
+                                            <fmt:formatNumber value="${wishes[0].get('discountedPrice')}" type="number" pattern="#,###" />원 ~
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -129,7 +180,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div id="map" style="height: 600px"></div>
+            <div id="map" style="height: 800px"></div>
         </div>
     </div>
 </div>

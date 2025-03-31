@@ -9,20 +9,40 @@
         values(null,#{accommodationNo},#{memberNo})
     </insert>
     <select id="getWishList" parameterType="int" resultType="HashMap">
+        WITH MinDiscountedRooms AS (
+        SELECT r.accommodation_no,
+        MIN(ROUND(r.room_price * (1 - (r.room_discount / 100)))) AS min_discounted_price
+        FROM room r
+        GROUP BY r.accommodation_no
+        )
         <!-- 숙소번호, 숙소명, 주소, 숙소이미지경로  -->
         SELECT
         a.accommodation_no as accommodationNo,
         a.accommodation_name as accommodationName,
-        a.accommodation_address as accommodationAddress,
-        r.filename as filename
+        SUBSTRING_INDEX(a.accommodation_address,' ',2) as accommodationAddress,
+        a.accommodation_address as accommodationFullAddress,
+        r.room_price AS roomPrice,
+        r.room_discount AS roomDiscount,
+        ROUND(r.room_price * (1 - (r.room_discount / 100))) AS discountedPrice,
+        i.filename as filename
         FROM likes l
         JOIN member m ON l.member_no = m.member_no
         JOIN accommodation a ON l.accommodation_no = a.accommodation_no
-        JOIN room_image r ON a.accommodation_no = r.accommodation_no
+        JOIN MinDiscountedRooms mdr ON a.accommodation_no = mdr.accommodation_no
+        JOIN room r ON a.accommodation_no = r.accommodation_no AND ROUND(r.room_price * (1 - (r.room_discount / 100))) = mdr.min_discounted_price
+        JOIN room_image i ON a.accommodation_no = i.accommodation_no
         WHERE l.member_no = #{memberNo};
     </select>
     <delete id="deleteWishList" parameterType="LikesDTO">
         delete from likes
         where accommodation_no = #{accommodationNo} and member_no = #{memberNo}
     </delete>
+    <select id="getWish" parameterType="int" resultType="LikesDTO">
+        select like_no as likeNo, accommodation_no as accommodationNo
+        from likes
+        where member_no = #{memberNo}
+    </select>
+    <select id="existsWish" parameterType="LikesDTO" resultType="boolean">
+        select EXISTS (SELECT 1 FROM likes WHERE member_no = #{memberNo} and accommodation_no = #{accommodationNo})
+    </select>
 </mapper>

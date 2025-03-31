@@ -20,7 +20,6 @@ public class JasyptConfig {
 
         SimpleStringPBEConfig config = new SimpleStringPBEConfig();
         config.setPassword(password);
-        System.out.println("Encryptor password: " + password);
 
         // encryptor에서 제공하는 암호화 알고리즘 사용할 것이다.
         config.setAlgorithm("PBEWithMD5AndDES");
