@@ -20,6 +20,7 @@
         a.accommodation_no as accommodationNo,
         a.accommodation_name as accommodationName,
         SUBSTRING_INDEX(a.accommodation_address,' ',2) as accommodationAddress,
+        a.accommodation_address as accommodationFullAddress,
         r.room_price AS roomPrice,
         r.room_discount AS roomDiscount,
         ROUND(r.room_price * (1 - (r.room_discount / 100))) AS discountedPrice,

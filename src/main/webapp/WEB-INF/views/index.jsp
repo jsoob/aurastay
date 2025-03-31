@@ -128,10 +128,12 @@
             data: {page: currentPage, size: 12},
             success: function (response) {
                 console.log(response);
-                Object.keys(response).forEach(accommodationNo => {
+                Object.keys(response)
+                    .sort((a,b) => b-a) // 내림차순 정렬
+                    .forEach(accommodationNo => {
                     let accommodations = response[accommodationNo];
 
-                    let reviewRating = reviewMap[accommodationNo] ? reviewMap[accommodationNo].rating : 0; // 없으면 기본값 0.0
+                    let reviewRating = reviewMap[accommodationNo] ? reviewMap[accommodationNo].rating : 0;
                     let reviewCount = reviewMap[accommodationNo] ? reviewMap[accommodationNo].cnt : 0;
 
 
