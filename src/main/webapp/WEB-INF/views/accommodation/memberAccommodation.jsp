@@ -2,16 +2,22 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          crossorigin="anonymous" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"></script>
-    <%-- bootstrap datepicker 추가 : 현재 달과 다음 달을 보여준다 --%>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <head>
+        <!-- jQuery 추가 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+        <!-- Bootstrap 5 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Bootstrap 5 JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- bootstrap-datepicker 추가 -->
+        <link rel="stylesheet"
+              href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+
+    </head>
 
 
     <title>${dto.acmName}</title>
@@ -22,35 +28,47 @@
     <link rel="stylesheet" type="text/css" href="/css/memberAcmDetail.css">
 
     <%-- 체크인 날짜 / 체크아웃 날짜 입력을 위한 달력 컴포넌트 생성을 위한 js 코드 (달력 2개) --%>
-    <%--    <script>--%>
-    <%--        $(document).ready(function () {--%>
-    <%--            $('#checkin').on('change', function () {--%>
-    <%--                const checkinDate = new Date($(this).val());--%>
-    <%--                checkinDate.setDate(checkinDate.getDate() + 1);--%>
-    <%--                $('#checkout').attr('min', checkinDate.toISOString().split('T')[0]);--%>
-    <%--            });--%>
-    <%--        });--%>
-    <%--    </script>--%>
-
     <script>
         $(document).ready(function () {
-            $('.datepicker').datepicker({
-                format: 'yyyy-mm-dd',
-                autoclose: true,
-                startDate: new Date(),
-                todayHighlight: true,
-                // 현재 달과 다음 달을 보여주는 옵션
-                beforeShowMonth: function (date) {
-                    return date.getMonth() <= (new Date().getMonth() + 1) ? date : null;
-                }
+            // 체크인(시작 날짜) 설정
+            $('#startDate').datepicker({
+                format: "yyyy-mm-dd",   // 날짜 형식 (연-월-일)
+                autoclose: true,        // 날짜 선택 후 자동으로 닫힘
+                todayHighlight: true,   // 오늘 날짜 강조
+                clearBtn: true,         // "Clear" 버튼 추가 (선택 사항)
+                startDate: new Date(),  // 오늘 날짜 이전은 선택 불가능
+                templates: {
+                    leftArrow: '«',
+                    rightArrow: '»'
+                },
+                maxViewMode: 1,         // 최대 월 단위로 보기 가능
+                multidate: false,       // 다중 선택 비활성화
+            }).on('changeDate', function (e) {
+                // 체크인 날짜 선택 후 체크아웃 캘린더 자동 열기
+                $('#endDate').datepicker('setStartDate', e.date);
+                $('#endDate').datepicker('show');
             });
 
-            $('#checkin').on('changeDate', function () {
-                const checkinDate = new Date($(this).val());
-                checkinDate.setDate(checkinDate.getDate() + 1);
-                $('#checkout').datepicker('setStartDate', checkinDate);
+            // 체크아웃(종료 날짜) 설정
+            $('#endDate').datepicker({
+                format: "yyyy-mm-dd",
+                autoclose: true,
+                todayHighlight: true,
+                clearBtn: true,
+                startDate: new Date(), // 오늘 날짜 이후만 선택 가능
+                templates: {
+                    leftArrow: '«',
+                    rightArrow: '»'
+                },
+                maxViewMode: 1,
+                multidate: false,
             });
+
+            // 2개월 보기 옵션 적용 (현재 월 & 다음 월)
+            $('.datepicker').datepicker('update', new Date());
         });
+
+
     </script>
 
 </head>
@@ -163,60 +181,50 @@
                     </ul>
                 </c:if>
             </div>
-
-
-            <%--        <div class="info-item">--%>
-            <%--            <img src="/img/amenities.png" id="amenitiesIcon" alt="amenitiesIcon">--%>
-            <%--            <p><i class="fas fa-concierge-bell"></i> 편의시설 제공 ${dto.amenitiesName}</p> &lt;%&ndash; 편의시설 &ndash;%&gt;--%>
-            <%--        </div>--%>
-
-            <%-- 사업자번호는 상세페이지에서 딱히 보여줄 필요가 없으니 주석처리 --%>
-            <%--        <div class="info-item">--%>
-            <%--            <p><i class="fas fa-briefcase"></i> 사업자번호 ${dto.businessNo}</p>--%>
-            <%--        </div>--%>
         </div>
 
 
         <c:if test="${empty dto}">
             <p>숙소 정보를 불러오는 데 실패했습니다.</p>
         </c:if>
-
-        <%--    <c:if test="${not empty categories}">--%>
-        <%--        <p>카테고리:</p>--%>
-        <%--        <ul>--%>
-        <%--            <c:forEach var="category" items="${categories}">--%>
-        <%--                <li>${category.categoryName}</li>--%>
-        <%--                <!-- 카테고리 번호 출력 -->--%>
-        <%--            </c:forEach>--%>
-        <%--        </ul>--%>
-        <%--    </c:if>--%>
-
-        <%--    <c:if test="${not empty keywords}">--%>
-        <%--        <p>키워드:</p>--%>
-        <%--        <ul>--%>
-        <%--            <c:forEach var="keyword" items="${keywords}">--%>
-        <%--                <li>${keyword.keywordName}</li>--%>
-        <%--                <!-- 키워드 이름 출력 -->--%>
-        <%--            </c:forEach>--%>
-        <%--        </ul>--%>
-        <%--    </c:if>--%>
-
         <%-- 숙소 정보 불러오기 끝 --%>
 
 
-        <%-- -------------------------------- 체크인/체크아웃 날짜 선택 -------------------------------- --%>
+        <%-- -------------------------------- 체크인/체크아웃 날짜 // 인원 수 선택 -------------------------------- --%>
         <div class="col-md-4 reservation-info">
             <div class="card reservation-info-card">
                 <div class="card-body">
-                    <h2>예약 정보</h2>
-                    <div class="mb-3">
-                        <label for="checkin" class="form-label">체크인 날짜:</label>
-                        <input type="date" id="checkin" name="checkin" class="form-control datepicker" required>
+                    <div class="info-item">
+                        <img src="/img/calender.png" id="calenderIcon" alt="calenderIcon">
+                        <h2>예약 정보</h2>
                     </div>
-                    <div class="mb-3">
-                        <label for="checkout" class="form-label">체크아웃 날짜:</label>
-                        <input type="date" id="checkout" name="checkout" class="form-control datepicker" required>
+                    <div class="info-item">
+                        <div class="container mt-3 d-flex justify-content-between">
+                            <div class="me-2">
+                                <label for="startDate">체크인</label>
+                                <input type="text" id="startDate" class="form-control" placeholder="체크인 날짜 선택">
+                            </div>
+                            <div>
+                                <label for="endDate">체크아웃</label>
+                                <input type="text" id="endDate" class="form-control" placeholder="체크아웃 날짜 선택">
+                            </div>
+                        </div>
                     </div>
+
+
+                    <%-- 인원 수를 선택하는 항목 (드롭다운 형식으로 작성) --%>
+                    <div class="guest-dropdown">
+                        <button id="guest-btn">인원 선택</button>
+                        <div class="guest-options">
+                            <label>성인 (13세 이상) <input type="number" id="adults" min="0" max="10" value="1"></label>
+                            <label>어린이 (2 ~ 12세) <input type="number" id="children" min="0" max="10" value="0"></label>
+                            <label>유아 (2세 미만) <input type="number" id="infants" min="0" max="5" value="0"></label>
+                            <label>반려동물 <input type="number" id="pets" min="0" max="3" value="0"></label>
+                            <label> (반려동물의 경우, 숙소의 사정에 따라 입실이 거부되는 경우가 있을 수 있습니다. 이 점 참고하시어 해당 숙소에 직접 문의해주시기 바랍니다.) </label>
+                            <button id="apply-btn">적용</button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -236,11 +244,13 @@
                 <p>할인: ${r.roomDiscount}%</p>
                 <p>최대 인원: ${r.roomCapacity}명</p>
                 <p>설명: ${r.roomContents}</p>
-<%--                    <a href="reservation/stays?accommodationNo=${dto.acmNo}&roomNo=${r.roomNo}&checkin=${여기에 날짜}2025-03-28&checkout=${여기에 날짜}2025-03-29">예약하기</a>--%>
-                <%--<form action="reservation/reservationForm" method="post">
-                    <input type="hidden" name="roomNo" value="${r.roomNo}"> &lt;%&ndash; 객실 ID를 숨겨진 입력 필드로 전달하기 &ndash;%&gt;
-                    <button type="submit" class="btn btn-primary reserve-button">예약하기</button>
-                </form>--%>
+<%--                <a href="/reservation/stays?accommodationNo=1&roomNo=1&checkin=2025-04-01&checkout=2025-04-03">예약하기</a>--%>
+<%--                <a href="reservation/stays?accommodationNo=${dto.acmNo}&roomNo=${r.roomNo}&checkin="+${"#startDate"}.val()+"&checkout="+$("#endDate").val() +">예약하기</a>--%>
+                <a href="reservation/stays?accommodationNo=${dto.acmNo}&roomNo=${r.roomNo}&checkin=" + $('#startDate').val() + "&checkout=" + $('#endDate').val() + " class="btn btn-pink">예약하기</a>
+            <%--<form action="reservation/reservationForm" method="post">
+                        <input type="hidden" name="roomNo" value="${r.roomNo}"> &lt;%&ndash; 객실 ID를 숨겨진 입력 필드로 전달하기 &ndash;%&gt;
+                        <button type="submit" class="btn btn-primary reserve-button">예약하기</button>
+                    </form>--%>
             </div>
         </c:forEach>
     </div>
@@ -249,6 +259,36 @@
 
 
 </div>
+
+
+<script>
+    document.getElementById("guest-btn").addEventListener("click", function () {
+        let options = document.querySelector(".guest-options");
+        options.style.display = options.style.display === "block" ? "none" : "block";
+    });
+
+    document.getElementById("apply-btn").addEventListener("click", function () {
+        let adults = document.getElementById("adults").value;
+        let children = document.getElementById("children").value;
+        let infants = document.getElementById("infants").value;
+        let pets = document.getElementById("pets").value;
+
+        let guestText = `성인 `+adults+`명, 어린이 `+children+`명, 유아 `+infants+`명`;
+        if (pets > 0) {
+            guestText += `, 반려동물 `+pets+`마리`;
+        }
+
+        console.log("성인 >>>>>>>>>> " + adults);
+
+        document.getElementById("guest-btn").innerText = guestText;
+        document.querySelector(".guest-options").style.display = "none";
+    });
+
+    document.getElementById("startDate").addEventListener("click", function () {
+        let option =
+    })
+</script>
+
 
 </body>
 

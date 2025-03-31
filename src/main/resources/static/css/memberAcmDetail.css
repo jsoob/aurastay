@@ -186,6 +186,7 @@ footer {
     width : 60px;
     height: auto;
     margin-right: 20px;
+    margin-top: 30px;
 }
 
 #addressIcon, #telIcon, #characterIcon, #checkincheckoutIcon, #amenitiesIcon, #keywordIcon {
@@ -199,6 +200,13 @@ footer {
     width: 30px;
     height: auto;
     margin-right: 15px;
+}
+
+#calenderIcon {
+    width: 60px;
+    height: auto;
+    /*margin-right: 20px;*/
+    margin: 20px;
 }
 
 /* 키워드 글자 간격 조정 */
@@ -218,6 +226,7 @@ footer {
     align-items: center;    /* 수직 중앙 정렬 */
     /*align-items: flex-start;   !* 수직 정렬을 위쪽으로 설정 *!*/
     margin-bottom: 10px;    /* 항목간 간격 */
+    padding: 5px;
 }
 
 .info-item img {
@@ -244,4 +253,140 @@ footer {
     background: #e03e65;              /* 마우스 오버 시 배경색: 약간 진한 핑크색 */
     border: 2px solid #e03e65;        /* 마우스 오버 시 테두리 색상: 약간 진한 핑크색 */
     color: #ffffff;                   /* 텍스트 색상 유지: 흰색 */
+}
+
+
+/* --------------- 인원 수 체크하는 항목 CSS --------------- */
+.guest-dropdown button {
+    margin-top: 20px;
+    padding: 12px 20px;                /* 버튼 크기 조정 */
+    background: #fa587c;                /* 버튼 배경색 */
+    color: #fff;                        /* 버튼 텍스트 색상 */
+    border: none;                       /* 테두리 제거 */
+    border-radius: 5px;                 /* 버튼 모서리 둥글게 */
+    font-size: 1rem;                    /* 텍스트 크기 조정 */
+    font-weight: bold;                  /* 텍스트 두껍게 */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);  /* 버튼에 그림자 추가 */
+    cursor: pointer;                   /* 클릭 가능한 손 모양 */
+    transition: background 0.3s, transform 0.2s;   /* 배경색과 확대 효과에 대한 트랜지션 */
+}
+
+.guest-dropdown button:hover {
+    background: #e03e65;                /* 마우스 오버 시 배경색 */
+    transform: scale(1.05);              /* 마우스 오버 시 버튼 확대 */
+}
+
+.guest-dropdown button:active {
+    transform: scale(0.98);              /* 클릭 시 버튼이 약간 눌리는 효과 */
+}
+
+.guest-dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;                         /* 드롭다운 전체 폭 조정 */
+}
+
+.guest-options {
+    display: none;
+    /*position: absolute;*/
+    top: 45px;                            /* 드롭다운 항목과 버튼 간의 간격 */
+    left: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;                             /* 둥근 테두리 */
+    padding: 20px;                                  /* 드롭 다운 항목 내부 여백 */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);     /* 그림자 효과 */
+    width: 100%;                                    /* 드롭다운의 너비를 버튼과 맞춤 */
+    z-index: 10;                                    /* 드롭다운이 버튼 위에 표시되도록 설정 */
+    flex-direction: column;                         /* 세로로 정렬 */
+}
+
+.guest-options label {
+    /*display: block;*/
+    /*margin-bottom: 8px;*/
+    font-size: 1rem;                        /* 폰트 크기 조정 */
+    color: #555;                            /* 텍스트 색상 */
+    display: flex;
+    align-items: center;                    /* 텍스트와 입력창 수평 정렬 */
+    margin-bottom: 10px;                    /* 항목 간 간격 */
+}
+
+.guest-options input {
+    width: 60px;
+    padding: 5px;
+    border-radius: 5px;                    /* 입력창 둥글게 */
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    transition: border 0.2s ease;           /* 포커스 시 테두리 색상 변화 */
+}
+
+.guest-options input:focus {
+    border-color: #ff6487;                 /* 입력창 포커스 시 테두리 색상 */
+}
+
+.guest-options button {
+    padding: 12px 0;
+    background: #ff5a83;
+    color: #fff;
+    border: none;
+    width: 100%;
+    border-radius: 5px;                    /* 버튼 모서리 둥글게 */
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 15px;                       /* 버튼 위쪽 여백 */
+}
+
+.guest-options button:hover {
+    background: #e03e65;
+}
+
+.guest-dropdown:hover .guest-options {
+    display: block;                        /* 마우스 오버 시 드롭다운 표시 */
+    animation: fadeIn 0.3s ease-in-out;     /* 애니메이션 추가 */
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);      /* 드롭다운이 위에서 내려오는 효과 */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* 인원수 선택 버튼 */
+#guest-btn {
+    padding: 12px 20px;
+    background: #ff4672;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s, transform 0.2s;
+    margin-left: 20px;
+}
+
+/* 버튼 hover 효과 */
+#guest-btn:hover {
+    background: #e03e65;
+    transform: scale(1.05);
+}
+
+/* 버튼 클릭 시 효과 */
+#guest-btn:active {
+    transform: scale(0.98);
+}
+
+.btn-pink {
+    background: #ff5a83;
+    color: #fff;
 }
