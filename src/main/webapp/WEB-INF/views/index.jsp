@@ -79,7 +79,7 @@
                         <div id="carousel_${accommodationNo}" class="carousel slide">
                             <div class="carousel-indicators carousel-index-btn">
                                     <%-- 숙소 이미지 목록 / imgStatus -> index 값 구하기 위해 명시함. --%>
-                                <c:forEach var="accommodation" items="${accommodations}" varStatus="imgStatus">
+                                <c:forEach var="accommodation" items ="${accommodations}" varStatus="imgStatus">
                                     <%-- 첫번째 이미지는 class="active" aria-current="true" 박아줌 --%>
                                     <button type="button" data-bs-target="#carousel_${accommodationNo}"
                                             data-bs-slide-to="${imgStatus.index}"
@@ -93,10 +93,12 @@
                             <div class="carousel-inner">
                                 <!-- 이미지도 위처럼 c:foreach + choose/when-otherwise 를 사용해서 1번째 꺼랑 다른것들 구분 -->
                                 <c:forEach var="accommodation" items="${accommodations}" varStatus="imgaStatus">
-                                    <div class="carousel-item ${imgaStatus.first ? 'active':''}">
+                                    <div class="carousel-item ${imgaStatus.first                                                                                                                                                                                                                                                                                       ? 'active':''}">
                                         <!-- 첫번째 이미지는 active 가 붙는다 -->
-                                        <a href="acm/list">
-                                            <img class="w-100 slide-imgs"
+                                        <%-- a href = "" 안의 url 주소 수정 : 홈페이지 연결 (2025.03.27 수정)  --%>
+<%--                                        <a href="accommodation/memberAccommodation"> 이걸 아래와 같이 변경--%>
+                                        <a href="${pageContext.request.contextPath}/accommodation/memberAccommodation/${accommodationNo}">
+                                        <img class="w-100 slide-imgs"
                                                  src="/accommodation/views/${accommodation.filename}" alt="숙소 이미지">
                                         </a>
                                     </div>

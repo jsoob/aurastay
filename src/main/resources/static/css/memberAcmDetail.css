@@ -1,0 +1,404 @@
+/* 전체 컨테이너 스타일 : header와의 간격 */
+.container {
+    margin-top: 70px;
+}
+
+/* 이미지 카드 스타일 */
+.info-card {
+    margin-bottom: 30px;
+    padding: 20px; /* 패딩 증가 */
+    border: 1px solid #ddd;
+    border-radius: 8px; /* 둥글게 */
+    background-color: #f9f9f9;
+}
+
+/* 이미지 스타일 */
+.info-card img {
+    border-radius: 8px;             /* 둥글게 */
+    transition: transform 0.2s;     /* 이미지 확대 효과 */
+    width: 100%;                    /* 일반 이미지가 전체 너비를 차지하도록 */
+    height: 200px;                  /* 원하는 높이 설정 (예: 200px) */
+    object-fit: cover;              /* 비율을 유지하며 잘림 */
+}
+
+.info-card img:hover {
+    transform: scale(1.05);         /* 마우스 오버 시 이미지 확대 */
+}
+
+/* 캐러셀 스타일 */
+.carousel-inner img {
+    width: 100%;                    /* 캐러셀 이미지가 전체 너비를 차지하도록 */
+    /*height: auto;       !* 비율에 맞춰 자동 조정 *!*/
+    height: 500px;                  /* 원하는 높이 설정 */
+    object-fit: cover;              /* 비율을 유지하며 잘림 */
+}
+
+
+
+
+/* 제목 스타일 */
+h2, h3, h4 {
+    margin-top: 40px; /* 제목 간격 증가 */
+    color: #333; /* 제목 색상 */
+}
+
+h1 {
+    margin-top: 130px;
+    font-size: 2.5rem; /* 제목 크기 증가 */
+    font-weight: bold; /* 두껍게 */
+    padding-bottom: 20px;
+}
+
+h2 {
+    font-size: 2rem; /* 서브 제목 크기 */
+    margin-top: 40px;       /* 객실 제목 간격 */
+    margin-bottom: 30px;
+}
+
+h3 {
+    font-size: 1.5rem; /* 작은 제목 크기 */
+}
+
+/* 리스트 스타일 */
+ul {
+    list-style-type: none; /* 기본 리스트 스타일 제거 */
+    padding: 0; /* 패딩 제거 */
+}
+
+ul li {
+    /*margin-bottom: 15px; !* 리스트 항목 간격 증가 *!*/
+    /*padding: 12px; !* 패딩 증가 *!*/
+    /*border: 1px solid #ddd; !* 리스트 항목 테두리 *!*/
+    border-radius: 8px; /* 모서리 둥글게 */
+    background-color: #fff; /* 배경색 */
+    transition: background-color 0.3s; /* 배경색 전환 효과 */
+}
+
+ul li:hover {
+    background-color: #f0f0f0; /* 마우스 오버 시 배경색 변경 */
+}
+
+/* 객실 정보 스타일 */
+p {
+    margin: 10px 0; /* 문단 간격 */
+    line-height: 1.5; /* 줄 간격 증가 */
+}
+
+/* footer 스타일 */
+footer {
+    margin-top: 60px; /* footer 간격 */
+    font-size: 14px;
+}
+
+
+
+/* --------------- 카드 적용 ----------------- */
+
+/* 숙소 정보 카드 */
+.accommodation-info {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    /* 1차 추가 */
+    /*display: flex; !* 플렉스 박스를 사용하여 아이콘과 텍스트를 나란히 배치 *!*/
+    /*align-items: center; !* 수직 중앙 정렬 *!*/
+}
+
+/* 숙소 정보 내부 요소 */
+.accommodation-info p {
+    font-size: 1rem; /* 기본 문단 크기 */
+    font-weight: 400; /* 일반 두께 */
+    color: #444;
+    /*margin: 5px 0;*/ /* 문단 간격 */
+    margin: 0;      /* 기본 마진 제거 */
+    line-height: 1.5; /* 줄 간격 증가 */
+    padding-left: 7px;
+}
+
+.accommodation-info h2 {
+    font-size: 1.8rem; /* 제목 크기 조정 */
+    margin-bottom: 20px; /* 제목과 텍스트 간격 조정 */
+}
+
+/* 아이콘 스타일 */
+.accommodation-info i {
+    margin-right: 10px;
+    color: #ff5a83;
+}
+
+/* 객실 카드 스타일 */
+.room-cards {
+    display: flex;      /* 플렉스 디스플레이로 카드 나열 */
+    flex-wrap: wrap;    /* 카드가 줄 바꿈 되도록 설정 */
+    gap: 20px;          /* 카드 간격 */
+}
+
+/* 객실 정보 스타일 */
+.room-card {
+    padding: 20px;                                      /* 카드 내부 패딩 */
+    border: 1px solid #ddd;                             /* 카드 테두리 */
+    border-radius: 10px;                                /* 카드 모서리 둥글게  */
+    background-color: #ffffff;                          /* 카드 배경색 */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);         /* 그림자 효과 */
+    width: calc(30% - 20px);                            /* 카드 너비 (3개가 한 줄에 들어가도록 설정 */
+    transition: transform 0.2s;                         /* 마우스 오버 시 확대 효과 */
+    margin-bottom: 20px;
+
+    .room-card:hover {
+        transform: scale(1.05);        /* 마우스 오버 시 카드 확대 */
+    }
+
+    .room-card h3 {
+        margin-bottom: 10px;           /* 제목과 내용 간격 */
+    }
+
+    .reserve-button {
+        margin-top: 15px;              /* 버튼 간격 */
+        width: 100%;                   /* 버튼 너비 100% */
+    }
+}
+
+/* 객실 정보 표 스타일 */
+.room-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.room-table th, .room-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 0.9rem; /* 표 글자 크기 조정 */
+}
+
+.room-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+/* ------------ 숙소 정보에 대한 css ------------ */
+/* 아이콘 스타일 */
+#accommodationIcon {
+    width : 60px;
+    height: auto;
+    margin-right: 20px;
+    margin-top: 30px;
+}
+
+#addressIcon, #telIcon, #characterIcon, #checkincheckoutIcon {
+    width: 40px; /* 아이콘 크기 조정 */
+    height: auto; /* 비율에 맞춰 자동 조정 */
+    margin-right: 30px; /* 아이콘과 텍스트 간의 간격 */
+}
+
+#amenitiesIcon {
+    width: 40px;
+    height: auto;
+    margin-right: 15px;
+}
+
+/* 카테고리 이미지 아이콘 사이즈 및 간격 조정 */
+#categoryIcon {
+    width: 30px;
+    height: auto;
+    margin-right: 37px;
+}
+
+#calenderIcon {
+    width: 60px;
+    height: auto;
+    /*margin-right: 20px;*/
+    margin: 30px;
+}
+
+#keywordIcon {
+    width: 40px;
+    height: auto;
+    margin-right: 15px;
+}
+
+/* 키워드 글자 간격 조정 */
+#keywordCharacter {
+    padding-left: 13px;
+}
+
+/* 아이콘과 텍스트를 세로로 정렬 */
+.accommodation-info img {
+    width: 40px; /* 아이콘 크기 조정 */
+    height: auto; /* 비율에 맞춰 자동 조정 */
+    margin-bottom: 10px; /* 아이콘과 텍스트 간격 */
+}
+
+.info-item {
+    display: flex;          /* 플렉스를 사용해서 아이콘과 텍스트를 나란히 배치 */
+    align-items: center;    /* 수직 중앙 정렬 */
+    /*align-items: flex-start;   !* 수직 정렬을 위쪽으로 설정 *!*/
+    margin-bottom: 10px;    /* 항목간 간격 */
+    padding: 5px;
+}
+
+.info-item img {
+    width: 40px; /* 아이콘 크기 조정 */
+    height: auto; /* 비율에 맞춰 자동 조정 */
+    margin-right: 10px; /* 아이콘과 텍스트 간의 간격 */
+}
+
+#amenitiesCharacter {
+    /* 편의시설 텍스트만 줄 맞춤 정렬이 안되므로 개인적으로 따로 진행 */
+    padding-left: 15px;     /* 왼쪽 이미지 사진 기준으로 간격 조절 */
+}
+
+/* 예약하기 버튼 스타일 */
+.reserve-button {
+    background: #ff4672;              /* 버튼 배경색: 핑크색 */
+    border: 2px solid #ff4672;        /* 버튼 테두리 색상: 핑크색 */
+    color: #ffffff;                   /* 버튼 텍스트 색상: 흰색 */
+    transition: background 0.3s, border 0.3s; /* 배경색과 테두리 색상 변화에 대한 트랜지션 효과 */
+}
+
+/* 버튼에 마우스를 올렸을 때의 스타일 */
+.reserve-button:hover {
+    background: #e03e65;              /* 마우스 오버 시 배경색: 약간 진한 핑크색 */
+    border: 2px solid #e03e65;        /* 마우스 오버 시 테두리 색상: 약간 진한 핑크색 */
+    color: #ffffff;                   /* 텍스트 색상 유지: 흰색 */
+}
+
+
+/* --------------- 인원 수 체크하는 항목 CSS --------------- */
+.guest-dropdown button {
+    margin-top: 20px;
+    padding: 12px 20px;                /* 버튼 크기 조정 */
+    background: #fa587c;                /* 버튼 배경색 */
+    color: #fff;                        /* 버튼 텍스트 색상 */
+    border: none;                       /* 테두리 제거 */
+    border-radius: 5px;                 /* 버튼 모서리 둥글게 */
+    font-size: 1rem;                    /* 텍스트 크기 조정 */
+    font-weight: bold;                  /* 텍스트 두껍게 */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);  /* 버튼에 그림자 추가 */
+    cursor: pointer;                   /* 클릭 가능한 손 모양 */
+    transition: background 0.3s, transform 0.2s;   /* 배경색과 확대 효과에 대한 트랜지션 */
+}
+
+.guest-dropdown button:hover {
+    background: #e03e65;                /* 마우스 오버 시 배경색 */
+    transform: scale(1.05);              /* 마우스 오버 시 버튼 확대 */
+}
+
+.guest-dropdown button:active {
+    transform: scale(0.98);              /* 클릭 시 버튼이 약간 눌리는 효과 */
+}
+
+.guest-dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;                         /* 드롭다운 전체 폭 조정 */
+}
+
+.guest-options {
+    display: none;
+    /*position: absolute;*/
+    top: 45px;                            /* 드롭다운 항목과 버튼 간의 간격 */
+    left: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;                             /* 둥근 테두리 */
+    padding: 20px;                                  /* 드롭 다운 항목 내부 여백 */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);     /* 그림자 효과 */
+    width: 100%;                                    /* 드롭다운의 너비를 버튼과 맞춤 */
+    z-index: 10;                                    /* 드롭다운이 버튼 위에 표시되도록 설정 */
+    flex-direction: column;                         /* 세로로 정렬 */
+}
+
+.guest-options label {
+    /*display: block;*/
+    /*margin-bottom: 8px;*/
+    font-size: 1rem;                        /* 폰트 크기 조정 */
+    color: #555;                            /* 텍스트 색상 */
+    display: flex;
+    align-items: center;                    /* 텍스트와 입력창 수평 정렬 */
+    margin-bottom: 10px;                    /* 항목 간 간격 */
+}
+
+.guest-options input {
+    width: 60px;
+    padding: 5px;
+    border-radius: 5px;                    /* 입력창 둥글게 */
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    transition: border 0.2s ease;           /* 포커스 시 테두리 색상 변화 */
+}
+
+.guest-options input:focus {
+    border-color: #ff6487;                 /* 입력창 포커스 시 테두리 색상 */
+}
+
+.guest-options button {
+    padding: 12px 0;
+    background: #ff5a83;
+    color: #fff;
+    border: none;
+    width: 100%;
+    border-radius: 5px;                    /* 버튼 모서리 둥글게 */
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 15px;                       /* 버튼 위쪽 여백 */
+}
+
+.guest-options button:hover {
+    background: #e03e65;
+}
+
+.guest-dropdown:hover .guest-options {
+    display: block;                        /* 마우스 오버 시 드롭다운 표시 */
+    animation: fadeIn 0.3s ease-in-out;     /* 애니메이션 추가 */
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);      /* 드롭다운이 위에서 내려오는 효과 */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* 인원수 선택 버튼 */
+#guest-btn {
+    padding: 12px 20px;
+    background: #ff4672;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s, transform 0.2s;
+    margin-left: 20px;
+}
+
+/* 버튼 hover 효과 */
+#guest-btn:hover {
+    background: #e03e65;
+    transform: scale(1.05);
+}
+
+/* 버튼 클릭 시 효과 */
+#guest-btn:active {
+    transform: scale(0.98);
+}
+
+.btn-pink {
+    background: #ff5a83;
+    color: #fff;
+}

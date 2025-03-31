@@ -22,7 +22,6 @@ import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 // controller -> service -> repository
@@ -303,18 +302,18 @@ public class AccommodationController {
         // 해당 숙소의 객실 정보 조회
         List<RoomDTO> roomList = roomService.findRoomByAccommodation(acmNo); // 객실 정보 조회 추가
         // 카테고리 정보 조회
-        CategoryDTO category = categoryService.getCategoryById(dto.getCategoryNo());                // 카테고리 목록을 가져오는 서비스 호출
+        CategoryDTO categories = categoryService.getCategoryById(dto.getCategoryNo());          // 카테고리 목록을 가져오는 서비스 호출
         // 키워드 정보 조회
         KeywordDTO keyword = keywordService.getKeywordById(dto.getKeywordNo());               // 키워드 목록을 가져오는 서비스 호출
 
         model.addAttribute("dto", dto); // 모델에 추가
-        model.addAttribute("category", category);   // 카테고리 목록 추가
+        model.addAttribute("category", categories);   // 카테고리 목록 추가
         model.addAttribute("keyword", keyword);     // 키워드 목록 추가
         model.addAttribute("roomList", roomList);  // 객실 정보를 모델에 추가
 //        model.addAttribute("amenities", amenities);
 
         log.info("Accommodation DTO >>>>>>>>>>>>>>>>>> : {}", dto);
-        log.info("Retrieved Category >>>>>>>>>>>>>>>>>>> : {}", category);
+        log.info("Retrieved Category >>>>>>>>>>>>>>>>>>> : {}", categories);
         log.info("Retrieved Keyword >>>>>>>>>>>>>>>>>>> : {}", keyword);
         log.info("Retrieved Room >>>>>>>>>>>>>>>>>>> : {}", roomList);
 //        log.info("편의시설 상세 정보 조회 불러와지고 있는가 >>>>>>>>>>>> : {}", amenities);
