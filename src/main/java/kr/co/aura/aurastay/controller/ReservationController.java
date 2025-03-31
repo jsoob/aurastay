@@ -187,16 +187,6 @@ public class ReservationController {
         return "redirect:/reservation/mystays";
     }
 
-    @GetMapping("/oldmystays")
-    public String oldmystays(Model model) {
-        return "reservation/old_myReservation_noData";
-    }
-
-    @GetMapping("/album_ex")
-    public String album_ex(Model model) {
-        return "reservation/album_ex";
-    }
-
     @GetMapping("/rsList")
     public String rsList(Model model) {
         return "reservation/rsList";
