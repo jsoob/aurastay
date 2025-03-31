@@ -155,7 +155,7 @@
 
                         accommodations.forEach((accommodation, index) => {
                             html += '<div class="carousel-item ' + (index == 0 ? 'active' : '') + '">' +
-                                '<a href="acm/list">' +
+                                '<a href="accommodation/memberAccommodation/'+accommodationNo+'">' +
                                 '<img class="w-100 slide-imgs"' +
                                 'src="/accommodation/views/' + accommodation.filename + '"' +
                                 'alt="숙소 이미지"></a></div>';
@@ -176,7 +176,7 @@
                             '<span class="visually-hidden">다음</span> </button></div>' +
                             '<div class="card-body">' +
                             '<div class="card-text cardTextDiv">' +
-                            '<a href="acm/list" class="text-decoration-none text-dark">' +
+                            '<a href="accommodation/memberAccommodation/'+accommodationNo+'" class="text-decoration-none text-dark">' +
                             '<div class="fs-14 fw-bold">' + accommodations[0].accommodationName + '</div>' +
                             '<div class="ps-1 fs-10">'+accommodations[0].accommodationAddress+'</div>'+
                             '</a>' +
