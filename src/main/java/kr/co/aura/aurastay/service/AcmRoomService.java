@@ -1,13 +1,11 @@
 package kr.co.aura.aurastay.service;
 
 import kr.co.aura.aurastay.dto.*;
-import kr.co.aura.aurastay.repository.AcmRoomRepository;
-import kr.co.aura.aurastay.repository.PaymentRepository;
-import kr.co.aura.aurastay.repository.ReservationRepository;
-import kr.co.aura.aurastay.repository.ReservationRequestRepository;
+import kr.co.aura.aurastay.repository.*;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -23,7 +21,12 @@ public class AcmRoomService {
     private final ReservationRequestRepository reservationRequestRepository;
 
     public AcmDTO selectRoomDetail(AcmDTO acmDTO) {
-        return acmRoomRepository.selectRoomDetail(acmDTO);
+        acmDTO = acmRoomRepository.selectRoomDetail(acmDTO);
+
+        RoomImageDTO roomImageOne = acmRoomRepository.getImageOne(acmDTO.getAcmNo());
+        acmDTO.setFilename(roomImageOne.getFilename());
+
+        return acmDTO;
     }
 
     public List<AccommodationDTO> getBnsAcmList(int businessNo, int currentPage, int pageSize, String search) {

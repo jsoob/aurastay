@@ -37,10 +37,10 @@ $(document).ready(function () {
         let rsNo = $(this).closest('tr').find('td:first').text();
         let memberName = $(this).closest('tr').find('td').eq(1).text();
 
-        console.log("rsNo = ", rsNo);
-        console.log("memberName = ", memberName);
-        console.log(trIdx+"행 "+tdIdx + "열");
-        console.log("예약 상태 = " + rsStatus);
+        // console.log("rsNo = ", rsNo);
+        // console.log("memberName = ", memberName);
+        // console.log(trIdx+"행 "+tdIdx + "열");
+        // console.log("예약 상태 = " + rsStatus);
 
     });
 
@@ -55,10 +55,10 @@ $(document).ready(function () {
         // console.log($(this).children().eq(0).text());
 
         let acmNo = $(this).closest('tr').find('td:first').text();
-        console.log("acmNo = ", acmNo);
+        // console.log("acmNo = ", acmNo);
 
         let acmName = $(this).closest('tr').find('td').eq(1).text();
-        console.log("acmName = ", acmName);
+        // console.log("acmName = ", acmName);
 
         $("#acmNo").val(acmNo);
         $("#acmName").val(acmName);
@@ -78,7 +78,7 @@ $(document).ready(function () {
     // 모달 열기
     $("#roomName, #showRoomModal").click(function () {
         let acmNo = $("#acmNo").val();
-        console.log(acmNo);
+        // console.log(acmNo);
         if( acmNo == "" ) {
             document.querySelector('#showRoomSpan .showSpan').classList.add('on');
             return;
@@ -91,10 +91,10 @@ $(document).ready(function () {
         // console.log($(this).children().eq(0).text());
 
         let roomNo = $(this).closest('tr').find('td:first').text();
-        console.log("roomNo = ", roomNo);
+        // console.log("roomNo = ", roomNo);
 
         let roomName = $(this).closest('tr').find('td').eq(1).text();
-        console.log("roomName = ", roomName);
+        // console.log("roomName = ", roomName);
 
         $("#roomNo").val(roomNo);
         $("#roomName").val(roomName);
@@ -206,7 +206,6 @@ function selectAcmList(cp) {
         // 2025032711 2136548211
         data: {businessNo: businessNo, currentPage: currentPage,  search: search},
         success: function (data) {
-            console.log(data);
 
             $("#rsAcmModalTable #rsAcmModalBody").empty();
             $("#rsAcmModalTable #rsAcmModalFoot td").empty();

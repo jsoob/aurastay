@@ -34,7 +34,7 @@ function selectRsCancel(rsNo, memberNo) {
     if(rsNo === undefined || memberNo === undefined) {
         return;
     }
-    console.log("조회");
+    // console.log("조회");
     $.ajax({
         url: "/reservation/getRsCancel",
         type: "get",

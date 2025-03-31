@@ -2,6 +2,8 @@ package kr.co.aura.aurastay.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -30,4 +32,7 @@ public class AcmDTO {
     private String roomContents;
     private String roomViewtype;
     private int roomCapacity;
+
+    private String filename;             // 파일 이름
+    private String filepath;              // 파일 경로
 }

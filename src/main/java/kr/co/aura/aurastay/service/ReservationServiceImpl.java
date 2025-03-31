@@ -37,8 +37,8 @@ public class ReservationServiceImpl implements ReservationService {
     public int addReservation(Map<String, Object> jsonData) {
         int result = 0;
 
-        System.out.println("payment = ");
-        System.out.println(jsonData.get("payment"));
+//        System.out.println("payment = ");
+//        System.out.println(jsonData.get("payment"));
 //        System.out.println(jsonData.get("payment") instanceof Map);
         Map<String, Object> payment = (Map<String, Object>) jsonData.get("payment");
         Map<String, Integer> amount = (Map<String, Integer>) payment.get("amount");
@@ -49,8 +49,8 @@ public class ReservationServiceImpl implements ReservationService {
 //            System.out.println(amount.get(key) instanceof Integer);
 //        }
 
-        System.out.println("specialRequests = ");
-        System.out.println(jsonData.get("specialRequests") instanceof List);
+//        System.out.println("specialRequests = ");
+//        System.out.println(jsonData.get("specialRequests") instanceof List);
         ArrayList<String> specialRequests = (ArrayList<String>) jsonData.get("specialRequests");
 //        ArrayList<Integer> specialRequests = null;
 //        for (String specialRequest : (ArrayList<String>) jsonData.get("specialRequests")) {
@@ -83,7 +83,7 @@ public class ReservationServiceImpl implements ReservationService {
             result = 1; // 숙소 결제 가능
 
             ReservationDTO rsrvDTO = ReservationDTO.builder()
-                    .memberNo(2)
+                    .memberNo((int)jsonData.get("memberNo"))
                     .accommodationNo((int)jsonData.get("accommodationNo"))
                     .roomNo((int)jsonData.get("roomNo"))
                     .checkinDate(checkinDate)
@@ -97,14 +97,16 @@ public class ReservationServiceImpl implements ReservationService {
                     .build();
 
             int reservationNo = reservationRepository.insertReservation(rsrvDTO);
-            System.out.println("reservationNo : " + reservationNo);
-            System.out.println("Generated Reservation No: " + rsrvDTO.getReservationNo());
+//            System.out.println("reservationNo : " + reservationNo);
+//            System.out.println("Generated Reservation No: " + rsrvDTO.getReservationNo());
             reservationNo = rsrvDTO.getReservationNo();
 
-            HashMap<String, Object> rsrvRequestMap = new HashMap<String, Object>();
-            rsrvRequestMap.put("reservationNo", reservationNo);
-            rsrvRequestMap.put("specialRequests", specialRequests);
-            reservationRequestRepository.insertReservationRequest(rsrvRequestMap);
+            if(!specialRequests.isEmpty()) {
+                HashMap<String, Object> rsrvRequestMap = new HashMap<String, Object>();
+                rsrvRequestMap.put("reservationNo", reservationNo);
+                rsrvRequestMap.put("specialRequests", specialRequests);
+                reservationRequestRepository.insertReservationRequest(rsrvRequestMap);
+            }
 
             PaymentDTO paymentDTO = PaymentDTO.builder()
                     .roomPrice(Integer.parseInt(jsonData.get("roomPrice").toString()))
@@ -132,6 +134,10 @@ public class ReservationServiceImpl implements ReservationService {
                     .roomNo(forRsrv.getRoomNo())
                     .build();
             getDTO = acmRoomRepository.selectRoomDetail(getDTO);
+
+            RoomImageDTO roomImageOne = acmRoomRepository.getImageOne(getDTO.getAcmNo());
+            getDTO.setFilename(roomImageOne.getFilename());
+
             forRsrv.setAcmDTO(getDTO);
         });
         //        Payment p = xxxRepository.getPayment(reservationDTO.getReservationNo());
@@ -150,6 +156,9 @@ public class ReservationServiceImpl implements ReservationService {
                 .build();
 
         getAcmDTO = acmRoomRepository.selectRoomDetail(getAcmDTO);
+        RoomImageDTO roomImageOne = acmRoomRepository.getImageOne(getAcmDTO.getAcmNo());
+        getAcmDTO.setFilename(roomImageOne.getFilename());
+
         rsDTO.setAcmDTO(getAcmDTO);
 
         // 예약 요청 정보
@@ -266,9 +275,9 @@ public class ReservationServiceImpl implements ReservationService {
         PaymentDTO paymentDTO = paymentRepository.getPayment(rsDTO.getReservationNo());
         rsDTO.setPayment(paymentDTO);
 
-        System.out.println("rsDTO.getReservationNo() = " + rsDTO.getReservationNo());
+//        System.out.println("rsDTO.getReservationNo() = " + rsDTO.getReservationNo());
         ReservationCancelDTO cancelDTO = reservationCancelRepository.getRsCancel(rsDTO.getReservationNo());
-        System.out.println(cancelDTO);
+//        System.out.println(cancelDTO);
         rsDTO.setRsCancel(cancelDTO);
 
         return rsDTO;

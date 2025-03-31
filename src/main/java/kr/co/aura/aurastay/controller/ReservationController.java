@@ -1,8 +1,8 @@
 package kr.co.aura.aurastay.controller;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpSession;
 import kr.co.aura.aurastay.dto.*;
-import kr.co.aura.aurastay.service.AccommodationService;
 import kr.co.aura.aurastay.service.AcmRoomService;
 import kr.co.aura.aurastay.service.RefundService;
 import kr.co.aura.aurastay.service.ReservationService;
@@ -10,14 +10,14 @@ import kr.co.aura.aurastay.util.ReservationUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.io.IOException;
 import java.util.*;
 
 @Slf4j
@@ -29,8 +29,21 @@ public class ReservationController {
     private final AcmRoomService acmRoomService;
     private final RefundService refundService;
 
+    @Value("${payment.imp.api.key}") // 고객사 식별코드
+    private String apiKey;
+
+    @Value("${payment.imp.api.secret}")
+    private String secretKey;
+//
+//    private final RefundService refundService;
+//    private IamportClient iamportClient;
+//    @PostConstruct
+//    public void init() {
+//        this.iamportClient = new IamportClient(apiKey, apiSecret);
+//    }
+
     @GetMapping("/stays")
-    public String stays(@RequestParam("accommodationNo") int acmNo, @RequestParam("roomNo") int roomNo, @RequestParam("checkin") String checkinDate, @RequestParam("checkout") String checkoutDate, Model model) {
+    public String stays(@RequestParam("accommodationNo") int acmNo, @RequestParam("roomNo") int roomNo, @RequestParam("checkin") String checkinDate, @RequestParam("checkout") String checkoutDate, HttpSession session, Model model) {
 
         String url = "reservation/reservationForm";
 
@@ -75,6 +88,13 @@ public class ReservationController {
         model.addAttribute("category", roomMap);   // 카테고리 목록 추가
         model.addAttribute("keyword", roomMap);     // 키워드 목록 추가
         model.addAttribute("roomDetail", roomMap);  // 객실 정보를 모델에 추가
+
+        Object obj = session.getAttribute("dto");
+//        System.out.println("member = " + obj);
+//        int memberNo = ((MemberDTO) obj).getMemberNo();
+        MemberDTO dto = ((MemberDTO) obj);
+        model.addAttribute("dto", dto);
+
 
         // 특별 요청 예약
         List<SpecialRequestDTO> specialRequests = reservationService.getSpecialRequests();
@@ -219,7 +239,7 @@ public class ReservationController {
         // 다음 버튼 표시 여부 설정
         acmData.put("hasNext",  currentPage < endPage);
 
-        System.out.println("acmData = " + acmData);
+//        System.out.println("acmData = " + acmData);
 
         return new ResponseEntity<>(acmData, HttpStatus.OK);
     }
@@ -257,7 +277,7 @@ public class ReservationController {
         // 다음 버튼 표시 여부 설정
         roomData.put("hasNext",  currentPage < endPage);
 
-        System.out.println("roomData = " + roomData);
+//        System.out.println("roomData = " + roomData);
 
         return new ResponseEntity<>(roomData, HttpStatus.OK);
     }
@@ -297,7 +317,7 @@ public class ReservationController {
         // 다음 버튼 표시 여부 설정
         rsData.put("hasNext",  currentPage < endPage);
 
-        System.out.println("rsData = " + rsData);
+//        System.out.println("rsData = " + rsData);
 
         return new ResponseEntity<>(rsData, HttpStatus.OK);
     }
@@ -347,11 +367,23 @@ public class ReservationController {
     @GetMapping("/cancelRsPay")
     public ResponseEntity<Map<String, Object>> cancelRsPay(@ModelAttribute RefundRequest refundRequest) {
         log.info("예약 취소 상태 변경");
-        log.info("refundRequest.getImpUid() = " + refundRequest.getImpUid());
-        log.info("refundRequest.getMerchantUid() = " + refundRequest.getMerchantUid());
+//        log.info("refundRequest.getImpUid() = " + refundRequest.getImpUid());
+//        log.info("refundRequest.getMerchantUid() = " + refundRequest.getMerchantUid());
+        log.info("주문 상품 환불 진행 : 주문 번호 {}", refundRequest.getMerchantUid());
 
-        boolean result = refundService.processRefund(refundRequest);
-        System.out.println("result = " + result);
+//        boolean result = refundService.processRefund(refundRequest);
+//        System.out.println("result = " + result);
+        String token = null;
+        try {
+//            token = refundService.getToken(apiKey, secretKey);
+            token = refundService.getAccessToken(apiKey, secretKey);
+
+//            System.out.println("token = " + token);
+            refundService.refundRequest(token, refundRequest.getMerchantUid(), refundRequest.getReason());
+        } catch (IOException e) {
+            System.out.println("주문 상품 환불 진행 에러");
+            throw new RuntimeException(e);
+        }
 
         HashMap<String, Object> rsCancelData = new HashMap<>();
 

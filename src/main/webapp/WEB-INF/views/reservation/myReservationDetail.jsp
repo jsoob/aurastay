@@ -28,7 +28,6 @@
     <link rel="stylesheet" href="/css/rsrv/rsrv.css">
     <script>
         $(() => {
-            console.log("클릭");
             document.getElementById('rsrvBtn').addEventListener('click', (event) => {
                 $('#rsrvCancelModal').modal('show');
             });
@@ -183,9 +182,8 @@
                     <div class="rsv acm-menu box-border p-4">
                         <div class="row mb-2">
                             <div class="d-flex gap-2 pb-2 lh-sm text-start">
-                                <img class="acm-img-thumbnail radius_12"
-                                     src="https://a0.muscache.com/im/pictures/0f52b46a-16fe-472f-a04b-eec52680f162.jpg?aki_policy=large"
-                                     alt="">
+                                <img class="acm-img-thumbnail radius_12 img-100" src="/accommodation/views/${rsrv['acmDTO'].filename}" alt="숙소 이미지">
+
                                 <div class="w-100 ms-1">
                                     <strong class="d-block">${rsrv.acmDTO['acmName']}</strong><%--E°SO 이소하우스 60평 독채--%>
                                     <p class="mb-2">${category.categoryName}</p><%--펜션--%>

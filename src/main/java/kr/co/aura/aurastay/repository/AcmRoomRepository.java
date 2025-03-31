@@ -1,9 +1,6 @@
 package kr.co.aura.aurastay.repository;
 
-import kr.co.aura.aurastay.dto.AccommodationDTO;
-import kr.co.aura.aurastay.dto.AcmDTO;
-import kr.co.aura.aurastay.dto.ReservationDTO;
-import kr.co.aura.aurastay.dto.RoomDTO;
+import kr.co.aura.aurastay.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -22,4 +19,6 @@ public interface AcmRoomRepository {
 
     List<RoomDTO> getBnsRoomList(@Param("acmNo") int acmNo, @Param("offset") int offset, int limit, @Param("search") String search);
     int countRoomAll(int acmNo, String search);
+
+    RoomImageDTO getImageOne(int acmNo);
 }

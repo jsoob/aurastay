@@ -196,6 +196,11 @@
     color: mediumseagreen;
 }
 
+.img-100 {
+    width: 100px !important;
+    height: 100px !important;
+}
+
 /* input 창 hover */
 /*
 .form-item input:hover {

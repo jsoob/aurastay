@@ -23,7 +23,6 @@
         let rsCancelInfo;
 
         $(document).ready(function () {
-            <%--console.log("bNo = ", ${dto.businessNo});--%>
             const cancelModal = document.querySelector('#rsResetModal');
 
             // 예약 조회 td 선택
@@ -43,7 +42,6 @@
                     } else */
                     $("#rsResetModal .modal-footer").empty();
                     if(rsStatus == 2) {
-                        console.log("예약 취소 요청 상태 gggg");
                         $("#rsResetModal .modal-footer").append(
                             '<div class="row">' +
                                 '<div class="col-sm-12 text-center py-2">' +
@@ -75,7 +73,6 @@
             if(rsNo === undefined || memberNo === undefined) {
                 return;
             }
-            console.log("조회");
             $.ajax({
                 url: "/reservation/getRsCancel",
                 type: "get",
@@ -83,7 +80,6 @@
                 data: { reservationNo: rsNo, memberNo : memberNo },
                 success: function (data) {
                     rsCancelInfo = data.rsCancelInfo;
-                    console.log(rsCancelInfo);
 
                     $("#rsResetModal input[name=rsNo]").val(rsCancelInfo.reservationNo);
                     $("#rsResetModal textarea[name=cancelReasons]").text((rsCancelInfo.rsCancel).cancelReasons);
@@ -104,13 +100,9 @@
         }
 
         function cancelRs(yn) {
-            console.log("yn = ", yn);
             if(yn == "Y") {
-                console.log("yn!!!!");
                 cancelPay();
             }
-
-            return;
             $.ajax({
                 url: "/reservation/cancelRs",
                 type: "get",
@@ -122,7 +114,7 @@
                 },
                 success: function (data) {
                     selectRsList();
-                    cancelModal.classList.remove('on');
+                    document.querySelector('#rsResetModal').classList.remove('on');
                 },
                 error: function () {
                     console.log("조회 실패");
@@ -136,10 +128,10 @@
                 type: "get",
                 contentType: "application/json",
                 data: {
-                    impUid : (rsCancelInfo.payment).paymentId,
-                    merchantUid : "productId",
-                    amount : (rsCancelInfo.rsCancel).paymentPrice,
-                    reason : (rsCancelInfo.rsCancel).cancelReasons
+                    impUid : "1-74691", // (rsCancelInfo.payment).paymentId,
+                    // merchantUid : "productId",
+                    amount : "500000", // (rsCancelInfo.rsCancel).paymentPrice,
+                    reason : "결제취소할래요...싫음." // (rsCancelInfo.rsCancel).cancelReasons
                 },
                 success: function (data) {
                 },

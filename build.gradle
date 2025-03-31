@@ -46,7 +46,11 @@ dependencies {
 
     implementation 'org.springframework.security:spring-security-taglibs'
 
+    implementation 'org.json:json:20250107'
+//    implementation 'com.google.code.gson:gson:2.12.1'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+    //    implementation 'com.github.iamport:iamport-rest-client-java:0.2.21'
+    implementation 'com.squareup.okhttp3:okhttp:4.11.0'
 }
 
 tasks.named('test') {

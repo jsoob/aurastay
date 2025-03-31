@@ -141,7 +141,8 @@
                                 <div class="row mb-2">
                                     <div class="d-flex">
                                         <div>
-                                            <img class="acm-img-thumbnail radius_12" src="https://a0.muscache.com/im/pictures/0f52b46a-16fe-472f-a04b-eec52680f162.jpg?aki_policy=large" >
+<%--                                            <img class="acm-img-thumbnail radius_12" src="https://a0.muscache.com/im/pictures/0f52b46a-16fe-472f-a04b-eec52680f162.jpg?aki_policy=large" >--%>
+                                            <img class="acm-img-thumbnail radius_12 img-100" src="/accommodation/views/${rsrv['acmDTO'].filename}" alt="숙소 이미지">
                                         </div>
                                         <div class="ms-2">
                                             <div class="w-100 ms-1">

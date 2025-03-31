@@ -81,13 +81,16 @@
                 // event.preventDefault();
 
                 if($("#guestName").val() == '') {
-                    $("#guestName").val("김우씨");
+                    // $("#guestName").val("김우씨");
+                    $("#guestName").val("${dto.memberName}");
                 }
                 if($("#guestPhoneNumber").val() == '') {
-                    $("#guestPhoneNumber").val("01011111111");
+                    // $("#guestPhoneNumber").val("01011111111");
+                    $("#guestPhoneNumber").val("${dto.memberPhoneNumber}");
                 }
                 if($("#guestEmail").val() == '') {
-                    $("#guestEmail").val("kmhe0128@naver.com");
+                    // $("#guestEmail").val("kmhe0128@naver.com");
+                    $("#guestEmail").val("${dto.memberEmail}");
                 }
             });
 
@@ -212,7 +215,7 @@
                     return;
                 }
 
-                console.log("결제하기");
+                // console.log("결제하기");
                 // console.log(window.PortOne);
 
                 const rnd = Math.floor(Math.random()*1000000);
@@ -261,7 +264,7 @@
                     alert("결제 실패", response.message); // 결제 실패..
                     return location.reload(true);
                 } else {
-                    console.log("response", response);
+                    // console.log("response", response);
 
                     // console.log("response.paymentId = " , response.paymentId); // 결제 요청에 전달된 결제 ID입니다.
                     // console.log("response.txId = " , response.txId); // 결제 시도 고유 번호 / 포트원에서 채번하는 결제 시도 고유 번호입니다.
@@ -294,11 +297,11 @@
                     );
 
                     if (!paymentResponse.ok)
-                        console.log("에러에러!!");
+                        console.log("Error");
                     const payment = await paymentResponse.json();
 
-                    console.log("payment!!!!!!");
-                    console.log("payment : ", payment );
+                    // console.log("payment!!!!!!");
+                    // console.log("payment : ", payment );
 
                     const jsonData = {
                         "payment" : payment,
@@ -309,7 +312,7 @@
                         guestPhoneNumber : guestPhoneNumber,
                         guestEmail : guestEmail,
                         residenceCountry : $('#residenceCountry').find(':selected')[0].innerText,
-                        memberNo : 2, // 사용자번호
+                        memberNo : ${dto.memberNo}, // 사용자번호
                         roomNo :${roomDetail['roomNo']},
                         reservationDetailsRequest : $("#reservationDetailsRequest").val(),
                         accommodationNo : ${acmDetail['acmNo']},
@@ -329,7 +332,7 @@
                         totalAmount : ${paymentPrice}
                         <%--totalAmount : ${roomDetail.roomPrice}--%>
                     };
-                    console.log("jsonData = ", jsonData);
+                    // console.log("jsonData = ", jsonData);
                     $.ajax({
                         url : "/reservation/payment",
                         type: "POST",
@@ -341,7 +344,7 @@
                         //     "jsonData" : JSON.stringify(jsonData)
                         // },
                         success : function (response) {
-                            console.log("성공");
+                            // console.log("성공");
                             window.location.replace('/reservation/mystays');
 
                         }, error: function(jqXHR, textStatus, errorThrown) {
@@ -632,9 +635,15 @@
                     <div class="rsv acm-menu box-border p-4">
                         <div class="row mb-2">
                             <div class="d-flex gap-2 pb-2 lh-sm text-start">
+                                <%--
                                 <img class="acm-img-thumbnail radius_12"
                                      src="https://a0.muscache.com/im/pictures/0f52b46a-16fe-472f-a04b-eec52680f162.jpg?aki_policy=large"
                                      alt="">
+                                --%>
+
+<%--                                    ${acmDetail.filename}--%>
+
+                                <img class="w-100 slide-imgs img-100" src="/accommodation/views/${acmDetail.filename}" alt="숙소 이미지">
                                 <div class="w-100 ms-1">
                                     <strong class="d-block">${acmDetail['acmName']}</strong><%--E°SO 이소하우스 60평 독채--%>
                                     <p class="mb-2">${category.categoryName}</p><%--펜션--%>

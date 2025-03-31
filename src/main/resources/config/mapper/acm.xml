@@ -26,6 +26,17 @@
             rm.room_no = #{roomNo}
     </select>
 
+    <select id="getImageOne" parameterType="int" resultType="RoomImageDTO">
+        SELECT
+        r.image_no AS imageNo,
+        r.filename AS filename,
+        r.filepath AS filepath
+        FROM room_image r
+        WHERE r.accommodation_no = #{acmNo}
+        ORDER BY r.image_no ASC
+        LIMIT 1
+    </select>
+
     <!-- 사업자 기준 숙소 조회 -->
     <select id="getBnsAcmList" parameterType="map" resultType="AccommodationDTO">
         SELECT
