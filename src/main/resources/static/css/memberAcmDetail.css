@@ -189,24 +189,36 @@ footer {
     margin-top: 30px;
 }
 
-#addressIcon, #telIcon, #characterIcon, #checkincheckoutIcon, #amenitiesIcon, #keywordIcon {
+#addressIcon, #telIcon, #characterIcon, #checkincheckoutIcon {
     width: 40px; /* 아이콘 크기 조정 */
     height: auto; /* 비율에 맞춰 자동 조정 */
-    margin-right: 15px; /* 아이콘과 텍스트 간의 간격 */
+    margin-right: 30px; /* 아이콘과 텍스트 간의 간격 */
+}
+
+#amenitiesIcon {
+    width: 40px;
+    height: auto;
+    margin-right: 15px;
 }
 
 /* 카테고리 이미지 아이콘 사이즈 및 간격 조정 */
 #categoryIcon {
     width: 30px;
     height: auto;
-    margin-right: 15px;
+    margin-right: 37px;
 }
 
 #calenderIcon {
     width: 60px;
     height: auto;
     /*margin-right: 20px;*/
-    margin: 20px;
+    margin: 30px;
+}
+
+#keywordIcon {
+    width: 40px;
+    height: auto;
+    margin-right: 15px;
 }
 
 /* 키워드 글자 간격 조정 */

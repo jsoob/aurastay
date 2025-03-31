@@ -220,7 +220,8 @@
                             <label>어린이 (2 ~ 12세) <input type="number" id="children" min="0" max="10" value="0"></label>
                             <label>유아 (2세 미만) <input type="number" id="infants" min="0" max="5" value="0"></label>
                             <label>반려동물 <input type="number" id="pets" min="0" max="3" value="0"></label>
-                            <label> (반려동물의 경우, 숙소의 사정에 따라 입실이 거부되는 경우가 있을 수 있습니다. 이 점 참고하시어 해당 숙소에 직접 문의해주시기 바랍니다.) </label>
+                            <label> (반려동물의 경우, 숙소의 사정에 따라 입실이 거부되는 경우가 있을 수 있습니다. 이 점 참고하시어 해당 숙소에 직접 문의해주시기
+                                바랍니다.) </label>
                             <button id="apply-btn">적용</button>
                         </div>
                     </div>
@@ -244,13 +245,15 @@
                 <p>할인: ${r.roomDiscount}%</p>
                 <p>최대 인원: ${r.roomCapacity}명</p>
                 <p>설명: ${r.roomContents}</p>
-<%--                <a href="/reservation/stays?accommodationNo=1&roomNo=1&checkin=2025-04-01&checkout=2025-04-03">예약하기</a>--%>
-<%--                <a href="reservation/stays?accommodationNo=${dto.acmNo}&roomNo=${r.roomNo}&checkin="+${"#startDate"}.val()+"&checkout="+$("#endDate").val() +">예약하기</a>--%>
-                <a href="reservation/stays?accommodationNo=${dto.acmNo}&roomNo=${r.roomNo}&checkin=" + $('#startDate').val() + "&checkout=" + $('#endDate').val() + " class="btn btn-pink">예약하기</a>
+                <a href="/reservation/stays?accommodationNo=1&roomNo=1&checkin=2025-04-01&checkout=2025-04-03" class="btn btn-pink">예약하기</a>
+                    <%--                <a href="reservation/stays?accommodationNo=${dto.acmNo}&roomNo=${r.roomNo}&checkin="+${"#startDate"}.val()+"&checkout="+$("#endDate").val() +">예약하기</a>--%>
+<%--                <a href="reservation/stays?accommodationNo=${dto.acmNo}&roomNo=${r.roomNo}&checkin=" + $('#startDate').val() + "&checkout=" + $('#endDate').val() + " class="btn btn-pink">예약하기</a>--%>
+<%--                <a href="reservation/stays?accommodationNo=${dto.acmNo}&roomNo=${r.roomNo}&checkin=${$('#startDate').val()}&checkout=${$('#endDate').val()}" class="btn btn-pink">예약하기</a>--%>
+
             <%--<form action="reservation/reservationForm" method="post">
-                        <input type="hidden" name="roomNo" value="${r.roomNo}"> &lt;%&ndash; 객실 ID를 숨겨진 입력 필드로 전달하기 &ndash;%&gt;
-                        <button type="submit" class="btn btn-primary reserve-button">예약하기</button>
-                    </form>--%>
+                                <input type="hidden" name="roomNo" value="${r.roomNo}"> &lt;%&ndash; 객실 ID를 숨겨진 입력 필드로 전달하기 &ndash;%&gt;
+                                <button type="submit" class="btn btn-primary reserve-button">예약하기</button>
+                            </form>--%>
             </div>
         </c:forEach>
     </div>
@@ -273,9 +276,9 @@
         let infants = document.getElementById("infants").value;
         let pets = document.getElementById("pets").value;
 
-        let guestText = `성인 `+adults+`명, 어린이 `+children+`명, 유아 `+infants+`명`;
+        let guestText = `성인 ` + adults + `명, 어린이 ` + children + `명, 유아 ` + infants + `명`;
         if (pets > 0) {
-            guestText += `, 반려동물 `+pets+`마리`;
+            guestText += `, 반려동물 ` + pets + `마리`;
         }
 
         console.log("성인 >>>>>>>>>> " + adults);
@@ -284,9 +287,7 @@
         document.querySelector(".guest-options").style.display = "none";
     });
 
-    document.getElementById("startDate").addEventListener("click", function () {
-        let option =
-    })
+
 </script>
 
 
