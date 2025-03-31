@@ -177,7 +177,7 @@
 
                                 <div class="row mb-2">
                                     <div class="col-sm-6">
-                                        <a href="/acm/acmFind?acmNo=${rsrv['acmDTO'].acmNo}" class="text-decoration-none">
+                                        <a href="/accommodation/memberAccommodation/${rsrv['acmDTO'].acmNo}" class="text-decoration-none">
                                             <button class="btn btn btn-secondary btn-gray w-100 h-50px fw-bold">숙소 상세</button>
                                         </a>
 
