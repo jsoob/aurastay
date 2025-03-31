@@ -73,7 +73,8 @@ public class ReservationController {
         // 객실 수량이 없으면 다시 숙소 상세보기로 이동함.
         // 0개이면 애초에 숙소 상세보기에서 예약하기 버튼 활성화 안함. -> 근데 고민하다가 누를 수 있으니 누르면 다시 리다이렉트 -> 해당 숙소 정보로 가기
         if(roomCountMin == 0){
-            url = "redirect:/reservation/album_ex";
+//            url = "redirect:/reservation/album_ex";
+            url = "redirect:/accommodation/memberAccommodation/"+acmNo;
         }
         // 숙소 수량 count
         model.addAttribute("acmCount", roomCountMin); // 객실 수량이 1이면..마지막 객실 알림 / 2~ 이상이면 알림 없음.

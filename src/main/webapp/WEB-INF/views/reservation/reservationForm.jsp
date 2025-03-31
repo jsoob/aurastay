@@ -368,9 +368,9 @@
 <jsp:include page="../main/basic-header.jsp"/>
 
 <%-- 실제 html --%>
-<div class="container rsrv-container">
+<div class="container rsrv-container" style="margin-top: 90px;">
     <div class="rsrv-title-container">
-        <h1><a class="text-decoration-none text-dark" href="/reservation/album_ex"><span
+        <h1><a class="text-decoration-none text-dark" href="/accommodation/memberAccommodation/${acmDetail['acmNo']}"><span
                 class="px-2 rsrv-back-circleBtn fs-3 fw-bold"><</span></a> 예약 요청</h1>
     </div>
     <div class="rsrv-body-container">
