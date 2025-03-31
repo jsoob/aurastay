@@ -8,15 +8,15 @@
     <!-- 숙소에 속한 객실 리스트 조회 -->
     <select id="findRoomByAccommodation" resultType="RoomDTO">
         SELECT
-            r.room_no                 as roomNo,
-            r.accommodation_no        as acmNo,
-            r.room_name               as roomName,
-            r.room_qty                as roomQty,
-            r.room_price              as roomPrice,
-            r.room_discount           as roomDiscount,
-            r.room_contents           as roomContents,
-            r.room_viewtype           as roomViewType,
-            r.room_capacity           as roomCapacity
+        r.room_no                 as roomNo,
+        r.accommodation_no        as acmNo,
+        r.room_name               as roomName,
+        r.room_qty                as roomQty,
+        r.room_price              as roomPrice,
+        r.room_discount           as roomDiscount,
+        r.room_contents           as roomContents,
+        r.room_viewtype           as roomViewType,
+        r.room_capacity           as roomCapacity
         FROM room r
         JOIN accommodation a ON r.accommodation_no = a.accommodation_no
         WHERE r.accommodation_no = #{acmNo}
@@ -38,24 +38,24 @@
     <!-- 객실 추가 -->
     <insert id="roomAdd" parameterType="RoomDTO"  useGeneratedKeys="true" keyProperty="roomNo">
         INSERT INTO room (
-            room_name,
-            room_qty,
-            room_price,
-            room_discount,
-            room_contents,
-            room_viewtype,
-            room_capacity,
-            accommodation_no
+        room_name,
+        room_qty,
+        room_price,
+        room_discount,
+        room_contents,
+        room_viewtype,
+        room_capacity,
+        accommodation_no
         )
         VALUES (
-            #{roomName},
-            #{roomQty},
-            #{roomPrice},
-            #{roomDiscount},
-            #{roomContents},
-            #{roomViewType},
-            #{roomCapacity},
-            #{acmNo}
+        #{roomName},
+        #{roomQty},
+        #{roomPrice},
+        #{roomDiscount},
+        #{roomContents},
+        #{roomViewType},
+        #{roomCapacity},
+        #{acmNo}
         )
     </insert>
 
@@ -63,13 +63,13 @@
     <update id="roomUpdate" parameterType="RoomDTO">
         UPDATE room
         SET
-            room_name = #{roomName},
-            room_qty = #{roomQty},
-            room_capacity = #{roomCapacity},
-            room_price = #{roomPrice},
-            room_discount = #{roomDiscount},
-            room_contents = #{roomContents},
-            room_viewtype = #{roomViewType}
+        room_name = #{roomName},
+        room_qty = #{roomQty},
+        room_capacity = #{roomCapacity},
+        room_price = #{roomPrice},
+        room_discount = #{roomDiscount},
+        room_contents = #{roomContents},
+        room_viewtype = #{roomViewType}
         WHERE room_no = #{roomNo} AND accommodation_no = #{acmNo} <!-- room_no를 기준으로 업데이트 -->
     </update>
 
@@ -90,23 +90,23 @@
 
     <!-- 객실이 포함된 숙소 찾기 (객실 번호로 숙소 정보 찾기) -->
 
-<!--    <select id="findByRoomId" resultType="RoomDTO" parameterType="RoomDTO">-->
-<!--        SELECT-->
-<!--            a.accommodation_no              AS acmNo,-->
-<!--            a.accommodation_name            AS acmName,-->
-<!--            a.accommodation_address         AS acmAddress,-->
-<!--            a.accommodation_contents        AS contents,-->
-<!--            a.checkin                       AS checkinTime,-->
-<!--            a.checkout                      AS checkoutTime,-->
-<!--            a.tel                           AS acmTel,-->
-<!--            a.keyword_no                    AS keywordNo,-->
-<!--            a.business_no                   AS businessNo,-->
-<!--            a.category_no                   AS categoryNo-->
-<!--        FROM accommodation a-->
-<!--        INNER JOIN room r-->
-<!--        ON a.accommodation_no = r.accommodation_no-->
-<!--        WHERE r.room_no = #{roomNo}-->
-<!--    </select>-->
+    <!--    <select id="findByRoomId" resultType="RoomDTO" parameterType="RoomDTO">-->
+    <!--        SELECT-->
+    <!--            a.accommodation_no              AS acmNo,-->
+    <!--            a.accommodation_name            AS acmName,-->
+    <!--            a.accommodation_address         AS acmAddress,-->
+    <!--            a.accommodation_contents        AS contents,-->
+    <!--            a.checkin                       AS checkinTime,-->
+    <!--            a.checkout                      AS checkoutTime,-->
+    <!--            a.tel                           AS acmTel,-->
+    <!--            a.keyword_no                    AS keywordNo,-->
+    <!--            a.business_no                   AS businessNo,-->
+    <!--            a.category_no                   AS categoryNo-->
+    <!--        FROM accommodation a-->
+    <!--        INNER JOIN room r-->
+    <!--        ON a.accommodation_no = r.accommodation_no-->
+    <!--        WHERE r.room_no = #{roomNo}-->
+    <!--    </select>-->
 
 
 

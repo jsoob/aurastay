@@ -5,9 +5,7 @@ import kr.co.aura.aurastay.dto.AccommodationDTO;
 import kr.co.aura.aurastay.dto.AmenitiesDTO;
 import kr.co.aura.aurastay.dto.RoomDTO;
 import kr.co.aura.aurastay.dto.RoomImageDTO;
-import kr.co.aura.aurastay.repository.AccommodationRepository;
-import kr.co.aura.aurastay.repository.ReservationRepository;
-import kr.co.aura.aurastay.repository.RoomImageRepository;
+import kr.co.aura.aurastay.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,6 +25,9 @@ public class AccommodationService {
     private final RoomService roomService;          // roomService와 연동
     private final RoomImageRepository roomImageRepository;
     private final ReservationRepository reservationRepository;
+    private final AmenitiesRepository amenitiesRepository; // 편의시설 리포지토리
+    private final RoomRepository roomRepository; // 객실 리포지토리
+
 
     // 전체 조회하기
     public List<AccommodationDTO> selectAll(int currentPage, int pageSize, String search) {
@@ -228,9 +229,11 @@ public class AccommodationService {
     // 숙소 정보 삭제
     public void acmDelete(int acmNo) {
 
-        // 객실 삭제
+        // 1. 종속된 편의시설 삭제
+        accommodationRepository.deleteAmenities(acmNo);
+        // 2. 객실 삭제
         accommodationRepository.deleteRoomsByAccommodationNo(acmNo);
-        // 숙소 삭제
+        // 3. 숙소 삭제
         accommodationRepository.acmDelete(acmNo);
     }
 

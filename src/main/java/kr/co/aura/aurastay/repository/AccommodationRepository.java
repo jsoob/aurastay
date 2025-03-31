@@ -59,4 +59,5 @@ public interface AccommodationRepository {
 
     // 숙소 삭제
     void acmDelete(int acmNo);
+
 }
