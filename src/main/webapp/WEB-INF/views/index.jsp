@@ -93,7 +93,7 @@
                             <div class="carousel-inner">
                                 <!-- 이미지도 위처럼 c:foreach + choose/when-otherwise 를 사용해서 1번째 꺼랑 다른것들 구분 -->
                                 <c:forEach var="accommodation" items="${accommodations}" varStatus="imgaStatus">
-                                    <div class="carousel-item ${imgaStatus.first                                                                                                                                                                                                                                                                                       ? 'active':''}">
+                                    <div class="carousel-item ${imgaStatus.first}>                                                                                                                                                                                                                                                                                       ? 'active':''}">
                                         <!-- 첫번째 이미지는 active 가 붙는다 -->
                                         <%-- a href = "" 안의 url 주소 수정 : 홈페이지 연결 (2025.03.27 수정)  --%>
 <%--                                        <a href="accommodation/memberAccommodation"> 이걸 아래와 같이 변경--%>
