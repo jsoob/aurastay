@@ -1,13 +1,11 @@
 $(document).ready(function () {
-    // $("#editBtn").on("click",()=>{
-    //     console.log("버튼눌림");
-    //     // 여기서 input창으로 변경되고 다시 수정 버튼 누르면 submit될수있도록하기
-    // })
 
     let providerId = $("#providerId").val();
     let isEditing = false; // 수정 중인지 상태 저장
+
     console.log("providerId : " + providerId);
     $("#editBtn").on("click", function () {
+
         if (!isEditing) {
             // 수정 모드로 변경
             // 일반 로그인 사용자이라면
@@ -21,8 +19,44 @@ $(document).ready(function () {
             $(this).text("저장");
             isEditing = true;
         } else {
-            // 저장 모드 → 폼 제출
 
+            // 유효성 검사
+            let email = $("#email").val().trim();
+            let nickname = $("#nickname").val().trim();
+            let name = $("#name").val().trim();
+            let phone = $("#phone").val().trim();
+
+            // 이메일
+            if (email === "") {
+                alert("이메일을 입력해주세요.");
+                $("#email").focus();
+                return;
+            } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+                alert("올바른 이메일 형식을 입력하세요.");
+                $("#email").focus();
+                return;
+            }
+
+            // 닉네임
+            if (nickname === "") {
+                alert("닉네임을 입력해주세요.");
+                $("#nickname").focus();
+                return;
+            }
+            // 이름
+            if (name === "") {
+                alert("이름을 입력해주세요.");
+                $("#name").focus();
+                return;
+            }
+            // 전화번호 숫자만 입력 가능
+            if (!/^\d{9,11}$/.test(phone)) {
+                alert("전화번호는 숫자로만 이루어진 9~11자리여야 합니다.");
+                $("#phone").focus();
+                return;
+            }
+
+            // 저장 모드 → 폼 제출
             let formData = {};
             $(".modifyForm").serializeArray().forEach((item) => {
                 formData[item.name] = item.value;

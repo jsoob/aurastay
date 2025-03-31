@@ -48,7 +48,7 @@ public class MemberController {
         memberDTO.setMemberPhoneNumber(phone1 + phone2 + phone3);
         memberService.save(memberDTO);
 
-        return "redirect:/login";
+        return "signUpComplete";
     }
 
     // 로그인

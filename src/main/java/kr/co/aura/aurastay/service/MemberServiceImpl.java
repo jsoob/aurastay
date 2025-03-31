@@ -58,6 +58,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public boolean isAllMemberExist(String email) {
+        return memberRepository.existsByEmailAndWithdrawal(email);
+    }
+
+    @Override
     public void modifyMemberInfo(MemberDTO dto) {
         memberRepository.modifyMember(dto);
     }
@@ -72,10 +77,5 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.deleteMember(memberNo);
     }
 
-    // 숙소 쪽으로 옮기거나 삭제하거나
-    @Override
-    public List<HashMap<String, Object>> getAllAccommodation() {
-        return memberRepository.getAllAccommodation();
-    }
 
 }

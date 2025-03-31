@@ -13,6 +13,7 @@ public interface BusinessRepository {
     BusinessDTO findByUsername(String username);
 
     boolean existsByEmail(String businessEmail);
+    boolean existsByEmailAndWithdrawal(String businessEmail);
 
     // 비밀번호 재설정
     void resetPassword(BusinessDTO dto);

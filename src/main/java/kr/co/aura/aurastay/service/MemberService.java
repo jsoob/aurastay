@@ -16,6 +16,8 @@ public interface MemberService {
     void resetPassword(MemberDTO dto);
     // 존재하는 사용자인지 확인
     boolean isMemberExist(String email);
+    // 존재하는 사용자인지 확인(탈퇴 포함)
+    boolean isAllMemberExist(String email);
     // 개인정보 수정
     void modifyMemberInfo(MemberDTO dto);
     // memberNo로 사용자 찾기
@@ -23,6 +25,4 @@ public interface MemberService {
     // 회원탈퇴
     void withdrawalMember(int memberNo);
 
-    // 숙소 쪽으로 옮기거나 삭제하거나
-    List<HashMap<String, Object>> getAllAccommodation();
 }
