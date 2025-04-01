@@ -23,6 +23,10 @@
     <select id="existsByEmailAndWithdrawal" parameterType="String" resultType="boolean">
         SELECT EXISTS (SELECT 1 FROM business WHERE business_email = #{username} and withdrawal_date is null)
     </select>
+    <!-- 사업자번호로 확인 -->
+    <select id="existsById" parameterType="String" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM business WHERE business_no = #{business_no})
+    </select>
     <!-- 비밀번호 재설정 -->
     <update id="resetPassword" parameterType="BusinessDTO">
         update business

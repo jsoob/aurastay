@@ -201,6 +201,16 @@ public class MainController {
         return ResponseEntity.ok(response);
     }
 
+    // 사업자 번호 중복 확인
+    @PostMapping("/checkBusinessNo")
+    public ResponseEntity<Map<String, Boolean>> checkBusinessNo(@RequestParam String businessNo) {
+        boolean exists = businessService.isBusinessNoExist(businessNo);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("exists", exists);
+        log.info(">>>>>>>>>>>>>>> 존재해? " + exists);
+        return ResponseEntity.ok(response);
+    }
+
     // 비밀번호 찾기 이메일 확인
     @PostMapping("/findPassword/checkEmail")
     public ResponseEntity<Map<String, Boolean>> findPasswordCheckEmail(@RequestParam String email) {

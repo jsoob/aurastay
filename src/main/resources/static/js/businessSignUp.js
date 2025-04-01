@@ -3,6 +3,7 @@ $(document).ready(() => {
     let authCode = ""; // 인증번호 저장 변수
     let isEmailValid = false; // 이메일 중복 확인 여부
     let isEmailVerified = false;  // 이메일 인증 여부
+    let isBusinessNoValid = false; // 사업자번호 중복 확인 여부
 
     let emailModal = new bootstrap.Modal(document.getElementById("emailVerificationModal"));
 
@@ -82,6 +83,36 @@ $(document).ready(() => {
         }
     })
 
+    // 사업자번호 중복 확인
+    $("#checkBusinessNoBtn").on("click", function () {
+        let businessNo = $("#businessNo").val().trim();
+        $("#businessNoError").text(""); // 기존 에러 메시지 제거
+
+        // 사업자번호는 숫자만 입력 가능
+        if (!/^\d{10}$/.test(businessNo)) {
+            $("#businessNoError").text("사업자번호는 10자리 숫자로 입력해야 합니다.");
+        } else {
+            // 중복확인
+            $.ajax({
+                type: "post",
+                url: "/checkBusinessNo",
+                data: {businessNo: businessNo},
+                success: function (response) {
+                    if (response.exists) {
+                        $("#businessNoError").text("이미 가입된 사업자번호입니다. 고객센터로 문의해주세요.");
+                        isBusinessNoValid = false;
+                    } else {
+                        $("#businessNoError").text("사용 가능한 사업자번호입니다.");
+                        isBusinessNoValid = true;
+                    }
+                },
+                error: function () {
+                    $("#emailError").text("사업자번호 확인 중 오류가 발생했습니다.");
+                }
+            })
+        }
+    })
+
     // 전송 전에 유효성 검사
     $("#signUpForm").on("submit", (event) => {
         let isValid = true;
@@ -111,6 +142,11 @@ $(document).ready(() => {
             $("#emailError").text("이메일 인증 후 진행해주세요.");
         }
 
+        // 회원가입 버튼 클릭시 사업자번호 중복 여부 확인
+        if (!isBusinessNoValid) {
+            event.preventDefault();
+            $("#businessNoError").text("사업자번호 중복 확인 후 진행해주세요.");
+        }
 
         // 비밀번호 유효성 검사
         // 특수기호나 숫자를 1자 이상 포함하고 최소 8자여야 합니다.
@@ -125,11 +161,6 @@ $(document).ready(() => {
             isValid = false;
         }
 
-        // 사업자번호는 숫자만 입력 가능
-        if (!/^\d{10}$/.test(businessNo)) {
-            $("#businessNoError").text("사업자번호는 10자리 숫자로 입력해야 합니다.");
-            isValid = false;
-        }
 
         // 전화번호 숫자만 입력 가능
         if (!/^\d{2,3}$/.test(phone1) || !/^\d{3,4}$/.test(phone2) || !/^\d{4}$/.test(phone3)) {

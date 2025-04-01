@@ -54,4 +54,9 @@ public class BusinessServiceImpl implements BusinessService {
     public boolean isAllBusinessExist(String email) {
         return businessRepository.existsByEmailAndWithdrawal(email);
     }
+
+    @Override
+    public boolean isBusinessNoExist(String businessNo) {
+        return businessRepository.existsById(businessNo);
+    }
 }

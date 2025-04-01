@@ -39,7 +39,10 @@
         </div>
         <div class="mb-3">
             <label for="businessNo" class="form-label">사업자번호</label>
+            <div class="businessNoDiv">
             <input type="text" id="businessNo" name="businessNo" class="form-control">
+                <button type="button" id="checkBusinessNoBtn" class="btn btn-outline-primary">중복확인</button>
+            </div>
             <div id="businessNoError" class="text-danger small"></div>
             <form:errors path="businessNo" cssClass="text-danger small"/>
         </div>
