@@ -2,16 +2,16 @@
     max-width: 400px;
 }
 
-.emailDiv {
+.emailDiv, .businessNoDiv {
     display: flex;
     justify-content: space-between;
 }
 
-.emailDiv > input {
+.emailDiv > input, .businessNoDiv > input {
     max-width: 290px;
 }
 
-#checkEmailBtn {
+#checkEmailBtn, #checkBusinessNoBtn {
     min-width: 100px;
 }
 

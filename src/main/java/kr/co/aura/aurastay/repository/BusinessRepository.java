@@ -15,6 +15,7 @@ public interface BusinessRepository {
     boolean existsByEmail(String businessEmail);
     boolean existsByEmailAndWithdrawal(String businessEmail);
 
+    boolean existsById(String businessNo);
     // 비밀번호 재설정
     void resetPassword(BusinessDTO dto);
 

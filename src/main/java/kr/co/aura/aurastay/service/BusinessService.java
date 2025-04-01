@@ -9,4 +9,5 @@ public interface BusinessService {
     void resetPassword(BusinessDTO dto);
     boolean isBusinessExist(String email);
     boolean isAllBusinessExist(String email);
+    boolean isBusinessNoExist(String email);
 }

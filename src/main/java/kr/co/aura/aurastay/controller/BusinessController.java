@@ -71,7 +71,7 @@ public class BusinessController {
 
         businessDTO.setBusinessPhoneNumber(phone1 + phone2 + phone3);
         businessService.save(businessDTO);
-        return "redirect:/business/intro";
+        return "signUpComplete";
     }
 
 }
