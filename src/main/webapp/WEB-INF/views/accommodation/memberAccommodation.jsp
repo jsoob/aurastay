@@ -245,7 +245,7 @@
                 <p>할인: ${r.roomDiscount}%</p>
                 <p>최대 인원: ${r.roomCapacity}명</p>
                 <p>설명: ${r.roomContents}</p>
-                <a href="/reservation/stays?accommodationNo=1&roomNo=1&checkin=2025-04-01&checkout=2025-04-03" class="btn btn-pink">예약하기</a>
+                <a href="/reservation/stays?accommodationNo=${dto.acmNo}&roomNo=${r.roomNo}&checkin=2025-04-01&checkout=2025-04-03" class="btn btn-pink">예약하기</a>
                     <%--                <a href="reservation/stays?accommodationNo=${dto.acmNo}&roomNo=${r.roomNo}&checkin="+${"#startDate"}.val()+"&checkout="+$("#endDate").val() +">예약하기</a>--%>
 <%--                <a href="reservation/stays?accommodationNo=${dto.acmNo}&roomNo=${r.roomNo}&checkin=" + $('#startDate').val() + "&checkout=" + $('#endDate').val() + " class="btn btn-pink">예약하기</a>--%>
 <%--                <a href="reservation/stays?accommodationNo=${dto.acmNo}&roomNo=${r.roomNo}&checkin=${$('#startDate').val()}&checkout=${$('#endDate').val()}" class="btn btn-pink">예약하기</a>--%>
