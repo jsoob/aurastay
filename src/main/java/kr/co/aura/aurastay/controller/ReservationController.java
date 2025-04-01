@@ -204,7 +204,7 @@ public class ReservationController {
               @RequestParam(name = "search", required = false) String search) {
         log.info("숙소 목록 조회");
 
-        int pageSize = 6;      // 페이지당 항목 수
+        int pageSize = 4;      // 페이지당 항목 수
         List<AccommodationDTO> list = acmRoomService.getBnsAcmList(businessNo, currentPage, pageSize, search);
 
         // 총 숙소 개수를 가져오는 서비스 메서드 호출
@@ -242,7 +242,7 @@ public class ReservationController {
             @RequestParam(name = "search", required = false) String search) {
         log.info("객실 목록 조회");
 
-        int pageSize = 6;      // 페이지당 항목 수
+        int pageSize = 4;      // 페이지당 항목 수
         List<RoomDTO> list = acmRoomService.getBnsRoomList(acmNo, currentPage, pageSize, search);
 
         // 총 숙소 개수를 가져오는 서비스 메서드 호출
