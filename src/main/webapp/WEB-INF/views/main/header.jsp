@@ -25,16 +25,16 @@
             <%-- 인증된 사용자가 볼 수 있는 리스트 --%>
             <sec:authorize access="isAuthenticated()">
                 <sec:authorize access="hasRole('MEMBER')">
-                <li><a class="dropdown-item" href="/member/myPage">마이페이지</a></li>
-                <li><a class="dropdown-item" href="/wishlist">위시리스트</a></li>
-                <li><a class="dropdown-item" href="/reservation/mystays">예약내역</a></li>
+                    <li><a class="dropdown-item" href="/member/myPage">마이페이지</a></li>
+                    <li><a class="dropdown-item" href="/wishlist">위시리스트</a></li>
+                    <li><a class="dropdown-item" href="/reservation/mystays">예약내역</a></li>
                 </sec:authorize>
                 <sec:authorize access="hasAnyRole('MEMBER','BUSINESS')">
-                <li>
-                    <form action="/logout" method="post" id="logoutForm">
-                        <button type="submit" class="dropdown-item logout-btn">로그아웃</button>
-                    </form>
-                </li>
+                    <li>
+                        <form action="/logout" method="post" id="logoutForm">
+                            <button type="submit" class="dropdown-item logout-btn">로그아웃</button>
+                        </form>
+                    </li>
                 </sec:authorize>
             </sec:authorize>
         </ul>

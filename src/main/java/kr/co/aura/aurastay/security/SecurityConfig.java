@@ -44,7 +44,9 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         /* 임시 테스트 나중에 권한별로 접근 경로 바꿔야함 */
-                        .requestMatchers("/business/business").hasRole("BUSINESS")
+//                        .requestMatchers("/business/business").hasRole("BUSINESS")
+                        .requestMatchers("/business/main").hasRole("BUSINESS")
+                        .requestMatchers("/reservation/cancelList").hasRole("BUSINESS")
                         /* 이외의 요청들은 인증 필요없음 */
                         .anyRequest().permitAll());
 

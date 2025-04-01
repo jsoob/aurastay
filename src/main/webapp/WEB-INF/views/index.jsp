@@ -15,6 +15,7 @@
 <body>
 
 <jsp:include page="main/header.jsp"/>
+
 <div class="main">
     <nav class="nav-list">
         <ul>
@@ -33,18 +34,18 @@
                 <a href=""><img src="https://a0.muscache.com/pictures/251c0635-cc91-4ef7-bb13-1084d5229446.jpg"
                                 alt="">호텔</a>
             </li>
-<%--            <li>--%>
-<%--                <a href=""><img src="https://a0.muscache.com/pictures/48b55f09-f51c-4ff5-b2c6-7f6bd4d1e049.jpg"--%>
-<%--                                alt="">추가</a>--%>
-<%--            </li>--%>
-<%--            <li>--%>
-<%--                <a href=""><img src="https://a0.muscache.com/pictures/3fb523a0-b622-4368-8142-b5e03df7549b.jpg"--%>
-<%--                                alt="">추가</a>--%>
-<%--            </li>--%>
-<%--            <li>--%>
-<%--                <a href=""><img src="https://a0.muscache.com/pictures/3b1eb541-46d9-4bef-abc4-c37d77e3c21b.jpg"--%>
-<%--                                alt="">추가</a>--%>
-<%--            </li>--%>
+            <%--            <li>--%>
+            <%--                <a href=""><img src="https://a0.muscache.com/pictures/48b55f09-f51c-4ff5-b2c6-7f6bd4d1e049.jpg"--%>
+            <%--                                alt="">추가</a>--%>
+            <%--            </li>--%>
+            <%--            <li>--%>
+            <%--                <a href=""><img src="https://a0.muscache.com/pictures/3fb523a0-b622-4368-8142-b5e03df7549b.jpg"--%>
+            <%--                                alt="">추가</a>--%>
+            <%--            </li>--%>
+            <%--            <li>--%>
+            <%--                <a href=""><img src="https://a0.muscache.com/pictures/3b1eb541-46d9-4bef-abc4-c37d77e3c21b.jpg"--%>
+            <%--                                alt="">추가</a>--%>
+            <%--            </li>--%>
             <li>
                 <a href=""><img src="https://a0.muscache.com/pictures/aaa02c2d-9f0d-4c41-878a-68c12ec6c6bd.jpg"
                                 alt="">리조트</a>
@@ -131,70 +132,70 @@
                 Object.keys(response)
                     .sort((a,b) => b-a) // 내림차순 정렬
                     .forEach(accommodationNo => {
-                    let accommodations = response[accommodationNo];
+                        let accommodations = response[accommodationNo];
 
-                    let reviewRating = reviewMap[accommodationNo] ? reviewMap[accommodationNo].rating : 0;
-                    let reviewCount = reviewMap[accommodationNo] ? reviewMap[accommodationNo].cnt : 0;
+                        let reviewRating = reviewMap[accommodationNo] ? reviewMap[accommodationNo].rating : 0;
+                        let reviewCount = reviewMap[accommodationNo] ? reviewMap[accommodationNo].cnt : 0;
 
 
-                    let html = '<div class="col">' +
-                        '<div class="card" data-accommodation-no="' + accommodationNo + '">' +
-                        '<div id="carousel_' + accommodationNo + '" class="carousel slide">' +
-                        '<div class="carousel-indicators carousel-index-btn">';
+                        let html = '<div class="col">' +
+                            '<div class="card" data-accommodation-no="' + accommodationNo + '">' +
+                            '<div id="carousel_' + accommodationNo + '" class="carousel slide">' +
+                            '<div class="carousel-indicators carousel-index-btn">';
 
-                    accommodations.forEach((accommodation, index) => {
-                        html += '<button type="button" data-bs-target="#carousel_' + accommodationNo + '"' +
-                            'data-bs-slide-to="' + index + '"' +
-                            'aria-label="Slide' + (index + 1) + '"' +
-                            'class="' + (index == 0 ? 'active' : '') + '"' +
-                            'aria-current="' + (index == 0 ? 'true' : 'false') + '"></button>';
+                        accommodations.forEach((accommodation, index) => {
+                            html += '<button type="button" data-bs-target="#carousel_' + accommodationNo + '"' +
+                                'data-bs-slide-to="' + index + '"' +
+                                'aria-label="Slide' + (index + 1) + '"' +
+                                'class="' + (index == 0 ? 'active' : '') + '"' +
+                                'aria-current="' + (index == 0 ? 'true' : 'false') + '"></button>';
+                        });
+
+                        html += '</div><div class="carousel-inner">';
+
+                        accommodations.forEach((accommodation, index) => {
+                            html += '<div class="carousel-item ' + (index == 0 ? 'active' : '') + '">' +
+                                '<a href="accommodation/memberAccommodation/'+accommodationNo+'">' +
+                                '<img class="w-100 slide-imgs"' +
+                                'src="/accommodation/views/' + accommodation.filename + '"' +
+                                'alt="숙소 이미지"></a></div>';
+                        });
+
+                        html += '</div>' + '<div class="wish-btn-container">' + '<button type="button" class="wish-btn">' + '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"';
+
+                        html +=
+                            'class="wish-btn-svg ' + (wishlist.includes(Number(accommodationNo)) ? 'wish-btn-svg-active' : '') + '"><path d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05a6.98 6.98 0 0 0-9.9 0A6.98 6.98 0 0 0 2 11c0 7 7 12.27 14 17z"></path>' + '</svg></button></div>' +
+
+                            '<button class="carousel-control-btn carousel-control-prev" type="button"' +
+                            'data-bs-target="#carousel_' + accommodationNo + '" data-bs-slide="prev">' +
+                            '<span class="carousel-control-prev-icon" aria-hidden="true"></span>' +
+                            '<span class="visually-hidden">이전</span></button>' +
+                            '<button class="carousel-control-btn carousel-control-next" type="button"' +
+                            'data-bs-target="#carousel_' + accommodationNo + '" data-bs-slide="next">' +
+                            '<span class="carousel-control-next-icon" aria-hidden="true"></span>' +
+                            '<span class="visually-hidden">다음</span> </button></div>' +
+                            '<div class="card-body">' +
+                            '<div class="card-text cardTextDiv">' +
+                            '<a href="accommodation/memberAccommodation/'+accommodationNo+'" class="text-decoration-none text-dark">' +
+                            '<div class="fs-14 fw-bold">' + accommodations[0].accommodationName + '</div>' +
+                            '<div class="ps-1 fs-10">'+accommodations[0].accommodationAddress+'</div>'+
+                            '</a>' +
+                            '<div class="text-end">' +
+                            '<div class="review_rating fs-10">' +
+                            '<span class="fw-bold">' + (reviewRating == 0 ? '' : '★' + reviewRating) + '</span>' +
+                            '<span>' + (reviewCount == 0 ? '' : "(" + reviewCount + ")") + '</span>' +
+                            '</div>' +
+                            '<div class="acm-price fs-10">' +
+                            '<span class="acm-discount">' + accommodations[0].roomDiscount + '%</span>' +
+                            '<span class="acm-price-org text-decoration-line-through">' + formatPrice(accommodations[0].roomPrice) + '</span>' +
+                            '</div>' +
+                            '<div class="fw-bold">' +
+                            formatPrice(accommodations[0].discountedPrice) + '원 ~' +
+                            '</div></div></div></div></div>' + '</div>';
+
+                        // 새로운 숙소 카드 추가
+                        $(".row").append(html);
                     });
-
-                    html += '</div><div class="carousel-inner">';
-
-                    accommodations.forEach((accommodation, index) => {
-                        html += '<div class="carousel-item ' + (index == 0 ? 'active' : '') + '">' +
-                            '<a href="acm/list">' +
-                            '<img class="w-100 slide-imgs"' +
-                            'src="/accommodation/views/' + accommodation.filename + '"' +
-                            'alt="숙소 이미지"></a></div>';
-                    });
-
-                    html += '</div>' + '<div class="wish-btn-container">' + '<button type="button" class="wish-btn">' + '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"';
-
-                    html +=
-                        'class="wish-btn-svg ' + (wishlist.includes(Number(accommodationNo)) ? 'wish-btn-svg-active' : '') + '"><path d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05a6.98 6.98 0 0 0-9.9 0A6.98 6.98 0 0 0 2 11c0 7 7 12.27 14 17z"></path>' + '</svg></button></div>' +
-
-                        '<button class="carousel-control-btn carousel-control-prev" type="button"' +
-                        'data-bs-target="#carousel_' + accommodationNo + '" data-bs-slide="prev">' +
-                        '<span class="carousel-control-prev-icon" aria-hidden="true"></span>' +
-                        '<span class="visually-hidden">이전</span></button>' +
-                        '<button class="carousel-control-btn carousel-control-next" type="button"' +
-                        'data-bs-target="#carousel_' + accommodationNo + '" data-bs-slide="next">' +
-                        '<span class="carousel-control-next-icon" aria-hidden="true"></span>' +
-                        '<span class="visually-hidden">다음</span> </button></div>' +
-                        '<div class="card-body">' +
-                        '<div class="card-text cardTextDiv">' +
-                        '<a href="acm/list" class="text-decoration-none text-dark">' +
-                        '<div class="fs-14 fw-bold">' + accommodations[0].accommodationName + '</div>' +
-                        '<div class="ps-1 fs-10">'+accommodations[0].accommodationAddress+'</div>'+
-                        '</a>' +
-                        '<div class="text-end">' +
-                        '<div class="review_rating fs-10">' +
-                        '<span class="fw-bold">' + (reviewRating == 0 ? '' : '★' + reviewRating) + '</span>' +
-                        '<span>' + (reviewCount == 0 ? '' : "(" + reviewCount + ")") + '</span>' +
-                        '</div>' +
-                        '<div class="acm-price fs-10">' +
-                        '<span class="acm-discount">' + accommodations[0].roomDiscount + '%</span>' +
-                        '<span class="acm-price-org text-decoration-line-through">' + formatPrice(accommodations[0].roomPrice) + '</span>' +
-                        '</div>' +
-                        '<div class="fw-bold">' +
-                        formatPrice(accommodations[0].discountedPrice) + '원 ~' +
-                        '</div></div></div></div></div>' + '</div>';
-
-                    // 새로운 숙소 카드 추가
-                    $(".row").append(html);
-                });
             },
             error: function () {
                 alert("로드에 실패했습니다.");
@@ -209,4 +210,3 @@
 <script src="/js/main.js"></script>
 </body>
 </html>
-

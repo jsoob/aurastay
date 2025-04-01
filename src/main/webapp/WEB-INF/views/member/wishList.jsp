@@ -45,7 +45,7 @@
                         let location = results[0].geometry.location; // 변환된 위도/경도 가져오기
 
                         // 지도에 마커 추가
-                         new google.maps.marker.AdvancedMarkerElement({
+                        new google.maps.marker.AdvancedMarkerElement({
                             map : map,
                             position: location,
                             title : accommodation.name
@@ -130,8 +130,8 @@
                                     </a>
 
 
-                                <div class="text-end">
-                                    <div class="review_rating fs-10">
+                                    <div class="text-end">
+                                        <div class="review_rating fs-10">
                                         <span class="fw-bold">
                                                     <c:forEach var="review" items="${reviewList}">
                                                         <c:if test="${review.get('accommodationNo') eq wishes[0].get('accommodationNo')}">
@@ -142,28 +142,28 @@
                                                     </c:forEach>
 
                                             </span>
-                                        <span>
+                                            <span>
                                             <c:forEach var="review" items="${reviewList}">
                                                 <c:if test="${review.get('accommodationNo') eq wishes[0].get('accommodationNo')}">
                                                     <c:if test="${review.get('cnt') > 0}">
-                                                    (${review.get('cnt')})
+                                                        (${review.get('cnt')})
                                                     </c:if>
                                                 </c:if>
                                             </c:forEach>
                                         </span>
-                                    </div>
+                                        </div>
 
-                                    <div class="acm-price fs-10">
-                                        <span class="acm-discount">${wishes[0].get("roomDiscount")}%</span>
-                                        <span class="acm-price-org text-decoration-line-through"><fmt:formatNumber value="${wishes[0].get('roomPrice')}" type="number" pattern="#,###" /></span>
-                                    </div>
+                                        <div class="acm-price fs-10">
+                                            <span class="acm-discount">${wishes[0].get("roomDiscount")}%</span>
+                                            <span class="acm-price-org text-decoration-line-through"><fmt:formatNumber value="${wishes[0].get('roomPrice')}" type="number" pattern="#,###" /></span>
+                                        </div>
 
-                                    <div class="fw-bold">
-                                        <fmt:formatNumber value="${wishes[0].get('discountedPrice')}" type="number" pattern="#,###" />원 ~
+                                        <div class="fw-bold">
+                                            <fmt:formatNumber value="${wishes[0].get('discountedPrice')}" type="number" pattern="#,###" />원 ~
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                                </div>
 
                             <div class="wish-btn-container text-center mt-2">
                                 <button type="button" class="wish-btn">

@@ -16,36 +16,36 @@
 <jsp:include page="main/header.jsp"/>
 <div class="container main">
     <div class="recovery-container">
-    <div class="error-pagewrap test">
-        <div class="error-page-int">
-            <div class="text-center ps-recovered">
-                <h2><i class="fa fa-lock fa-pwLock" aria-hidden="true"></i></h2>
-                <h3>비밀번호 찾기</h3>
-                <p>비밀번호를 복구하려면 양식을 작성해 주세요.</p>
-            </div>
-            <div class="content-error">
-                <div class="hpanel">
-                    <div class="panel-body poss-recover">
-                        <p>
-                            이메일 주소를 입력하시면 해당 이메일로 인증번호가 전송됩니다.
-                        </p>
-                        <div id="sendForm" class="row">
-                            <div class="col-sm-12 form-group"> <!-- wd-50 -->
-                                <input type="text" placeholder="이메일을 입력해주세요" title="Please enter your email address"
-                                       id="email" name="email" class="form-control">
-                            </div>
+        <div class="error-pagewrap test">
+            <div class="error-page-int">
+                <div class="text-center ps-recovered">
+                    <h2><i class="fa fa-lock fa-pwLock" aria-hidden="true"></i></h2>
+                    <h3>비밀번호 찾기</h3>
+                    <p>비밀번호를 복구하려면 양식을 작성해 주세요.</p>
+                </div>
+                <div class="content-error">
+                    <div class="hpanel">
+                        <div class="panel-body poss-recover">
+                            <p>
+                                이메일 주소를 입력하시면 해당 이메일로 인증번호가 전송됩니다.
+                            </p>
+                            <div id="sendForm" class="row">
+                                <div class="col-sm-12 form-group"> <!-- wd-50 -->
+                                    <input type="text" placeholder="이메일을 입력해주세요" title="Please enter your email address"
+                                           id="email" name="email" class="form-control">
+                                </div>
 
-                            <div class="codeDiv">
+                                <div class="codeDiv">
+                                </div>
+                                <div class="col-sm-12 form-group">
+                                    <button id="btnSend" class="btn btn-outline-danger btn-block">인증메일 발송</button>
+                                </div>
                             </div>
-                            <div class="col-sm-12 form-group">
-                            <button id="btnSend" class="btn btn-outline-danger btn-block">인증메일 발송</button>
-                        </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </div>
 <jsp:include page="main/footer.jsp"/>

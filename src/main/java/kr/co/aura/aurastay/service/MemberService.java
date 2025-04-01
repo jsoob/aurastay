@@ -24,5 +24,4 @@ public interface MemberService {
     MemberDTO findByMemberNo(int memberNo);
     // 회원탈퇴
     void withdrawalMember(int memberNo);
-
 }

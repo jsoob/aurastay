@@ -1,5 +1,5 @@
 // 2025032711 2136548211
-const businessNo = '2025032711';
+const businessNo = '2025032711'; // '2025032711';
 // const businessNo = '2136548211';
 
 $(document).ready(function () {

@@ -7,21 +7,21 @@
 <mapper namespace="kr.co.aura.aurastay.repository.AccommodationRepository">
     <select id="selectAll" parameterType="map" resultType="AccommodationDTO">
         SELECT
-            a.accommodation_no          AS acmNo,
-            a.accommodation_name        AS acmName,
-            a.accommodation_address     AS acmAddress,
-            a.accommodation_contents    AS contents,
-            a.checkin                   AS checkinTime,
-            a.checkout                  AS checkoutTime,
-            a.tel                       AS acmTel,
-            a.keyword_no                AS keywordNo,
-            a.business_no               AS businessNo,
-            a.category_no               AS categoryNo
+        a.accommodation_no          AS acmNo,
+        a.accommodation_name        AS acmName,
+        a.accommodation_address     AS acmAddress,
+        a.accommodation_contents    AS contents,
+        a.checkin                   AS checkinTime,
+        a.checkout                  AS checkoutTime,
+        a.tel                       AS acmTel,
+        a.keyword_no                AS keywordNo,
+        a.business_no               AS businessNo,
+        a.category_no               AS categoryNo
         FROM accommodation a
-            LEFT JOIN category c ON a.category_no = c.category_no
-            LEFT JOIN keyword k ON a.keyword_no = k.keyword_no
+        LEFT JOIN category c ON a.category_no = c.category_no
+        LEFT JOIN keyword k ON a.keyword_no = k.keyword_no
         <if test="search != null and search != ''">
-        WHERE (a.accommodation_name LIKE CONCAT ('%', #{search}, '%') OR a.tel LIKE CONCAT ('%', #{search}, '%'))
+            WHERE (a.accommodation_name LIKE CONCAT ('%', #{search}, '%') OR a.tel LIKE CONCAT ('%', #{search}, '%'))
         </if>
         ORDER BY a.accommodation_no DESC  <!-- 숙소 번호 기준으로 내림차순 정렬 -->
         LIMIT #{limit} OFFSET #{offset}
@@ -32,7 +32,7 @@
         SELECT count(*)
         FROM accommodation
         <if test="search != null and search != ''">
-        WHERE (accommodation_name LIKE CONCAT ('%', #{search}, '%') OR tel LIKE CONCAT ('%', #{search}, '%'))
+            WHERE (accommodation_name LIKE CONCAT ('%', #{search}, '%') OR tel LIKE CONCAT ('%', #{search}, '%'))
         </if>
     </select>
 
@@ -41,52 +41,52 @@
     <insert id="add" parameterType="AccommodationDTO" useGeneratedKeys="true"
             keyProperty="acmNo">
         INSERT INTO accommodation (
-            accommodation_name,
-            accommodation_address,
-            tel,
-            checkin,
-            checkout,
-            accommodation_contents,
-            category_no,
-            keyword_no,
-            business_no
-            )
+        accommodation_name,
+        accommodation_address,
+        tel,
+        checkin,
+        checkout,
+        accommodation_contents,
+        category_no,
+        keyword_no,
+        business_no
+        )
         VALUES (
-            #{acmName},
-            #{acmAddress},
-            #{acmTel},
-            #{checkinTime},
-            #{checkoutTime},
-            #{contents},
-            #{categoryNo},
-            #{keywordNo},
-            #{businessNo}
-            )
+        #{acmName},
+        #{acmAddress},
+        #{acmTel},
+        #{checkinTime},
+        #{checkoutTime},
+        #{contents},
+        #{categoryNo},
+        #{keywordNo},
+        #{businessNo}
+        )
     </insert>
 
     <!--숙소 정보 1건씩 조회하는 sql 쿼리문 작성하기 (1건 조회이기 때문에, 하나의 데이터 값을 불러올 where 조건절을 줘야한다) -->
-<!--    <select id="selectOne" resultType="AccommodationDTO">-->
-<!--        SELECT-->
-<!--            a.accommodation_no          AS acmNo,-->
-<!--            a.accommodation_name        AS acmName,-->
-<!--            a.accommodation_address     AS acmAddress,-->
-<!--            a.accommodation_contents    AS contents,-->
-<!--            a.checkin                   AS checkinTime,-->
-<!--            a.checkout                  AS checkoutTime,-->
-<!--            a.tel                       AS acmTel,-->
-<!--            a.keyword_no                AS keywordNo,-->
-<!--            a.business_no               AS businessNo,-->
-<!--            a.category_no               AS categoryNo,-->
-<!--            c.category_name             AS categoryName-->
-<!--            GROUP_CONCAT (m.amenities_name) AS amenitiesName-->
-<!--        FROM accommodation a-->
-<!--            LEFT JOIN category c ON a.category_no = c.category_no-->
-<!--            LEFT JOIN keyword k ON a.keyword_no = k.keyword_no-->
-<!--            LEFT JOIN accommodation_amenities_no am ON a.accommodation_no = am.accommodation_no-->
-<!--            LEFT JOIN amenities m ON am.amenities_no = m.amenities_no-->
-<!--        WHERE a.accommodation_no = #{acmNo}-->
-<!--        GROUP BY a.accommodation_no-->
-<!--    </select>-->
+    <!--    <select id="selectOne" resultType="AccommodationDTO">-->
+    <!--        SELECT-->
+    <!--            a.accommodation_no          AS acmNo,-->
+    <!--            a.accommodation_name        AS acmName,-->
+    <!--            a.accommodation_address     AS acmAddress,-->
+    <!--            a.accommodation_contents    AS contents,-->
+    <!--            a.checkin                   AS checkinTime,-->
+    <!--            a.checkout                  AS checkoutTime,-->
+    <!--            a.tel                       AS acmTel,-->
+    <!--            a.keyword_no                AS keywordNo,-->
+    <!--            a.business_no               AS businessNo,-->
+    <!--            a.category_no               AS categoryNo,-->
+    <!--            c.category_name             AS categoryName-->
+    <!--            GROUP_CONCAT (m.amenities_name) AS amenitiesName-->
+    <!--        FROM accommodation a-->
+    <!--            LEFT JOIN category c ON a.category_no = c.category_no-->
+    <!--            LEFT JOIN keyword k ON a.keyword_no = k.keyword_no-->
+    <!--            LEFT JOIN accommodation_amenities_no am ON a.accommodation_no = am.accommodation_no-->
+    <!--            LEFT JOIN amenities m ON am.amenities_no = m.amenities_no-->
+    <!--        WHERE a.accommodation_no = #{acmNo}-->
+    <!--        GROUP BY a.accommodation_no-->
+    <!--    </select>-->
     <select id="selectOne" parameterType="int" resultType="AccommodationDTO">
         SELECT
         a.accommodation_no          AS acmNo,
@@ -113,11 +113,11 @@
     <!-- 편의시설 저장 쿼리 추가 -->
     <insert id="saveAmenities" parameterType="map">
         INSERT INTO accommodation_amenities (
-            accommodation_no,
-            amenities_no
+        accommodation_no,
+        amenities_no
         ) VALUES (
-            #{accommodationNo},
-            #{amenitiesNo}
+        #{accommodationNo},
+        #{amenitiesNo}
         )
     </insert>
 
@@ -140,14 +140,14 @@
     <update id="updateAccommodation" parameterType="AccommodationDTO">
         UPDATE accommodation
         SET
-            accommodation_name = #{acmName},
-            accommodation_address = #{acmAddress},
-            tel = #{acmTel},
-            checkin = #{checkinTime},
-            checkout = #{checkoutTime},
-            accommodation_contents = #{contents},
-            category_no = #{categoryNo},
-            keyword_no = #{keywordNo}
+        accommodation_name = #{acmName},
+        accommodation_address = #{acmAddress},
+        tel = #{acmTel},
+        checkin = #{checkinTime},
+        checkout = #{checkoutTime},
+        accommodation_contents = #{contents},
+        category_no = #{categoryNo},
+        keyword_no = #{keywordNo}
         WHERE accommodation_no = #{acmNo}
     </update>
 
@@ -173,15 +173,18 @@
         VALUES (#{filename}, #{filepath}, #{acmNo})
     </insert>
 
-    <!-- 숙소 정보 삭제 -->
-    <delete id="acmDelete" parameterType="int">
-        DELETE FROM accommodation
-        WHERE accommodation_no = #{acmNo}
-    </delete>
     <!-- 객실 정보 삭제 -->
     <delete id="deleteRoomsByAccommodationNo" parameterType="int">
         DELETE FROM room
         WHERE accommodation_no = #{acmNo}
     </delete>
+
+    <!-- 숙소 정보 삭제 -->
+    <delete id="acmDelete" parameterType="int">
+        DELETE FROM accommodation
+        WHERE accommodation_no = #{acmNo}
+    </delete>
+
+
 
 </mapper>
