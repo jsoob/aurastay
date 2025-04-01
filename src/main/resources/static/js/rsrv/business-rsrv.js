@@ -1,9 +1,9 @@
-// 2025032711 2136548211
-const businessNo = '2025032711'; // '2025032711';
-// const businessNo = '2136548211';
+
 
 $(document).ready(function () {
     selectRsList();
+
+    // console.log("businessNo = " + businessNo);
 
     const modal = document.querySelector('#rsAcmModal');
     const modal2 = document.querySelector('#rsRoomModal');
@@ -139,7 +139,7 @@ function selectRsList(cp) {
             currentPage: currentPage,  search: search
         },
         success: function (data) {
-            console.log(data);
+            // console.log(data);
 
             $("#rsTable #rsBody").empty();
             $("#rsTable #rsFoot td").empty();

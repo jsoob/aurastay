@@ -43,7 +43,7 @@ function selectRsCancel(rsNo, memberNo) {
         success: function (data) {
             // window 전역객체 사용
             window.rsCancelInfo = data.rsCancelInfo;
-            console.log(rsCancelInfo);
+            // console.log(rsCancelInfo);
 
             $("#rsResetModal input[name=rsNo]").val(rsCancelInfo.reservationNo);
             $("#rsResetModal textarea[name=cancelReasons]").text((rsCancelInfo.rsCancel).cancelReasons);

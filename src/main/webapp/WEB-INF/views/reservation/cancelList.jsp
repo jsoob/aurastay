@@ -14,8 +14,11 @@
     <script
             src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous"
-    ></script>
+            crossorigin="anonymous"></script>
+
+    <script>
+        let businessNo = ${dto.businessNo};
+    </script>
 
     <script src="/js/rsrv/business-rsrv.js"></script>
 

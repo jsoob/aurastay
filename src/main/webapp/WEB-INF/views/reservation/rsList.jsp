@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="/css/rsrv/rsrv.css">
     <link rel="stylesheet" href="/css/rsrv/business-rsrv.css">
 
+    <script>
+        let businessNo = ${dto.businessNo};
+    </script>
     <script src="/js/rsrv/business-rsrv.js"></script>
     <script src="/js/rsrv/rsrvCancelModal.js"></script>
 
