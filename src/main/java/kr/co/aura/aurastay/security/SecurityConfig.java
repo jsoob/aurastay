@@ -5,6 +5,7 @@ import kr.co.aura.aurastay.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -43,10 +44,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        /* 임시 테스트 나중에 권한별로 접근 경로 바꿔야함 */
-//                        .requestMatchers("/business/business").hasRole("BUSINESS")
-                        .requestMatchers("/business/main").hasRole("BUSINESS")
-                        .requestMatchers("/reservation/cancelList").hasRole("BUSINESS")
+                        .requestMatchers("/wishlist/**","/member/myPage","/member/withdrawal","/reservation/stays","/reservation/payment","/reservation/mystays","/reservation/mystay","/reservation/staycancel").hasRole("MEMBER") // MEMBER
+                        .requestMatchers("/business/main","/accommodation/acmAdd","/accommodation/acmList","/accommodation/acmModify","/accommodation/acmInfo","/reservation/rsList","/reservation/cancelList","/total","/review","/notice","/qnaBoard","/reservation/rsList","/reservation/cancelList","/reservation/bAcmList","/reservation/bRoomList","/reservation/bRsList","/reservation/getRsCancel","/reservation/cancelRs","/reservation/cancelRsPay").hasRole("BUSINESS") // BUSINESS
                         /* 이외의 요청들은 인증 필요없음 */
                         .anyRequest().permitAll());
 
