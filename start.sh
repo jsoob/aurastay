@@ -2,7 +2,7 @@ docker_username=""
 db_image_name="app"
 db_container_name="web"
 db_password=""
-ENCRYPTOR_PASSWORD=super-secret
+#ENCRYPTOR_PASSWORD=super-secret
 port1=8080
 port2=8080
 #
