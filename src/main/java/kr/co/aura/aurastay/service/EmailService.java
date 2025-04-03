@@ -38,37 +38,38 @@ public class EmailService {
 
                 // JSP 파일을 읽어서 HTML로 변환
 
-                String htmlContent = null;
-                if(type.equals("templates/email")){
-                htmlContent = new String(Files.readAllBytes(
-//                        Paths.get("/WEB-INF/views/email/email-template.jsp")),
-                        Paths.get(loadTemplate("email-template.jsp"))),
-                        StandardCharsets.UTF_8
-                );
-                } else if(type.equals("password")){
-                    htmlContent = new String(Files.readAllBytes(
-//                            Paths.get("src/main/webapp/WEB-INF/views/email/email-template2.jsp")),
-                            Paths.get(loadTemplate("email-template2.jsp"))),
-                            StandardCharsets.UTF_8);
-                }
-
-
-                // ${name} 값을 실제 데이터로 치환
-                htmlContent = htmlContent.replace("${authNum}", authNum);
-
-                System.out.println("htmlcontent확인>>>>>>>>>>>" + htmlContent);
+//                String htmlContent = null;
+//                if(type.equals("templates/email")){
+//                htmlContent = new String(Files.readAllBytes(
+////                        Paths.get("/WEB-INF/views/email/email-template.jsp")),
+//                        Paths.get(loadTemplate("email-template.jsp"))),
+//                        StandardCharsets.UTF_8
+//                );
+//                } else if(type.equals("password")){
+//                    htmlContent = new String(Files.readAllBytes(
+////                            Paths.get("src/main/webapp/WEB-INF/views/email/email-template2.jsp")),
+//                            Paths.get(loadTemplate("email-template2.jsp"))),
+//                            StandardCharsets.UTF_8);
+//                }
+//
+//
+//                // ${name} 값을 실제 데이터로 치환
+//                htmlContent = htmlContent.replace("${authNum}", authNum);
+//
+//                System.out.println("htmlcontent확인>>>>>>>>>>>" + htmlContent);
 
 //                mimeMessageHelper.setText(authNum);
-                mimeMessageHelper.setText(htmlContent, true); // HTML로 전송
+                mimeMessageHelper.setText(authNum, true); // HTML로 전송
 
                 mailSender.send(mimeMessage);
                 return authNum;
 
             } catch (MessagingException e) {
                 throw new RuntimeException("  여기니 ??????????????????????? : " + e);
-            } catch (IOException e) {
-                throw new RuntimeException(" 진짜  여기니 ??????????????????????? : " + e);
             }
+//            catch (IOException e) {
+//                throw new RuntimeException(" 진짜  여기니 ??????????????????????? : " + e);
+//            }
 
     }
 
