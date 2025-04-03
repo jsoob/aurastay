@@ -37,17 +37,20 @@ public class EmailService {
                 String htmlContent = null;
                 if(type.equals("email")){
                 htmlContent = new String(Files.readAllBytes(
-                        Paths.get("src/main/webapp/WEB-INF/views/email/email-template.jsp")),
+                        Paths.get("/upload/email-template.jsp")),
                         StandardCharsets.UTF_8
                 );
                 } else if(type.equals("password")){
                     htmlContent = new String(Files.readAllBytes(
-                            Paths.get("src/main/webapp/WEB-INF/views/email/email-template2.jsp")),
+                            Paths.get("/upload/email-template2.jsp")),
                             StandardCharsets.UTF_8);
                 }
 
+
                 // ${name} 값을 실제 데이터로 치환
                 htmlContent = htmlContent.replace("${authNum}", authNum);
+
+                System.out.println("htmlcontent확인>>>>>>>>>>>" + htmlContent);
 
 //                mimeMessageHelper.setText(authNum);
                 mimeMessageHelper.setText(htmlContent, true); // HTML로 전송
