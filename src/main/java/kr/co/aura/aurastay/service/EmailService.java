@@ -16,6 +16,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Random;
 
+import org.springframework.core.io.ClassPathResource;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -37,12 +43,14 @@ public class EmailService {
                 String htmlContent = null;
                 if(type.equals("email")){
                 htmlContent = new String(Files.readAllBytes(
-                        Paths.get("src/main/webapp/WEB-INF/views/email/email-template.jsp")),
+//                        Paths.get("src/main/webapp/WEB-INF/views/email/email-template.jsp")),
+                        Paths.get(loadTemplate("email-template.jsp"))),
                         StandardCharsets.UTF_8
                 );
                 } else if(type.equals("password")){
                     htmlContent = new String(Files.readAllBytes(
-                            Paths.get("src/main/webapp/WEB-INF/views/email/email-template2.jsp")),
+//                            Paths.get("src/main/webapp/WEB-INF/views/email/email-template2.jsp")),
+                            Paths.get(loadTemplate("email-template2.jsp"))),
                             StandardCharsets.UTF_8);
                 }
 
@@ -62,6 +70,18 @@ public class EmailService {
             }
 
     }
+
+    public String loadTemplate(String fileName)  {
+        ClassPathResource resource = new ClassPathResource("templates/email/" + fileName);
+        Path path = null;
+        try {
+            path = resource.getFile().toPath();
+            return Files.readString(path, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 
     // 인증번호 및 임시 비밀번호 생성 메서드
