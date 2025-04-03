@@ -75,7 +75,8 @@ public class EmailService {
     public String loadTemplate(String fileName)  {
         System.out.println(fileName);
 
-        ClassPathResource resource = new ClassPathResource("/templates/email/" + fileName);
+//        ClassPathResource resource = new ClassPathResource("/templates/email/" + fileName);
+        ClassPathResource resource = new ClassPathResource("/");
         System.out.println("resource.getPath() : " + resource.getPath());
         Path path = null;
         try {
