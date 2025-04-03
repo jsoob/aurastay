@@ -13,7 +13,8 @@ ENV CATALINA_HOME=/usr/local/tomcat
 WORKDIR ${CATALINA_HOME}
 COPY --from=builder /usr/local/tomcat ${CATALINA_HOME}
 RUN rm -f ${CATALINA_HOME}/webapps/ROOT.war && rm -rf ${CATALINA_HOME}/webapps/ROOT
-COPY aurastay-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war
+#COPY aurastay-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war
+COPY app.war /usr/local/tomcat/webapps/ROOT.war
 COPY upload/ /usr/local/upload/
 RUN chmod +x ${CATALINA_HOME}/bin/*.sh
 
