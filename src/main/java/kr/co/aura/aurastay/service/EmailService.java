@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.freemarker.SpringTemplateLoader;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -17,8 +16,7 @@ import java.nio.file.Paths;
 import java.util.Random;
 
 import org.springframework.core.io.ClassPathResource;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
+
 import java.nio.file.Path;
 
 
@@ -41,7 +39,7 @@ public class EmailService {
                 // JSP 파일을 읽어서 HTML로 변환
 
                 String htmlContent = null;
-                if(type.equals("email")){
+                if(type.equals("templates/email")){
                 htmlContent = new String(Files.readAllBytes(
 //                        Paths.get("/WEB-INF/views/email/email-template.jsp")),
                         Paths.get(loadTemplate("email-template.jsp"))),
