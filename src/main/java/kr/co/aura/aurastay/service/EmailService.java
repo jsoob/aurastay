@@ -43,7 +43,8 @@ public class EmailService {
                 String htmlContent = null;
                 if(type.equals("email")){
                 htmlContent = new String(Files.readAllBytes(
-                        Paths.get("/WEB-INF/views/email/email-template.jsp")),
+//                        Paths.get("/WEB-INF/views/email/email-template.jsp")),
+                        Paths.get(loadTemplate("email-template.jsp"))),
                         StandardCharsets.UTF_8
                 );
                 } else if(type.equals("password")){
