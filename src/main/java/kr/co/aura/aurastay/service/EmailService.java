@@ -76,7 +76,7 @@ public class EmailService {
 
 
 //        ClassPathResource resource = new ClassPathResource("/templates/email/" + fileName);
-        ClassPathResource resource = new ClassPathResource("/templates/email/");
+        ClassPathResource resource = new ClassPathResource("/templates/email/test.jsp");
 
         System.out.println("resource.getPath() : " + resource.getPath());
         Path path = null;
