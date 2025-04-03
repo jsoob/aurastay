@@ -15,6 +15,7 @@ docker rm -f ${db_container_name}
 ## remove image
 echo "=> Remove previous image..."
 docker rmi -f ${db_image_name}
+
 #
 ## new-build/re-build docker image
 echo "=> Build new image..."
